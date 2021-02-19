@@ -1,4 +1,5 @@
 from random import randint
+from math import ceil
 
 # Создание классов и объектов
 
@@ -144,4 +145,56 @@ from random import randint
 # user1 = user_id()
 # print(user_id.get_id())
 # user1.id2 = 0
-        
+
+# Композиция
+# class win_door:
+#     def __init__(self,x,y):
+#         self.square = x * y
+
+# class Room:
+#     def __init__(self,x,y,z):
+#         self.x = x
+#         self.y = y
+#         self.z = z
+#         self.wd = []
+#         self.list_weight = []
+#     def add_win_door(self,w,h):
+#         self.wd.append(win_door(w,h))
+#     def work_surface(self):
+#         new_square = self.square_for_use
+#         for i in self.wd:
+#             new_square -= i.square
+#         return new_square
+#     def change_size(self,x,y,z):
+#         self.x = x
+#         self.y = y
+#         self.z = z
+#         self.save_weight()
+#     def save_weight(self):
+#         self.list_weight.append([self.x,self.y])
+#     def calculate_squere(self):
+#         self.square = 2*self.z*(self.x+self.y)
+#         self.square_for_use = self.square
+#     def number_of_rolls(self,x,y):
+#         return ceil(self.square_for_use / (x*y))
+
+
+
+# r1 = Room(6,3,2.7)
+# r1.calculate_squere()
+# print(r1.square_for_use)
+# r1.add_win_door(1,1)
+# r1.add_win_door(1,1)
+# r1.add_win_door(1,2)
+# print(r1.work_surface())
+# r1.save_weight()
+# r1.change_size(2,3,4)
+# print(r1.square_for_use)
+# r1.save_weight()
+# print(r1.list_weight)
+# print(r1.number_of_rolls(2,2))
+
+# r2 = Room(int(input()),int(input()),int(input()))
+# r2.calculate_squere()
+# print(r2.square)
+# print(r2.number_of_rolls(int(input()),int(input())))
