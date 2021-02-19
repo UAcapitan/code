@@ -103,3 +103,45 @@ from random import randint
 
 # print('Hero1: ', hero1.id_original)
 # print('Soldier : ', army1[0].id_original)
+
+# Полиморфизм
+
+# class NumberSum:
+#     def __init__(self,a,b):
+#         self.a = a
+#         self.b = b
+#     def __add__(self,other):
+#         print(other.a,other.b)
+#         return NumberSum(other.a,other.b)
+
+# my_number = NumberSum(10,20)
+# other_number = NumberSum(30,40)
+
+# print(other_number + my_number)
+# print(my_number + other_number)
+# print(my_number + other_number + my_number)
+
+# Инкапсуляция
+
+# class user_id:
+#     __id = 0
+#     def __init__(self):
+#         user_id.__id += 1
+#     @staticmethod
+#     def get_id():
+#         return(user_id.__id)
+#     def __get_dict(self):
+#         return(user_id.__dict__)
+#     def __setattr__(self,attr,value):
+#         if attr == '__id':
+#             self.__dict__[attr] = value
+#         else:
+#             raise AttributeError
+
+#     print(__get_dict)
+
+# print(user_id.get_id())
+# user1 = user_id()
+# print(user_id.get_id())
+# user1.id2 = 0
+        
