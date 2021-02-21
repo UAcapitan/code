@@ -4,13 +4,13 @@ from math import ceil
 # Создание классов и объектов
 
 # 1.
-# class warrior:
+# class Warrior:
 #     health = 100
 #     def decrease_health(self):
 #         self.health -= 20
 
-# warrior1 = warrior()
-# warrior2 = warrior()
+# warrior1 = Warrior()
+# warrior2 = Warrior()
 
 # while True:
 #     if warrior1.health == 0:
@@ -66,22 +66,22 @@ from math import ceil
 #         Person.count += 1
 #         self.team = team
 
-# class soldier(Person):
+# class Soldier(Person):
 #     def __init__(self,team):
 #         Person.__init__(self,team)
 #         self.my_hero = None
 #     def going_to_the_hero(self, hero):
 #         self.my_hero = hero.id_original
 
-# class hero(Person):
+# class Hero(Person):
 #     def __init__(self, team):
 #         Person.__init__(self,team)
 #         self.level = 1
 #     def up_level(self):
 #         self.level += 1
 
-# hero1 = hero(1)
-# hero2 = hero(2)
+# hero1 = Hero(1)
+# hero2 = Hero(2)
 
 # army1 = []
 # army2 = []
@@ -89,9 +89,9 @@ from math import ceil
 # for i in range(10):
 #     random_number = randint(1,2)
 #     if random_number == 1:
-#         army1.append(soldier(random_number))
+#         army1.append(Soldier(random_number))
 #     elif random_number == 2:
-#         army2.append(soldier(random_number))
+#         army2.append(Soldier(random_number))
 
 # print(len(army1), len(army2))
 
@@ -107,16 +107,16 @@ from math import ceil
 
 # Полиморфизм
 
-# class NumberSum:
+# class Number_sum:
 #     def __init__(self,a,b):
 #         self.a = a
 #         self.b = b
 #     def __add__(self,other):
 #         print(other.a,other.b)
-#         return NumberSum(other.a,other.b)
+#         return Number_sum(other.a,other.b)
 
-# my_number = NumberSum(10,20)
-# other_number = NumberSum(30,40)
+# my_number = Number_sum(10,20)
+# other_number = Number_sum(30,40)
 
 # print(other_number + my_number)
 # print(my_number + other_number)
@@ -124,15 +124,15 @@ from math import ceil
 
 # Инкапсуляция
 
-# class user_id:
+# class User_id:
 #     __id = 0
 #     def __init__(self):
-#         user_id.__id += 1
+#         User_id.__id += 1
 #     @staticmethod
 #     def get_id():
-#         return(user_id.__id)
+#         return(User_id.__id)
 #     def __get_dict(self):
-#         return(user_id.__dict__)
+#         return(User_id.__dict__)
 #     def __setattr__(self,attr,value):
 #         if attr == '__id':
 #             self.__dict__[attr] = value
@@ -141,13 +141,14 @@ from math import ceil
 
 #     print(__get_dict)
 
-# print(user_id.get_id())
-# user1 = user_id()
-# print(user_id.get_id())
+# print(User_id.get_id())
+# user1 = User_id()
+# print(User_id.get_id())
 # user1.id2 = 0
 
 # Композиция
-# class win_door:
+
+# class Win_door:
 #     def __init__(self,x,y):
 #         self.square = x * y
 
@@ -159,7 +160,7 @@ from math import ceil
 #         self.wd = []
 #         self.list_weight = []
 #     def add_win_door(self,w,h):
-#         self.wd.append(win_door(w,h))
+#         self.wd.append(Win_door(w,h))
 #     def work_surface(self):
 #         new_square = self.square_for_use
 #         for i in self.wd:
@@ -178,8 +179,6 @@ from math import ceil
 #     def number_of_rolls(self,x,y):
 #         return ceil(self.square_for_use / (x*y))
 
-
-
 # r1 = Room(6,3,2.7)
 # r1.calculate_squere()
 # print(r1.square_for_use)
@@ -194,7 +193,36 @@ from math import ceil
 # print(r1.list_weight)
 # print(r1.number_of_rolls(2,2))
 
-# r2 = Room(int(input()),int(input()),int(input()))
-# r2.calculate_squere()
-# print(r2.square)
-# print(r2.number_of_rolls(int(input()),int(input())))
+# Перегрузка операторов
+
+# class Snow:
+#     def __init__(self,s):
+#         self.snowflakes = s
+#     def __add__(self,b):
+#         self.snowflakes += b
+#         return self.snowflakes
+#     def __sub__(self,b):
+#         self.snowflakes -= b
+#         return self.snowflakes
+#     def __mul__(self,b):
+#         self.snowflakes *= b
+#         return self.snowflakes
+#     def __truediv__(self,b):
+#         self.snowflakes /= b
+#         self.snowflakes = int(self.snowflakes)
+#         return self.snowflakes
+#     def make_snow(self):
+#         text_snow = '*****\n' * int(self.snowflakes / 5) + '*' * (self.snowflakes - (int(self.snowflakes / 5) * 5))
+#         return text_snow.strip('\n')
+#     def __call__(self,new_value):
+#         self.snowflakes = new_value
+
+# snow1 = Snow(10)
+# print(snow1.snowflakes)
+# print(snow1 + 2)
+# print(snow1 - 10)
+# print(snow1 * 2)
+# print(snow1 / 10)
+# snow2 = Snow(10)
+# snow2(9)
+# print(snow2.make_snow())
