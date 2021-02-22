@@ -1,6 +1,6 @@
 from random import randint
 from math import ceil
-from my_modules import room
+from my_modules import room, win_door
 
 # Создание классов и объектов
 
@@ -243,3 +243,20 @@ from my_modules import room
 # r1.save_weight()
 # print(r1.list_weight)
 # print(r1.number_of_rolls(2,2))
+
+# Документирование кода
+
+# Тестирование работы документирования
+# class Test:
+#     """Hello"""
+#     def __init__(self):
+#         self.n = 1
+
+# help(Test)
+
+# Практичское задание
+# help(room.Room)
+# print(win_door.Win_door.__doc__)
+# print(room.Room.add_win_door.__doc__)
+# print(room.Room.change_size.__doc__)
+# print(room.Room.number_of_rolls.__doc__)
