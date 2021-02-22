@@ -1,5 +1,6 @@
 from random import randint
 from math import ceil
+from my_modules import room
 
 # Создание классов и объектов
 
@@ -226,3 +227,19 @@ from math import ceil
 # snow2 = Snow(10)
 # snow2(9)
 # print(snow2.make_snow())
+
+# Модули и пакеты
+
+# r1 = room.Room(3,4,3)
+# r1.calculate_squere()
+# print(r1.square_for_use)
+# r1.add_win_door(1,1)
+# r1.add_win_door(1,1)
+# r1.add_win_door(1,2)
+# print(r1.work_surface())
+# r1.save_weight()
+# r1.change_size(2,3,4)
+# print(r1.square_for_use)
+# r1.save_weight()
+# print(r1.list_weight)
+# print(r1.number_of_rolls(2,2))
