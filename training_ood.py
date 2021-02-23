@@ -1,6 +1,6 @@
 from random import randint
-from math import ceil
-from my_modules import room, win_door
+from math import ceil, pi
+# from my_modules import room, win_door
 
 # Создание классов и объектов
 
@@ -260,3 +260,75 @@ from my_modules import room, win_door
 # print(room.Room.add_win_door.__doc__)
 # print(room.Room.change_size.__doc__)
 # print(room.Room.number_of_rolls.__doc__)
+
+# Пример объектно-ориентированной программы на Python
+
+# class Data:
+#     def __init__(self, *info):
+#         self.info = list(info)
+#     def __getitem__(self,i):
+#         return self.info[i]
+
+# class Teacher:
+#     def __init__(self):
+#         self.work = 0
+#     def teach(self, info, *pupil):
+#         for i in pupil:
+#             i.take(info)
+#             self.work += 1
+
+# class Pupil:
+#     def __init__(self):
+#         self.knowledge = []
+#     def take(self, info):
+#         self.knowledge.append(info)
+#     def forget(self):
+#         n_random = randint(0, len(self.knowledge) - 1)
+#         del self.knowledge[n_random]
+
+# lesson = Data('class','object','inheritance','polymorphism','encapsulation')
+# mar_Ivanna = Teacher()
+# vasy = Pupil()
+# pety = Pupil()
+# mar_Ivanna.teach(lesson[2], vasy, pety)
+# mar_Ivanna.teach(lesson[0], pety)
+# print(vasy.knowledge)
+# print(pety.knowledge)
+# vasy.take(lesson[1])
+# print(vasy.knowledge)
+# vasy.forget()
+# print(vasy.knowledge)
+
+# Статические методы
+
+# class Cylinder:
+#     @staticmethod
+#     def make_area(d,h):
+#         circle = pi * d ** 2 / 4
+#         side = pi * d * h
+#         return round(circle * 2 + side, 2)
+
+#     def __init__(self, diameter, high):
+#         self.__dict__['dia'] = diameter
+#         self.__dict__['h'] = high
+#         self.__dict__['area'] = self.make_area(diameter, high)
+
+#     def __setattr__(self,attr,value):
+#         if attr == 'dia':
+#             self.__dict__['dia'] = value
+#             self.__dict__['area'] = self.make_area(self.dia, self.h)
+#         elif attr == 'h':
+#             self.__dict__['h'] = value
+#             self.__dict__['area'] = self.make_area(self.dia, self.h)
+#         elif attr == 'area':
+#             print('This field cannot be changed')
+
+# a = Cylinder(1,2)
+# print(a.__dict__['area'])
+# print(a.make_area(2,2))
+# print(a.__dict__['area'])
+# a.dia = 50
+# print(a.__dict__['area'])
+# a.h = 10
+# print(a.__dict__['area'])
+# a.area = 100
