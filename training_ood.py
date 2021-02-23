@@ -332,3 +332,72 @@ from math import ceil, pi
 # a.h = 10
 # print(a.__dict__['area'])
 # a.area = 100
+
+# Итераторы
+
+# Пример
+# class Letters:
+#     def __init__(self, string):
+#         self.letters = []
+#         for i in string:
+#             self.letters.append(i)
+#     def __iter__(self):
+#         return Letters_iterator(self.letters)
+
+# class Letters_iterator:
+#     def __init__(self, letters):
+#         self.letters = letters
+#     def __iter__(self):
+#         return self
+#     def __next__(self):
+#         if self.letters == []:
+#             raise StopIteration
+#         item = self.letters[0]
+#         del self.letters[0]
+#         return item
+
+# kit = Letters('aeoui')
+# print(kit.letters)
+
+# for i in kit:
+#     print(i)
+
+# Задание
+# class Random_list:
+#     def __init__(self, j, x, y):
+#         self.random_list = []
+#         for i in range(j):
+#             self.random_list.append(randint(x,y))
+#     def print_random_list(self):
+#         print(self.random_list)
+#     def __next__(self):
+#         if self.random_list == []:
+#             raise StopIteration
+#         item = self.random_list[0]
+#         del self.random_list[0]
+#         return item
+#     def __iter__(self):
+#         return self
+    
+    
+# l = Random_list(5,0,5)
+# l.print_random_list()
+# for i in l:
+#     print(i)
+
+# Генераторы
+
+# class Generator:
+#     def __init__(self, j, x, y):
+#         self.j = j
+#         self.x = x
+#         self.y = y
+#     def generator_random_list(self):
+#         self.list_random = (randint(self.x, self.y) for i in range(self.j))
+#     def print_generator_random_list(self):
+#         for i in self.list_random:
+#             print(i)
+
+# l = Generator(5,0,5)
+# l.generator_random_list()
+# l.print_generator_random_list()
