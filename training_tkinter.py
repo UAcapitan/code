@@ -115,3 +115,66 @@ from tkinter import *
 # root = Tk()
 # color = Color(root)
 # root.mainloop()
+
+# Метод pack
+
+# class Color:
+#     def __init__(self,root):
+#         self.lab = Label(root,text='-----')
+#         self.text = Entry(root,width=20)
+#         self.button_red = Button(root, command=self.color_button_red,bg='#ff0000', width=3, height=1)
+#         self.button_orange = Button(root, command=self.color_button_orange,bg='#ff7d00', width=3, height=1)
+#         self.button_yellow = Button(root, command=self.color_button_yellow,bg='#ffff00', width=3, height=1)
+#         self.button_green = Button(root, command=self.color_button_green,bg='#00ff00', width=3, height=1)
+#         self.button_light_blue = Button(root, command=self.color_button_light_blue,bg='#007dff', width=3, height=1)
+#         self.button_blue = Button(root, command=self.color_button_blue,bg='#0000ff', width=3, height=1)
+#         self.button_purple = Button(root, command=self.color_button_purple,bg='#7d00ff', width=3, height=1)
+
+#         self.lab.pack(side=TOP)
+#         self.text.pack(side=TOP)
+#         self.button_red.pack(side=LEFT)
+#         self.button_orange.pack(side=LEFT)
+#         self.button_yellow.pack(side=LEFT)
+#         self.button_green.pack(side=LEFT)
+#         self.button_light_blue.pack(side=LEFT)
+#         self.button_blue.pack(side=LEFT)
+#         self.button_purple.pack(side=LEFT)
+
+#     def color_button_red(self):
+#         self.lab['text'] = 'Red'
+#         self.text.delete(0,END)
+#         self.text.insert(0,self.button_red['bg'])
+
+#     def color_button_orange(self):
+#         self.lab['text'] = 'Orange'
+#         self.text.delete(0,END)
+#         self.text.insert(0,self.button_orange['bg'])
+
+#     def color_button_yellow(self):
+#         self.lab['text'] = 'Yellow'
+#         self.text.delete(0,END)
+#         self.text.insert(0,self.button_yellow['bg'])
+
+#     def color_button_green(self):
+#         self.lab['text'] = 'Green'
+#         self.text.delete(0,END)
+#         self.text.insert(0,self.button_green['bg'])
+
+#     def color_button_light_blue(self):
+#         self.lab['text'] = 'Light blue'
+#         self.text.delete(0,END)
+#         self.text.insert(0,self.button_light_blue['bg'])
+
+#     def color_button_blue(self):
+#         self.lab['text'] = 'Blue'
+#         self.text.delete(0,END)
+#         self.text.insert(0,self.button_blue['bg'])
+
+#     def color_button_purple(self):
+#         self.lab['text'] = 'Purple'
+#         self.text.delete(0,END)
+#         self.text.insert(0,self.button_purple['bg'])
+
+# root = Tk()
+# color = Color(root)
+# root.mainloop()
