@@ -23,3 +23,12 @@ def strip_for_text(text):
 # print(strip_for_text('_Text_'))
 # print(strip_for_text('___Text_'))
 # print(strip_for_text('_Text'))
+
+# XOR
+# key = 22
+# n = int(input())
+# print(n)
+# n1 = n ^ key
+# print(n1)
+# n2 = n1 ^ key
+# print(n2)

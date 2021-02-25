@@ -178,3 +178,16 @@ from tkinter import *
 # root = Tk()
 # color = Color(root)
 # root.mainloop()
+
+# Text - многострочное текстовое поле
+class File_reader:
+    def __init__(self, root):
+        self.file_name_input = Entry(root, width=20)
+        self.button_open = Button(root,text='Open')
+
+        self.file_name_input.pack(side=LEFT)
+        self.button_open.pack(side=LEFT)
+
+root = Tk()
+main_window = File_reader(root)
+root.mainloop()
