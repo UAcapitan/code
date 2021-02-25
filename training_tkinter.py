@@ -180,14 +180,40 @@ from tkinter import *
 # root.mainloop()
 
 # Text - многострочное текстовое поле
-class File_reader:
-    def __init__(self, root):
-        self.file_name_input = Entry(root, width=20)
-        self.button_open = Button(root,text='Open')
 
-        self.file_name_input.pack(side=LEFT)
-        self.button_open.pack(side=LEFT)
+# class File_reader:
+#     def __init__(self, root):
+#         self.up_frame = Frame(root)
+#         self.file_name_input = Entry(self.up_frame, width=20)
+#         self.button_open = Button(self.up_frame,text='Open', command=self.open_file)
+#         self.button_save = Button(self.up_frame,text='Save', command=self.save_file)
+#         self.down_frame = Frame(root)
+#         self.text = Text(self.down_frame)
+#         self.scroller = Scrollbar(self.down_frame, command=self.text.yview)
 
-root = Tk()
-main_window = File_reader(root)
-root.mainloop()
+#         self.up_frame.pack(side=TOP)
+#         self.file_name_input.pack(side=LEFT)
+#         self.button_open.pack(side=LEFT)
+#         self.button_save.pack(side=LEFT)
+#         self.down_frame.pack(side=TOP)
+#         self.text.pack(side=LEFT)
+#         self.scroller.pack(side=LEFT, fill=Y)
+#         self.text['yscrollcommand'] = self.scroller.set
+
+#     def open_file(self):
+#         file1 = open(self.file_name_input.get(), 'r')
+#         i = 1
+#         self.text.delete(1.0, END)
+#         for j in file1:
+#             self.text.insert(float(i), j)
+#             i += 1
+#         file1.close()
+
+#     def save_file(self):
+#         file1 = open(self.file_name_input.get(), 'w')
+#         file1.writelines(self.text.get(1.0, END))
+#         file1.close()
+        
+# root = Tk()
+# main_window = File_reader(root)
+# root.mainloop()
