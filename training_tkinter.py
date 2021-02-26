@@ -217,3 +217,35 @@ from tkinter import *
 # root = Tk()
 # main_window = File_reader(root)
 # root.mainloop()
+
+# Radiobutton и Checkbutton. Переменные Tkinter
+
+# class Book_users:
+#     def __init__(self,root):
+#         self.frame_1 = Frame(root)
+#         self.radio_var = IntVar()
+#         self.radio_var.set(0)
+
+#         self.radiobutton_1 = Radiobutton(text='Vasy', variable=self.radio_var, value='0', command=self.radiobutton_active)
+#         self.radiobutton_2 = Radiobutton(text='Pety', variable=self.radio_var, value='1', command=self.radiobutton_active)
+#         self.radiobutton_3 = Radiobutton(text='Masha', variable=self.radio_var, value='2', command=self.radiobutton_active)
+#         self.lab = Label(self.frame_1, text='...')
+#         self.radiobutton_active()
+
+#         self.radiobutton_1.pack(side=TOP)
+#         self.radiobutton_2.pack(side=TOP)
+#         self.radiobutton_3.pack(side=TOP)
+#         self.frame_1.pack(side=LEFT)
+#         self.lab.pack()
+
+#     def radiobutton_active(self):
+#         if self.radio_var.get() == 0:
+#             self.lab['text'] = '+380950000000'
+#         elif self.radio_var.get() == 1:
+#             self.lab['text'] = '+380950000001'
+#         elif self.radio_var.get() == 2:
+#             self.lab['text'] = '+380950000002'
+
+# root = Tk()
+# window = Book_users(root)
+# root.mainloop()
