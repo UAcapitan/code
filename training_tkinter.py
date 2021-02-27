@@ -226,9 +226,9 @@ from tkinter import *
 #         self.radio_var = IntVar()
 #         self.radio_var.set(0)
 
-#         self.radiobutton_1 = Radiobutton(text='Vasy', variable=self.radio_var, value='0', command=self.radiobutton_active)
-#         self.radiobutton_2 = Radiobutton(text='Pety', variable=self.radio_var, value='1', command=self.radiobutton_active)
-#         self.radiobutton_3 = Radiobutton(text='Masha', variable=self.radio_var, value='2', command=self.radiobutton_active)
+#         self.radiobutton_1 = Radiobutton(text='Vasy', variable=self.radio_var, value='0', indicatoron=0, command=self.radiobutton_active)
+#         self.radiobutton_2 = Radiobutton(text='Pety', variable=self.radio_var, value='1', indicatoron=0, command=self.radiobutton_active)
+#         self.radiobutton_3 = Radiobutton(text='Masha', variable=self.radio_var, value='2', indicatoron=0, command=self.radiobutton_active)
 #         self.lab = Label(self.frame_1, text='...')
 #         self.radiobutton_active()
 
@@ -272,3 +272,37 @@ from tkinter import *
 # window = Checkbutton_user(root)
 # root.mainloop()
 
+# Виджет Listbox
+
+# class Listboxs:
+#     def __init__(self, root):
+#         self.listbox_1 = Listbox(width=15, height=8, selectmod=EXTENDED)
+#         self.listbox_2 = Listbox(width=15, height=8, selectmod=EXTENDED)
+#         self.frame_center = Frame(root)
+#         self.button_1 = Button(self.frame_center, text='>>>', command=self.left_in_right_list)
+#         self.button_2 = Button(self.frame_center, text='<<<', command=self.right_in_left_list)
+
+#         self.listbox_1.pack(side=LEFT)
+#         self.frame_center.pack(side=LEFT)
+#         self.button_1.pack()
+#         self.button_2.pack()
+#         self.listbox_2.pack(side=LEFT)
+
+#         for i in range(10):
+#             self.listbox_1.insert(END, str(i))
+
+#     def left_in_right_list(self):
+#         select_listbox_1 = self.listbox_1.curselection()
+#         for i in select_listbox_1:
+#             self.listbox_2.insert(END, self.listbox_1.get(i))
+#             self.listbox_1.delete(i)
+
+#     def right_in_left_list(self):
+#         select_listbox_2 = self.listbox_2.curselection()
+#         for i in select_listbox_2:
+#             self.listbox_1.insert(END, self.listbox_2.get(i))
+#             self.listbox_2.delete(i)
+        
+# root = Tk()
+# window = Listboxs(root)
+# root.mainloop()
