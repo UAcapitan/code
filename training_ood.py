@@ -401,3 +401,46 @@ from math import ceil, pi
 # l = Generator(5,0,5)
 # l.generator_random_list()
 # l.print_generator_random_list()
+
+# Класс для обработки имени
+
+# class Name_proccesing:
+#     def __init__(self, name='User',n=1,j=1):
+#         self.name = name
+#         self.__n = n
+#         self.__j = j
+#         self.name_num = self.name_in_num()
+#         self.name_enc = self.name_in_enc()
+#     def name_in_num(self):
+#         name_num = []
+#         for i in self.name:
+#             name_num.append(str(ord(i)) + ' ')
+#         return ''.join(name_num).strip()
+#     def num_in_name(self):
+#         num_name = []
+#         num_1 = self.name_num.split()
+#         for i in num_1:
+#             num_name.append(chr(int(i)))
+#         return ''.join(num_name)
+#     def name_in_enc(self):
+#         name_enc = []
+#         for i in self.name:
+#             if self.__j >= 0:
+#                 name_enc.append(chr(ord(i) + int(self.__n)))
+#             else:
+#                 name_enc.append(chr(ord(i) - int(self.__n))) 
+#         return ''.join(name_enc)
+#     def enc_in_enc(self):
+#         enc_name = []
+#         for i in self.name_enc:
+#             if self.__j >= 0:
+#                 enc_name.append(chr(ord(i) - int(self.__n)))
+#             else:
+#                 enc_name.append(chr(ord(i) + int(self.__n))) 
+#         return ''.join(enc_name)
+
+# name_user = Name_proccesing('Vasy')
+# print(name_user.name_num)
+# print(name_user.num_in_name())
+# print(name_user.name_enc)
+# print(name_user.enc_in_enc())

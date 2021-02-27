@@ -32,3 +32,19 @@ def strip_for_text(text):
 # print(n1)
 # n2 = n1 ^ key
 # print(n2)
+
+# Шифрование с помощью XOR
+
+# class Encryption:
+#     def __init__(self, key):
+#         self.__key = key
+#         self.num = 0
+#     def enc(self,num):
+#         return num ^ self.__key
+#     def de_enc(self, num):
+#         return num ^ self.__key
+
+# enc_num = Encryption(22)
+# print(enc_num.enc(155))
+# print(enc_num.de_enc(141))
+

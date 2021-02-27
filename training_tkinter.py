@@ -249,3 +249,26 @@ from tkinter import *
 # root = Tk()
 # window = Book_users(root)
 # root.mainloop()
+
+# Checkbutton
+
+# class Checkbutton_user:
+#     def __init__(self, root):
+#         self.variable_ckeck = BooleanVar()
+#         self.variable_ckeck.set(0)
+
+#         self.checkbutton_1 = Checkbutton(root, text='Information', variable=self.variable_ckeck, onvalue=1, offvalue=0, command=self.information)
+#         self.lab = Label(root, text='')
+
+#         self.checkbutton_1.pack()
+#         self.lab.pack()
+#     def information(self):
+#         if self.variable_ckeck.get() == 1:
+#             self.lab['text'] = 'Worked'
+#         else:
+#             self.lab['text'] = ''
+
+# root = Tk()
+# window = Checkbutton_user(root)
+# root.mainloop()
+
