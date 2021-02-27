@@ -306,3 +306,28 @@ from tkinter import *
 # root = Tk()
 # window = Listboxs(root)
 # root.mainloop()
+
+# Метод bind
+
+# class Input_text:
+#     def __init__(self, root):
+#         self.entry = Entry(root, width=20)
+#         self.listbox_1 = Listbox(width=25, height=8)
+
+#         self.entry.pack()
+#         self.listbox_1.pack()
+
+#         self.entry.bind('<Return>', self.enter_button)
+#         self.listbox_1.bind('<Double-Button-1>', self.copy_row)
+#     def enter_button(self, event):
+#         if self.entry.get().strip():
+#             self.listbox_1.insert(END, self.entry.get().strip())
+#             self.entry.delete(0,END)
+#     def copy_row(self,event):
+#         select = self.listbox_1.curselection()[0]
+#         self.entry.delete(0,END)
+#         self.entry.insert(0, self.listbox_1.get(select))
+
+# root = Tk()
+# window = Input_text(root)
+# root.mainloop()
