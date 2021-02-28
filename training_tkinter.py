@@ -331,3 +331,56 @@ from tkinter import *
 # root = Tk()
 # window = Input_text(root)
 # root.mainloop()
+
+# События
+
+# class Event_window:
+#     def __init__(self, root):
+#         self.frame_up = Frame(root)
+#         self.frame_down = Frame(root)
+#         self.frame_1 = Frame(self.frame_up)
+#         self.frame_2 = Frame(self.frame_up)
+#         self.entry_1 = Entry(self.frame_1)
+#         self.entry_2 = Entry(self.frame_1)
+#         self.button_1 = Button(self.frame_2, text='Change', command=self.size_change_button)
+#         self.text_1 = Text(root, bg='#808080')
+
+#         self.frame_up.pack()
+#         self.frame_down.pack()
+#         self.frame_1.pack(side=LEFT)
+#         self.frame_2.pack(side=LEFT)
+#         self.entry_1.pack()
+#         self.entry_2.pack()
+#         self.button_1.pack()
+#         self.text_1.pack(side=TOP)
+
+#         self.entry_1.bind('<Return>', self.size_change)
+#         self.entry_2.bind('<Return>', self.size_change)
+#         self.text_1.bind('<FocusIn>', self.focus_text)
+#         self.text_1.bind('<FocusOut>', self.non_focus_text)
+
+#     def size_change(self, event):
+#         try:
+#             self.text_1['width'] = self.entry_1.get()
+#             self.text_1['height'] = self.entry_2.get()
+#         except:
+#             self.text_1['width'] = 20
+#             self.text_1['height'] = 7
+
+#     def focus_text(self, event):
+#         self.text_1['bg'] = '#FFFFFF'
+
+#     def non_focus_text(self, event):
+#         self.text_1['bg'] = '#808080'
+
+#     def size_change_button(self):
+#         try:
+#             self.text_1['width'] = self.entry_1.get()
+#             self.text_1['height'] = self.entry_2.get()
+#         except:
+#             self.text_1['width'] = 20
+#             self.text_1['height'] = 7
+
+# root = Tk()
+# window = Event_window(root)
+# root.mainloop()
