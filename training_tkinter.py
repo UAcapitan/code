@@ -384,3 +384,24 @@ from tkinter import *
 # root = Tk()
 # window = Event_window(root)
 # root.mainloop()
+
+# Canvas
+
+class Picture:
+    def __init__(self, root):
+        self.canvas_for_picture = Canvas(root, width=180, height=115)
+        self.canvas_for_picture.pack()
+
+        self.canvas_for_picture.create_rectangle(45,105,115,55, fill='#00BFFF', outline='#00BFFF')
+        self.canvas_for_picture.create_polygon((30,55), (130,55), (80,15), fill='#00BFFF')
+        self.canvas_for_picture.create_oval(125,5,155,35, width=1, fill='#FF8000', outline='#FF8000')
+    def paint_the_grass(self):
+        for i in range(20):
+            x1 = i * 10
+            x2 = i * 10 + 15
+            self.canvas_for_picture.create_line(x1, 120, x2, 90, fill='#00FF00')
+
+root = Tk()
+window = Picture(root)
+window.paint_the_grass()
+root.mainloop()
