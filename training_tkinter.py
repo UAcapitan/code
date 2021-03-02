@@ -1,4 +1,5 @@
 from tkinter import *
+from math import ceil
 
 # Что такое Tkinter
 
@@ -387,21 +388,73 @@ from tkinter import *
 
 # Canvas
 
-class Picture:
-    def __init__(self, root):
-        self.canvas_for_picture = Canvas(root, width=180, height=115)
-        self.canvas_for_picture.pack()
+# class Picture:
+#     def __init__(self, root):
+#         self.canvas_for_picture = Canvas(root, width=180, height=115)
+#         self.canvas_for_picture.pack()
 
-        self.canvas_for_picture.create_rectangle(45,105,115,55, fill='#00BFFF', outline='#00BFFF')
-        self.canvas_for_picture.create_polygon((30,55), (130,55), (80,15), fill='#00BFFF')
-        self.canvas_for_picture.create_oval(125,5,155,35, width=1, fill='#FF8000', outline='#FF8000')
-    def paint_the_grass(self):
-        for i in range(20):
-            x1 = i * 10
-            x2 = i * 10 + 15
-            self.canvas_for_picture.create_line(x1, 120, x2, 90, fill='#00FF00')
+#         self.canvas_for_picture.create_rectangle(45,105,115,55, fill='#00BFFF', outline='#00BFFF')
+#         self.canvas_for_picture.create_polygon((30,55), (130,55), (80,15), fill='#00BFFF')
+#         self.canvas_for_picture.create_oval(125,5,155,35, width=1, fill='#FF8000', outline='#FF8000')
+#     def paint_the_grass(self):
+#         for i in range(20):
+#             x1 = i * 10
+#             x2 = i * 10 + 15
+#             self.canvas_for_picture.create_line(x1, 120, x2, 90, fill='#00FF00')
 
-root = Tk()
-window = Picture(root)
-window.paint_the_grass()
-root.mainloop()
+# root = Tk()
+# window = Picture(root)
+# window.paint_the_grass()
+# root.mainloop()
+
+# Canvas. Идентификаторы, теги и анимация
+
+# class Animation_figures:
+#     def __init__(self, root):
+#         self.canvas_1 = Canvas(root, width=500, height=300)
+#         self.canvas_1.focus_set()
+#         self.canvas_1.pack()
+#         self.circle = self.canvas_1.create_oval(50,10,150,110)
+#         self.circle_coords = self.canvas_1.coords(self.circle)
+#         self.x = 10
+#         self.canvas_1.bind('<space>', self.circle_move_right)
+#         self.canvas_1.bind('<Button-1>', self.circle_move_button)
+#     def circle_move_right(self, event):
+#         self.canvas_1.move(self.circle, self.x, 0)
+#         self.circle_coords = self.canvas_1.coords(self.circle)
+#         if self.circle_coords[2] >= 500:
+#             self.canvas_1.coords(self.circle, 50, 10, 150, 110)
+#     def circle_move_button(self, event):
+#         x_mouse = event.x
+#         y_mouse = event.y
+#         self.circle_coords = self.canvas_1.coords(self.circle)
+#         x_circle = int((self.circle_coords[0] + self.circle_coords[2]) / 2)
+#         y_circle = int((self.circle_coords[1] + self.circle_coords[3]) / 2)
+#         x = 0
+#         y = 0
+
+#         while True:
+#             if x_mouse == x_circle and y_mouse == y_circle:
+#                 break
+
+#             if x_mouse > x_circle:
+#                 x = 1
+#             elif x_mouse == x_circle:
+#                 x = 0
+#             else:
+#                 x = -1
+
+#             if y_mouse > y_circle:
+#                 y = 1
+#             elif y_mouse == y_circle:
+#                 y = 0
+#             else:
+#                 y = -1
+
+#             self.canvas_1.after(100, lambda x=x, y=y: self.canvas_1.move(self.circle, x, y))
+#             x_circle += x
+#             y_circle += y
+
+# root = Tk()
+# window = Animation_figures(root)
+# root.mainloop()
