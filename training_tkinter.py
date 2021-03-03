@@ -458,3 +458,68 @@ from math import ceil
 # root = Tk()
 # window = Animation_figures(root)
 # root.mainloop()
+
+# Окна
+
+# class Windows:
+#     def __init__(self, root):
+#         self.canvas_1 = Canvas(root, width=500, height=300)
+#         self.button_1 = Button(root, text='Add shape', command=self.open_windows_level)
+
+#         self.canvas_1.pack()
+#         self.button_1.pack()
+#     @staticmethod
+#     def open_windows_level():
+#         window_level = Toplevel()
+#         window_level.geometry("200x200+720+10")
+#         windows_level = Windows_level(window_level)
+
+# class Windows_level:
+#     def __init__(self, window_top_level):
+#         self.frame_1 = Frame(window_top_level)
+#         self.frame_2 = Frame(window_top_level)
+#         self.label_1_1 = Label(self.frame_1, text='x1')
+#         self.entry_1_1 = Entry(self.frame_1, width=10)
+#         self.label_1_2 = Label(self.frame_1, text='y1')
+#         self.entry_1_2 = Entry(self.frame_1, width=10)
+#         self.label_2_1 = Label(self.frame_2, text='x2')
+#         self.entry_2_1 = Entry(self.frame_2, width=10)
+#         self.label_2_2 = Label(self.frame_2, text='y2')
+#         self.entry_2_2 = Entry(self.frame_2, width=10)
+
+#         self.variable_radiocheck = BooleanVar()
+#         self.variable_radiocheck.set(0)
+
+#         self.radiocheck_1 = Radiobutton(window_top_level, variable=self.variable_radiocheck, value=0, text='Rectangle')
+#         self.radiocheck_2 = Radiobutton(window_top_level, variable=self.variable_radiocheck, value=1, text='Oval')
+
+#         self.button_1 = Button(window_top_level, text='Draw', width=10, command=self.button_draw)
+        
+#         self.frame_1.pack()
+#         self.frame_2.pack()
+#         self.label_1_1.pack(side=LEFT)
+#         self.entry_1_1.pack(side=LEFT)
+#         self.label_1_2.pack(side=LEFT)
+#         self.entry_1_2.pack(side=LEFT)
+#         self.label_2_1.pack(side=LEFT)
+#         self.entry_2_1.pack(side=LEFT)
+#         self.label_2_2.pack(side=LEFT)
+#         self.entry_2_2.pack(side=LEFT)
+#         self.radiocheck_1.pack()
+#         self.radiocheck_2.pack()
+#         self.button_1.pack()
+
+#     def button_draw(self):
+#         x1 = self.entry_1_1.get()
+#         y1 = self.entry_1_2.get()
+#         x2 = self.entry_2_1.get()
+#         y2 = self.entry_2_2.get()
+#         if self.variable_radiocheck.get() == 0:
+#             window_root.canvas_1.create_rectangle(x1,y1,x2,y2)
+#         elif self.variable_radiocheck.get() == 1:
+#             window_root.canvas_1.create_oval(x1,y1,x2,y2)
+
+# root = Tk()
+# root.geometry("700x330+10+10")
+# window_root = Windows(root)
+# root.mainloop()
