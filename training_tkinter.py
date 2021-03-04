@@ -1,5 +1,7 @@
 from tkinter import *
 from math import ceil
+from tkinter import messagebox as mb
+from tkinter import filedialog as fd
 
 # Что такое Tkinter
 
@@ -561,4 +563,50 @@ from math import ceil
     
 # root = Tk()
 # window = Window_grid(root)
+# root.mainloop()
+
+# Диалоговые окна
+
+# class Open_file:
+#     def __init__(self, root):
+#         self.text = Text(root, width=50, height=25)
+#         self.button_open = Button(text='Open', command=self.insert_text)
+#         self.button_save = Button(text='Save', command=self.extract_text)
+#         self.button_clear = Button(text='Clear', command=self.clear_text_on_text)
+
+#         self.text.grid(row=0, column=0, rowspan=5, columnspan=5)
+#         self.button_open.grid(row=5, column=1)
+#         self.button_save.grid(row=5, column=2)
+#         self.button_clear.grid(row=5, column=3)
+#     def insert_text(self):
+#         try:
+#             file_name = fd.askopenfilename()
+#             f = open(file_name)
+#             s = f.read()
+#             self.text.insert(1.0, s)
+#             f.close()
+#         except:
+#             mb.showerror('Error', 'Input file name')
+#     def extract_text(self):
+#         try:
+#             file_name = fd.asksaveasfilename(
+#                 filetypes=(
+#                     ("TXT files", "*.txt"),
+#                     ("HTML files", "*.html"),
+#                     ("All files", "*.*")
+#                 )
+#             )
+#             f = open(file_name, 'w')
+#             s = self.text.get(1.0, END)
+#             f.write(s)
+#             f.close()
+#         except:
+#             mb.showerror('Error', 'Input file name')
+#     def clear_text_on_text(self):
+#         answer = mb.askyesno('Question', 'Clear text from widget?')
+#         if answer:
+#             self.text.delete(1.0, END)
+
+# root = Tk()
+# window = Open_file(root)
 # root.mainloop()
