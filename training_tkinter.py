@@ -468,11 +468,12 @@ from math import ceil
 
 #         self.canvas_1.pack()
 #         self.button_1.pack()
-#     @staticmethod
-#     def open_windows_level():
+#     def open_windows_level(self):
+#         global window_level
 #         window_level = Toplevel()
+#         window_level.title('Shape')
 #         window_level.geometry("200x200+720+10")
-#         windows_level = Windows_level(window_level)
+#         windows_top_level = Windows_level(window_level)
 
 # class Windows_level:
 #     def __init__(self, window_top_level):
@@ -518,8 +519,46 @@ from math import ceil
 #             window_root.canvas_1.create_rectangle(x1,y1,x2,y2)
 #         elif self.variable_radiocheck.get() == 1:
 #             window_root.canvas_1.create_oval(x1,y1,x2,y2)
+#         global window_level
+#         window_level.destroy()
+        
 
 # root = Tk()
+# root.title('Rectangle Oval')
 # root.geometry("700x330+10+10")
 # window_root = Windows(root)
+# root.mainloop()
+
+# Метод grid
+
+# class Window_grid:
+#     def __init__(self, root):
+#         self.label_1_1 = Label(root, text='x1')
+#         self.enrty_1_1 = Entry(root, width=5)
+#         self.label_1_2 = Label(root, text='y1')
+#         self.enrty_1_2 = Entry(root, width=5)
+#         self.label_2_1 = Label(root, text='x2')
+#         self.enrty_2_1 = Entry(root, width=5)
+#         self.label_2_2 = Label(root, text='y2')
+#         self.enrty_2_2 = Entry(root, width=5)
+#         self.variable_radiocheck = BooleanVar()
+#         self.variable_radiocheck.set(0)
+#         self.radiocheck_1 = Radiobutton(root, variable=self.variable_radiocheck, value=0, text='Rectangle')
+#         self.radiocheck_2 = Radiobutton(root, variable=self.variable_radiocheck, value=1, text='Oval')
+#         self.button_1 = Button(root, text='Draw')
+
+#         self.label_1_1.grid(row=0, column=0, padx=10)
+#         self.enrty_1_1.grid(row=0, column=1)
+#         self.label_1_2.grid(row=0, column=2, padx=10)
+#         self.enrty_1_2.grid(row=0, column=3)
+#         self.label_2_1.grid(row=1, column=0, padx=10)
+#         self.enrty_2_1.grid(row=1, column=1)
+#         self.label_2_2.grid(row=1, column=2, padx=10)
+#         self.enrty_2_2.grid(row=1, column=3)
+#         self.radiocheck_1.grid(row=2, column=1, columnspan=2, padx=2)
+#         self.radiocheck_2.grid(row=3, column=1, columnspan=2)
+#         self.button_1.grid(row=4, column=1, columnspan=2)
+    
+# root = Tk()
+# window = Window_grid(root)
 # root.mainloop()
