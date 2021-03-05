@@ -2,6 +2,7 @@ from tkinter import *
 from math import ceil
 from tkinter import messagebox as mb
 from tkinter import filedialog as fd
+from random import randint
 
 # Что такое Tkinter
 
@@ -660,4 +661,21 @@ from tkinter import filedialog as fd
 
 # root = Tk()
 # window = Menu_window(root)
+# root.mainloop()
+
+# Метод place
+
+# class Image_random_button:
+#     def __init__(self, root):
+#         self.image_1 = PhotoImage(file='img/img.png')
+#         self.label_1 = Label(root, image=self.image_1)
+#         self.label_1.place(x=randint(0,180), y=randint(0,180), width=20, height=20)
+
+#         self.label_1.bind('<Button-1>', self.create_button)
+
+#     def create_button(self, event):
+#         self.label_1.place(x=randint(0,180), y=randint(0,180), width=20, height=20)
+
+# root = Tk()
+# window = Image_random_button(root)
 # root.mainloop()
