@@ -610,3 +610,54 @@ from tkinter import filedialog as fd
 # root = Tk()
 # window = Open_file(root)
 # root.mainloop()
+
+# Виджет Menu
+
+# class Menu_window:
+#     def __init__(self, root):
+#         self.text = Text(root, width=50, height=25)
+#         self.menu_main = Menu(root, tearoff=0)
+#         self.menu_main.add_command(label='Open', command=self.insert_text)
+#         self.menu_main.add_command(label='Save', command=self.extract_text)
+#         self.root = root
+#         self.root.config(menu=self.menu_main)
+
+#         self.menu_2 = Menu(tearoff=0)
+#         self.menu_2.add_command(label='Clear', command=self.clear_text_on_text)
+#         self.root.bind('<Button-3>', self.open_menu)
+
+#         self.text.grid(row=0, column=0, rowspan=5, columnspan=5)
+#     def insert_text(self):
+#         try:
+#             file_name = fd.askopenfilename()
+#             f = open(file_name)
+#             s = f.read()
+#             self.text.insert(1.0, s)
+#             f.close()
+#         except:
+#             mb.showerror('Error', 'Input file name')
+#     def extract_text(self):
+#         try:
+#             file_name = fd.asksaveasfilename(
+#                 filetypes=(
+#                     ("TXT files", "*.txt"),
+#                     ("HTML files", "*.html"),
+#                     ("All files", "*.*")
+#                 )
+#             )
+#             f = open(file_name, 'w')
+#             s = self.text.get(1.0, END)
+#             f.write(s)
+#             f.close()
+#         except:
+#             mb.showerror('Error', 'Input file name')
+#     def clear_text_on_text(self):
+#         answer = mb.askyesno('Question', 'Clear text from widget?')
+#         if answer:
+#             self.text.delete(1.0, END)
+#     def open_menu(self, event):
+#         self.menu_2.post(event.x_root, event.y_root)
+
+# root = Tk()
+# window = Menu_window(root)
+# root.mainloop()
