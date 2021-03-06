@@ -1,10 +1,34 @@
-import pygame as pg
-from pygame.locals import *
+import pygame
+import sys
 
 # Каркас игры на Pygame
-pg.display.set_mode((600,400))
+# pygame.init()
+# pygame.display.set_mode((600,400))
 
-while 1:
-    for i in pg.event.get():
-        if i.type == pg.QUIT:
-            pg.quit()
+# FPS = 60
+
+# clock = pygame.time.Clock()
+
+# while True:
+#     for i in pygame.event.get():
+#         if i.type == pygame.QUIT:
+#             pygame.quit()
+#             sys.exit()
+#     clock.tick(FPS)
+
+# Задание
+
+# pygame.init()
+# pygame.display.set_mode((600,400))
+
+# FPS = 60
+
+# clock = pygame.time.Clock()
+
+# while True:
+#     pygame.display.set_caption('Pygame')
+#     for i in pygame.event.get():
+#         if i.type == pygame.QUIT:
+#             pygame.quit()
+#             sys.exit()
+#     clock.tick(FPS)
