@@ -43,6 +43,7 @@ import sys
 # WIN_WIDTH = 400
 # WIN_HEIGHT = 100
 
+# pygame.display.set_caption('Pygame')
 # surface_main = pygame.display.set_mode((WIN_WIDTH,WIN_HEIGHT))
 
 # clock = pygame.time.Clock()
@@ -52,7 +53,6 @@ import sys
 # y = WIN_HEIGHT // 2
 
 # while True:
-#     pygame.display.set_caption('Pygame')
 #     for i in pygame.event.get():
 #         if i.type == pygame.QUIT:
 #             pygame.quit()
@@ -76,6 +76,7 @@ import sys
 # WIN_WIDTH = 400
 # WIN_HEIGHT = 100
 
+# pygame.display.set_caption('Pygame')
 # surface_main = pygame.display.set_mode((WIN_WIDTH,WIN_HEIGHT))
 
 # clock = pygame.time.Clock()
@@ -85,7 +86,6 @@ import sys
 # y = WIN_HEIGHT // 2
 
 # while True:
-#     pygame.display.set_caption('Pygame')
 #     for i in pygame.event.get():
 #         if i.type == pygame.QUIT:
 #             pygame.quit()
@@ -109,6 +109,7 @@ import sys
 # WIN_WIDTH = 400
 # WIN_HEIGHT = 100
 
+# pygame.display.set_caption('Pygame')
 # surface_main = pygame.display.set_mode((WIN_WIDTH,WIN_HEIGHT))
 
 # clock = pygame.time.Clock()
@@ -118,7 +119,6 @@ import sys
 # y = WIN_HEIGHT // 2
 
 # while True:
-#     pygame.display.set_caption('Pygame')
 #     for i in pygame.event.get():
 #         if i.type == pygame.QUIT:
 #             pygame.quit()
@@ -136,4 +136,54 @@ import sys
 #         x = 0 - r
 #     else:
 #         x += 2
+#     clock.tick(FPS)
+
+# События мыши
+
+# pygame.init()
+
+# WIDTH = 600
+# HEIGHT = 400
+# FPS = 60
+# MOVING_CIRCLE = False
+# y = 400
+# y_mouse = 0
+# BOOM = False
+# WHITE = (255,255,255)
+# ORANGE = (255, 150, 100)
+# BOOM_RESULT = False
+
+# pygame.display.set_caption('Pygame')
+# surface_main = pygame.display.set_mode((WIDTH, HEIGHT))
+
+# clock = pygame.time.Clock()
+
+# while True:
+#     for i in pygame.event.get():
+#         if i.type == pygame.QUIT:
+#             pygame.quit()
+#             sys.exit()
+#         elif i.type == pygame.MOUSEBUTTONDOWN:
+#             y_mouse = pygame.mouse.get_pos()[1]
+#             MOVING_CIRCLE = True
+
+#     if MOVING_CIRCLE and BOOM_RESULT:
+#         y = 400
+#         BOOM = False
+#         BOOM_RESULT = False
+
+#     surface_main.fill(WHITE)
+#     if not BOOM:
+#         pygame.draw.circle(surface_main, ORANGE, (300, y), 10)
+#     else:
+#         pygame.draw.rect(surface_main, ORANGE, (290, y-10, 20, 20))
+#         BOOM_RESULT = True
+#     pygame.display.update()
+     
+#     if MOVING_CIRCLE and y > y_mouse:
+#         y -= 2
+#     elif MOVING_CIRCLE and y <= y_mouse:
+#         MOVING_CIRCLE = False
+#         BOOM = True
+
 #     clock.tick(FPS)
