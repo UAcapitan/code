@@ -47,4 +47,3 @@ def strip_for_text(text):
 # enc_num = Encryption(22)
 # print(enc_num.enc(155))
 # print(enc_num.de_enc(141))
-

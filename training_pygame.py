@@ -187,3 +187,49 @@ import sys
 #         BOOM = True
 
 #     clock.tick(FPS)
+
+# Класс Surface и метод blit()
+
+# pygame.init()
+
+# WIDTH = 600
+# HEIGHT = 400
+# FPS = 60
+# WHITE = (255,255,255)
+# ORANGE = (255,150,100)
+# x = 0
+
+# pygame.display.set_caption('Pygame')
+# surface_main = pygame.display.set_mode((WIDTH, HEIGHT))
+
+# surface_main.fill(WHITE)
+
+# surface_2 = pygame.Surface((WIDTH / 6, HEIGHT))
+# surface_2.fill(WHITE)
+
+# pygame.draw.rect(surface_2, ORANGE, (10,10, 80, 80))
+# pygame.draw.circle(surface_2, ORANGE, (50, 150), 40)
+# pygame.draw.polygon(surface_2, ORANGE, ((50, 210), (90, 270), (10, 270)))
+
+# surface_main.blit(surface_2, (x,0))
+
+# pygame.display.update()
+
+# clock = pygame.time.Clock()
+
+# while True:
+#     for i in pygame.event.get():
+#         if i.type == pygame.QUIT:
+#             pygame.quit()
+#             sys.exit()
+    
+#     if x > 600:
+#         x = -90
+
+#     surface_main.blit(surface_2, (x,0))
+
+#     pygame.display.update()
+
+#     x += 1
+    
+#     clock.tick(FPS)
