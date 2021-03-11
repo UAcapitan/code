@@ -298,7 +298,7 @@ import sys
 #     pygame.display.update(rect_3)
 #     pygame.display.update(rect_4)
 
-#     clock.tick(60)
+    # clock.tick(FPS)
 
 # Модуль pygame.font
 
@@ -361,4 +361,71 @@ import sys
 
 #     pygame.display.update()
 
-#     clock.tick(60)
+    # clock.tick(FPS)
+
+# Модули pygame.image и pygame.transform
+
+# pygame.init()
+
+# FPS = 60
+# WIDTH = 600
+# HEIGHT = 400
+# WHITE = (255,255,255)
+# x = WIDTH // 2
+# y = HEIGHT // 2
+
+# pygame.display.set_caption('Pygame')
+# surface_main = pygame.display.set_mode((WIDTH, HEIGHT))
+
+# surface_main.fill(WHITE)
+
+# img_car = pygame.image.load('img/car.png').convert_alpha()
+# place_car = img_car.get_rect(center=(x,y))
+
+# scale = pygame.transform.scale(img_car, (img_car.get_width() // 4, img_car.get_height() // 4))
+# scale_rect = scale.get_rect(center=(x,y))
+
+# surface_main.blit(scale, scale_rect)
+
+# clock = pygame.time.Clock()
+
+# while True:
+#     for i in pygame.event.get():
+#         if i.type == pygame.QUIT:
+#             sys.exit()
+#         elif i.type == pygame.KEYDOWN:
+#             if i.key == pygame.K_UP:
+#                 y -= 10
+#                 surface_main.fill(WHITE)
+#                 scale = pygame.transform.scale(img_car, (img_car.get_width() // 4, img_car.get_height() // 4))
+#                 scale_rect = scale.get_rect(center=(x,y))
+
+#                 surface_main.blit(scale, scale_rect)
+#             elif i.key == pygame.K_LEFT:
+#                 x -= 10
+#                 surface_main.fill(WHITE)
+#                 scale = pygame.transform.scale(img_car, (img_car.get_width() // 4, img_car.get_height() // 4))
+#                 rot = pygame.transform.rotate(scale, 90)
+#                 rot_rect = rot.get_rect(center=(x,y))
+
+#                 surface_main.blit(rot, rot_rect)
+#             elif i.key == pygame.K_RIGHT:
+#                 x += 10
+#                 surface_main.fill(WHITE)
+#                 scale = pygame.transform.scale(img_car, (img_car.get_width() // 4, img_car.get_height() // 4))
+#                 rot = pygame.transform.rotate(scale, 270)
+#                 rot_rect = rot.get_rect(center=(x,y))
+
+#                 surface_main.blit(rot, rot_rect)
+#             elif i.key == pygame.K_DOWN:
+#                 y += 10
+#                 surface_main.fill(WHITE)
+#                 scale = pygame.transform.scale(img_car, (img_car.get_width() // 4, img_car.get_height() // 4))
+#                 rot = pygame.transform.rotate(scale, 180)
+#                 rot_rect = rot.get_rect(center=(x,y))
+
+#                 surface_main.blit(rot, rot_rect)
+
+#     pygame.display.update()
+
+#     clock.tick(FPS)
