@@ -299,3 +299,66 @@ import sys
 #     pygame.display.update(rect_4)
 
 #     clock.tick(60)
+
+# Модуль pygame.font
+
+# pygame.init()
+
+# FPS = 60
+# WIDTH = 600
+# HEIGHT = 400
+# WHITE = (255, 255, 255)
+# ORANGE = (255,150,100)
+# BLUE = (0, 77, 255)
+# GREEN = (0, 100, 0)
+# x = WIDTH // 2 - 25
+# y = HEIGHT // 2 - 25
+
+
+# pygame.display.set_caption('Pygame')
+# surface_main = pygame.display.set_mode((WIDTH, HEIGHT))
+
+# surface_1 = pygame.Surface((50,50))
+# surface_2 = pygame.Surface((100,100))
+
+# rect_1 = pygame.Rect(x, y, 50, 50)
+# rect_2 = pygame.Rect(x-25, y-25, 100, 100)
+
+# surface_main.fill(WHITE)
+
+# rectangle_1 = pygame.draw.rect(surface_1, ORANGE, (0, 0, 50, 50))
+# rectangle_2 = pygame.draw.rect(surface_2, BLUE, (0, 0, 100, 100))
+
+# font = pygame.font.Font(None, 72)
+# text_1 = font.render('True', True, GREEN)
+# text_2 = font.render('False', True, GREEN)
+# place_1 = text_1.get_rect(center=(WIDTH // 2, HEIGHT - 100))
+# place_2 = text_2.get_rect(center=(WIDTH // 2, HEIGHT - 100))
+
+# surface_main.blit(surface_1, rect_1)
+# surface_main.blit(surface_2, rect_2)
+
+# pygame.display.update()
+
+# clock = pygame.time.Clock()
+
+# while True:
+#     for i in pygame.event.get():
+#         if i.type == pygame.QUIT:
+#             sys.exit()
+#         elif i.type == pygame.MOUSEBUTTONDOWN:
+#             x, y = i.pos[0], i.pos[1]
+#             rect_1.x, rect_1.y = x-25, y-25
+    
+#     surface_main.fill(WHITE)
+
+#     surface_main.blit(surface_2, rect_2)
+#     surface_main.blit(surface_1, rect_1)
+#     if rect_2.contains(rect_1):
+#         surface_main.blit(text_1, place_1)
+#     else:
+#         surface_main.blit(text_2, place_2)
+
+#     pygame.display.update()
+
+#     clock.tick(60)
