@@ -233,3 +233,69 @@ import sys
 #     x += 1
     
 #     clock.tick(FPS)
+
+# Класс Rect
+
+# pygame.init()
+
+# FPS = 60
+# WIDTH = 600
+# HEIGHT = 400
+# WHITE = (255,255,255)
+# ORANGE = (255,150,100)
+# YELLOW = (255,200,0)
+# mouse_color = False
+
+# pygame.display.set_caption('Pygame')
+# surface_main = pygame.display.set_mode((WIDTH, HEIGHT))
+
+# surface_1 = pygame.Surface((WIDTH // 2, HEIGHT // 2))
+# surface_2 = pygame.Surface((WIDTH // 2, HEIGHT // 2))
+# surface_3 = pygame.Surface((WIDTH // 2, HEIGHT // 2))
+# surface_4 = pygame.Surface((WIDTH // 2, HEIGHT // 2))
+
+# surface_1.fill(WHITE)
+# surface_2.fill(WHITE)
+# surface_3.fill(WHITE)
+# surface_4.fill(WHITE)
+
+# rect_1 = pygame.Rect(0,0, WIDTH // 2, HEIGHT // 2)
+# rect_2 = pygame.Rect(WIDTH // 2, 0, WIDTH // 2, HEIGHT // 2)
+# rect_3 = pygame.Rect(0, HEIGHT // 2, WIDTH // 2, HEIGHT // 2)
+# rect_4 = pygame.Rect(WIDTH // 2, HEIGHT // 2, WIDTH // 2, HEIGHT // 2)
+
+# clock = pygame.time.Clock()
+
+# while True:
+#     for i in pygame.event.get():
+#         if i.type == pygame.QUIT:
+#             pygame.quit()
+#             sys.exit()
+#         elif i.type == pygame.MOUSEBUTTONDOWN:
+#             if mouse_color == True:
+#                 mouse_color = False
+#             else:
+#                 mouse_color = True
+
+#     if mouse_color == True:
+#         pygame.draw.circle(surface_1, ORANGE, (WIDTH // 2, HEIGHT // 2), 150)
+#         pygame.draw.circle(surface_2, YELLOW, (0, HEIGHT // 2), 150)
+#         pygame.draw.circle(surface_3, YELLOW, (WIDTH // 2, 0), 150)
+#         pygame.draw.circle(surface_4, ORANGE, (0, 0), 150)
+#     else:
+#         pygame.draw.circle(surface_1, YELLOW, (WIDTH // 2, HEIGHT // 2), 150)
+#         pygame.draw.circle(surface_2, ORANGE, (0, HEIGHT // 2), 150)
+#         pygame.draw.circle(surface_3, ORANGE, (WIDTH // 2, 0), 150)
+#         pygame.draw.circle(surface_4, YELLOW, (0, 0), 150)
+
+#     surface_main.blit(surface_1, rect_1)
+#     surface_main.blit(surface_2, rect_2)
+#     surface_main.blit(surface_3, rect_3)
+#     surface_main.blit(surface_4, rect_4)
+
+#     pygame.display.update(rect_1)
+#     pygame.display.update(rect_2)
+#     pygame.display.update(rect_3)
+#     pygame.display.update(rect_4)
+
+#     clock.tick(60)
