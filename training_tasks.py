@@ -1,3 +1,5 @@
+from random import randint
+
 # maketrans() и translate() - методы для замены символов 
 
 def encode(string):
@@ -47,3 +49,19 @@ def strip_for_text(text):
 # enc_num = Encryption(22)
 # print(enc_num.enc(155))
 # print(enc_num.de_enc(141))
+
+# Password generator
+
+def password_generator(length):
+    password = ''
+    for i in range(length):
+        n = randint(1,3)
+        if n == 1:
+            password += chr(randint(48,57))
+        elif n == 2:
+            password += chr(randint(65,90))
+        else:
+            password += chr(randint(97,122))
+    return password
+
+# print(password_generator(8))
