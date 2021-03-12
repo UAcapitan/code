@@ -507,3 +507,87 @@ from random import randint
 #         sys.exit()
 
 #     clock.tick(60)
+
+# Класс Sound и модуль pygame.mixer.music
+
+# pygame.init()
+
+# pygame.time.set_timer(pygame.USEREVENT, 3000)
+
+# FPS = 60
+# WIDTH = 600
+# HEIGHT = 400
+# WHITE = (255,255,255)
+# CARS = ('img/car.png', 'img/car_2.png', 'img/car_3.png')
+# cars_surf = []
+# x_user = WIDTH // 2
+
+# surface_main = pygame.display.set_mode((WIDTH, HEIGHT))
+
+# clock = pygame.time.Clock()
+
+# pygame.mixer.music.load('music/music_1.mp3')
+# pygame.mixer.music.play(-1)
+
+# sound_1 = pygame.mixer.Sound('sounds/sound_1.mp3')
+
+# for i in range(len(CARS)):
+#     cars_surf.append(pygame.image.load(CARS[i]).convert_alpha())
+
+# class Car(pygame.sprite.Sprite):
+#     def __init__(self, x, surf, group):
+#         pygame.sprite.Sprite.__init__(self)
+#         self.image = pygame.transform.scale(surf, (30, 70))
+#         self.rect = self.image.get_rect(center=(x,0))
+#         self.add(group)
+#         self.speed = randint(1,3)
+
+#     def update(self):
+#         if self.rect.y < HEIGHT:
+#             self.rect.y += self.speed
+#         else:
+#             self.kill()
+
+# cars = pygame.sprite.Group()
+# cars_user = pygame.sprite.Group()
+
+# Car(randint(1, WIDTH), cars_surf[randint(0,2)], cars)
+
+# car_user = pygame.sprite.Sprite()
+# image_user = pygame.image.load(CARS[2]).convert_alpha()
+# car_user.image = pygame.transform.scale(image_user, (30, 70))
+# car_user.rect = car_user.image.get_rect(center=(x_user,300))
+# car_user.add(cars_user)
+
+# while True:
+#     for i in pygame.event.get():
+#         if i.type == pygame.QUIT:
+#             sys.exit()
+#         elif i.type == pygame.USEREVENT:
+#             Car(randint(1,WIDTH), cars_surf[randint(0,2)], cars)
+
+#     keyboard_keys = pygame.key.get_pressed()
+
+#     if keyboard_keys[pygame.K_a]:
+#         x_user -= 1
+#     elif keyboard_keys[pygame.K_d]:
+#         x_user += 1
+
+#     car_user.rect = car_user.image.get_rect(center=(x_user,300))
+
+#     surface_main.fill(WHITE)
+
+#     cars.draw(surface_main)
+#     cars_user.draw(surface_main)
+
+#     pygame.display.update()
+
+#     cars.update()
+#     cars_user.update()
+
+#     if pygame.sprite.spritecollideany(car_user, cars):
+#         sound_1.play()
+#         pygame.time.delay(int(sound_1.get_length() * 1000))
+#         sys.exit()
+
+#     clock.tick(60)
