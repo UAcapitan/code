@@ -16,3 +16,10 @@ class Choice(models.Model):
     votes = models.IntegerField(default=0)
     def __str__(self):
         return self.choice_text
+
+class Users(models.Model):
+    user_name = models.CharField(max_length=200)
+    user_age = models.IntegerField(default=0)
+    pub_date = models.DateTimeField('date published')
+    def __str__(self):
+        return self.user_name
