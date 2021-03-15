@@ -34,4 +34,5 @@ def vote(request, question_id):
     return HttpResponseRedirect(reverse('polls:results', args=[question.id]))
 
 def users(request):
-    return HttpResponse('Users')
+    users = Users.objects.order_by('-pub_date')[:3]
+    return render(request, 'polls/users.html', {'users': users})
