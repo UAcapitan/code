@@ -4,6 +4,7 @@ from django.template import loader
 from .models import Question, Users
 from django.http import Http404
 from django.urls import reverse
+from django.views import generic
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
@@ -36,3 +37,18 @@ def vote(request, question_id):
 def users(request):
     users = Users.objects.order_by('-pub_date')[:3]
     return render(request, 'polls/users.html', {'users': users})
+
+class Index_view(generic.ListView):
+    template_name = 'polls/index.html'
+    context_object_name = 'latest_question_list'
+
+    def get_queryset(self):
+        return Question.objects.order_by('-pub_date')[:5]
+
+class Detail_view(generic.DetailView):
+    model = Question
+    template_name = 'polls/detail.html'
+
+class Results_view(generic.DetailView):
+    model = Question
+    template_name = 'polls/results.html'
