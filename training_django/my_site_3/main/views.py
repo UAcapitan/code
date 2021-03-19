@@ -17,7 +17,7 @@ def create(request):
         form = Task_form(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('main_app:index')
         else:
             error = 'Error, form not valid'
 
@@ -27,3 +27,18 @@ def create(request):
         'error':error
     }
     return render(request, 'main/create.html', context)
+
+def delete(request, index_task):
+    try:
+        Task.objects.get(id=index_task).delete()
+        context = {
+            'index_task':index_task,
+            'error':''
+        }
+    except:
+        context = {
+            'index_task':'',
+            'error':'Error 404'
+        }
+
+    return render(request, 'main/delete.html', context)

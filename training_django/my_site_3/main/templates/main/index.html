@@ -9,8 +9,14 @@
     {% if tasks %}
         {% for task in tasks%}
             <div class='alert alert-warning mt-2'>
-                <h3>{{ task.title }}</h3>
+                <h3>{{ task.id }}. {{ task.title }}</h3>
                 <p>{{ task.task }}</p>
+                <form action="{% url 'main_app:delete' task.id %}" method='POST'>
+
+                    {% csrf_token %}
+
+                    <button type='submit'>x</button>
+                </form>
             </div>
         {% endfor %}
     {% else %}

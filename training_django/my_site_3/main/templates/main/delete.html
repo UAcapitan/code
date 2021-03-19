@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Delete {% endblock %}
+
+{% block content %}
+    {% if index_task %}
+        <p>Task {{ index_task }} deleted</p>
+    {% else %}
+        <p>{{ error }}</p>
+    {% endif %}
+{% endblock %}
