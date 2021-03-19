@@ -38,7 +38,7 @@ def delete(request, index_task):
     except:
         context = {
             'index_task':'',
-            'error':'Error 404'
+            'error':'Error 404. Task not found'
         }
 
     return render(request, 'main/delete.html', context)

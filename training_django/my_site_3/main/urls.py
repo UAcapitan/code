@@ -6,5 +6,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('about', views.about, name='about'),
     path('create', views.create, name='create'),
-    path('delete/<index_task>/', views.delete, name='delete'),
+    path('delete/<int:index_task>/', views.delete, name='delete'),
 ]
