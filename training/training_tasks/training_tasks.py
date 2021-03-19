@@ -65,3 +65,7 @@ def password_generator(length):
     return password
 
 # print(password_generator(8))
+
+# Список рандомных чисел
+
+list_rand = [randint(1,10) for i in range(10)]
