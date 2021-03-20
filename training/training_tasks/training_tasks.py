@@ -1,4 +1,6 @@
 from random import randint
+from time import sleep
+from os import system
 
 # maketrans() и translate() - методы для замены символов 
 
@@ -68,4 +70,17 @@ def password_generator(length):
 
 # Список рандомных чисел
 
-list_rand = [randint(1,10) for i in range(10)]
+# list_rand = [randint(1,10) for i in range(10)]
+
+# Вывод текста как ввод с клавиатуры
+
+def output_text_keyboard(text):
+    text_list = list(text)
+    new_text_list = []
+    for i in text_list:
+        new_text_list.append(i)
+        print(''.join(new_text_list))
+        sleep(0.3)
+        system('cls')
+
+# output_text_keyboard('Hi, world, i am programmer and i write code')
