@@ -1,12 +1,12 @@
 from django.db import models
 
-class Articles(models.Model):
-    create_date = models.DateTimeField(auto_now=True),
-    name = models.CharField('name', max_length=50),
+class Article(models.Model):
+    article_name = models.CharField(max_length=50)
     text = models.TextField('text')
+    create_date = models.DateTimeField('date published')
 
     def __str__(self):
-        return self.name
+        return self.article_name
 
     class Meta:
         verbose_name = 'Article'
