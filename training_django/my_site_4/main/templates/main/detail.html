@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Detail {% endblock %}
+
+{% block content %}
+    <h1>{{ article.article_name }}</h1>
+    <p>{{ article.text }}</p>
+    <p> Id: {{ article.id }} </p><br>
+    <em>{{ article.create_date }}</em><br>
+    <a href="{% url 'main:home' %}">Home page</a>
+{% endblock %}

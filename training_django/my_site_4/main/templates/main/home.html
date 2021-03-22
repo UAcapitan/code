@@ -10,10 +10,8 @@
     {% for article in articles %}
         <div class="alert alert-success mt-2">
             <p class='font-weight-bold'>{{ article.article_name }}</p>
-            <p>{{ article.text }}</p>
-            <em>{{ article.create_date }}</em>
-            <br>
-            <a href="#">Open and read</a>
+            <p>{{ article.text|truncatechars:'5' }}</p><br>
+            <a href="{% url 'main:detail' article.id %}">Open and read</a>
         </div>
     {% endfor %}
 {% endblock %}

@@ -1,6 +1,9 @@
 from random import randint
 from math import ceil, pi
+from abc import ABC, abstractclassmethod
+from interface import implements, Interface
 # from my_modules import room, win_door
+
 
 # Создание классов и объектов
 
@@ -444,3 +447,52 @@ from math import ceil, pi
 # print(name_user.num_in_name())
 # print(name_user.name_enc)
 # print(name_user.enc_in_enc())
+
+# Абстрактный класс
+
+class ChessPiece(ABC):
+    def draw(self):
+        print('Drew a chess piece')
+
+    @abstractclassmethod
+    def move(self):
+        pass
+
+class Queen(ChessPiece):
+    def move(self):
+        print('Moved Queen to e2e4')
+
+# queen = Queen()
+# queen.draw()
+# queen.move()
+
+# Абстрактный метод
+
+class Basic(ABC):
+    @abstractclassmethod
+    def hello(self):
+        print('Hello from Basic class')
+
+class Advanced(Basic):
+    def hello(self):
+        super().hello()
+        print('Enriched functionality')
+
+# a = Advanced()
+# a.hello()
+
+# Интерфейс
+
+class My_Interface(Interface):
+    def method_1(self, x):
+        pass
+
+    def method_2(self, x, y):
+        pass
+
+class My_Class(implements(My_Interface)):
+    def method_1(self, x):
+        return x * 2
+
+    def method_2(self, x, y):
+        return x + y
