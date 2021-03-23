@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Edit page {% endblock %}
+
+{% block content %}
+
+<form action="#" method='POST'>
+    {% csrf_token %}
+    <input type="text" name='name'><br><br>
+    <input type="text" name='text'><br><br>
+    <button type='submit'>Add new article</button>
+</form><br>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Date</th>
+        <th scope="col">Redact</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for article in list_articles %}
+            <tr>
+                <th scope="row">{{ article.id }}</th>
+                <td>{{ article.article_name }}</td>
+                <td>{{ article.create_date }}</td>
+                <td><a href="#">Redact</a></td>
+                <td><a href="#">Delete</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

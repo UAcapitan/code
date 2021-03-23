@@ -16,3 +16,9 @@ def detail(request, article_id):
         'article': article,
     }
     return render(request, 'main/detail.html', context)
+
+def edit(request):
+    context = {
+        'list_articles': Article.objects.order_by('-id')
+    }
+    return render(request, 'main/edit_page.html', context)

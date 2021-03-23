@@ -496,3 +496,7 @@ class My_Class(implements(My_Interface)):
 
     def method_2(self, x, y):
         return x + y
+
+# a = My_Class()
+# print(a.method_1(10))
+# print(a.method_2(10,20))
