@@ -4,11 +4,10 @@
 
 {% block content %}
 
-<form action="#" method='POST'>
+<form method='POST'>
     {% csrf_token %}
-    <input type="text" name='name'><br><br>
-    <input type="text" name='text'><br><br>
-    <button type='submit'>Add new article</button>
+    {{ form }}
+    <button type='submit'>Send</button>
 </form><br>
 
 <table class="table">

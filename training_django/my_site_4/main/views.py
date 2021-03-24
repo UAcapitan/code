@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Article
-
+from .forms import Article_Form
 
 def home(request):
     list_articles = Article.objects.all()
@@ -18,7 +18,14 @@ def detail(request, article_id):
     return render(request, 'main/detail.html', context)
 
 def edit(request):
+
+    if request.method == 'POST':
+        form = Article_Form(request.POST)
+        if form.is_valid():
+            form.save()
+
     context = {
-        'list_articles': Article.objects.order_by('-id')
+        'list_articles': Article.objects.order_by('-id'),
+        'form': Article_Form()
     }
     return render(request, 'main/edit_page.html', context)
