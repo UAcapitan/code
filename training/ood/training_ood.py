@@ -500,3 +500,36 @@ class My_Class(implements(My_Interface)):
 # a = My_Class()
 # print(a.method_1(10))
 # print(a.method_2(10,20))
+
+# Абстрактный класс. Тренировка 1
+class Item(ABC):
+    def __init__(self):
+        self.name = input('Item name: ')
+    
+    def name_item(self):
+        return self.name
+    
+    def rename_item(self):
+        self.name = input('Item new name: ')
+
+    @abstractclassmethod
+    def skills_item(self, name_skill='', power=0):
+        self.name_skill = name_skill
+        self.power = power
+
+class Tools(Item):
+    def skills_item(self):
+        super().skills_item(input('Name skill: '),int(input('Power: ')))
+
+class Cars(Item):
+    def skills_item(self, speed, weight):
+        self.speed = speed
+        self.weight = weight
+
+# tool = Tools()
+# tool.skills_item()
+
+# car = Cars()
+# car.skills_item(200,1200)
+
+# print(tool.name_skill, car.speed)
