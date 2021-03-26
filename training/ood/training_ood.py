@@ -533,3 +533,30 @@ class Cars(Item):
 # car.skills_item(200,1200)
 
 # print(tool.name_skill, car.speed)
+
+# Абстрактный класс. Тренировка 2
+
+# pylint: disable=no-member
+class Phone(ABC):
+    def make_photo(self):
+        if self.camera and len(self.photo) > 0:
+            photo = self.photo[-1][:-1] + str(int(self.photo[-1][-1]) + 1)
+            print(f'Make {photo}')
+            self.photo.append(photo)
+        elif self.camera and len(self.photo) == 0:
+            self.photo.append('image_1')
+            print('Make image_1')
+        else:
+            print('Your phone no have camera')
+
+
+class Xphone(Phone):
+    def __init__(self, camera):
+        self.camera = camera
+        self.photo = []
+
+# xphone_1 = Xphone(camera=True)
+# xphone_1.make_photo()
+# xphone_1.make_photo()
+# xphone_1.make_photo()
+# print(xphone_1.photo)
