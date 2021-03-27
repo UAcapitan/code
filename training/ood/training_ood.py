@@ -2,6 +2,7 @@ from random import randint
 from math import ceil, pi
 from abc import ABC, abstractclassmethod
 from interface import implements, Interface
+from requests import post
 # from my_modules import room, win_door
 
 
@@ -548,15 +549,26 @@ class Phone(ABC):
             print('Make image_1')
         else:
             print('Your phone no have camera')
+    def browser_go_in_site(self, url):
+        site = post(url)
+        self.browser_history.append(url)
+        if site.status_code == 200:
+            print(site)
+        else:
+            print('Sorry')
 
 
+# Абстрактный класс. Тренировка 3
 class Xphone(Phone):
     def __init__(self, camera):
         self.camera = camera
         self.photo = []
+        self.browser_history = []
 
-# xphone_1 = Xphone(camera=True)
-# xphone_1.make_photo()
-# xphone_1.make_photo()
-# xphone_1.make_photo()
-# print(xphone_1.photo)
+xphone_1 = Xphone(camera=True)
+xphone_1.make_photo()
+xphone_1.make_photo()
+xphone_1.make_photo()
+xphone_1.browser_go_in_site('https://google.com')
+print(xphone_1.photo)
+print(xphone_1.browser_history)
