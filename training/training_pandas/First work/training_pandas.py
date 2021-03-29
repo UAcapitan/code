@@ -37,12 +37,14 @@ with open('files/purchares.csv', 'w', newline='') as file:
 purchares_2 = pd.read_csv('files/purchares.csv')
 
 # Output new DataFrame with data from csv file
+
 # print(purchares_2)
 
 # Create DateFrame with data from csv file without index
 purchares_3 = pd.read_csv('files/purchares.csv', index_col=0)
 
 # Output new DataFrame with data from csv file without index
+
 # print(purchares_3)
 
 # Create json file
@@ -53,6 +55,7 @@ with open('files/data.json', 'w') as outfile:
 purchares_4 = pd.read_json('files/data.json')
 
 # Output DateFrame with data from json
+
 # print(purchares_4)
 
 # Create new db sqlite3
@@ -80,17 +83,33 @@ purchares_5 = pd.read_sql_query('SELECT * FROM purchares', conn)
 conn.close()
 
 # Output DateFrame from db sqlite3
+
 # print(purchares_5)
 
 # Sort by index
 purchares_6 = purchares_5.set_index('id')
 
 # Output index sort
+
 # print(purchares_6)
 
 # Convert DataFrames to csv, json, db
+
 # conn = sqlite3.connect('files/db_new.db')
 # purchares_3.to_csv('files/new_purchares.csv')
 # purchares_4.to_json('files/new_data.json')
 # purchares_5.to_sql('files/db_new.db', conn)
 
+# Most important DataFrame operations
+movies_data = pd.read_csv('files/movies.csv', index_col='Title')
+
+# Output movies_data DataFrame
+
+# print(movies_data)
+# print(movies_data.head())
+# print(movies_data.head(2))
+# print(movies_data.tail(2))
+
+# Getting info about your data
+
+# print(movies_data.info())
