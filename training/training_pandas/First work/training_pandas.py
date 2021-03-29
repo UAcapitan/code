@@ -80,4 +80,17 @@ purchares_5 = pd.read_sql_query('SELECT * FROM purchares', conn)
 conn.close()
 
 # Output DateFrame from db sqlite3
-print(purchares_5)
+# print(purchares_5)
+
+# Sort by index
+purchares_6 = purchares_5.set_index('id')
+
+# Output index sort
+# print(purchares_6)
+
+# Convert DataFrames to csv, json, db
+# conn = sqlite3.connect('files/db_new.db')
+# purchares_3.to_csv('files/new_purchares.csv')
+# purchares_4.to_json('files/new_data.json')
+# purchares_5.to_sql('files/db_new.db', conn)
+
