@@ -539,9 +539,10 @@ class Cars(Item):
 
 # pylint: disable=no-member
 class Phone(ABC):
+    """Absract class for create phone class"""
 
     def make_photo(self):
-        '''Method for make photo. Method not work if phone haven`t camera'''
+        """Method for make photo. Method not work if phone haven`t camera"""
         if self.camera and len(self.photo) > 0:
             photo = self.photo[-1][:-1] + str(int(self.photo[-1][-1]) + 1)
             print(f'Make {photo}')
@@ -614,26 +615,26 @@ class Xphone(Phone):
         self.name = ''
 
 # Абстрактный класс. Тренировка 4
-if __name__ == '__main__':
-    xphone_1 = Xphone(camera=True)
-    while True:
-        print('\n1. Make photo\n2. Open photos\n3. Open site\n4. Open browser history\n5. Create account')
-        print('6. Open user profile')
-        command = input()
-        if command == '1':
-            xphone_1.make_photo()
-        elif command == '2':
-            xphone_1.photos_open_list()
-        elif command == '3':
-            xphone_1.browser_go_in_site(input('URL: '))
-        elif command == '4':
-            xphone_1.browser_open_history()
-        elif command == '5':
-            xphone_1.create_user_account(name=input('Name: '), login=input('Login: '), password=int(input('Password: ')))
-        elif command == '6':
-            xphone_1.open_user_profile()
-        elif command == 'password':
-            print(xphone_1.password)
+# if __name__ == '__main__':
+#     xphone_1 = Xphone(camera=True)
+#     while True:
+#         print('\n1. Make photo\n2. Open photos\n3. Open site\n4. Open browser history\n5. Create account')
+#         print('6. Open user profile\n7. Password')
+#         command = input()
+#         if command == '1':
+#             xphone_1.make_photo()
+#         elif command == '2':
+#             xphone_1.photos_open_list()
+#         elif command == '3':
+#             xphone_1.browser_go_in_site(input('URL: '))
+#         elif command == '4':
+#             xphone_1.browser_open_history()
+#         elif command == '5':
+#             xphone_1.create_user_account(name=input('Name: '), login=input('Login: '), password=int(input('Password: ')))
+#         elif command == '6':
+#             xphone_1.open_user_profile()
+#         elif command == '7':
+#             print(f'Password: {xphone_1.password}')
 
-        elif command == 'exit':
-            break
+#         elif command == 'exit':
+#             break
