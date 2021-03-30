@@ -26,7 +26,7 @@
                 <th scope="row">{{ article.id }}</th>
                 <td>{{ article.article_name }}</td>
                 <td>{{ article.create_date }}</td>
-                <td><a href="#">Redact</a></td>
+                <td><a href="{% url 'main:redact' article.id %}">Redact</a></td>
                 <td><a href="#">Delete</a></td>
             </tr>
         {% endfor %}

@@ -29,3 +29,10 @@ def edit(request):
         'form': Article_Form()
     }
     return render(request, 'main/edit_page.html', context)
+
+def redact(request, article_id):
+    context = {
+        'list_artices': Article.objects.all(),
+        'article_id': article_id
+    }
+    return render(request, 'main/redact.html', context)
