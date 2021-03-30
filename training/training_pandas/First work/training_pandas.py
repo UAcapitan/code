@@ -60,7 +60,7 @@ purchares_4 = pd.read_json('files/data.json')
 
 # Create new db sqlite3
 conn = sqlite3.connect('files/new_db.db')
-print(sqlite3.version)
+# print(sqlite3.version)
 c = conn.cursor()
 # sql_create_projects_table = """ CREATE TABLE IF NOT EXISTS purchares(
 #                                         id integer PRIMARY KEY,
@@ -73,7 +73,7 @@ c = conn.cursor()
 # c.execute(sql)
 # conn.commit()
 conn.close()
-print('db update now')
+# print('db update now')
 
 # Create DateFrame from db sqlite3
 conn = sqlite3.connect('files/new_db.db')
@@ -151,3 +151,33 @@ movies_data_5.drop_duplicates(inplace=True, keep=False)
 
 # print(movies_data.columns)
 
+# Rename columns
+
+movies_data.rename(columns={
+    'Rank': 'Level',
+    'Ganre': 'Style'
+}, inplace=True)
+
+# print(movies_data.columns)
+
+# Rename columns 2
+movies_data.columns = ['Grade', 'Type']
+
+# print(movies_data.columns)
+
+# Rename use LC
+movies_data.columns = [col.lower() for col in movies_data]
+
+# print(movies_data.columns)
+
+# Work with missing values
+
+# print(movies_data.isnull())
+
+# print(movies_data.isnull().sum())
+
+# print(movies_data.sum())
+
+print(movies_data.dropna(), end='\n\n')
+
+print(movies_data.dropna(axis=1))
