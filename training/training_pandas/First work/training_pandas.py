@@ -125,4 +125,29 @@ movies_data_2 = movies_data.append(movies_data)
 # Drop duplicates
 
 movies_data_3 = movies_data_2.drop_duplicates()
-print(movies_data_3.shape)
+# print(movies_data_3.shape)
+
+# Drop with inplace
+
+movies_data_4 = movies_data_3.append(movies_data_3)
+
+# print(movies_data_4.shape)
+
+movies_data_4.drop_duplicates(inplace=True)
+
+# print(movies_data_4.shape)
+
+# Drop duplicates witk keep
+
+movies_data_5 = movies_data_4.append(movies_data_4)
+
+# print(movies_data_5.shape)
+
+movies_data_5.drop_duplicates(inplace=True, keep=False)
+
+# print(movies_data_5.shape)
+
+# Column cleanup
+
+# print(movies_data.columns)
+
