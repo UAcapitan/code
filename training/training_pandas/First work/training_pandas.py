@@ -113,3 +113,16 @@ movies_data = pd.read_csv('files/movies.csv', index_col='Title')
 # Getting info about your data
 
 # print(movies_data.info())
+
+# print(movies_data.shape)
+
+# Handling duplicates
+
+movies_data_2 = movies_data.append(movies_data)
+
+# print(movies_data_2.shape)
+
+# Drop duplicates
+
+movies_data_3 = movies_data_2.drop_duplicates()
+print(movies_data_3.shape)
