@@ -1,6 +1,7 @@
+from django.http.response import HttpResponse
 from django.shortcuts import render
 from .models import Article
-from .forms import Article_Form
+from .forms import ArticleForm
 
 def home(request):
     list_articles = Article.objects.all()
@@ -20,19 +21,29 @@ def detail(request, article_id):
 def edit(request):
 
     if request.method == 'POST':
-        form = Article_Form(request.POST)
+        form = ArticleForm(request.POST)
         if form.is_valid():
             form.save()
 
     context = {
         'list_articles': Article.objects.order_by('-id'),
-        'form': Article_Form()
+        'form': ArticleForm()
     }
     return render(request, 'main/edit_page.html', context)
 
 def redact(request, article_id):
+
+    get_article = Article.objects.get(pk=article_id)
     context = {
-        'list_artices': Article.objects.all(),
-        'article_id': article_id
+        'get_article': get_article,
+        'article_id': article_id,  
     }
     return render(request, 'main/redact.html', context)
+
+def update_article(request):
+    # if request.method == 'POST':
+    #     form = ArticleForm(request.POST)
+    #     if form.is_valid():
+    #         form.save()
+    return HttpResponse('True')
+        
