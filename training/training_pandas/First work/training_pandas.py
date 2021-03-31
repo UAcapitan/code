@@ -161,7 +161,7 @@ movies_data.rename(columns={
 # print(movies_data.columns)
 
 # Rename columns 2
-movies_data.columns = ['Grade', 'Type']
+movies_data.columns = ['Grade', 'Type','Mark']
 
 # print(movies_data.columns)
 
@@ -178,6 +178,46 @@ movies_data.columns = [col.lower() for col in movies_data]
 
 # print(movies_data.sum())
 
-print(movies_data.dropna(), end='\n\n')
+# print(movies_data.dropna(), end='\n\n')
 
-print(movies_data.dropna(axis=1))
+# print(movies_data.dropna(axis=1))
+
+# Imputation
+
+revenue = movies_data['grade']
+
+# print(revenue)
+
+# print(revenue.head())
+
+revenue_mean = revenue.mean()
+
+# print(revenue_mean)
+
+revenue.fillna(revenue_mean, inplace=True)
+
+# print(revenue)
+
+# print(movies_data)
+
+# print(movies_data.isnull().sum())
+
+# print(movies_data.describe())
+
+# print(movies_data['grade'].describe())
+
+# print(movies_data['type'].describe())
+
+# print(movies_data['type'].value_counts().head(2))
+
+# Relationships between continuous variables
+
+# print(movies_data.corr())
+
+# DataFrame slicing, selecting, extracting
+
+genre_col = movies_data['grade']
+
+print(type(genre_col))
+
+genre_col_2 = movies_data[['genre']]
