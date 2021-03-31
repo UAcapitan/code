@@ -218,6 +218,16 @@ revenue.fillna(revenue_mean, inplace=True)
 
 genre_col = movies_data['grade']
 
-print(type(genre_col))
+# print(type(genre_col))
 
-genre_col_2 = movies_data[['genre']]
+genre_col_2 = movies_data[['grade']]
+
+# print(type(genre_col_2))
+
+subset = movies_data[['grade', 'type']]
+
+# print(subset.head())
+
+prom = movies_data.loc['Hero Academy']
+
+print(prom)
