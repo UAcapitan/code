@@ -84,3 +84,15 @@ def output_text_keyboard(text):
         system('cls')
 
 # output_text_keyboard('Hi, world, i am programmer and i write code')
+
+# Number to time
+def number_to_time(num: int) -> str:
+    hours = num // 3600
+    num -= hours * 3600
+    minutes = num // 60
+    seconds = num % 60
+    list_time = [hours, minutes, seconds]
+    list_time_new = [str(i) if i >= 10 else '0'+str(i) for i in list_time]
+    return ':'.join(list_time_new)
+
+# print(number_to_time(7011))
