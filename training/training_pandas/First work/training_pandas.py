@@ -256,4 +256,27 @@ condition = (movies_data['type'] == 'Comedy')
 
 # print(movies_data[movies_data['mark'] >= 4.7].head(2))
 
-print(movies_data[(movies_data['type'] == 'Comedy') | (movies_data['mark'] >= 4.7)].head())
+# print(movies_data[(movies_data['type'] == 'Comedy') | (movies_data['mark'] >= 4.7)].head())
+
+# print(
+#     movies_data[((movies_data['grade'] >= 1) & (movies_data['grade'] <= 3))
+#     & (movies_data['type'] == 'Comedy')
+#     & (movies_data['mark'] >= 3)
+#     ]
+# )
+
+def rating_function(x):
+    if x >= 4.7:
+        return 'good'
+    else:
+        return 'bad'
+
+movies_data['rating_category'] = movies_data['mark'].apply(rating_function)
+
+# print(movies_data)
+
+# print(movies_data.head(2))
+
+movies_data['rating_category'] = movies_data['mark'].apply(lambda x: 'good' if x > 2 else 'bad')
+
+print(movies_data.head(2))
