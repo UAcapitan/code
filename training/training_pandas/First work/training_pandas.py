@@ -230,4 +230,30 @@ subset = movies_data[['grade', 'type']]
 
 prom = movies_data.loc['Hero Academy']
 
-print(prom)
+# print(prom)
+
+prom_2 = movies_data.iloc[1]
+
+# print(prom_2)
+
+movie_subset = movies_data.loc['Hero Academy':'Incognita']
+
+# print(movie_subset)
+
+movie_subset_2 = movies_data.iloc[0:2]
+
+# print(movie_subset_2)
+
+# Conditional selections
+
+condition = (movies_data['type'] == 'Comedy')
+
+# print(condition)
+
+# print(condition.head())
+
+# print(movies_data[movies_data['type'] == 'Comedy'])
+
+# print(movies_data[movies_data['mark'] >= 4.7].head(2))
+
+print(movies_data[(movies_data['type'] == 'Comedy') | (movies_data['mark'] >= 4.7)].head())
