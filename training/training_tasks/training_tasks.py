@@ -96,3 +96,8 @@ def number_to_time(num: int) -> str:
     return ':'.join(list_time_new)
 
 # print(number_to_time(7011))
+
+def delete_odd_numbers(l:list) -> list:
+    return [i for i in l if i % 2 == 1]
+
+# print(delete_odd_numbers([1,2,3,4,5]))
