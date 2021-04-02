@@ -279,4 +279,6 @@ movies_data['rating_category'] = movies_data['mark'].apply(rating_function)
 
 movies_data['rating_category'] = movies_data['mark'].apply(lambda x: 'good' if x > 2 else 'bad')
 
-print(movies_data.head(2))
+# print(movies_data.head(2))
+
+print(movies_data.plot(kind='line', x='grade', y='mark', title='Grade vs mark'))
