@@ -112,3 +112,12 @@ def amount_rows_in_file(address):
     return count
 
 # print(amount_rows_in_file('../../src/text/text_string.txt'))
+
+# Пересоздание файла пустым
+
+def create_empty_file(name_file):
+    with open(name_file, 'w') as file:
+        file.write('')
+    return True
+
+# print(create_empty_file('../../src/text/text.txt'))

@@ -1,7 +1,0 @@
-Hi
-Python
-JavaScript
-Php
-
-
-
