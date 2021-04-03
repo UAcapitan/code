@@ -101,3 +101,14 @@ def delete_odd_numbers(l:list) -> list:
     return [i for i in l if i % 2 == 1]
 
 # print(delete_odd_numbers([1,2,3,4,5]))
+
+# Подсчёт количества строк
+
+def amount_rows_in_file(address):
+    count = 0
+    with open(address, 'r') as file:
+        for i in file:
+            count += 1
+    return count
+
+# print(amount_rows_in_file('../../src/text/text_string.txt'))
