@@ -121,3 +121,11 @@ def create_empty_file(name_file):
     return True
 
 # print(create_empty_file('../../src/text/text.txt'))
+
+# Создать ключ и hmac
+class HmacCreate:
+    def create_key():
+        key = ''
+
+    def create_hmac():
+        sign = ''
