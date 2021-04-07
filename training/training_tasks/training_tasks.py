@@ -124,8 +124,11 @@ def create_empty_file(name_file):
 
 # Создать ключ и hmac
 class HmacCreate:
+    @staticmethod
     def create_key():
         key = ''
+        return key
 
+    @staticmethod
     def create_hmac():
         sign = ''
