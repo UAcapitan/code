@@ -2,6 +2,14 @@ import random
 import os
 
 class Encrypte:
+    '''
+        Input address to you file and name your flash drive.
+        Example:
+            File adress: C:/Users/NamePC/Desktop/file.txt
+            Flash name: E
+        Class Encrypte create secret file on flash drive and encrypte data in your file.
+        Don't working without flash drive.
+    '''
 
     def __init__(self, file_address, flash_name):
         self.file_address = file_address
@@ -75,9 +83,26 @@ class Encrypte:
             file.write(''.join(text_in_file))
 
 def main_app_block():
-    file_address = input('File adress: ')
-    flash_name = input('Flash name: ')
-    encrypte = Encrypte(file_address=file_address, flash_name=flash_name)
-    encrypte.encrypt_file_with_flash_drive()
+    while True:
+        try:
+            file_address = input('File adress: ')
+            flash_name = input('Flash name: ')
+            if len(file_address) == 0:
+                print('Input file address')
+                continue
+            elif len(flash_name) == 0:
+                print('Input flash name')
+                continue
+            if flash_name == 'C' or flash_name == 'D':
+                print('This is not flash drive')
+            encrypte = Encrypte(file_address=file_address, flash_name=flash_name)
+            encrypte.encrypt_file_with_flash_drive()
+            print()
+            print('Good data normal')
+            print('True')
+            break
+        except:
+            continue
 
-main_app_block()
+if __name__ == '__main__':
+    main_app_block()
