@@ -1,6 +1,10 @@
 from random import randint
 from time import sleep
 from os import system
+import hmac
+import hashlib
+import binascii
+import secrets
 
 # maketrans() и translate() - методы для замены символов 
 
@@ -126,9 +130,8 @@ def create_empty_file(name_file):
 class HmacCreate:
     @staticmethod
     def create_key():
-        key = ''
-        return key
+        return secrets.token_bytes(16)
 
     @staticmethod
-    def create_hmac():
-        sign = ''
+    def create_hmac(key, text):
+        return ''
