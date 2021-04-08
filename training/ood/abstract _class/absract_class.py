@@ -77,7 +77,7 @@ class Xphone(Phone):
         self.browser_history = []
         self.name = ''
 
-if __name__ == '__main__':
+def main():
     xphone_1 = Xphone(camera=True)
     while True:
         print('\n1. Make photo\n2. Open photos\n3. Open site\n4. Open browser history\n5. Create account')
@@ -100,3 +100,6 @@ if __name__ == '__main__':
 
         elif command == 'exit':
             break
+
+if __name__ == '__main__':
+    main()
