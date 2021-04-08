@@ -133,5 +133,8 @@ class HmacCreate:
         return secrets.token_bytes(16)
 
     @staticmethod
-    def create_hmac(key, text):
-        return ''
+    def create_hmac(text_user: str):
+        text_user = text_user.encode()
+        return hmac.new(HmacCreate.create_key(), text_user, hashlib.sha256).hexdigest().upper()
+
+# print(HmacCreate.create_hmac('text'))
