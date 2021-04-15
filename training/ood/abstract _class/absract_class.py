@@ -69,6 +69,23 @@ class Phone(ABC):
         else:
             print('\nYou don`t have account')
 
+    def rename_user(self):
+        if self.name != '':
+            new_name = input('New user name: ')
+            if len(new_name) >= 8 :
+                self.name = new_name
+            print('User name update')
+        else:
+            print()
+            print('Create new user?')
+            print()
+            if input('y/n: ') == 'y':
+                print()
+                self.create_user_account(name=input('Name: '), login=input('Login: '), password=int(input('Password: ')))
+            else:
+                print()
+                print('Create user stop')
+
 class Xphone(Phone):
 
     def __init__(self, camera):
@@ -81,7 +98,7 @@ def main():
     xphone_1 = Xphone(camera=True)
     while True:
         print('\n1. Make photo\n2. Open photos\n3. Open site\n4. Open browser history\n5. Create account')
-        print('6. Open user profile\n7. Password')
+        print('6. Open user profile\n7. Password\n8.Rename new user ')
         command = input()
         if command == '1':
             xphone_1.make_photo()
@@ -97,6 +114,8 @@ def main():
             xphone_1.open_user_profile()
         elif command == '7':
             print(f'Password: {xphone_1.password}')
+        elif command == '8':
+            xphone_1.rename_user()
 
         elif command == 'exit':
             break
