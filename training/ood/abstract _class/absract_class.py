@@ -13,17 +13,21 @@ class Phone(ABC):
             self.photo.append(photo)
         elif self.camera and len(self.photo) == 0:
             self.photo.append('image_1')
+            print()
             print('Make image_1')
         else:
+            print()
             print('Your phone no have camera')
 
     def browser_go_in_site(self, url):
         '''Method for browsing'''
         site = post(url)
         if site.status_code == 200:
+            print()
             print(site)
             self.browser_history.append(url)
         else:
+            print()
             print('Sorry')
 
     def browser_open_history(self):
