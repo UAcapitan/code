@@ -138,3 +138,9 @@ class HmacCreate:
         return hmac.new(HmacCreate.create_key(), text_user, hashlib.sha256).hexdigest().upper()
 
 # print(HmacCreate.create_hmac('text'))
+
+# Посчитать количество всех символов
+
+class CountText:
+    def __init__(self, text):
+        self.text = text
