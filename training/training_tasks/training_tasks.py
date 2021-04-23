@@ -3,8 +3,8 @@ from time import sleep
 from os import system
 import hmac
 import hashlib
-import binascii
 import secrets
+import json
 
 # maketrans() и translate() - методы для замены символов 
 
@@ -142,5 +142,23 @@ class HmacCreate:
 # Посчитать количество всех символов
 
 class CountText:
-    def __init__(self, text):
+    def __init__(self, text = ''):
         self.text = text
+        self.dict_text = {}
+
+    def count(self):
+        for i in self.text:
+            i = i.lower()
+            if i in self.dict_text:
+                self.dict_text[i] += 1
+            else:
+                self.dict_text[i] = 1
+
+    def save_result_in_json(self):
+        with open('./text.json', 'w') as file:
+            json.dump(self.dict_text, file)
+
+text = CountText('text')
+text.count()
+text.save_result_in_json()
+print('True, success')
