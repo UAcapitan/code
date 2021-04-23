@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import json
 import datetime
 
-url = 'https://github.com/UAcapitan?tab=overview&from=2021-04-01&to=2021-04-23'
+url = f'https://github.com/{input("Name GitHub Account: ")}?tab=overview&from={input("Year: ")}-01-01'
 response = requests.get(url)
 soup = BeautifulSoup(response.text, 'lxml')
 quotes = soup.find_all('rect', class_='ContributionCalendar-day')
@@ -19,7 +19,8 @@ for quote in quotes:
 today = datetime.datetime.now()
 today_number = int(today.strftime('%j'))
 
-list_commits = list_commits[int(input()):today_number]
+print(f'Current day number: {today_number}')
+list_commits = list_commits[int(input("From date: ")):int(input("Ending with date: "))]
 
 
 with open('list_commits.json', 'w') as file:
