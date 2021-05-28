@@ -27,9 +27,9 @@ rating = 0
 rating_list = []
 
 for i in list_commits:
-    if i > 0 and i <= 3:
+    if i > 0 and i <= 2:
         j = 0
-    elif i > 3:
+    elif i > 2:
         j = 1
     elif i <= 0:
         j = -2
