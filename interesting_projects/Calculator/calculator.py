@@ -2,7 +2,7 @@ from tkinter import *
 
 # App main window
 root = Tk()
-root.geometry("235x270")
+root.geometry("235x328")
 root.title('Calculator')
 
 # Class for realization calculator interface and functionality
@@ -33,6 +33,7 @@ class Calculator:
         Button(root, text='0', width=7, height=3, command=lambda: self.add_in_list('0')).grid(column=1, row=4)
         Button(root, text='=', width=7, height=3, command=self.equally).grid(column=2, row=4)
         Button(root, text='/', width=7, height=3, command=lambda: self.add_in_list('/')).grid(column=3, row=4)
+        Button(root, text='C', width=7, height=3, command=self.clear).grid(column=0, row=5)
 
     # Add numbers and operators to main list
     def add_in_list(self, value):
@@ -57,6 +58,11 @@ class Calculator:
         answer = eval(''.join(self.main_list))
         del self.main_list
         self.main_list = [str(answer)]
+        self.set_list_in_entry()
+
+    # Clear main entry
+    def clear(self):
+        self.main_list = []
         self.set_list_in_entry()
 
 calculator = Calculator(root)
