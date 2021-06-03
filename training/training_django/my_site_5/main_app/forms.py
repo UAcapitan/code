@@ -1,6 +1,9 @@
-from django import forms
+from django.forms import ModelForm
+from main_app.models import Article
 
-class ArticleForm(forms.Form):
-    name = forms.CharField(label='Name', max_length=50)
-    text = forms.CharField(label='Text', max_length=255)
-    user_name = forms.CharField(label='User name', max_length=50)
+class ArticleForm(ModelForm):
+    class Meta:
+        model = Article
+        fields = ['name', 'text', 'user_name']
+
+

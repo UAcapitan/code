@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponse, HttpResponseRedirect
+
 from .forms import ArticleForm
 
 def index(request):
@@ -11,9 +12,9 @@ def articles(request):
 def form(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST)
-
         if form.is_valid():
-            return HttpResponseRedirect('')
+            form.save()
+            return HttpResponseRedirect('articles')
 
     else:
         form = ArticleForm()
