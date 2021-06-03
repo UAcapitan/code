@@ -1,3 +1,7 @@
+# --------------------------------------
+# Development start date: Apr 2021
+# --------------------------------------
+
 import requests
 from bs4 import BeautifulSoup
 import datetime
