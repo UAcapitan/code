@@ -1,5 +1,5 @@
 # --------------------------------------
-# Development start date: Apr 2021
+# Development start date: 24 Apr 2021
 # --------------------------------------
 
 import pygame
