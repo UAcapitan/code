@@ -38,6 +38,9 @@ class Calculator:
         Button(root, text='=', width=7, height=3, command=self.equally).grid(column=2, row=4)
         Button(root, text='/', width=7, height=3, command=lambda: self.add_in_list('/')).grid(column=3, row=4)
         Button(root, text='C', width=7, height=3, command=self.clear).grid(column=0, row=5)
+        Button(root, text='(', width=7, height=3, command=lambda: self.add_in_list('(')).grid(column=1, row=5)
+        Button(root, text=')', width=7, height=3, command=lambda: self.add_in_list(')')).grid(column=2, row=5)
+        Button(root, text='<', width=7, height=3, command=self.delete_last_symbol).grid(column=3, row=5)
 
     # Add numbers and operators to main list
     def add_in_list(self, value):
@@ -61,12 +64,17 @@ class Calculator:
     def equally(self):
         answer = eval(''.join(self.main_list))
         del self.main_list
-        self.main_list = [str(answer)]
+        self.main_list = list(str(answer))
         self.set_list_in_entry()
 
     # Clear main entry
     def clear(self):
         self.main_list = []
+        self.set_list_in_entry()
+
+    # Delete last symbol
+    def delete_last_symbol(self):
+        del self.main_list[-1]
         self.set_list_in_entry()
 
 calculator = Calculator(root)
