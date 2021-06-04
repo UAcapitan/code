@@ -1,3 +1,7 @@
+# --------------------------------------
+# Development start date: Apr 2021
+# --------------------------------------
+
 from tkinter import *
 
 # App main window
