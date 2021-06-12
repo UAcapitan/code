@@ -21,16 +21,6 @@ class Calculator:
         self.entry_main.grid(row=0,column=0,pady=5,ipady=10, columnspan=4)
 
         # Buttons for calculator
-        menu = Menu(root)
-        root.config(menu=menu)
-        menu.add_command(label='Main')
-        menu.add_command(label='Hard')
-        menu.add_command(label='Percent') 
-        menu.add_command(label='Currencies')
-        menu.add_command(label='Volume')
-        menu.add_command(label='Square')
-        menu.add_command(label='Weight')
-        menu.add_command(label='Quadratic')
         Button(root, text='1', width=7, height=3, command=lambda: self.add_in_list('1')).grid(column=0, row=1)
         Button(root, text='2', width=7, height=3, command=lambda: self.add_in_list('2')).grid(column=1, row=1)
         Button(root, text='3', width=7, height=3, command=lambda: self.add_in_list('3')).grid(column=2, row=1)
