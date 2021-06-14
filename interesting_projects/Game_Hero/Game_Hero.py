@@ -6,10 +6,14 @@ import pygame
 import sys
 
 FPS = 60
+GREEN_COLOR = [0, 128, 0]
+
 clock = pygame.time.Clock()
 
 pygame.init()
-pygame.display.set_mode((600,400))
+screen = pygame.display.set_mode((600,400))
+
+screen.fill(GREEN_COLOR)
 
 pygame.display.update()
 
