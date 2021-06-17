@@ -25,10 +25,9 @@ pygame.display.update()
 # 3 - bonus
 
 class MapGame:
-
     def __init__(self):
-        self.__map = [
-            [0,0,1,0,0,0,0,0,0,0],
+        self.map = [
+            [1,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,2,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0],
@@ -39,47 +38,79 @@ class MapGame:
             [0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0],
         ]
-        self.__x = 0
-        self.__y = 0
+        self.x = 0
+        self.y = 0
 
-    def getMap(self):
-        return self.__map
-    
-    def getX(self):
-        return self.__x
+    def updateMap(self, player):
+        self.map[player.last_y][player.last_x] = 0
+        self.map[player.y][player.x] = 1
 
-    def getY(self):
-        return self.__y
+class PlayerGame:
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.last_x = 0
+        self.last_y = 0
 
-    def setX(self, x):
-        self.__x = x
+    def playerRight(self):
+        if self.x <= 8:
+            self.x += 1
+            self.last_x = self.x - 1
+            self.last_y = self.y
 
-    def setY(self, y):
-        self.__y = y
+    def playerLeft(self):
+        if self.x > 0:
+            self.x -= 1
+            self.last_x = self.x + 1
+            self.last_y = self.y
+
+    def playerUp(self):
+        if self.y > 0:
+            self.y -= 1
+            self.last_y = self.y + 1
+            self.last_x = self.x
+
+    def playerDown(self):
+        if self.y <= 8:
+            self.y += 1
+            self.last_y = self.y - 1
+            self.last_x = self.x
 
 map_game = MapGame()
+player_game = PlayerGame()
 
 while True:
 
     clock.tick(FPS)
+
     for i in pygame.event.get():
         if i.type == pygame.QUIT:
             sys.exit()
+        if i.type == pygame.KEYDOWN:
+            if i.key == pygame.K_d:
+                player_game.playerRight()
+            elif i.key == pygame.K_a:
+                player_game.playerLeft()
+            elif i.key == pygame.K_w:
+                player_game.playerUp()
+            elif i.key == pygame.K_s:
+                player_game.playerDown()
+            map_game.updateMap(player_game)
 
     screen.fill(GREEN_COLOR)
 
-    for i in map_game.getMap():
+    for i in map_game.map:
         for j in i:
             if j == 1:
-                pygame.draw.rect(screen, LIME_COLOR, (map_game.getX(),map_game.getY(),20,20))
+                pygame.draw.rect(screen, LIME_COLOR, (map_game.x,map_game.y,20,20))
             if j == 2:
-                pygame.draw.rect(screen, RED_COLOR, (map_game.getX(),map_game.getY(),20,20))
+                pygame.draw.rect(screen, RED_COLOR, (map_game.x,map_game.y,20,20))
             if j == 3:
-                pygame.draw.rect(screen, BLUE_COLOR, (map_game.getX(),map_game.getY(),20,20))
-            map_game.setX(map_game.getX()+20)
-        map_game.setX(0)
-        map_game.setY(map_game.getY()+20)
+                pygame.draw.rect(screen, BLUE_COLOR, (map_game.x,map_game.y,20,20))
+            map_game.x += 20
+        map_game.x = 0
+        map_game.y += 20
     
-    map_game.setY(0)
+    map_game.y = 0
 
     pygame.display.update()
