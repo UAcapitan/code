@@ -4,6 +4,7 @@
 
 import pygame
 import sys
+import random
 
 FPS = 10
 GREEN_COLOR = [0, 128, 0]
@@ -45,6 +46,9 @@ class MapGame:
         self.map[player.last_y][player.last_x] = 0
         self.map[player.y][player.x] = 1
 
+    def updateMapEnemy(self, enemy):
+        self.map[enemy.y][enemy.x] = 2
+
 class PlayerGame:
     def __init__(self):
         self.x = 0
@@ -76,8 +80,17 @@ class PlayerGame:
             self.last_y = self.y - 1
             self.last_x = self.x
 
+class EnemyGame:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
 map_game = MapGame()
 player_game = PlayerGame()
+enemy_game = []
+
+enemy_game.append(EnemyGame(random.randint(0,8), random.randint(0,8)))
+map_game.updateMapEnemy(enemy_game[0])
 
 while True:
 
