@@ -30,24 +30,27 @@ class MapGame:
         self.map = [
             [1,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,2,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,3,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0],
         ]
         self.x = 0
         self.y = 0
 
-    def updateMap(self, player):
+    def updateMapPlayer(self, player):
         self.map[player.last_y][player.last_x] = 0
         self.map[player.y][player.x] = 1
 
     def updateMapEnemy(self, enemy):
         self.map[enemy.y][enemy.x] = 2
+
+    def updateMapBonus(self, bonus):
+        self.map[bonus.y][bonus.x] = 3
 
 class PlayerGame:
     def __init__(self):
@@ -85,12 +88,25 @@ class EnemyGame:
         self.x = x
         self.y = y
 
+class BonusGame:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
 map_game = MapGame()
 player_game = PlayerGame()
 enemy_game = []
+bonus_game = []
 
 enemy_game.append(EnemyGame(random.randint(0,8), random.randint(0,8)))
 map_game.updateMapEnemy(enemy_game[0])
+
+bonus_game.append(BonusGame(random.randint(0,8), random.randint(0,8)))
+bonus_game.append(BonusGame(random.randint(0,8), random.randint(0,8)))
+bonus_game.append(BonusGame(random.randint(0,8), random.randint(0,8)))
+
+for b in bonus_game:
+    map_game.updateMapBonus(b)
 
 while True:
 
@@ -108,7 +124,7 @@ while True:
                 player_game.playerUp()
             elif i.key == pygame.K_s:
                 player_game.playerDown()
-            map_game.updateMap(player_game)
+            map_game.updateMapPlayer(player_game)
 
     screen.fill(GREEN_COLOR)
 
