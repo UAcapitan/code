@@ -10,12 +10,14 @@ FPS = 10
 GREEN_COLOR = [0, 128, 0]
 LIME_COLOR = [0,255,0]
 RED_COLOR = [255,0,0]
+DARK_BLUE_COLOR = [0,0,128]
 BLUE_COLOR = [0,0,255]
+WHITE_COLOR = [230,230,230]
 
 clock = pygame.time.Clock()
 
 pygame.init()
-screen = pygame.display.set_mode((200,200))
+screen = pygame.display.set_mode((200,250))
 
 screen.fill(GREEN_COLOR)
 
@@ -59,6 +61,8 @@ class PlayerGame:
         self.y = 0
         self.last_x = 0
         self.last_y = 0
+        self.health = 100
+        self.energy = 100
 
     def playerRight(self):
         if self.x <= 8:
@@ -83,6 +87,16 @@ class PlayerGame:
             self.y += 1
             self.last_y = self.y - 1
             self.last_x = self.x
+
+    def damagePlayer(self, hp):
+        self.health -= hp
+        if self.health < 0:
+            self.health = 0
+
+    def useEnergyPlayer(self, en):
+        self.energy -= en
+        if self.energy < 0:
+            self.energy = 0
 
 class EnemyGame:
     def __init__(self, x, y):
@@ -153,6 +167,10 @@ while True:
                 player_game.playerUp()
             elif i.key == pygame.K_s:
                 player_game.playerDown()
+            elif i.key == pygame.K_e:
+                player_game.damagePlayer(10)
+            elif i.key == pygame.K_q:
+                player_game.useEnergyPlayer(10)
             map_game.updateMapPlayer(player_game)
 
     if enemy_counter_time == 5:
@@ -187,5 +205,13 @@ while True:
 
     if enemy_counter_time > 10:
         enemy_counter_time = 0
+
+    pygame.draw.rect(screen, WHITE_COLOR, (0,200,200,50))
+    # Health
+    pygame.draw.rect(screen, LIME_COLOR, (20,210,player_game.health,10))
+    pygame.draw.rect(screen, GREEN_COLOR, (20+player_game.health,210,100-player_game.health,10))
+    # Energy
+    pygame.draw.rect(screen, BLUE_COLOR, (20,230,player_game.energy,10))
+    pygame.draw.rect(screen, DARK_BLUE_COLOR, (20+player_game.energy,230,100-player_game.energy,10))
 
     pygame.display.update()
