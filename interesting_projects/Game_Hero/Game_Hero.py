@@ -17,7 +17,7 @@ WHITE_COLOR = [230,230,230]
 clock = pygame.time.Clock()
 
 pygame.init()
-screen = pygame.display.set_mode((200,250))
+screen = pygame.display.set_mode((400,250))
 
 screen.fill(GREEN_COLOR)
 
@@ -30,16 +30,16 @@ pygame.display.update()
 class MapGame:
     def __init__(self):
         self.map = [
-            [1,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         ]
         self.x = 0
         self.y = 0
@@ -65,7 +65,7 @@ class PlayerGame:
         self.energy = 100
 
     def playerRight(self):
-        if self.x <= 8:
+        if self.x <= 18:
             self.x += 1
             self.last_x = self.x - 1
             self.last_y = self.y
@@ -106,7 +106,7 @@ class EnemyGame:
         self.last_y = y
 
     def enemyRight(self):
-        if self.x <= 8:
+        if self.x <= 18:
             self.x += 1
             self.last_x = self.x - 1
             self.last_y = self.y
@@ -139,12 +139,12 @@ player_game = PlayerGame()
 enemy_game = []
 bonus_game = []
 
-enemy_game.append(EnemyGame(random.randint(0,8), random.randint(0,8)))
+enemy_game.append(EnemyGame(random.randint(0,18), random.randint(0,8)))
 map_game.updateMapEnemy(enemy_game[0])
 
-bonus_game.append(BonusGame(random.randint(0,8), random.randint(0,8)))
-bonus_game.append(BonusGame(random.randint(0,8), random.randint(0,8)))
-bonus_game.append(BonusGame(random.randint(0,8), random.randint(0,8)))
+bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
+bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
+bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
 
 for b in bonus_game:
     map_game.updateMapBonus(b)
@@ -206,7 +206,7 @@ while True:
     if enemy_counter_time > 10:
         enemy_counter_time = 0
 
-    pygame.draw.rect(screen, WHITE_COLOR, (0,200,200,50))
+    pygame.draw.rect(screen, WHITE_COLOR, (0,200,400,50))
     # Health
     pygame.draw.rect(screen, LIME_COLOR, (20,210,player_game.health,10))
     pygame.draw.rect(screen, GREEN_COLOR, (20+player_game.health,210,100-player_game.health,10))
