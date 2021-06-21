@@ -31,6 +31,13 @@ pygame.display.update()
 # b - bonus
 # t - tree
 
+
+# Standart entity
+class EntityInMap:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
 # Map
 class MapGame:
     def __init__(self):
@@ -65,10 +72,9 @@ class MapGame:
         self.map[tree.y][tree.x] = 't'
 
 # Player
-class PlayerGame:
+class PlayerGame(EntityInMap):
     def __init__(self):
-        self.x = 0
-        self.y = 0
+        super().__init__(0,0)
         self.last_x = 0
         self.last_y = 0
         self.health = 100
@@ -113,10 +119,9 @@ class PlayerGame:
             self.energy = 0
 
 # Enemy
-class EnemyGame:
+class EnemyGame(EntityInMap):
     def __init__(self, x, y):
-        self.x = x
-        self.y = y
+        super().__init__(x,y)
         self.last_x = x
         self.last_y = y
 
@@ -149,16 +154,14 @@ class EnemyGame:
                 self.last_x = self.x
 
 # Bonus
-class BonusGame:
+class BonusGame(EntityInMap):
     def __init__(self, x, y):
-        self.x = x
-        self.y = y
+        super().__init__(x,y)
 
 # Tree
-class TreeGame:
+class TreeGame(EntityInMap):
     def __init__(self,x,y):
-        self.x = x
-        self.y = y
+        super().__init__(x,y)
 
 # Objects
 map_game = MapGame()
