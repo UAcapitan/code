@@ -236,6 +236,10 @@ map_game.create_objects()
 # Counter for moves
 enemy_counter_time = 0
 
+hp_regen_timer = 0
+
+energy_regen_timer = 0
+
 while True:
 
     # FPS
@@ -297,8 +301,22 @@ while True:
 
     enemy_counter_time += 1
 
-    if enemy_counter_time > 10:
+    if enemy_counter_time > 5:
         enemy_counter_time = 0
+
+    hp_regen_timer += 1
+
+    if hp_regen_timer > 100:
+        hp_regen_timer = 0
+        if player_game.health < 100:
+            player_game.health += 10
+
+    energy_regen_timer += 1
+
+    if energy_regen_timer > 80:
+        energy_regen_timer = 0
+        if player_game.energy < 100:
+            player_game.energy += 10
 
     # Scales
     pygame.draw.rect(screen, WHITE_COLOR, (0,200,400,50))
