@@ -104,12 +104,14 @@ class MapGame:
         global bonus_game
         global tree_game
 
-        enemy_game.append(EnemyGame(random.randint(0,18), random.randint(0,8)))
-        map_game.updateMapEnemy(enemy_game[0])
+        for i in range(random.randint(0,3)):
+            enemy_game.append(EnemyGame(random.randint(0,18), random.randint(0,8)))
+        
+        for e in enemy_game:
+            map_game.updateMapEnemy(e)
 
-        bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
-        bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
-        bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
+        for i in range(random.randint(0,5)):
+            bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
 
         for b in bonus_game:
             map_game.updateMapBonus(b)
@@ -267,17 +269,18 @@ while True:
             map_game.updateMapPlayer(player_game)
 
     # Moves enemy
-    if enemy_counter_time == 5:
-        random_enemy_move = random.randint(0,4)
-        if random_enemy_move == 0:
-            enemy_game[0].enemyRight()
-        elif random_enemy_move == 1:
-            enemy_game[0].enemyLeft()
-        elif random_enemy_move == 2:
-            enemy_game[0].enemyUp()
-        elif random_enemy_move == 3:
-            enemy_game[0].enemyDown()
-        map_game.updateMapEnemy(enemy_game[0])
+    for e in enemy_game:
+        if enemy_counter_time == 5:
+            random_enemy_move = random.randint(0,4)
+            if random_enemy_move == 0:
+                e.enemyRight()
+            elif random_enemy_move == 1:
+                e.enemyLeft()
+            elif random_enemy_move == 2:
+                e.enemyUp()
+            elif random_enemy_move == 3:
+                e.enemyDown()
+        map_game.updateMapEnemy(e)
 
     # Color map
     screen.fill(GREEN_COLOR)
