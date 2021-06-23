@@ -15,9 +15,12 @@ DARK_BLUE_COLOR = [0,0,128]
 BLUE_COLOR = [0,0,255]
 WHITE_COLOR = [230,230,230]
 
+game_over = False
+
 clock = pygame.time.Clock()
 
 pygame.init()
+pygame.font.init()
 screen = pygame.display.set_mode((400,250))
 
 pygame.display.set_caption('Game_Hero')
@@ -30,7 +33,6 @@ pygame.display.update()
 # e - enemy
 # b - bonus
 # t - tree
-
 
 # Standart entity
 class EntityInMap:
@@ -266,6 +268,9 @@ while True:
                 player_game.useEnergyPlayer(10)
             elif i.key == pygame.K_z:
                 map_game.newMap()
+            elif i.key == pygame.K_RETURN:
+                if game_over:
+                    exit()
             map_game.updateMapPlayer(player_game)
 
     # Moves enemy
@@ -281,6 +286,9 @@ while True:
             elif random_enemy_move == 3:
                 e.enemyDown()
         map_game.updateMapEnemy(e)
+
+        if e.x == player_game.x and e.y == player_game.y:
+            player_game.health -= 10
 
     # Color map
     screen.fill(GREEN_COLOR)
@@ -311,14 +319,14 @@ while True:
 
     if hp_regen_timer > 100:
         hp_regen_timer = 0
-        if player_game.health < 100:
+        if player_game.health < 100 and not game_over:
             player_game.health += 10
 
     energy_regen_timer += 1
 
     if energy_regen_timer > 80:
         energy_regen_timer = 0
-        if player_game.energy < 100:
+        if player_game.energy < 100 and not game_over:
             player_game.energy += 10
 
     # Scales
@@ -329,6 +337,16 @@ while True:
     # Energy
     pygame.draw.rect(screen, BLUE_COLOR, (20,230,player_game.energy,10))
     pygame.draw.rect(screen, DARK_BLUE_COLOR, (20+player_game.energy,230,100-player_game.energy,10))
+
+    if player_game.health <= 0:
+        screen.fill(GREEN_COLOR)
+        myfont = pygame.font.SysFont('Comic Sans MS', 50)
+        textsurface = myfont.render('Game Over', False, (255, 255, 255))
+        screen.blit(textsurface,(70,70))
+        myfont = pygame.font.SysFont('Comic Sans MS', 15)
+        textsurface = myfont.render('Press Enter for quit', False, (255, 255, 255))
+        screen.blit(textsurface,(130,150))
+        game_over = True
 
     # Update display
     pygame.display.update()
