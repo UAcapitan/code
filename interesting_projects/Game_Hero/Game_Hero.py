@@ -71,6 +71,55 @@ class MapGame:
     def updateMapTree(self, tree):
         self.map[tree.y][tree.x] = 't'
 
+    def newMap(self):
+        global enemy_game
+        global bonus_game
+        global tree_game
+
+        self.map = self.map = [
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ]
+        self.x = 0
+        self.y = 0
+
+        enemy_game = []
+        bonus_game = []
+        tree_game = []
+
+        map_game.create_objects()
+
+    def create_objects(self):
+        global enemy_game
+        global map_game
+        global bonus_game
+        global tree_game
+
+        enemy_game.append(EnemyGame(random.randint(0,18), random.randint(0,8)))
+        map_game.updateMapEnemy(enemy_game[0])
+
+        bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
+        bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
+        bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
+
+        for b in bonus_game:
+            map_game.updateMapBonus(b)
+
+        for i in range(50):
+            tree_game.append(TreeGame(random.randint(0,18), random.randint(0,8)))
+
+        for t in tree_game:
+            map_game.updateMapTree(t)
+
 # Player
 class PlayerGame(EntityInMap):
     def __init__(self):
@@ -86,6 +135,9 @@ class PlayerGame(EntityInMap):
                 self.x += 1
                 self.last_x = self.x - 1
                 self.last_y = self.y
+            else:
+                self.x = 0
+                map_game.newMap()
 
     def playerLeft(self):
         if not(map_game.map[self.y][self.x-1] == 't'):
@@ -93,6 +145,9 @@ class PlayerGame(EntityInMap):
                 self.x -= 1
                 self.last_x = self.x + 1
                 self.last_y = self.y
+            else:
+                self.x = 19
+                map_game.newMap()
 
     def playerUp(self):
         if not(map_game.map[self.y-1][self.x] == 't'):
@@ -100,6 +155,9 @@ class PlayerGame(EntityInMap):
                 self.y -= 1
                 self.last_y = self.y + 1
                 self.last_x = self.x
+            else:
+                self.y = 9
+                map_game.newMap()
 
     def playerDown(self):
         if not(map_game.map[self.y+1][self.x] == 't'):
@@ -107,6 +165,9 @@ class PlayerGame(EntityInMap):
                 self.y += 1
                 self.last_y = self.y - 1
                 self.last_x = self.x
+            else:
+                self.y = 0
+                map_game.newMap()
 
     def damagePlayer(self, hp):
         self.health -= hp
@@ -170,21 +231,7 @@ enemy_game = []
 bonus_game = []
 tree_game = []
 
-enemy_game.append(EnemyGame(random.randint(0,18), random.randint(0,8)))
-map_game.updateMapEnemy(enemy_game[0])
-
-bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
-bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
-bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
-
-for b in bonus_game:
-    map_game.updateMapBonus(b)
-
-for i in range(50):
-    tree_game.append(TreeGame(random.randint(0,18), random.randint(0,8)))
-
-for t in tree_game:
-    map_game.updateMapTree(t)
+map_game.create_objects()
 
 # Counter for moves
 enemy_counter_time = 0
@@ -211,6 +258,8 @@ while True:
                 player_game.damagePlayer(10)
             elif i.key == pygame.K_q:
                 player_game.useEnergyPlayer(10)
+            elif i.key == pygame.K_z:
+                map_game.newMap()
             map_game.updateMapPlayer(player_game)
 
     # Moves enemy
