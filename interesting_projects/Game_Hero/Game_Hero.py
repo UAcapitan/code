@@ -349,9 +349,14 @@ while True:
     pygame.draw.rect(screen, BLUE_COLOR, (20,230,player_game.energy,10))
     pygame.draw.rect(screen, DARK_BLUE_COLOR, (20+player_game.energy,230,100-player_game.energy,10))
 
+    # Lvl
+    myfont = pygame.font.SysFont('Comic Sans MS', 10)
+    textsurface = myfont.render(str(player_game.lvl) + ' lvl', False, (0, 0, 0))
+    screen.blit(textsurface,(150, 205))
+
     # Exp
     myfont = pygame.font.SysFont('Comic Sans MS', 10)
-    textsurface = myfont.render(str(player_game.exp) + ' exp', False, (0, 0, 0))
+    textsurface = myfont.render(str(player_game.exp) + ' / ' + str(player_game.lvl * 100) + ' exp', False, (0, 0, 0))
     screen.blit(textsurface,(150, 225))
 
     # Game over
