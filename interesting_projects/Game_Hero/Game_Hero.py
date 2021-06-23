@@ -132,6 +132,8 @@ class PlayerGame(EntityInMap):
         self.last_y = 0
         self.health = 100
         self.energy = 100
+        self.lvl = 1
+        self.exp = 0
 
     def playerRight(self):
         if not(map_game.map[self.y][self.x+1] == 't'):
@@ -290,6 +292,10 @@ while True:
         if e.x == player_game.x and e.y == player_game.y:
             player_game.health -= 10
 
+    for b in bonus_game:
+        if b.x == player_game.x and b.y == player_game.y:
+            player_game.exp += random.randint(1,10)
+ 
     # Color map
     screen.fill(GREEN_COLOR)
 
@@ -310,11 +316,13 @@ while True:
     
     map_game.y = 0
 
+    # Enemy speed
     enemy_counter_time += 1
 
     if enemy_counter_time > 5:
         enemy_counter_time = 0
 
+    # Hp regen
     hp_regen_timer += 1
 
     if hp_regen_timer > 100:
@@ -322,6 +330,7 @@ while True:
         if player_game.health < 100 and not game_over:
             player_game.health += 10
 
+    # Energy regen
     energy_regen_timer += 1
 
     if energy_regen_timer > 80:
@@ -331,13 +340,21 @@ while True:
 
     # Scales
     pygame.draw.rect(screen, WHITE_COLOR, (0,200,400,50))
+
     # Health
     pygame.draw.rect(screen, LIME_COLOR, (20,210,player_game.health,10))
     pygame.draw.rect(screen, GREEN_COLOR, (20+player_game.health,210,100-player_game.health,10))
+
     # Energy
     pygame.draw.rect(screen, BLUE_COLOR, (20,230,player_game.energy,10))
     pygame.draw.rect(screen, DARK_BLUE_COLOR, (20+player_game.energy,230,100-player_game.energy,10))
 
+    # Exp
+    myfont = pygame.font.SysFont('Comic Sans MS', 10)
+    textsurface = myfont.render(str(player_game.exp) + ' exp', False, (0, 0, 0))
+    screen.blit(textsurface,(150, 225))
+
+    # Game over
     if player_game.health <= 0:
         screen.fill(GREEN_COLOR)
         myfont = pygame.font.SysFont('Comic Sans MS', 50)
