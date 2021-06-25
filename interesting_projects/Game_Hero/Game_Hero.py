@@ -302,14 +302,19 @@ while True:
                     player_game.exp -= player_game.lvl * 100
                     player_game.lvl += 1
 
-    for b in bonus_game:
-        if b.x == player_game.x and b.y == player_game.y:
-            player_game.exp += random.randint(1,10)
-            if player_game.energy < 100:
-                player_game.energy += 10
-            if player_game.exp >= player_game.lvl * 100:
-                player_game.exp -= player_game.lvl * 100
-                player_game.lvl += 1
+    try:
+        for i in range(len(bonus_game)):
+            if bonus_game[i].x == player_game.x and bonus_game[i].y == player_game.y:
+                player_game.exp += random.randint(1,10)
+                if player_game.energy < 100:
+                    player_game.energy += 10
+                if player_game.exp >= player_game.lvl * 100:
+                    player_game.exp -= player_game.lvl * 100
+                    player_game.lvl += 1
+                del bonus_game[i]
+    except:
+        pass
+            
  
     # Color map
     screen.fill(GREEN_COLOR)
