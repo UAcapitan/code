@@ -291,10 +291,17 @@ while True:
 
         if e.x == player_game.x and e.y == player_game.y:
             player_game.health -= 10
+            if player_game.energy > 0:
+                player_game.energy -= 20
+                player_game.exp += 20
+                if player_game.exp >= player_game.lvl * 100:
+                    player_game.exp -= player_game.lvl * 100
+                    player_game.lvl += 1
 
     for b in bonus_game:
         if b.x == player_game.x and b.y == player_game.y:
             player_game.exp += random.randint(1,10)
+            player_game.energy += 10
             if player_game.exp >= player_game.lvl * 100:
                 player_game.exp -= player_game.lvl * 100
                 player_game.lvl += 1
