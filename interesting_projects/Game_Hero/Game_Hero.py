@@ -301,7 +301,8 @@ while True:
     for b in bonus_game:
         if b.x == player_game.x and b.y == player_game.y:
             player_game.exp += random.randint(1,10)
-            player_game.energy += 10
+            if player_game.energy < 100:
+                player_game.energy += 10
             if player_game.exp >= player_game.lvl * 100:
                 player_game.exp -= player_game.lvl * 100
                 player_game.lvl += 1
