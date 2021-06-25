@@ -232,6 +232,31 @@ class TreeGame(EntityInMap):
     def __init__(self,x,y):
         super().__init__(x,y)
 
+# Skill standart class
+class Skill:
+    def __init__(self, name, energy):
+        self.name = name
+        self.energy = energy
+
+# Dialogs
+start_dialogs_pos = 0
+start_dialogs = [
+    'Hi, hero! Press SPACE.',
+    'I will briefly tell',
+    'you how to survive here.',
+    'It`s an endless forest.',
+    'It`s full of',
+    'everything here.',
+    'But full of enemies',
+    'Bonuse - blue,',
+    'Enemy - red',
+    'You have health.',
+    'Health - green bar',
+    'And, energy is a blue bar.',
+    'Level up and good luck!',
+    ''
+]
+
 # Objects
 map_game = MapGame()
 player_game = PlayerGame()
@@ -277,6 +302,9 @@ while True:
                     exit()
             elif i.key == pygame.K_i:
                 menu = True if not(menu) else False
+            elif i.key == pygame.K_SPACE:
+                if len(start_dialogs) > start_dialogs_pos + 1:
+                    start_dialogs_pos += 1
             map_game.updateMapPlayer(player_game)
 
     # Moves enemy
@@ -297,13 +325,13 @@ while True:
         for i in range(len(enemy_game)):
             if enemy_game[i].x == player_game.x and enemy_game[i].y == player_game.y:
                 player_game.health -= random.randrange(10,50,10)
-                if player_game.energy > 0:
+                if player_game.energy > 10:
                     player_game.energy -= 20
                     player_game.exp += 20
                     if player_game.exp >= player_game.lvl * 100:
                         player_game.exp -= player_game.lvl * 100
                         player_game.lvl += 1
-                del enemy_game[i]
+                    del enemy_game[i]
 
         for i in range(len(bonus_game)):
             if bonus_game[i].x == player_game.x and bonus_game[i].y == player_game.y:
@@ -380,6 +408,11 @@ while True:
     textsurface = myfont.render(str(player_game.exp) + ' / ' + str(player_game.lvl * 100) + ' exp', False, (0, 0, 0))
     screen.blit(textsurface,(150, 225))
 
+    # Dialog
+    myfont = pygame.font.SysFont('Comic Sans MS', 15)
+    textsurface = myfont.render(start_dialogs[start_dialogs_pos], False, (0, 0, 0))
+    screen.blit(textsurface,(210, 205))
+
     # Menu
     if menu:
         screen.fill(WHITE_COLOR)
@@ -387,6 +420,10 @@ while True:
         pygame.draw.rect(screen, LIME_COLOR, (65,30,30,30))
         pygame.draw.rect(screen, LIME_COLOR, (100,30,30,30))
         pygame.draw.rect(screen, LIME_COLOR, (135,30,30,30))
+        pygame.draw.rect(screen, LIME_COLOR, (30,70,30,30))
+        pygame.draw.rect(screen, LIME_COLOR, (65,70,30,30))
+        pygame.draw.rect(screen, LIME_COLOR, (100,70,30,30))
+        pygame.draw.rect(screen, LIME_COLOR, (135,70,30,30))
 
 
     # Game over
