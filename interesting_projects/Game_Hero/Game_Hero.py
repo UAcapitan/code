@@ -17,6 +17,8 @@ WHITE_COLOR = [230,230,230]
 
 game_over = False
 
+menu = False
+
 clock = pygame.time.Clock()
 
 pygame.init()
@@ -273,6 +275,8 @@ while True:
             elif i.key == pygame.K_RETURN:
                 if game_over:
                     exit()
+            elif i.key == pygame.K_i:
+                menu = True if not(menu) else False
             map_game.updateMapPlayer(player_game)
 
     # Moves enemy
@@ -369,6 +373,15 @@ while True:
     myfont = pygame.font.SysFont('Comic Sans MS', 10)
     textsurface = myfont.render(str(player_game.exp) + ' / ' + str(player_game.lvl * 100) + ' exp', False, (0, 0, 0))
     screen.blit(textsurface,(150, 225))
+
+    # Menu
+    if menu:
+        screen.fill(WHITE_COLOR)
+        pygame.draw.rect(screen, LIME_COLOR, (30,30,30,30))
+        pygame.draw.rect(screen, LIME_COLOR, (65,30,30,30))
+        pygame.draw.rect(screen, LIME_COLOR, (100,30,30,30))
+        pygame.draw.rect(screen, LIME_COLOR, (135,30,30,30))
+
 
     # Game over
     if player_game.health <= 0:
