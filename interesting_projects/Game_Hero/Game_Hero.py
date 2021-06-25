@@ -238,6 +238,41 @@ class Skill:
         self.name = name
         self.energy = energy
 
+    def use(self):
+        pass
+
+# Skills
+class PowerSkill(Skill):
+    def use(self):
+        enemy_game.clear()
+        player_game.exp += player_game.lvl * random.randint(1,10)
+
+class HpRegenSkill(Skill):
+    def use(self):
+        player_game.health = 100
+
+class ExpUpSkill(Skill):
+    def use(self):
+        player_game.exp += player_game.lvl * 100
+
+class ClearMapSkill(Skill):
+    def use(self):
+        tree_game.clear()
+        enemy_game.clear()
+
+class TeleportSkill(Skill):
+    def use(self):
+        map_game.newMap()
+
+
+skills = [
+    PowerSkill('Power', 50),
+    HpRegenSkill('Regen HP', 70),
+    ExpUpSkill('Exp Up', 100),
+    ClearMapSkill('Clear Map', 100),
+    TeleportSkill('Teleport', 50)
+    ]
+
 # Dialogs
 start_dialogs_pos = 0
 start_dialogs = [
@@ -305,6 +340,9 @@ while True:
             elif i.key == pygame.K_SPACE:
                 if len(start_dialogs) > start_dialogs_pos + 1:
                     start_dialogs_pos += 1
+            elif i.key == pygame.K_x:
+                print('Work')
+                skills[random.randint(0, len(skills) - 1)].use()
             map_game.updateMapPlayer(player_game)
 
     # Moves enemy
