@@ -157,6 +157,7 @@ class PlayerGame(EntityInMap):
         self.lvl = 1
         self.exp = 0
         self.skills = [skills[0]]
+        self.skills_pos = 0
 
     def playerRight(self):
         if not(map_game.map[self.y][self.x+1] == 't'):
@@ -375,8 +376,28 @@ while True:
                 if len(start_dialogs) > start_dialogs_pos + 1:
                     start_dialogs_pos += 1
             elif i.key == pygame.K_x:
-                print('Work')
                 player_game.skills[0].use()
+            # Skills buttons
+            elif i.key == pygame.K_1:
+                player_game.skills_pos = 0
+            elif i.key == pygame.K_2:
+                player_game.skills_pos = 1
+            elif i.key == pygame.K_3:
+                player_game.skills_pos = 2
+            elif i.key == pygame.K_4:
+                player_game.skills_pos = 3
+            elif i.key == pygame.K_5:
+                player_game.skills_pos = 4
+            elif i.key == pygame.K_6:
+                player_game.skills_pos = 5
+            elif i.key == pygame.K_7:
+                player_game.skills_pos = 6
+            elif i.key == pygame.K_8:
+                player_game.skills_pos = 7
+            elif i.key == pygame.K_9:
+                player_game.skills_pos = 8
+            elif i.key == pygame.K_0:
+                player_game.skills_pos = 9
             map_game.updateMapPlayer(player_game)
 
     # Moves enemy
@@ -487,20 +508,33 @@ while True:
 
     # Menu
     if menu:
-        myfont = pygame.font.SysFont('Comic Sans MS', 15)
+
         screen.fill(WHITE_COLOR)
-        pygame.draw.rect(screen, LIME_COLOR, (30,30,30,30))
+
+        myfont = pygame.font.SysFont('Arial', 20)
+        textsurface = myfont.render('Skills', False, (0, 0, 0))
+        screen.blit(textsurface,(29, 5))
+
+        myfont = pygame.font.SysFont('Comic Sans MS', 10)
+
+        if player_game.skills_pos < 5:
+            pygame.draw.rect(screen, BLUE_COLOR, (28+player_game.skills_pos*35,28,34,34))
+        else:
+            pygame.draw.rect(screen, BLUE_COLOR, (28+(player_game.skills_pos-5)*35,68,34,34))
+            
+        for i in range(0,5):
+            pygame.draw.rect(screen, LIME_COLOR, (30+i*35,30,30,30))
+            textsurface = myfont.render(str(i+1), False, (0, 0, 0))
+            screen.blit(textsurface,(31+i*35, 47))
+
+        for i in range(0,5):
+            pygame.draw.rect(screen, LIME_COLOR, (30+i*35,70,30,30))
+            textsurface = myfont.render(str(i+6), False, (0, 0, 0))
+            screen.blit(textsurface,(31+i*35, 87))
+        
+        myfont = pygame.font.SysFont('Comic Sans MS', 15)
         textsurface = myfont.render(player_game.skills[0].name, False, (0, 0, 0))
-        screen.blit(textsurface,(37, 32))
-        pygame.draw.rect(screen, LIME_COLOR, (65,30,30,30))
-        pygame.draw.rect(screen, LIME_COLOR, (100,30,30,30))
-        pygame.draw.rect(screen, LIME_COLOR, (135,30,30,30))
-        pygame.draw.rect(screen, LIME_COLOR, (170,30,30,30))
-        pygame.draw.rect(screen, LIME_COLOR, (30,70,30,30))
-        pygame.draw.rect(screen, LIME_COLOR, (65,70,30,30))
-        pygame.draw.rect(screen, LIME_COLOR, (100,70,30,30))
-        pygame.draw.rect(screen, LIME_COLOR, (135,70,30,30))
-        pygame.draw.rect(screen, LIME_COLOR, (170,70,30,30))
+        screen.blit(textsurface,(37, 30))
 
     # Game over
     if player_game.health <= 0:
