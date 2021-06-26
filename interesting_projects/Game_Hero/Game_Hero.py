@@ -156,7 +156,7 @@ class PlayerGame(EntityInMap):
         self.energy = 100
         self.lvl = 1
         self.exp = 0
-        self.skills = [skills[0], skills[1], skills[2],skills[3],skills[4]]
+        self.skills = []
         self.skills_pos = 0
 
     def playerRight(self):
@@ -211,8 +211,17 @@ class PlayerGame(EntityInMap):
 
     def upLvl(self):
         if self.exp >= self.lvl * 100:
-                    self.exp -= self.lvl * 100
-                    self.lvl += 1
+                self.exp -= self.lvl * 100
+                self.lvl += 1
+                if self.lvl % 5 == 0:
+                    self.newSkill()
+    
+    def newSkill(self):
+        if len(self.skills) < 10:
+            n = random.randint(0,len(skills)-1)
+            player_game.skills.append(skills[n])
+            del skills[n]
+
 
 # Enemy
 class EnemyGame(EntityInMap):
@@ -309,7 +318,7 @@ class TeleportSkill(Skill):
 skills = [
     FreezingSkill('Fr', 50),
     HpRegenSkill('HP', 70),
-    ExpUpSkill('Exp', 100),
+    ExpUpSkill('Exp', 90),
     ClearMapSkill('Cl', 80),
     TeleportSkill('Tp', 70)
     ]
@@ -368,7 +377,8 @@ while True:
             elif i.key == pygame.K_s:
                 player_game.playerDown()
             elif i.key == pygame.K_e:
-                player_game.damagePlayer(10)
+                player_game.exp += 500
+                player_game.upLvl()
             elif i.key == pygame.K_q:
                 player_game.useEnergyPlayer(10)
             elif i.key == pygame.K_z:
