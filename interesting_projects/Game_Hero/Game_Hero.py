@@ -156,6 +156,7 @@ class PlayerGame(EntityInMap):
         self.energy = 100
         self.lvl = 1
         self.exp = 0
+        self.skills = [skills[0]]
 
     def playerRight(self):
         if not(map_game.map[self.y][self.x+1] == 't'):
@@ -299,11 +300,11 @@ class TeleportSkill(Skill):
 
 
 skills = [
-    FreezingSkill('Power', 50),
-    HpRegenSkill('Regen HP', 70),
-    ExpUpSkill('Exp Up', 100),
-    ClearMapSkill('Clear Map', 50),
-    TeleportSkill('Teleport', 50)
+    FreezingSkill('Fr', 50),
+    HpRegenSkill('HP', 70),
+    ExpUpSkill('Exp', 100),
+    ClearMapSkill('Cl', 80),
+    TeleportSkill('Tp', 70)
     ]
 
 # Dialogs
@@ -375,7 +376,7 @@ while True:
                     start_dialogs_pos += 1
             elif i.key == pygame.K_x:
                 print('Work')
-                skills[3].use()
+                player_game.skills[0].use()
             map_game.updateMapPlayer(player_game)
 
     # Moves enemy
@@ -486,8 +487,11 @@ while True:
 
     # Menu
     if menu:
+        myfont = pygame.font.SysFont('Comic Sans MS', 15)
         screen.fill(WHITE_COLOR)
         pygame.draw.rect(screen, LIME_COLOR, (30,30,30,30))
+        textsurface = myfont.render(player_game.skills[0].name, False, (0, 0, 0))
+        screen.blit(textsurface,(37, 32))
         pygame.draw.rect(screen, LIME_COLOR, (65,30,30,30))
         pygame.draw.rect(screen, LIME_COLOR, (100,30,30,30))
         pygame.draw.rect(screen, LIME_COLOR, (135,30,30,30))
