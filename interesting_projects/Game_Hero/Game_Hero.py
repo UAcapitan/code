@@ -108,7 +108,21 @@ class MapGame:
         global bonus_game
         global tree_game
 
-        for i in range(random.randint(0,3)):
+        for i in range(50):
+            tree_game.append(TreeGame(random.randint(0,18), random.randint(0,8)))
+
+        for t in tree_game:
+            map_game.updateMapTree(t)
+
+        j = 1
+
+        if player_game.lvl > 10:
+            j = 2
+        
+        if player_game.lvl > 25:
+            j = 3
+
+        for i in range(random.randint(0,j*3)):
             enemy_game.append(EnemyGame(random.randint(0,18), random.randint(0,8)))
         
         for e in enemy_game:
@@ -119,12 +133,6 @@ class MapGame:
 
         for b in bonus_game:
             map_game.updateMapBonus(b)
-
-        for i in range(50):
-            tree_game.append(TreeGame(random.randint(0,18), random.randint(0,8)))
-
-        for t in tree_game:
-            map_game.updateMapTree(t)
 
     def create_blind_map(self):
         self.map = [
@@ -198,16 +206,6 @@ class PlayerGame(EntityInMap):
             else:
                 self.y = 0
                 map_game.newMap()
-
-    def damagePlayer(self, hp):
-        self.health -= hp
-        if self.health < 0:
-            self.health = 0
-
-    def useEnergyPlayer(self, en):
-        self.energy -= en
-        if self.energy < 0:
-            self.energy = 0
 
     def upLvl(self):
         if self.exp >= self.lvl * 100:
@@ -329,6 +327,13 @@ class BonusCreateSkill(Skill):
             for b in bonus_game:
                 map_game.updateMapBonus(b)
 
+class AllRegenSkill(Skill):
+    def use(self):
+        if player_game.energy > self.energy:
+            player_game.energy -= self.energy
+            player_game.health = 100
+            player_game.energy = 100
+
 
 
 
@@ -339,7 +344,8 @@ skills = [
     ClearMapSkill('Cl', 80),
     TeleportSkill('Tp', 70),
     EnergyRegenSkill('E R', 50),
-    BonusCreateSkill('Bon', 90)
+    BonusCreateSkill('Bon', 90),
+    AllRegenSkill('A R', 60)
     ]
 
 # Dialogs
@@ -567,7 +573,10 @@ while True:
 
         for i in range(len(player_game.skills)):
             textsurface = myfont.render(player_game.skills[i].name, False, (0, 0, 0))
-            screen.blit(textsurface,(37+i*37, 30))
+            if i < 5:
+                screen.blit(textsurface,(35+i*35, 30))
+            else:
+                screen.blit(textsurface,(35+(i-5)*35, 70))
 
     # Game over
     if player_game.health <= 0:
