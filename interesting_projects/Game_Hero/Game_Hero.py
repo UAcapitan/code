@@ -126,6 +126,26 @@ class MapGame:
         for t in tree_game:
             map_game.updateMapTree(t)
 
+    def create_blind_map(self):
+        self.map = [
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ]
+        self.x = 0
+        self.y = 0
+        
+        for b in bonus_game:
+            map_game.updateMapBonus(b)
+
 # Player
 class PlayerGame(EntityInMap):
     def __init__(self):
@@ -242,34 +262,47 @@ class Skill:
         pass
 
 # Skills
-class PowerSkill(Skill):
+class FreezingSkill(Skill):
     def use(self):
-        enemy_game.clear()
-        player_game.exp += player_game.lvl * random.randint(1,10)
+        if player_game.energy > self.energy:
+            player_game.energy -= self.energy
+            try:
+                for i in range(len(enemy_game)):
+                    del enemy_game[i]
+            except:
+                pass
+            player_game.exp += player_game.lvl * random.randint(1,10)
 
 class HpRegenSkill(Skill):
     def use(self):
-        player_game.health = 100
+        if player_game.energy > self.energy:
+            player_game.energy -= self.energy
+            player_game.health = 100
 
 class ExpUpSkill(Skill):
     def use(self):
-        player_game.exp += player_game.lvl * 100
+        if player_game.energy > self.energy:
+            player_game.energy -= self.energy
+            player_game.exp += player_game.lvl * 100
 
 class ClearMapSkill(Skill):
     def use(self):
-        tree_game.clear()
-        enemy_game.clear()
+        if player_game.energy > self.energy:
+            player_game.energy -= self.energy
+            map_game.create_blind_map()
 
 class TeleportSkill(Skill):
     def use(self):
-        map_game.newMap()
+        if player_game.energy > self.energy:
+            player_game.energy -= self.energy
+            map_game.newMap()
 
 
 skills = [
-    PowerSkill('Power', 50),
+    FreezingSkill('Power', 50),
     HpRegenSkill('Regen HP', 70),
     ExpUpSkill('Exp Up', 100),
-    ClearMapSkill('Clear Map', 100),
+    ClearMapSkill('Clear Map', 50),
     TeleportSkill('Teleport', 50)
     ]
 
@@ -342,7 +375,7 @@ while True:
                     start_dialogs_pos += 1
             elif i.key == pygame.K_x:
                 print('Work')
-                skills[random.randint(0, len(skills) - 1)].use()
+                skills[3].use()
             map_game.updateMapPlayer(player_game)
 
     # Moves enemy
@@ -458,11 +491,12 @@ while True:
         pygame.draw.rect(screen, LIME_COLOR, (65,30,30,30))
         pygame.draw.rect(screen, LIME_COLOR, (100,30,30,30))
         pygame.draw.rect(screen, LIME_COLOR, (135,30,30,30))
+        pygame.draw.rect(screen, LIME_COLOR, (170,30,30,30))
         pygame.draw.rect(screen, LIME_COLOR, (30,70,30,30))
         pygame.draw.rect(screen, LIME_COLOR, (65,70,30,30))
         pygame.draw.rect(screen, LIME_COLOR, (100,70,30,30))
         pygame.draw.rect(screen, LIME_COLOR, (135,70,30,30))
-
+        pygame.draw.rect(screen, LIME_COLOR, (170,70,30,30))
 
     # Game over
     if player_game.health <= 0:
