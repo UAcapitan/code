@@ -443,7 +443,10 @@ while True:
                 if len(start_dialogs) > start_dialogs_pos + 1:
                     start_dialogs_pos += 1
             elif i.key == pygame.K_x:
-                player_game.skills[player_game.skills_pos].use()
+                try:
+                    player_game.skills[player_game.skills_pos].use()
+                except:
+                    pass
             # Skills buttons
             elif i.key == pygame.K_1:
                 player_game.skills_pos = 0
