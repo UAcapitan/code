@@ -222,7 +222,6 @@ class PlayerGame(EntityInMap):
             player_game.skills.append(skills[n])
             del skills[n]
 
-
 # Enemy
 class EnemyGame(EntityInMap):
     def __init__(self, x, y):
@@ -314,13 +313,33 @@ class TeleportSkill(Skill):
             player_game.energy -= self.energy
             map_game.newMap()
 
+class EnergyRegenSkill(Skill):
+    def use(self):
+        if player_game.energy > self.energy:
+            player_game.energy -= self.energy
+            player_game.energy = 100
+
+class BonusCreateSkill(Skill):
+    def use(self):
+        if player_game.energy > self.energy:
+            player_game.energy -= self.energy
+            for i in range(random.randint(0,10)):
+                bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
+
+            for b in bonus_game:
+                map_game.updateMapBonus(b)
+
+
+
 
 skills = [
     FreezingSkill('Fr', 50),
     HpRegenSkill('HP', 70),
     ExpUpSkill('Exp', 90),
     ClearMapSkill('Cl', 80),
-    TeleportSkill('Tp', 70)
+    TeleportSkill('Tp', 70),
+    EnergyRegenSkill('E R', 50),
+    BonusCreateSkill('Bon', 90)
     ]
 
 # Dialogs
@@ -442,7 +461,7 @@ while True:
 
         for i in range(len(bonus_game)):
             if bonus_game[i].x == player_game.x and bonus_game[i].y == player_game.y:
-                player_game.exp += random.randint(1,10)
+                player_game.exp += random.randint(1,25) * player_game.lvl
                 if player_game.energy < 100:
                     player_game.energy += 10
                 player_game.upLvl()
