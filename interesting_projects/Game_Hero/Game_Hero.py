@@ -14,6 +14,7 @@ RED_COLOR = [255,0,0]
 DARK_BLUE_COLOR = [0,0,128]
 BLUE_COLOR = [0,0,255]
 WHITE_COLOR = [230,230,230]
+ENEMY_MIDDLE_COLOR = [0, 135, 0]
 
 game_over = False
 
@@ -35,6 +36,7 @@ pygame.display.update()
 # e - enemy
 # b - bonus
 # t - tree
+# em - enemy middle
 
 # Standart entity
 class EntityInMap:
@@ -69,6 +71,10 @@ class MapGame:
         self.map[enemy.last_y][enemy.last_x] = 0
         self.map[enemy.y][enemy.x] = 'e'
 
+    def updateMapEnemyMiddle(self, enemy):
+        self.map[enemy.last_y][enemy.last_x] = 0
+        self.map[enemy.y][enemy.x] = 'em'
+
     def updateMapBonus(self, bonus):
         self.map[bonus.y][bonus.x] = 'b'
 
@@ -79,6 +85,7 @@ class MapGame:
         global enemy_game
         global bonus_game
         global tree_game
+        global enemy_middle_game
 
         self.map = [
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -97,6 +104,7 @@ class MapGame:
         self.y = 0
 
         enemy_game = []
+        enemy_middle_game = []
         bonus_game = []
         tree_game = []
 
@@ -127,6 +135,20 @@ class MapGame:
         
         for e in enemy_game:
             map_game.updateMapEnemy(e)
+
+        if player_game.lvl >= 25:
+            if player_game.lvl >= 25:
+                j = 1
+            elif player_game.lvl >= 40:
+                j = 2
+            elif player_game.lvl >= 50:
+                j = 3
+
+            for i in range(random.randint(0,j)):
+                enemy_middle_game.append(EnemyMiddleGame(random.randint(0,18), random.randint(0,8)))
+            
+            for e in enemy_game:
+                map_game.updateMapEnemyMiddle(e)
 
         for i in range(random.randint(0,5)):
             bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
@@ -255,6 +277,9 @@ class EnemyGame(EntityInMap):
                 self.last_y = self.y - 1
                 self.last_x = self.x
 
+class EnemyMiddleGame(EnemyGame):
+    pass
+
 # Bonus
 class BonusGame(EntityInMap):
     def __init__(self, x, y):
@@ -371,6 +396,7 @@ start_dialogs = [
 map_game = MapGame()
 player_game = PlayerGame()
 enemy_game = []
+enemy_middle_game = []
 bonus_game = []
 tree_game = []
 
@@ -454,6 +480,18 @@ while True:
             elif random_enemy_move == 3:
                 e.enemyDown()
         map_game.updateMapEnemy(e)
+    for e in enemy_middle_game:
+        if enemy_counter_time == 5:
+            random_enemy_move = random.randint(0,4)
+            if random_enemy_move == 0:
+                e.enemyRight()
+            elif random_enemy_move == 1:
+                e.enemyLeft()
+            elif random_enemy_move == 2:
+                e.enemyUp()
+            elif random_enemy_move == 3:
+                e.enemyDown()
+        map_game.updateMapEnemyMiddle(e)
 
     try:
         for i in range(len(enemy_game)):
@@ -461,9 +499,18 @@ while True:
                 player_game.health -= random.randrange(10,50,10)
                 if player_game.energy > 10:
                     player_game.energy -= 20
-                    player_game.exp += 20
+                    player_game.exp += 20 * player_game.lvl
                     player_game.upLvl()
                     del enemy_game[i]
+
+        for i in range(len(enemy_middle_game)):
+            if enemy_middle_game[i].x == player_game.x and enemy_middle_game[i].y == player_game.y:
+                player_game.health -= random.randrange(50,90,10)
+                if player_game.energy >= 50:
+                    player_game.energy -= 50
+                    player_game.exp += 50 * player_game.lvl
+                    player_game.upLvl()
+                    del enemy_middle_game[i]
 
         for i in range(len(bonus_game)):
             if bonus_game[i].x == player_game.x and bonus_game[i].y == player_game.y:
@@ -489,6 +536,8 @@ while True:
                 pygame.draw.rect(screen, BLUE_COLOR, (map_game.x,map_game.y,20,20))
             if j == 't':
                 pygame.draw.rect(screen, DARK_GREEN_COLOR, (map_game.x,map_game.y,20,20))
+            if j == 'em':
+                pygame.draw.rect(screen, ENEMY_MIDDLE_COLOR, (map_game.x,map_game.y,20,20))
             map_game.x += 20
         map_game.x = 0
         map_game.y += 20
