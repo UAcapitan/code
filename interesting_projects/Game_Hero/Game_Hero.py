@@ -80,7 +80,7 @@ class MapGame:
         global bonus_game
         global tree_game
 
-        self.map = self.map = [
+        self.map = [
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -156,7 +156,7 @@ class PlayerGame(EntityInMap):
         self.energy = 100
         self.lvl = 1
         self.exp = 0
-        self.skills = [skills[0]]
+        self.skills = [skills[0], skills[1], skills[2],skills[3],skills[4]]
         self.skills_pos = 0
 
     def playerRight(self):
@@ -208,6 +208,11 @@ class PlayerGame(EntityInMap):
         self.energy -= en
         if self.energy < 0:
             self.energy = 0
+
+    def upLvl(self):
+        if self.exp >= self.lvl * 100:
+                    self.exp -= self.lvl * 100
+                    self.lvl += 1
 
 # Enemy
 class EnemyGame(EntityInMap):
@@ -286,6 +291,7 @@ class ExpUpSkill(Skill):
         if player_game.energy > self.energy:
             player_game.energy -= self.energy
             player_game.exp += player_game.lvl * 100
+            player_game.upLvl()
 
 class ClearMapSkill(Skill):
     def use(self):
@@ -376,7 +382,7 @@ while True:
                 if len(start_dialogs) > start_dialogs_pos + 1:
                     start_dialogs_pos += 1
             elif i.key == pygame.K_x:
-                player_game.skills[0].use()
+                player_game.skills[player_game.skills_pos].use()
             # Skills buttons
             elif i.key == pygame.K_1:
                 player_game.skills_pos = 0
@@ -421,9 +427,7 @@ while True:
                 if player_game.energy > 10:
                     player_game.energy -= 20
                     player_game.exp += 20
-                    if player_game.exp >= player_game.lvl * 100:
-                        player_game.exp -= player_game.lvl * 100
-                        player_game.lvl += 1
+                    player_game.upLvl()
                     del enemy_game[i]
 
         for i in range(len(bonus_game)):
@@ -431,9 +435,7 @@ while True:
                 player_game.exp += random.randint(1,10)
                 if player_game.energy < 100:
                     player_game.energy += 10
-                if player_game.exp >= player_game.lvl * 100:
-                    player_game.exp -= player_game.lvl * 100
-                    player_game.lvl += 1
+                player_game.upLvl()
                 del bonus_game[i]
     except:
         pass    
@@ -533,8 +535,10 @@ while True:
             screen.blit(textsurface,(31+i*35, 87))
         
         myfont = pygame.font.SysFont('Comic Sans MS', 15)
-        textsurface = myfont.render(player_game.skills[0].name, False, (0, 0, 0))
-        screen.blit(textsurface,(37, 30))
+
+        for i in range(len(player_game.skills)):
+            textsurface = myfont.render(player_game.skills[i].name, False, (0, 0, 0))
+            screen.blit(textsurface,(37+i*37, 30))
 
     # Game over
     if player_game.health <= 0:
