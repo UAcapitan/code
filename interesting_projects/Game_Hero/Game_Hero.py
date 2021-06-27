@@ -16,10 +16,13 @@ BLUE_COLOR = [0,0,255]
 WHITE_COLOR = [230,230,230]
 ENEMY_MIDDLE_COLOR = [0, 135, 0]
 BULLET_COLOR = [10,10,10]
+BOSS_LVL_COLOR = [30,30,30]
 
 game_over = False
 
 menu = False
+
+boss_lvl = 20
 
 clock = pygame.time.Clock()
 
@@ -123,45 +126,47 @@ class MapGame:
         global bonus_game
         global tree_game
 
-        for i in range(50):
-            tree_game.append(TreeGame(random.randint(0,18), random.randint(0,8)))
+        if player_game.lvl < boss_lvl:
 
-        for t in tree_game:
-            map_game.updateMapTree(t)
+            for i in range(50):
+                tree_game.append(TreeGame(random.randint(0,18), random.randint(0,8)))
 
-        j = 1
+            for t in tree_game:
+                map_game.updateMapTree(t)
 
-        if player_game.lvl > 10:
-            j = 2
-        
-        if player_game.lvl > 25:
-            j = 3
+            j = 1
 
-        for i in range(random.randint(0,j*3)):
-            enemy_game.append(EnemyGame(random.randint(0,18), random.randint(0,8)))
-        
-        for e in enemy_game:
-            map_game.updateMapEnemy(e)
-
-        if player_game.lvl >= 25:
-            if player_game.lvl >= 25:
-                j = 1
-            elif player_game.lvl >= 40:
+            if player_game.lvl > 10:
                 j = 2
-            elif player_game.lvl >= 50:
+            
+            if player_game.lvl > 25:
                 j = 3
 
-            for i in range(random.randint(0,j)):
-                enemy_middle_game.append(EnemyMiddleGame(random.randint(0,18), random.randint(0,8)))
+            for i in range(random.randint(0,j*3)):
+                enemy_game.append(EnemyGame(random.randint(0,18), random.randint(0,8)))
             
             for e in enemy_game:
-                map_game.updateMapEnemyMiddle(e)
+                map_game.updateMapEnemy(e)
 
-        for i in range(random.randint(0,5)):
-            bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
+            if player_game.lvl >= 25:
+                if player_game.lvl >= 25:
+                    j = 1
+                elif player_game.lvl >= 40:
+                    j = 2
+                elif player_game.lvl >= 50:
+                    j = 3
 
-        for b in bonus_game:
-            map_game.updateMapBonus(b)
+                for i in range(random.randint(0,j)):
+                    enemy_middle_game.append(EnemyMiddleGame(random.randint(0,18), random.randint(0,8)))
+                
+                for e in enemy_game:
+                    map_game.updateMapEnemyMiddle(e)
+
+            for i in range(random.randint(0,5)):
+                bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
+
+            for b in bonus_game:
+                map_game.updateMapBonus(b)
 
     def create_blind_map(self):
         self.map = [
@@ -243,6 +248,8 @@ class PlayerGame(EntityInMap):
                 self.lvl += 1
                 if self.lvl % 5 == 0:
                     self.newSkill()
+                if self.lvl >= boss_lvl:
+                    map_game.newMap()
     
     def newSkill(self):
         if len(self.skills) < 10:
@@ -440,18 +447,20 @@ class RandomMySkill(Skill):
     def use(self):
         if player_game.energy > self.energy:
             player_game.energy -= self.energy
-            print(player_game.skills[0].full_name)
-            player_game.skills[0].use()
+            skill = random.choice(player_game.skills)
+            print(skill.full_name)
+            skill.use()
             print('Work')
 
 class RandomSkill(Skill):
     def use(self):
         if player_game.energy > self.energy:
             player_game.energy -= self.energy
-            print(skills[0].full_name)
-            skills[0].use()
+            # skill = random.choice(skills)
+            skill = skills[3]
+            print(skill.full_name)
+            skill.use()
             print('Work')
-
 
 # Objects
 map_game = MapGame()
@@ -490,6 +499,8 @@ skills = [
     RandomSkill('Ran', 20, 'Random Skill',
     ['Choose randomly any ability'])
     ]
+
+player_game.skills.append(skills[11])
 
 # Dialogs
 start_dialogs_pos = 0
@@ -671,7 +682,10 @@ while True:
         pass    
  
     # Color map
-    screen.fill(GREEN_COLOR)
+    if player_game.lvl < boss_lvl:
+        screen.fill(GREEN_COLOR)
+    else:
+        screen.fill(BOSS_LVL_COLOR)
 
     # Draw entities
     for i in map_game.map:
