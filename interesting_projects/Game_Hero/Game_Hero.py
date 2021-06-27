@@ -306,9 +306,11 @@ class BulletGame(EntityInMap):
 
 # Skill standart class
 class Skill:
-    def __init__(self, name, energy):
+    def __init__(self, name, energy, full_name, description):
         self.name = name
         self.energy = energy
+        self.full_name = full_name
+        self.description = description
 
     def use(self):
         pass
@@ -434,17 +436,36 @@ class KickSkill(Skill):
                         pass
             map_game.updateMapBullet(bullet_game[-1])
 
+# Objects
+map_game = MapGame()
+player_game = PlayerGame()
+enemy_game = []
+enemy_middle_game = []
+bonus_game = []
+tree_game = []
+bullet_game = []
+
 skills = [
-    FreezingSkill('Fr', 50),
-    HpRegenSkill('HP', 70),
-    ExpUpSkill('Exp', 90),
-    ClearMapSkill('Cl', 80),
-    TeleportSkill('Tp', 70),
-    EnergyRegenSkill('E R', 50),
-    BonusCreateSkill('Bon', 90),
-    AllRegenSkill('A R', 60),
-    ShootSkill('Sh', 20),
-    KickSkill('K', 10)
+    FreezingSkill('Fr', 40, 'Freezing', 
+    ['Freezes some enemies', 'Gives some experience for freezing']),
+    HpRegenSkill('HP', 70, 'HP regeneration',
+    ['Restores all health']),
+    ExpUpSkill('Exp', 90, 'Experience up', 
+    ['Gain experience for using']),
+    ClearMapSkill('Cl', 90, 'Clear map',
+    ['Clears the map of trees']),
+    TeleportSkill('Tp', 20, 'Teleportation',
+    ['The player teleports to', 'a random point']),
+    EnergyRegenSkill('E R', 50, 'Energy regeneration',
+    ['Restores all energy']),
+    BonusCreateSkill('Bon', 90, 'Bonus',
+    ['Creates additional bonuses', 'on the map']),
+    AllRegenSkill('A R', 70, 'All regeneration',
+    ['Regenerates full health', 'and energy at the same time']),
+    ShootSkill('Sh', 20, 'Shoot',
+    ['Allows you to shoot a bullet that','destroys everything in its path']),
+    KickSkill('K', 10, 'Kick',
+    ['Allows you to destroy everything','that is near the player'])
     ]
 
 # Dialogs
@@ -465,15 +486,6 @@ start_dialogs = [
     'Level up and good luck!',
     ''
 ]
-
-# Objects
-map_game = MapGame()
-player_game = PlayerGame()
-enemy_game = []
-enemy_middle_game = []
-bonus_game = []
-tree_game = []
-bullet_game = []
 
 map_game.create_objects()
 
@@ -743,13 +755,25 @@ while True:
                 screen.blit(textsurface,(35+i*35, 30))
             else:
                 screen.blit(textsurface,(35+(i-5)*35, 70))
+
+        try:
+            name = player_game.skills[player_game.skills_pos].full_name
+            en = player_game.skills[player_game.skills_pos].energy
+            description = player_game.skills[player_game.skills_pos].description
+        except:
+            name = ''
+            en = ''
+            description = ''
         
-        textsurface = myfont.render('Name: ', False, (0, 0, 0))
+        textsurface = myfont.render('Name: ' + name, False, (0, 0, 0))
         screen.blit(textsurface,(30, 110))
-        textsurface = myfont.render('Need energy: ', False, (0, 0, 0))
+        textsurface = myfont.render('Need energy: ' + str(en), False, (0, 0, 0))
         screen.blit(textsurface,(30, 130))
         textsurface = myfont.render('Description: ', False, (0, 0, 0))
         screen.blit(textsurface,(30, 150))
+        for i in range(len(description)):
+            textsurface = myfont.render(description[i], False, (0, 0, 0))
+            screen.blit(textsurface,(30, 180+i*20))
 
     # Game over
     if player_game.health <= 0:
