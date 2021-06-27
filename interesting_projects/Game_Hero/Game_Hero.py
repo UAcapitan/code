@@ -463,25 +463,6 @@ class KickSkill(Skill):
                         pass
             map_game.updateMapBullet(bullet_game[-1])
 
-class RandomMySkill(Skill):
-    def use(self):
-        if player_game.energy > self.energy:
-            player_game.energy -= self.energy
-            skill = random.choice(player_game.skills)
-            print(skill.full_name)
-            skill.use()
-            print('Work')
-
-class RandomSkill(Skill):
-    def use(self):
-        if player_game.energy > self.energy:
-            player_game.energy -= self.energy
-            # skill = random.choice(skills)
-            skill = skills[3]
-            print(skill.full_name)
-            skill.use()
-            print('Work')
-
 # Objects
 map_game = MapGame()
 player_game = PlayerGame()
@@ -513,11 +494,7 @@ skills = [
     ShootSkill('Sh', 20, 'Shoot',
     ['Allows you to shoot a bullet that','destroys everything in its path']),
     KickSkill('K', 10, 'Kick',
-    ['Allows you to destroy everything','that is near the player']),
-    RandomMySkill('R M', 50, 'Random My Skill',
-    ['Choose randomly any ability', 'the player has']),
-    RandomSkill('Ran', 20, 'Random Skill',
-    ['Choose randomly any ability'])
+    ['Allows you to destroy everything','that is near the player'])
     ]
 
 # Dialogs
@@ -536,6 +513,10 @@ start_dialogs = [
     'Health - green bar',
     'And, energy is a blue bar.',
     'Level up and good luck!',
+    'Press the button `i`',
+    'to view the abilities.',
+    'The button `x` can',
+    'activate the ability.',
     ''
 ]
 
