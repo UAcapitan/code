@@ -442,10 +442,21 @@ class RandomMySkill(Skill):
             player_game.energy -= self.energy
             n = len(player_game.skills)
             random_n = random.randint(0, n-1)
-            if n > 0:
+            if n > 1:
                 if player_game.skills[random_n].full_name != 'Random My Skill':
                     print(player_game.skills[random_n].full_name)
                     player_game.skills[random_n].use()
+
+class RandomSkill(Skill):
+    def use(self):
+        if player_game.energy > self.energy:
+            player_game.energy -= self.energy
+            n = len(skills) - 1
+            random_n = random.randint(0, n)
+            if n > 1:
+                if player_game.skills[random_n].full_name != 'Random My Skill':
+                    print(skills[random_n].full_name)
+                    skills[random_n].use()
 
 
 # Objects
@@ -479,7 +490,9 @@ skills = [
     KickSkill('K', 10, 'Kick',
     ['Allows you to destroy everything','that is near the player']),
     RandomMySkill('R M', 50, 'Random My Skill',
-    ['Choose randomly any ability', 'the player has'])
+    ['Choose randomly any ability', 'the player has']),
+    RandomSkill('Ran', 20, 'Random Skill',
+    ['Choose randomly any ability'])
     ]
 
 # Dialogs
