@@ -736,6 +736,13 @@ while True:
                 screen.blit(textsurface,(35+i*35, 30))
             else:
                 screen.blit(textsurface,(35+(i-5)*35, 70))
+        
+        textsurface = myfont.render('Name: ', False, (0, 0, 0))
+        screen.blit(textsurface,(30, 110))
+        textsurface = myfont.render('Need energy: ', False, (0, 0, 0))
+        screen.blit(textsurface,(30, 130))
+        textsurface = myfont.render('Description: ', False, (0, 0, 0))
+        screen.blit(textsurface,(30, 150))
 
     # Game over
     if player_game.health <= 0:
