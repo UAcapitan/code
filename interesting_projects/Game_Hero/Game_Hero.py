@@ -436,6 +436,18 @@ class KickSkill(Skill):
                         pass
             map_game.updateMapBullet(bullet_game[-1])
 
+class RandomMySkill(Skill):
+    def use(self):
+        if player_game.energy > self.energy:
+            player_game.energy -= self.energy
+            n = len(player_game.skills)
+            random_n = random.randint(0, n-1)
+            if n > 0:
+                if player_game.skills[random_n].full_name != 'Random My Skill':
+                    print(player_game.skills[random_n].full_name)
+                    player_game.skills[random_n].use()
+
+
 # Objects
 map_game = MapGame()
 player_game = PlayerGame()
@@ -465,7 +477,9 @@ skills = [
     ShootSkill('Sh', 20, 'Shoot',
     ['Allows you to shoot a bullet that','destroys everything in its path']),
     KickSkill('K', 10, 'Kick',
-    ['Allows you to destroy everything','that is near the player'])
+    ['Allows you to destroy everything','that is near the player']),
+    RandomMySkill('R M', 50, 'Random My Skill',
+    ['Choose randomly any ability', 'the player has'])
     ]
 
 # Dialogs
