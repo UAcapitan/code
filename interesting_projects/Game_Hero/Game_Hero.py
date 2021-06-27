@@ -15,6 +15,7 @@ DARK_BLUE_COLOR = [0,0,128]
 BLUE_COLOR = [0,0,255]
 WHITE_COLOR = [230,230,230]
 ENEMY_MIDDLE_COLOR = [0, 135, 0]
+BULLET_COLOR = [10,10,10]
 
 game_over = False
 
@@ -37,6 +38,7 @@ pygame.display.update()
 # b - bonus
 # t - tree
 # em - enemy middle
+# bu - bullet
 
 # Standart entity
 class EntityInMap:
@@ -80,12 +82,16 @@ class MapGame:
 
     def updateMapTree(self, tree):
         self.map[tree.y][tree.x] = 't'
+    
+    def updateMapBullet(self, b):
+        self.map[b.y][b.x] = 'bu'
 
     def newMap(self):
         global enemy_game
         global bonus_game
         global tree_game
         global enemy_middle_game
+        global bullet_game
 
         self.map = [
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -107,6 +113,7 @@ class MapGame:
         enemy_middle_game = []
         bonus_game = []
         tree_game = []
+        bullet_game = []
 
         map_game.create_objects()
 
@@ -188,6 +195,7 @@ class PlayerGame(EntityInMap):
         self.exp = 0
         self.skills = []
         self.skills_pos = 0
+        self.side = 'right'
 
     def playerRight(self):
         if not(map_game.map[self.y][self.x+1] == 't'):
@@ -198,6 +206,7 @@ class PlayerGame(EntityInMap):
             else:
                 self.x = 0
                 map_game.newMap()
+            self.side = 'right'
 
     def playerLeft(self):
         if not(map_game.map[self.y][self.x-1] == 't'):
@@ -208,6 +217,7 @@ class PlayerGame(EntityInMap):
             else:
                 self.x = 19
                 map_game.newMap()
+            self.side = 'left'
 
     def playerUp(self):
         if not(map_game.map[self.y-1][self.x] == 't'):
@@ -218,6 +228,7 @@ class PlayerGame(EntityInMap):
             else:
                 self.y = 9
                 map_game.newMap()
+            self.side = 'up'
 
     def playerDown(self):
         if not(map_game.map[self.y+1][self.x] == 't'):
@@ -228,6 +239,7 @@ class PlayerGame(EntityInMap):
             else:
                 self.y = 0
                 map_game.newMap()
+            self.side = 'down'
 
     def upLvl(self):
         if self.exp >= self.lvl * 100:
@@ -289,6 +301,12 @@ class BonusGame(EntityInMap):
 class TreeGame(EntityInMap):
     def __init__(self,x,y):
         super().__init__(x,y)
+
+# Bullet
+class BulletGame(EntityInMap):
+    def __init__(self,x,y):
+        super().__init__(x,y)
+        self.side = player_game.side
 
 # Skill standart class
 class Skill:
@@ -359,8 +377,19 @@ class AllRegenSkill(Skill):
             player_game.health = 100
             player_game.energy = 100
 
-
-
+class ShootSkill(Skill):
+    def use(self):
+        if player_game.energy > self.energy:
+            player_game.energy -= self.energy
+            if player_game.side == 'right':
+                bullet_game.append(BulletGame(player_game.x+1, player_game.y))
+            elif player_game.side == 'left':
+                bullet_game.append(BulletGame(player_game.x-1, player_game.y))
+            elif player_game.side == 'up':
+                bullet_game.append(BulletGame(player_game.x, player_game.y-1))
+            elif player_game.side == 'down':
+                bullet_game.append(BulletGame(player_game.x, player_game.y+1))
+            map_game.updateMapBullet(bullet_game[-1])
 
 skills = [
     FreezingSkill('Fr', 50),
@@ -370,7 +399,8 @@ skills = [
     TeleportSkill('Tp', 70),
     EnergyRegenSkill('E R', 50),
     BonusCreateSkill('Bon', 90),
-    AllRegenSkill('A R', 60)
+    AllRegenSkill('A R', 60),
+    ShootSkill('Sh', 20)
     ]
 
 # Dialogs
@@ -399,6 +429,7 @@ enemy_game = []
 enemy_middle_game = []
 bonus_game = []
 tree_game = []
+bullet_game = []
 
 map_game.create_objects()
 
@@ -522,6 +553,37 @@ while True:
                     player_game.energy += 10
                 player_game.upLvl()
                 del bonus_game[i]
+
+        for i in range(len(bullet_game)):
+            try:
+                if bullet_game[i].y < 0 or bullet_game[i].x < 0:
+                    del bullet_game[i]
+                    map_game.map[bullet_game[i].y][bullet_game[i].x] = 0
+                else:
+                    map_game.map[bullet_game[i].y][bullet_game[i].x] = 0
+                    if bullet_game[i].side == 'right':
+                        bullet_game[i].x += 1
+                    elif bullet_game[i].side == 'left':
+                        bullet_game[i].x -= 1
+                    elif bullet_game[i].side == 'up':
+                        bullet_game[i].y -= 1
+                    elif bullet_game[i].side == 'down':
+                        bullet_game[i].y += 1
+                    map_game.updateMapBullet(bullet_game[i])
+            except:
+                del bullet_game[i]
+            
+        for i in range(len(bullet_game)):
+            for b in range(len(enemy_game)):
+                if bullet_game[i].x == enemy_game[b].x and bullet_game[i].y == enemy_game[b].y:
+                    map_game.map[bullet_game[i].y][bullet_game[i].x] = 0
+                    del bullet_game[i]
+                    del enemy_game[i]
+                    player_game.exp += 70 * player_game.lvl
+            for b in range(len(bonus_game)):
+                if bullet_game[i].x == bonus_game[b].x and bullet_game[i].y == bonus_game[b].y:
+                    map_game.map[bullet_game[i].y][bullet_game[i].x] = 'bu'
+                    del bonus_game[i]
     except:
         pass    
  
@@ -541,6 +603,8 @@ while True:
                 pygame.draw.rect(screen, DARK_GREEN_COLOR, (map_game.x,map_game.y,20,20))
             if j == 'em':
                 pygame.draw.rect(screen, ENEMY_MIDDLE_COLOR, (map_game.x,map_game.y,20,20))
+            if j == 'bu':
+                pygame.draw.rect(screen, BULLET_COLOR, (map_game.x,map_game.y,20,20))
             map_game.x += 20
         map_game.x = 0
         map_game.y += 20
