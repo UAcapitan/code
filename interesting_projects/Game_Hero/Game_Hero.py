@@ -206,7 +206,6 @@ class PlayerGame(EntityInMap):
             else:
                 self.x = 0
                 map_game.newMap()
-            self.side = 'right'
 
     def playerLeft(self):
         if not(map_game.map[self.y][self.x-1] == 't'):
@@ -217,7 +216,6 @@ class PlayerGame(EntityInMap):
             else:
                 self.x = 19
                 map_game.newMap()
-            self.side = 'left'
 
     def playerUp(self):
         if not(map_game.map[self.y-1][self.x] == 't'):
@@ -228,7 +226,6 @@ class PlayerGame(EntityInMap):
             else:
                 self.y = 9
                 map_game.newMap()
-            self.side = 'up'
 
     def playerDown(self):
         if not(map_game.map[self.y+1][self.x] == 't'):
@@ -239,7 +236,6 @@ class PlayerGame(EntityInMap):
             else:
                 self.y = 0
                 map_game.newMap()
-            self.side = 'down'
 
     def upLvl(self):
         if self.exp >= self.lvl * 100:
@@ -452,12 +448,16 @@ while True:
         if i.type == pygame.KEYDOWN:
             if i.key == pygame.K_d:
                 player_game.playerRight()
+                player_game.side = 'right'
             elif i.key == pygame.K_a:
                 player_game.playerLeft()
+                player_game.side = 'left'
             elif i.key == pygame.K_w:
                 player_game.playerUp()
+                player_game.side = 'up'
             elif i.key == pygame.K_s:
                 player_game.playerDown()
+                player_game.side = 'down'
             elif i.key == pygame.K_e:
                 player_game.exp += 500
                 player_game.upLvl()
