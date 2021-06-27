@@ -440,23 +440,17 @@ class RandomMySkill(Skill):
     def use(self):
         if player_game.energy > self.energy:
             player_game.energy -= self.energy
-            n = len(player_game.skills)
-            random_n = random.randint(0, n-1)
-            if n > 1:
-                if player_game.skills[random_n].full_name != 'Random My Skill':
-                    print(player_game.skills[random_n].full_name)
-                    player_game.skills[random_n].use()
+            print(player_game.skills[0].full_name)
+            player_game.skills[0].use()
+            print('Work')
 
 class RandomSkill(Skill):
     def use(self):
         if player_game.energy > self.energy:
             player_game.energy -= self.energy
-            n = len(skills) - 1
-            random_n = random.randint(0, n)
-            if n > 1:
-                if player_game.skills[random_n].full_name != 'Random My Skill':
-                    print(skills[random_n].full_name)
-                    skills[random_n].use()
+            print(skills[0].full_name)
+            skills[0].use()
+            print('Work')
 
 
 # Objects
@@ -467,6 +461,8 @@ enemy_middle_game = []
 bonus_game = []
 tree_game = []
 bullet_game = []
+
+map_game.create_objects()
 
 skills = [
     FreezingSkill('Fr', 40, 'Freezing', 
@@ -513,8 +509,6 @@ start_dialogs = [
     'Level up and good luck!',
     ''
 ]
-
-map_game.create_objects()
 
 # Counter for moves
 enemy_counter_time = 0
