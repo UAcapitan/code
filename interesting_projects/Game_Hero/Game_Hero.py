@@ -324,6 +324,7 @@ class FreezingSkill(Skill):
             except:
                 pass
             player_game.exp += player_game.lvl * random.randint(1,10)
+            player_game.upLvl()
 
 class HpRegenSkill(Skill):
     def use(self):
@@ -398,6 +399,7 @@ class KickSkill(Skill):
                         if enemy_game[i].x == player_game.x+1 and enemy_game[i].y == player_game.y:
                             del enemy_game[i]
                             player_game.exp += 100 * player_game.lvl
+                            player_game.upLvl()
                     except:
                         pass
             elif player_game.side == 'left':
@@ -407,6 +409,7 @@ class KickSkill(Skill):
                         if enemy_game[i].x == player_game.x-1 and enemy_game[i].y == player_game.y:
                             del enemy_game[i]
                             player_game.exp += 100 * player_game.lvl
+                            player_game.upLvl()
                     except:
                         pass
             elif player_game.side == 'up':
@@ -416,6 +419,7 @@ class KickSkill(Skill):
                         if enemy_game[i].x == player_game.x and enemy_game[i].y == player_game.y-1:
                             del enemy_game[i]
                             player_game.exp += 100 * player_game.lvl
+                            player_game.upLvl()
                     except:
                         pass
             elif player_game.side == 'down':
@@ -425,6 +429,7 @@ class KickSkill(Skill):
                         if enemy_game[i].x == player_game.x and enemy_game[i].y == player_game.y+1:
                             del enemy_game[i]
                             player_game.exp += 100 * player_game.lvl
+                            player_game.upLvl()
                     except:
                         pass
             map_game.updateMapBullet(bullet_game[-1])
@@ -592,6 +597,7 @@ while True:
         for i in range(len(bonus_game)):
             if bonus_game[i].x == player_game.x and bonus_game[i].y == player_game.y:
                 player_game.exp += random.randint(1,25) * player_game.lvl
+                player_game.upLvl()
                 if player_game.energy < 100:
                     player_game.energy += 10
                 player_game.upLvl()
@@ -623,6 +629,7 @@ while True:
                     del bullet_game[i]
                     del enemy_game[i]
                     player_game.exp += 70 * player_game.lvl
+                    player_game.upLvl()
             for b in range(len(bonus_game)):
                 if bullet_game[i].x == bonus_game[b].x and bullet_game[i].y == bonus_game[b].y:
                     map_game.map[bullet_game[i].y][bullet_game[i].x] = 'bu'
