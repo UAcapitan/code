@@ -16,13 +16,14 @@ BLUE_COLOR = [0,0,255]
 WHITE_COLOR = [230,230,230]
 ENEMY_MIDDLE_COLOR = [0, 135, 0]
 BULLET_COLOR = [10,10,10]
-BOSS_LVL_COLOR = [30,30,30]
+BOSS_LVL_COLOR = [70,70,70]
+BLOCK_BOSS_COLOR = [30,30,30]
 
 game_over = False
 
 menu = False
 
-boss_lvl = 20
+boss_lvl = 2
 
 clock = pygame.time.Clock()
 
@@ -119,6 +120,8 @@ class MapGame:
         bullet_game = []
 
         map_game.create_objects()
+        if player_game.lvl >= boss_lvl:
+            map_game.newBossLvl()
 
     def create_objects(self):
         global enemy_game
@@ -187,6 +190,23 @@ class MapGame:
         
         for b in bonus_game:
             map_game.updateMapBonus(b)
+
+    def newBossLvl(self):
+        self.map = [
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,'t','t','t',0,0,0,0,'t','t',0,0,0,0,'t','t','t',0,0,0],
+            [0,0,'t',0,0,0,0,0,0,'t','t',0,0,0,0,0,0,'t',0,0,0],
+            [0,0,'t',0,0,'t','t','t','t','t','t','t','t','t','t',0,0,'t',0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,'t',0,0,'t','t','t','t','t','t','t','t','t','t',0,0,'t',0,0,0],
+            [0,0,'t',0,0,0,0,0,0,'t','t',0,0,0,0,0,0,'t',0,0,0],
+            [0,0,'t','t','t',0,0,0,0,'t','t',0,0,0,0,'t','t','t',0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ]
+        self.x = 0
+        self.y = 0
 
 # Player
 class PlayerGame(EntityInMap):
@@ -500,8 +520,6 @@ skills = [
     ['Choose randomly any ability'])
     ]
 
-player_game.skills.append(skills[11])
-
 # Dialogs
 start_dialogs_pos = 0
 start_dialogs = [
@@ -553,8 +571,6 @@ while True:
             elif i.key == pygame.K_e:
                 player_game.exp += 500
                 player_game.upLvl()
-            elif i.key == pygame.K_q:
-                player_game.useEnergyPlayer(10)
             elif i.key == pygame.K_z:
                 map_game.newMap()
             elif i.key == pygame.K_RETURN:
@@ -697,7 +713,10 @@ while True:
             if j == 'b':
                 pygame.draw.rect(screen, BLUE_COLOR, (map_game.x,map_game.y,20,20))
             if j == 't':
-                pygame.draw.rect(screen, DARK_GREEN_COLOR, (map_game.x,map_game.y,20,20))
+                if player_game.lvl < boss_lvl:
+                    pygame.draw.rect(screen, DARK_GREEN_COLOR, (map_game.x,map_game.y,20,20))
+                else:
+                    pygame.draw.rect(screen, BLOCK_BOSS_COLOR, (map_game.x,map_game.y,20,20))
             if j == 'em':
                 pygame.draw.rect(screen, ENEMY_MIDDLE_COLOR, (map_game.x,map_game.y,20,20))
             if j == 'bu':
