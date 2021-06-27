@@ -393,12 +393,40 @@ class KickSkill(Skill):
             player_game.energy -= self.energy
             if player_game.side == 'right':
                 map_game.map[player_game.y][player_game.x+1] = 0
+                for i in range(len(enemy_game)):
+                    try:
+                        if enemy_game[i].x == player_game.x+1 and enemy_game[i].y == player_game.y:
+                            del enemy_game[i]
+                            player_game.exp += 100 * player_game.lvl
+                    except:
+                        pass
             elif player_game.side == 'left':
                 map_game.map[player_game.y][player_game.x-1] = 0
+                for i in range(len(enemy_game)):
+                    try:
+                        if enemy_game[i].x == player_game.x-1 and enemy_game[i].y == player_game.y:
+                            del enemy_game[i]
+                            player_game.exp += 100 * player_game.lvl
+                    except:
+                        pass
             elif player_game.side == 'up':
                 map_game.map[player_game.y-1][player_game.x] = 0
+                for i in range(len(enemy_game)):
+                    try:
+                        if enemy_game[i].x == player_game.x and enemy_game[i].y == player_game.y-1:
+                            del enemy_game[i]
+                            player_game.exp += 100 * player_game.lvl
+                    except:
+                        pass
             elif player_game.side == 'down':
                 map_game.map[player_game.y+1][player_game.x] = 0
+                for i in range(len(enemy_game)):
+                    try:
+                        if enemy_game[i].x == player_game.x and enemy_game[i].y == player_game.y+1:
+                            del enemy_game[i]
+                            player_game.exp += 100 * player_game.lvl
+                    except:
+                        pass
             map_game.updateMapBullet(bullet_game[-1])
 
 skills = [
