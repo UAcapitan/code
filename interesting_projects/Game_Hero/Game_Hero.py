@@ -387,6 +387,20 @@ class ShootSkill(Skill):
                 bullet_game.append(BulletGame(player_game.x, player_game.y+1))
             map_game.updateMapBullet(bullet_game[-1])
 
+class KickSkill(Skill):
+    def use(self):
+        if player_game.energy > self.energy:
+            player_game.energy -= self.energy
+            if player_game.side == 'right':
+                map_game.map[player_game.y][player_game.x+1] = 0
+            elif player_game.side == 'left':
+                map_game.map[player_game.y][player_game.x-1] = 0
+            elif player_game.side == 'up':
+                map_game.map[player_game.y-1][player_game.x] = 0
+            elif player_game.side == 'down':
+                map_game.map[player_game.y+1][player_game.x] = 0
+            map_game.updateMapBullet(bullet_game[-1])
+
 skills = [
     FreezingSkill('Fr', 50),
     HpRegenSkill('HP', 70),
@@ -396,7 +410,8 @@ skills = [
     EnergyRegenSkill('E R', 50),
     BonusCreateSkill('Bon', 90),
     AllRegenSkill('A R', 60),
-    ShootSkill('Sh', 20)
+    ShootSkill('Sh', 20),
+    KickSkill('K', 10)
     ]
 
 # Dialogs
