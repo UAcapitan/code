@@ -18,6 +18,7 @@ ENEMY_MIDDLE_COLOR = [0, 135, 0]
 BULLET_COLOR = [10,10,10]
 BOSS_LVL_COLOR = [70,70,70]
 BLOCK_BOSS_COLOR = [30,30,30]
+BOSS_COLOR = [128, 10, 10]
 
 game_over = False
 
@@ -91,6 +92,10 @@ class MapGame:
     
     def updateMapBullet(self, b):
         self.map[b.y][b.x] = 'bu'
+
+    def updateMapBoss(self, enemy):
+        self.map[enemy.last_y][enemy.last_x] = 0
+        self.map[enemy.y][enemy.x] = 'bo'
 
     def newMap(self):
         global enemy_game
@@ -210,6 +215,8 @@ class MapGame:
         self.x = 0
         self.y = 0
 
+        map_game.updateMapBoss(boss_game)
+
 # Player
 class PlayerGame(EntityInMap):
     def __init__(self):
@@ -265,12 +272,14 @@ class PlayerGame(EntityInMap):
                 map_game.newMap()
 
     def upLvl(self):
+        global boss_game
         if self.exp >= self.lvl * 100:
                 self.exp -= self.lvl * 100
                 self.lvl += 1
                 if self.lvl % 5 == 0:
                     self.newSkill()
                 if self.lvl >= boss_lvl:
+                    boss_game = BossGame()
                     map_game.newMap()
     
     def newSkill(self):
@@ -314,6 +323,15 @@ class EnemyGame(EntityInMap):
                 self.last_y = self.y - 1
                 self.last_x = self.x
 
+# Boss
+class BossGame(EnemyGame):
+    def __init__(self):
+        super().__init__(10,4)
+        self.health = 500
+        self.last_x = self.x
+        self.last_y = self.y
+
+# Enemy middle
 class EnemyMiddleGame(EnemyGame):
     pass
 
@@ -473,6 +491,7 @@ enemy_middle_game = []
 bonus_game = []
 tree_game = []
 bullet_game = []
+boss_game = None
 
 map_game.create_objects()
 
@@ -618,6 +637,18 @@ while True:
                 e.enemyDown()
         map_game.updateMapEnemyMiddle(e)
 
+    if player_game.lvl >= boss_lvl:
+        random_enemy_move = random.randint(0,4)
+        if random_enemy_move == 0:
+            boss_game.enemyRight()
+        elif random_enemy_move == 1:
+            boss_game.enemyLeft()
+        elif random_enemy_move == 2:
+            boss_game.enemyUp()
+        elif random_enemy_move == 3:
+            boss_game.enemyDown()
+        map_game.updateMapBoss(boss_game)
+
     try:
         for i in range(len(enemy_game)):
             if enemy_game[i].x == player_game.x and enemy_game[i].y == player_game.y:
@@ -704,6 +735,8 @@ while True:
                 pygame.draw.rect(screen, ENEMY_MIDDLE_COLOR, (map_game.x,map_game.y,20,20))
             if j == 'bu':
                 pygame.draw.rect(screen, BULLET_COLOR, (map_game.x,map_game.y,20,20))
+            if j == 'bo':
+                pygame.draw.rect(screen, BOSS_COLOR, (map_game.x,map_game.y,20,20))
             map_game.x += 20
         map_game.x = 0
         map_game.y += 20
@@ -822,8 +855,6 @@ while True:
         textsurface = myfont.render('Press Enter for quit', False, (255, 255, 255))
         screen.blit(textsurface,(130,150))
         game_over = True
-
-    win = True
 
     if win:
         screen.fill(GREEN_COLOR)
