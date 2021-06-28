@@ -708,6 +708,17 @@ while True:
                 if bullet_game[i].x == bonus_game[b].x and bullet_game[i].y == bonus_game[b].y:
                     map_game.map[bullet_game[i].y][bullet_game[i].x] = 'bu'
                     del bonus_game[i]
+
+        if player_game.lvl >= boss_lvl:
+            if boss_game.x == player_game.x and boss_game.y == player_game.y:
+                if player_game.energy > 50:
+                    player_game.energy -= 50
+                    boss_game.health -= 50
+                player_game.health -= 50
+                if boss_game.health <= 0:
+                    del boss_game
+                    win = True
+                    player_game.health = 100
     except:
         pass    
  
