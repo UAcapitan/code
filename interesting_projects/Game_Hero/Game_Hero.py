@@ -23,6 +23,8 @@ game_over = False
 
 menu = False
 
+win = False
+
 boss_lvl = 2
 
 clock = pygame.time.Clock()
@@ -815,6 +817,18 @@ while True:
         screen.fill(GREEN_COLOR)
         myfont = pygame.font.SysFont('Comic Sans MS', 50)
         textsurface = myfont.render('Game Over', False, (255, 255, 255))
+        screen.blit(textsurface,(70,70))
+        myfont = pygame.font.SysFont('Comic Sans MS', 15)
+        textsurface = myfont.render('Press Enter for quit', False, (255, 255, 255))
+        screen.blit(textsurface,(130,150))
+        game_over = True
+
+    win = True
+
+    if win:
+        screen.fill(GREEN_COLOR)
+        myfont = pygame.font.SysFont('Comic Sans MS', 35)
+        textsurface = myfont.render('You won the game', False, (255, 255, 255))
         screen.blit(textsurface,(70,70))
         myfont = pygame.font.SysFont('Comic Sans MS', 15)
         textsurface = myfont.render('Press Enter for quit', False, (255, 255, 255))
