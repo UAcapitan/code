@@ -1,1 +1,0 @@
-__all__ = ['win_door','room']
