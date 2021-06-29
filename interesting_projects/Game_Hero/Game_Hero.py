@@ -373,15 +373,16 @@ class Skill:
 # Skills
 class FreezingSkill(Skill):
     def use(self):
-        if player_game.energy > self.energy:
-            player_game.energy -= self.energy
-            try:
-                for i in range(len(enemy_game)):
-                    del enemy_game[i]
-            except:
-                pass
-            player_game.exp += player_game.lvl * random.randint(1,10)
-            player_game.upLvl()
+        if player_game.lvl < boss_lvl:
+            if player_game.energy > self.energy:
+                player_game.energy -= self.energy
+                try:
+                    for i in range(len(enemy_game)):
+                        del enemy_game[i]
+                except:
+                    pass
+                player_game.exp += player_game.lvl * random.randint(1,10)
+                player_game.upLvl()
 
 class HpRegenSkill(Skill):
     def use(self):
@@ -391,22 +392,25 @@ class HpRegenSkill(Skill):
 
 class ExpUpSkill(Skill):
     def use(self):
-        if player_game.energy > self.energy:
-            player_game.energy -= self.energy
-            player_game.exp += player_game.lvl * 100
-            player_game.upLvl()
+        if player_game.lvl < boss_lvl:
+            if player_game.energy > self.energy:
+                player_game.energy -= self.energy
+                player_game.exp += player_game.lvl * 100
+                player_game.upLvl()
 
 class ClearMapSkill(Skill):
     def use(self):
-        if player_game.energy > self.energy:
-            player_game.energy -= self.energy
-            map_game.create_blind_map()
+        if player_game.lvl < boss_lvl:
+            if player_game.energy > self.energy:
+                player_game.energy -= self.energy
+                map_game.create_blind_map()
 
 class TeleportSkill(Skill):
     def use(self):
-        if player_game.energy > self.energy:
-            player_game.energy -= self.energy
-            map_game.newMap()
+        if player_game.lvl < boss_lvl:
+            if player_game.energy > self.energy:
+                player_game.energy -= self.energy
+                map_game.newMap()
 
 class EnergyRegenSkill(Skill):
     def use(self):
@@ -426,10 +430,11 @@ class BonusCreateSkill(Skill):
 
 class AllRegenSkill(Skill):
     def use(self):
-        if player_game.energy > self.energy:
-            player_game.energy -= self.energy
-            player_game.health = 100
-            player_game.energy = 100
+        if player_game.lvl < boss_lvl:
+            if player_game.energy > self.energy:
+                player_game.energy -= self.energy
+                player_game.health = 100
+                player_game.energy = 100
 
 class ShootSkill(Skill):
     def use(self):
@@ -575,8 +580,6 @@ skills = [
     DamageBossSkill('B D', 50, 'Boss damage',
     ['Remove 10 hp from the boss'])
     ]
-
-player_game.skills.append(skills[-1])
 
 # Dialogs
 start_dialogs_pos = 0
