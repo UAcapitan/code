@@ -596,6 +596,8 @@ hp_regen_timer = 0
 
 energy_regen_timer = 0
 
+bonus_boss_timer = 0
+
 while True:
 
     # FPS
@@ -718,8 +720,9 @@ while True:
 
         for i in range(len(bonus_game)):
             if bonus_game[i].x == player_game.x and bonus_game[i].y == player_game.y:
-                player_game.exp += random.randint(1,25) * player_game.lvl
-                player_game.upLvl()
+                if player_game.lvl < boss_game:
+                    player_game.exp += random.randint(1,25) * player_game.lvl
+                    player_game.upLvl()
                 if player_game.energy < 100:
                     player_game.energy += 10
                 player_game.upLvl()
@@ -826,6 +829,24 @@ while True:
         energy_regen_timer = 0
         if player_game.energy < 100 and not game_over:
             player_game.energy += 10
+
+    if player_game.lvl >= boss_lvl:
+        bonus_boss_timer += 1
+
+        if bonus_boss_timer > 300:
+            bonus_boss_timer = 0
+            bonus_game = []
+            for i in range(random.randint(0,10)):
+                    bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
+
+            for b in bonus_game:
+                map_game.updateMapBonus(b)
+
+            map_game.map[boss_game.y][boss_game.x] = 0
+
+            boss_game.x = random.randint(0,18)
+            boss_game.y = random.randint(0,8)
+        
 
     # Scales
     pygame.draw.rect(screen, WHITE_COLOR, (0,200,400,50))
