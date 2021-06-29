@@ -331,6 +331,14 @@ class BossGame(EnemyGame):
         self.last_x = self.x
         self.last_y = self.y
 
+    def boss_lose(self):
+        global win
+        global boss_game
+        if self.health <= 0:
+                del boss_game
+                win = True
+                player_game.health = 100
+
 # Enemy middle
 class EnemyMiddleGame(EnemyGame):
     pass
@@ -571,7 +579,7 @@ while True:
                 player_game.playerDown()
                 player_game.side = 'down'
             elif i.key == pygame.K_e:
-                player_game.exp += 500
+                player_game.exp += 50000
                 player_game.upLvl()
             elif i.key == pygame.K_z:
                 map_game.newMap()
@@ -637,7 +645,7 @@ while True:
                 e.enemyDown()
         map_game.updateMapEnemyMiddle(e)
 
-    if player_game.lvl >= boss_lvl:
+    if player_game.lvl >= boss_lvl and not(win):
         random_enemy_move = random.randint(0,4)
         if random_enemy_move == 0:
             boss_game.enemyRight()
@@ -715,10 +723,13 @@ while True:
                     player_game.energy -= 50
                     boss_game.health -= 50
                 player_game.health -= 50
-                if boss_game.health <= 0:
-                    del boss_game
-                    win = True
-                    player_game.health = 100
+                boss_game.boss_lose()
+
+            for i in range(len(bullet_game)):
+                if bullet_game[i].x == boss_game.x and bullet_game[i].y == boss_game.y:
+                    del bullet_game[i]
+                    boss_game.health -= 50
+                    boss_game.boss_lose()
     except:
         pass    
  
