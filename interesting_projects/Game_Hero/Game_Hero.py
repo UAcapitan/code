@@ -491,6 +491,24 @@ class KickSkill(Skill):
                         pass
             map_game.updateMapBullet(bullet_game[-1])
 
+class BuildTreeSkill(Skill):
+    def use(self):
+        try:
+            if player_game.lvl < boss_lvl:
+                if player_game.energy > self.energy:
+                    player_game.energy -= self.energy
+                    if player_game.side == 'right':
+                        tree_game.append(TreeGame(player_game.x+1, player_game.y))
+                    elif player_game.side == 'left':
+                        tree_game.append(TreeGame(player_game.x-1, player_game.y))
+                    elif player_game.side == 'up':
+                        tree_game.append(TreeGame(player_game.x, player_game.y-1))
+                    elif player_game.side == 'down':
+                        tree_game.append(TreeGame(player_game.x, player_game.y+1))
+                    map_game.updateMapTree(tree_game[-1])
+        except:
+            pass
+
 # Objects
 map_game = MapGame()
 player_game = PlayerGame()
@@ -523,7 +541,9 @@ skills = [
     ShootSkill('Sh', 20, 'Shoot',
     ['Allows you to shoot a bullet that','destroys everything in its path']),
     KickSkill('K', 10, 'Kick',
-    ['Allows you to destroy everything','that is near the player'])
+    ['Allows you to destroy everything','that is near the player']),
+    BuildTreeSkill('B T', 10, 'Build tree',
+    ['Allows you to build a tree'])
     ]
 
 # Dialogs
@@ -579,7 +599,7 @@ while True:
                 player_game.playerDown()
                 player_game.side = 'down'
             elif i.key == pygame.K_e:
-                player_game.exp += 50000
+                player_game.exp += 500
                 player_game.upLvl()
             elif i.key == pygame.K_z:
                 map_game.newMap()
