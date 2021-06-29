@@ -527,6 +527,14 @@ class BuildBlockSkill(Skill):
         except:
             pass
 
+class DamageBossSkill(Skill):
+    def use(self):
+        if player_game.energy > self.energy:
+            if player_game.lvl >= boss_lvl:
+                player_game.energy -= self.energy
+                boss_game.health -= 10
+                boss_game.boss_lose()
+
 # Objects
 map_game = MapGame()
 player_game = PlayerGame()
@@ -563,8 +571,12 @@ skills = [
     BuildTreeSkill('B T', 10, 'Build tree',
     ['Allows you to build a tree']),
     BuildBlockSkill('B B', 10, 'Build block',
-    ['Allows you to build a block'])
+    ['Allows you to build a block']),
+    DamageBossSkill('B D', 50, 'Boss damage',
+    ['Remove 10 hp from the boss'])
     ]
+
+player_game.skills.append(skills[-1])
 
 # Dialogs
 start_dialogs_pos = 0
