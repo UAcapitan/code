@@ -19,6 +19,7 @@ BULLET_COLOR = [10,10,10]
 BOSS_LVL_COLOR = [70,70,70]
 BLOCK_BOSS_COLOR = [30,30,30]
 BOSS_COLOR = [128, 10, 10]
+WARNING_COLOR = [240,240,240]
 
 game_over = False
 
@@ -796,6 +797,8 @@ while True:
         screen.fill(GREEN_COLOR)
     else:
         screen.fill(BOSS_LVL_COLOR)
+    if bonus_boss_timer in range(295,298):
+        screen.fill(WARNING_COLOR)
 
     # Draw entities
     for i in map_game.map:
@@ -851,6 +854,7 @@ while True:
         if bonus_boss_timer > 300:
             bonus_boss_timer = 0
             bonus_game = []
+
             for i in range(random.randint(0,10)):
                     bonus_game.append(BonusGame(random.randint(0,18), random.randint(0,8)))
 
