@@ -600,7 +600,7 @@ start_dialogs = [
     'Level up and good luck!',
     'Press the button `i`',
     'to view the abilities.',
-    'The button `x` can',
+    'The button `e` can',
     'activate the ability.',
     ''
 ]
@@ -636,20 +636,17 @@ while True:
             elif i.key == pygame.K_s:
                 player_game.playerDown()
                 player_game.side = 'down'
-            elif i.key == pygame.K_e:
-                player_game.exp += 500
-                player_game.upLvl()
-            elif i.key == pygame.K_z:
-                map_game.newMap()
             elif i.key == pygame.K_RETURN:
                 if game_over:
                     exit()
+            elif i.key == pygame.K_x:
+                exit()
             elif i.key == pygame.K_i:
                 menu = True if not(menu) else False
             elif i.key == pygame.K_SPACE:
                 if len(start_dialogs) > start_dialogs_pos + 1:
                     start_dialogs_pos += 1
-            elif i.key == pygame.K_x:
+            elif i.key == pygame.K_e:
                 try:
                     player_game.skills[player_game.skills_pos].use()
                 except:
