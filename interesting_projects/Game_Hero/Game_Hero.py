@@ -651,6 +651,11 @@ while True:
                     player_game.skills[player_game.skills_pos].use()
                 except:
                     pass
+            elif i.key == pygame.K_q:
+                player_game.exp += 500
+                if player_game.energy >= 10:
+                    player_game.energy -= 10
+                player_game.upLvl()
             # Skills buttons
             elif i.key == pygame.K_1:
                 player_game.skills_pos = 0
@@ -733,7 +738,7 @@ while True:
 
         for i in range(len(bonus_game)):
             if bonus_game[i].x == player_game.x and bonus_game[i].y == player_game.y:
-                if player_game.lvl < boss_game:
+                if player_game.lvl < boss_lvl:
                     player_game.exp += random.randint(1,25) * player_game.lvl
                     player_game.upLvl()
                 if player_game.energy < 100:
