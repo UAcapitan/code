@@ -27,7 +27,7 @@ menu = False
 
 win = False
 
-boss_lvl = 2
+boss_lvl = 100
 
 clock = pygame.time.Clock()
 
@@ -651,11 +651,6 @@ while True:
                     player_game.skills[player_game.skills_pos].use()
                 except:
                     pass
-            elif i.key == pygame.K_q:
-                player_game.exp += 500
-                if player_game.energy >= 10:
-                    player_game.energy -= 10
-                player_game.upLvl()
             # Skills buttons
             elif i.key == pygame.K_1:
                 player_game.skills_pos = 0
@@ -705,17 +700,17 @@ while True:
                 e.enemyDown()
         map_game.updateMapEnemyMiddle(e)
 
-    if player_game.lvl >= boss_lvl and not(win):
-        random_enemy_move = random.randint(0,4)
-        if random_enemy_move == 0:
-            boss_game.enemyRight()
-        elif random_enemy_move == 1:
-            boss_game.enemyLeft()
-        elif random_enemy_move == 2:
-            boss_game.enemyUp()
-        elif random_enemy_move == 3:
-            boss_game.enemyDown()
-        map_game.updateMapBoss(boss_game)
+        if player_game.lvl >= boss_lvl and not(win):
+            random_enemy_move = random.randint(0,4)
+            if random_enemy_move == 0:
+                boss_game.enemyRight()
+            elif random_enemy_move == 1:
+                boss_game.enemyLeft()
+            elif random_enemy_move == 2:
+                boss_game.enemyUp()
+            elif random_enemy_move == 3:
+                boss_game.enemyDown()
+            map_game.updateMapBoss(boss_game)
 
     try:
         for i in range(len(enemy_game)):
