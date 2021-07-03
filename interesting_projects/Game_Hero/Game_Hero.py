@@ -639,8 +639,6 @@ while True:
             elif i.key == pygame.K_RETURN:
                 if game_over:
                     exit()
-            elif i.key == pygame.K_x:
-                exit()
             elif i.key == pygame.K_i:
                 menu = True if not(menu) else False
             elif i.key == pygame.K_SPACE:
