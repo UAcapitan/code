@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Create article{% endblock %}
+
+{% block content %}
+    <p>Create article</p>
+    <form method='post'>
+        <input type='text' name='title' id='title' class='form-control'>
+        <input type='text' name='intro' id='intro' class='form-control'>
+        <input type='text' name='text' id='text' class='form-control'>
+        <input type='submit' class='btn btn-success'>
+    </form>
+{% endblock %}

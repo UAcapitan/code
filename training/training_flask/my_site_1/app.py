@@ -1,9 +1,11 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
+from flask.wrappers import Request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 class Article(db.Model):
@@ -20,6 +22,24 @@ class Article(db.Model):
 @app.route('/')
 def main():
     return render_template('main.html')
+
+@app.route('/create-article', methods=['POST', 'GET'])
+def create_article():
+    if request.method == 'POST':
+        title = request.form['title']
+        intro = request.form['intro']
+        text = request.form['text']
+
+        article = Article(title=title, intro=intro, text=text)
+
+        try:
+            db.session.add(article)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'Error'
+    else:
+        return render_template('create_article.html')
 
 if __name__ == '__main__':
     app.run(debug='True')
