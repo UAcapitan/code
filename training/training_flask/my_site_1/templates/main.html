@@ -6,7 +6,7 @@
     <p>Main page</p>
     {% for el in articles %}
         <div class='alert alert-info'>
-            <h3>{{ el.title }}</h3>
+            <a href='/post/{{ el.id }}'><h3>{{ el.title }}</h3></a>
             <p>{{ el.intro }}</p>
         </div>
     {% endfor %}
