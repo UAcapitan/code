@@ -21,7 +21,8 @@ class Article(db.Model):
 
 @app.route('/')
 def main():
-    return render_template('main.html')
+    articles = Article.query.order_by(Article.date).all()
+    return render_template('main.html', articles=articles)
 
 @app.route('/create-article', methods=['POST', 'GET'])
 def create_article():
