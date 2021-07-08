@@ -42,5 +42,10 @@ def create_article():
     else:
         return render_template('create_article.html')
 
+@app.route('/post/<int:id>')
+def post(id):
+    article = Article.query.get(id)
+    return render_template('post.html', article=article)
+
 if __name__ == '__main__':
     app.run(debug='True')
