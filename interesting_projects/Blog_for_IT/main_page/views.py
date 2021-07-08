@@ -5,5 +5,3 @@ def index(request):
 
 def create_article(request):
     return render(request, 'create_article.html', {})
-
-
