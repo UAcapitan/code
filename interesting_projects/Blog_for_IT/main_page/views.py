@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import ArticleForm
+from .models import Article
 
 def index(request):
     return render(request, 'main.html', {})
@@ -20,3 +21,12 @@ def create_article(request):
         }
 
         return render(request, 'create_article.html', data)
+
+def articles(request):
+    articles = Article.objects.all()
+    
+    data = {
+        'articles':articles
+    }
+
+    return render(request, 'articles.html', data)
