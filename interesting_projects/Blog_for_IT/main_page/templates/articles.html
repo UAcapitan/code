@@ -9,7 +9,7 @@
             <div class="card-body">
             <h5 class="card-title">{{ el.name }}</h5>
             <p class="card-text">Author: {{ el.author }}</p>
-            <a href="#" class="btn btn-primary">Read</a>
+            <a href="{% url 'post' el.id %}" class="btn btn-primary">Read</a>
             </div>
         </div>
     {% endfor %}

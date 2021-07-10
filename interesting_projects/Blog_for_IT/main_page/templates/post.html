@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ article.name }}{% endblock %}
+
+{% block content %}
+    <h1>{{ article.name }}</h1>
+    <p>Author: {{ article.author }}</p>
+    <p>Date publication: {{ article.date }}</p>
+    <img src="{{ article.image }}" class="rounded mx-auto d-block" style="width: 94%" alt="Image">
+    <br><br>
+    <p>{{ article.text }}</p>
+{% endblock %}

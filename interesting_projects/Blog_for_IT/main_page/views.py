@@ -30,3 +30,12 @@ def articles(request):
     }
 
     return render(request, 'articles.html', data)
+
+def post(request, id):
+    article = Article.objects.get(id=id)
+
+    data = {
+        'article':article
+    }
+
+    return render(request, 'post.html', data)
