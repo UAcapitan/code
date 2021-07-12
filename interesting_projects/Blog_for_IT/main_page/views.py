@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from .forms import ArticleForm, UserForm
+from .forms import ArticleForm, UserForm, UserLoginForm
 from .models import Article
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 def index(request):
     return render(request, 'main.html', {})
@@ -58,10 +58,16 @@ def reg(request):
         form = UserForm()
     return render(request, 'registration.html', {'form': form})
 
-def my_view(request):
+def login_user(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+    form = UserLoginForm()
+    return render(request, 'login.html', {'form': form})
+
+def exit_user(request):
+    logout(request)
+    return redirect('index')

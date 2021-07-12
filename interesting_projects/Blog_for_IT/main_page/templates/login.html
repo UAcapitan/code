@@ -4,4 +4,9 @@
 
 {% block content %}
     <p>Login</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Sign up</button>
+    </form>
 {% endblock %}
