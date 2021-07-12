@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import ArticleForm, UserForm
 from .models import Article
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 
 def index(request):
     return render(request, 'main.html', {})
@@ -56,3 +57,11 @@ def reg(request):
     else:
         form = UserForm()
     return render(request, 'registration.html', {'form': form})
+
+def my_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
