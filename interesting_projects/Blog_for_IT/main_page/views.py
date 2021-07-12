@@ -66,7 +66,7 @@ def login_user(request):
         if user is not None:
             login(request, user)
     form = UserLoginForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'login.html', {'form': form, 'check':User.is_authenticated()})
 
 def exit_user(request):
     logout(request)
