@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
-from .forms import ArticleForm
+from .forms import ArticleForm, UserForm
 from .models import Article
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 def index(request):
     return render(request, 'main.html', {})
@@ -44,13 +43,16 @@ def post(request, id):
 
 def reg(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            try:
+                user = User.objects.create_user(username, email, password)
+                user.save()
+            except:
+                return render(request, 'error_form.html')
     else:
-        form = UserCreationForm()
+        form = UserForm()
     return render(request, 'registration.html', {'form': form})

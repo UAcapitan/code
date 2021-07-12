@@ -1,6 +1,7 @@
 from django.forms.widgets import TextInput, Textarea
 from .models import Article
 from django.forms import ModelForm
+from django.contrib.auth.models import User
 
 class ArticleForm(ModelForm):
     class Meta:
@@ -25,3 +26,8 @@ class ArticleForm(ModelForm):
                 'placeholder':'Image URL'
             })
         }
+
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password']
