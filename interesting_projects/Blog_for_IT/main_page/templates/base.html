@@ -37,6 +37,9 @@
                 </li>
               {% endif %}
             </ul>
+              {% if user.is_authenticated %}
+              <p class='text-light h6 mt-1'>{{ request.user.username }}</p>
+              {% endif %}
           </div>
         </div>
     </nav>

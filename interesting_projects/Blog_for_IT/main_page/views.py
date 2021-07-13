@@ -4,6 +4,7 @@ from .models import Article
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
+
 def index(request):
     return render(request, 'main.html', {})
 
@@ -73,4 +74,12 @@ def exit_user(request):
     return redirect('index')
 
 def profile(request):
-    return render(request, 'profile.html')
+
+    username = request.user.username
+
+    articles = Article.objects.all().filter(author=username)
+
+    data = {
+        'articles':articles
+    }
+    return render(request, 'profile.html', data)
