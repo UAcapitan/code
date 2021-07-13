@@ -13,3 +13,14 @@ class Article(models.Model):
     class Meta:
         verbose_name = 'Article'
         verbose_name_plural = 'Articles'
+
+class Avatar(models.Model):
+    name = models.CharField(max_length=100)
+    image = models.CharField(max_length=300, default='')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Avatar'
+        verbose_name_plural = 'Avatars'

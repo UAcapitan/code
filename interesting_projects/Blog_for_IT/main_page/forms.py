@@ -1,6 +1,6 @@
 from django.db.models.base import Model
 from django.forms.widgets import TextInput, Textarea
-from .models import Article
+from .models import Article, Avatar
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 
@@ -37,3 +37,8 @@ class UserLoginForm(ModelForm):
     class Meta:
         model = User
         fields = ['username', 'password']
+
+class AvatarForm(ModelForm):
+    class Meta:
+        model = Avatar
+        fields = ['image']

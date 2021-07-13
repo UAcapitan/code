@@ -7,6 +7,12 @@
         <h3>{{ request.user.username }}</h3>
         <h5>{{ request.user.email }}</h5>
 
+        <form method='post'>
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit">Update</button>
+        </form>
+
         <div class="container">
             <div class="row">
                 {% for el in articles %}

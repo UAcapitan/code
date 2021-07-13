@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import ArticleForm, UserForm, UserLoginForm
+from .forms import ArticleForm, UserForm, UserLoginForm, AvatarForm
 from .models import Article
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -79,7 +79,10 @@ def profile(request):
 
     articles = Article.objects.all().filter(author=username)
 
+    avatar_form = AvatarForm()
+
     data = {
-        'articles':articles
+        'articles':articles,
+        'form':avatar_form,
     }
     return render(request, 'profile.html', data)
