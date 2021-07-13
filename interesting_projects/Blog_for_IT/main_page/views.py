@@ -71,3 +71,6 @@ def login_user(request):
 def exit_user(request):
     logout(request)
     return redirect('index')
+
+def profile(request):
+    return render(request, 'profile.html')

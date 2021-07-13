@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <p>Profile</p>
+    {% else %}
+        <h1>Go to your account</h1>
+        <div class="col">
+            <a href="{% url 'login' %}" class="btn btn-primary">Sign In</a>
+        </div>
+    {% endif %}
+{% endblock %}
