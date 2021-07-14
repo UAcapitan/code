@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import ArticleForm, UserForm, UserLoginForm, AvatarForm
-from .models import Article
+from .models import Article, Avatar
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
@@ -81,8 +81,17 @@ def profile(request):
 
     avatar_form = AvatarForm()
 
+    if request.method == 'POST':
+        image = request.POST['image']
+        avatar = Avatar.objects.create(image=image, name=username)
+        avatar.save()
+        return redirect('profile')
+
+    avatar = Avatar.objects.get(name=username)
+
     data = {
         'articles':articles,
         'form':avatar_form,
+        'avatar':avatar
     }
     return render(request, 'profile.html', data)

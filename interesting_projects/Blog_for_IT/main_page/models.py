@@ -19,7 +19,7 @@ class Avatar(models.Model):
     image = models.CharField(max_length=300, default='')
 
     def __str__(self):
-        return self.name
+        return self.image
 
     class Meta:
         verbose_name = 'Avatar'
