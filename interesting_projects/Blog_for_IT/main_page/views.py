@@ -17,7 +17,7 @@ def create_article(request):
         else:
             return render(request, 'error_form.html')
     else:
-        form = ArticleForm()
+        form = ArticleForm(initial={'author': request.user.username})
 
         data = {
             'form': form
@@ -82,12 +82,17 @@ def profile(request):
     avatar_form = AvatarForm()
 
     if request.method == 'POST':
+        if Avatar.objects.filter(name=username).exists():
+            Avatar.objects.get(name=username).delete()
         image = request.POST['image']
         avatar = Avatar.objects.create(image=image, name=username)
         avatar.save()
         return redirect('profile')
 
-    avatar = Avatar.objects.get(name=username)
+    if Avatar.objects.filter(name=username).exists():
+        avatar = Avatar.objects.get(name=username)
+    else:
+        avatar = 'http://simpleicon.com/wp-content/uploads/user1.png'
 
     data = {
         'articles':articles,

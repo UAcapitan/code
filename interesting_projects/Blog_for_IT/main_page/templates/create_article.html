@@ -8,11 +8,11 @@
         {% csrf_token %}
         {{ form.name }}
         <br>
-        {{ form.author }}
-        <br>
         {{ form.image }}
         <br>
         {{ form.text }}
+        <br>
+        {{ form.author }}
         <br>
         <input type="submit" class='btn btn-success' value="Send">
     </form>

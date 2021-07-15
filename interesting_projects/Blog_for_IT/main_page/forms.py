@@ -19,8 +19,8 @@ class ArticleForm(ModelForm):
                 'placeholder':'Text'
             }),
             'author': TextInput(attrs={
-                'class':'form-control',
-                'placeholder':'Author'
+                'class':'form-control d-lg-none',
+                'placeholder':'Author',
             }),
             'image': TextInput(attrs={
                 'class':'form-control',
