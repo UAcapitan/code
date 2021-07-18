@@ -2,7 +2,7 @@
 # Development start date: 16 Jul 2021
 # --------------------------------------
 
-import urllib2
+import urllib.request as urllib2
 import telebot
 from bs4 import BeautifulSoup
 
@@ -15,7 +15,9 @@ def send_text(message):
     url = 'https://habr.com/ru/search/?q=Python&target_type=posts&order=date'
     page = urllib2.urlopen(url)
     soup = BeautifulSoup(page, 'html.parser')
-    bot.send_message(message.chat.id, message.text)
+    article_box = soup.find('a', attrs={'class': 'tm-article-snippet__title-link'})
+    article = article_box.text.strip()
+    bot.send_message(message.chat.id, article)
 
 bot.polling(none_stop=True)
 
