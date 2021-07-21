@@ -18,7 +18,11 @@ list_buttons = ['Habr News Python', 'Habr All', 'Habr Python', '/back']
 def start_bot(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     button1 = types.KeyboardButton('Habr')
+    button2 = types.KeyboardButton('Video')
+    button3 = types.KeyboardButton('Stepik')
     markup.add(button1)
+    markup.add(button2)
+    markup.add(button3)
     bot.send_message(message.chat.id, 'Keyboard', reply_markup=markup)
 
 @bot.message_handler(content_types=['text'])
