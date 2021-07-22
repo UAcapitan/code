@@ -12,6 +12,7 @@ TOKEN = '1912816248:AAFfHtIKznlhFFMC-k4OfmKEZhRwI4gK2sc'
 bot = telebot.TeleBot(TOKEN)
 
 list_buttons = ['Habr News Python', 'Habr All', 'Habr Python', '/back']
+list_buttons_video = ['Programming', 'Python', 'Web', '/back']
 
 @bot.message_handler(commands=['start'])
 @bot.message_handler(commands=['back'])
@@ -34,6 +35,17 @@ def send_text(message):
         button2 = types.KeyboardButton(list_buttons[1])
         button3 = types.KeyboardButton(list_buttons[2])
         button4 = types.KeyboardButton(list_buttons[3])
+        markup.add(button1)
+        markup.add(button2)
+        markup.add(button3)
+        markup.add(button4)
+        bot.send_message(message.chat.id, 'Keyboard', reply_markup=markup)
+    elif message.text == 'Video':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        button1 = types.KeyboardButton(list_buttons_video[0])
+        button2 = types.KeyboardButton(list_buttons_video[1])
+        button3 = types.KeyboardButton(list_buttons_video[2])
+        button4 = types.KeyboardButton(list_buttons_video[3])
         markup.add(button1)
         markup.add(button2)
         markup.add(button3)
