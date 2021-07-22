@@ -13,6 +13,7 @@ bot = telebot.TeleBot(TOKEN)
 
 list_buttons = ['Habr News Python', 'Habr All', 'Habr Python', '/back']
 list_buttons_video = ['Programming', 'Python', 'Web', '/back']
+list_buttons_video = ['Courses', '/back']
 
 @bot.message_handler(commands=['start'])
 @bot.message_handler(commands=['back'])
