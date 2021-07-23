@@ -6,6 +6,7 @@ import urllib.request as urllib2
 import telebot
 from bs4 import BeautifulSoup
 from telebot import types
+import random
 
 TOKEN = '1912816248:AAFfHtIKznlhFFMC-k4OfmKEZhRwI4gK2sc'
 
@@ -13,12 +14,18 @@ bot = telebot.TeleBot(TOKEN)
 
 list_buttons = ['Habr News Python', 'Habr All', 'Habr Python', '/back']
 
+projects = [
+    'GUI Calculator',
+    'Weather Program',
+    'MP3 Player',
+]
+
 @bot.message_handler(commands=['start'])
 @bot.message_handler(commands=['back'])
 def start_bot(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     button1 = types.KeyboardButton('Habr')
-    button2 = types.KeyboardButton('Video')
+    button2 = types.KeyboardButton('Random project')
     button3 = types.KeyboardButton('Stepik')
     markup.add(button1)
     markup.add(button2)
@@ -65,6 +72,9 @@ def send_text(message):
             for i in article_box:
                 article = i.text.strip() + '\n\n' + url_site + i['href']
                 bot.send_message(message.chat.id, article)
+
+        if message.text == 'Random project':
+            bot.send_message(message.chat.id, random.choice(projects))
 
 bot.polling(none_stop=True)
 
