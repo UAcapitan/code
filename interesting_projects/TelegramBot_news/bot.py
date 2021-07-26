@@ -15,9 +15,9 @@ bot = telebot.TeleBot(TOKEN)
 list_buttons = ['Habr News Python', 'Habr All', 'Habr Python', '/back']
 
 projects = [
-    'GUI Calculator',
-    'Weather Program',
-    'MP3 Player',
+    'GUI Calculator - a calculator with a graphical interface, has both basic functions (summation, subtraction, multiplication, division) and additional functions (brackets, comma, exponentiation and further at your discretion).',
+    'Weather Program - graphic program for displaying the weather in the city or any other entered settlement, which the user enters.',
+    'MP3 Player - graphic program for displaying and playing music from the device, displays song titles, playback time and possibly graphic effects when playing a selected song.',
 ]
 
 @bot.message_handler(commands=['start'])
