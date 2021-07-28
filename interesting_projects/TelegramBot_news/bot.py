@@ -20,7 +20,11 @@ projects = [
     'MP3 Player - graphic program for displaying and playing music from the device, displays song titles, playback time and possibly graphic effects when playing a selected song.',
 ]
 
-list_meme = []
+list_meme = [
+    'https://inteng-storage.s3.amazonaws.com/img/iea/yrwQvLJbON/sizes/programmer-memes_md.jpg',
+    'https://i.pinimg.com/originals/f0/57/45/f05745097ea6273709bfe2e727989488.jpg',
+    'https://i.pinimg.com/originals/4f/82/8d/4f828d05f82b8b7aedfe8be6a7d9d2a3.png'
+]
 
 @bot.message_handler(commands=['start'])
 @bot.message_handler(commands=['back'])
@@ -79,7 +83,7 @@ def send_text(message):
             bot.send_message(message.chat.id, random.choice(projects))
 
         if message.text == 'Meme':
-            bot.send_photo(message.chat.id, 'https://inteng-storage.s3.amazonaws.com/img/iea/yrwQvLJbON/sizes/programmer-memes_md.jpg')
+            bot.send_photo(message.chat.id, random.choice(list_meme))
 
 bot.polling(none_stop=True)
 
