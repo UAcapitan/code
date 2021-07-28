@@ -23,7 +23,13 @@ projects = [
 list_meme = [
     'https://inteng-storage.s3.amazonaws.com/img/iea/yrwQvLJbON/sizes/programmer-memes_md.jpg',
     'https://i.pinimg.com/originals/f0/57/45/f05745097ea6273709bfe2e727989488.jpg',
-    'https://i.pinimg.com/originals/4f/82/8d/4f828d05f82b8b7aedfe8be6a7d9d2a3.png'
+    'https://i.pinimg.com/originals/4f/82/8d/4f828d05f82b8b7aedfe8be6a7d9d2a3.png',
+    'https://www.testbytes.net/wp-content/uploads/2019/06/Untitled-63.png',
+    'https://preview.redd.it/9u4tx0d53es11.png?auto=webp&s=dd88bf3841d5eb4885eed2d3caecc9a5da635cd5',
+    'https://pbs.twimg.com/media/EXUgmSsXQAAlWg7.jpg',
+    'https://miro.medium.com/max/1400/0*z1mm6izqSeDiKukb',
+    'https://i.pinimg.com/originals/0e/d6/23/0ed623806cf3b9d805a8cb1e4c822daf.png',
+    'https://res.cloudinary.com/practicaldev/image/fetch/s--ay343eZU--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pics.me.me/200-line-if-else-statement-everything-in-main-undocumented-code-if-25999016.png'
 ]
 
 @bot.message_handler(commands=['start'])
