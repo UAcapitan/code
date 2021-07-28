@@ -20,13 +20,15 @@ projects = [
     'MP3 Player - graphic program for displaying and playing music from the device, displays song titles, playback time and possibly graphic effects when playing a selected song.',
 ]
 
+list_meme = []
+
 @bot.message_handler(commands=['start'])
 @bot.message_handler(commands=['back'])
 def start_bot(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     button1 = types.KeyboardButton('Habr')
     button2 = types.KeyboardButton('Random project')
-    button3 = types.KeyboardButton('Stepik')
+    button3 = types.KeyboardButton('Meme')
     markup.add(button1)
     markup.add(button2)
     markup.add(button3)
@@ -75,6 +77,9 @@ def send_text(message):
 
         if message.text == 'Random project':
             bot.send_message(message.chat.id, random.choice(projects))
+
+        if message.text == 'Meme':
+            bot.send_photo(message.chat.id, 'https://inteng-storage.s3.amazonaws.com/img/iea/yrwQvLJbON/sizes/programmer-memes_md.jpg')
 
 bot.polling(none_stop=True)
 
