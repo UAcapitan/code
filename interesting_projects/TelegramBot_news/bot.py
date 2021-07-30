@@ -18,6 +18,10 @@ projects = [
     'GUI Calculator - a calculator with a graphical interface, has both basic functions (summation, subtraction, multiplication, division) and additional functions (brackets, comma, exponentiation and further at your discretion).',
     'Weather Program - graphic program for displaying the weather in the city or any other entered settlement, which the user enters.',
     'MP3 Player - graphic program for displaying and playing music from the device, displays song titles, playback time and possibly graphic effects when playing a selected song.',
+    'Design a Small JavaScript Game - Designing a small JavaScript game is a good test for any new developer — this is your chance to showcase what you can do with your skill set.',
+    'Create a Simple Application - Creating an application is a great way to practice your coding skills. It can be hard to come up with new application ideas, but your first application doesn’t have to be complicated — it can be something as simple as a calculator or to-do list.',
+    'Random Number Generator - Coding a random number generator with Python is another great programming project idea. The goal of the application is to randomly generate a number at the user’s request. This project will test a new developer’s ability to use variants, integers, random function, input/output and other concepts.',
+    'Build You Own Online Store - Creating an e-commerce store is another great way to practice your coding skills. The elements required for an online store are slightly more complex than a social networking site, since this project will need more than just a user database to function. Here, you will need to design a script to allow for a product page, shopping cart, checkout and other e-commerce-related elements.'
 ]
 
 list_meme = [
@@ -29,7 +33,10 @@ list_meme = [
     'https://pbs.twimg.com/media/EXUgmSsXQAAlWg7.jpg',
     'https://miro.medium.com/max/1400/0*z1mm6izqSeDiKukb',
     'https://i.pinimg.com/originals/0e/d6/23/0ed623806cf3b9d805a8cb1e4c822daf.png',
-    'https://res.cloudinary.com/practicaldev/image/fetch/s--ay343eZU--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pics.me.me/200-line-if-else-statement-everything-in-main-undocumented-code-if-25999016.png'
+    'https://res.cloudinary.com/practicaldev/image/fetch/s--ay343eZU--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pics.me.me/200-line-if-else-statement-everything-in-main-undocumented-code-if-25999016.png',
+    'https://i.chzbgr.com/full/9602643200/h2CFDEF7C/asked-draw-flowchart-my-code-tdev_meme-y-start-magic-end',
+    'https://www.thecoderpedia.com/wp-content/uploads/2020/06/Programming-Memes-Google-Chrome-822x1024.jpg?x78691',
+    'https://i.chzbgr.com/full/6349573/hB0DE8033/funny-programming-memes'
 ]
 
 @bot.message_handler(commands=['start'])
