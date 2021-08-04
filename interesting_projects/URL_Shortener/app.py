@@ -1,3 +1,7 @@
+# --------------------------------------
+# Development start date: 1 Aug 2021
+# --------------------------------------
+
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 
@@ -30,6 +34,11 @@ def index():
             return 'Error'
     else:
         return render_template('main.html')
+
+@app.route('/<string:url>')
+def open_page(url):
+    url_page = Page.query.filter_by(short=url).first()
+    return redirect(url_page.full)
 
 if __name__ == '__main__':
     app.run(debug=True)
