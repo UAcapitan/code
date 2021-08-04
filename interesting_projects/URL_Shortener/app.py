@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -14,10 +14,22 @@ class Page(db.Model):
     def __repr__(self):
         return '<Article %r>' % self.short
 
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def index():
-    return render_template('main.html')
+    if request.method == 'POST':
+        full = request.form['link']
+        short = request.form['short']
 
+        article = Page(full=full, short=short)
+
+        try:
+            db.session.add(article)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'Error'
+    else:
+        return render_template('main.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
