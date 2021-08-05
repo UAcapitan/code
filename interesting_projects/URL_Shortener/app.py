@@ -4,6 +4,7 @@
 
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import desc
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
@@ -42,6 +43,14 @@ def index():
                 return 'Error'
     else:
         return render_template('main.html')
+
+@app.route('/list')
+def list_page():
+    pages = Page.query.order_by(desc(Page.id)).limit(10).all()
+    print(pages[0].full)
+    return render_template('list_page.html', data = {
+        'pages': pages
+    })
 
 @app.route('/<string:url>')
 def open_page(url):

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}List{% endblock %}
+
+{% block content %}
+    <br>
+    <div class='container text-center mt-5'>
+        <h1>List</h1>
+        {% for p in data['pages'] %}
+            <p>{{ loop.index }}. 127.0.0.1:5000/{{ p.short }} - {{ p.full }}</p>
+        {% endfor %}
+        <a href="/" class='btn btn-primary'>Back</a>
+    </div>
+{% endblock %}

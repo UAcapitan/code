@@ -7,9 +7,10 @@
     <div class='container text-center mt-5'>
         <h1>URL Shortener</h1>
         <form method='POST'>
-            <input type="text" name='link' placeholder='Link'>
-            <input type="text" name='short' placeholder="Short link">
+            <input type="text" name='link' placeholder='Link' required>
+            <input type="text" name='short' placeholder="Short link" required>
             <input type="submit" value="Cut">
         </form>
+        <a href="/list" class='text-primary text-decoration-none'>List</a>
     </div>
 {% endblock %}
