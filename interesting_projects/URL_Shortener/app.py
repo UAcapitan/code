@@ -24,21 +24,32 @@ def index():
         full = request.form['link']
         short = request.form['short']
 
-        article = Page(full=full, short=short)
+        url_page = Page.query.filter_by(short=short).all()
 
-        try:
-            db.session.add(article)
-            db.session.commit()
-            return redirect('/')
-        except:
-            return 'Error'
+        if len(url_page) == 1:
+            return render_template('error.html')
+        else:
+            article = Page(full=full, short=short)
+            try:
+                db.session.add(article)
+                db.session.commit()
+
+                return render_template('success.html', data = {
+                    'full': full,
+                    'short': short
+                })
+            except:
+                return 'Error'
     else:
         return render_template('main.html')
 
 @app.route('/<string:url>')
 def open_page(url):
-    url_page = Page.query.filter_by(short=url).first()
-    return redirect(url_page.full)
+    try:
+        url_page = Page.query.filter_by(short=url).first()
+        return redirect(url_page.full)
+    except:
+        return render_template('no_page.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
