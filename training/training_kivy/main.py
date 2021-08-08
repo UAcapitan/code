@@ -1,15 +1,12 @@
 from kivy.app import App
 from kivy.uix.button import Button
+from kivy.uix.codeinput import CodeInput
+from pygments.lexers import HtmlLexer
 
 class MyApp(App):
     def build(self):
-        return Button(
-            text='This is my first button', 
-            font_size=30,
-            on_press=self.btn_press,
-            background_color=[0,.5,0,1],
-            background_normal=''
-        )
+
+        return CodeInput(lexer=HtmlLexer())
 
     def btn_press(self, instance):
         print('Work')
