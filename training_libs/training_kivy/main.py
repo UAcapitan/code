@@ -3,23 +3,23 @@ from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 
 n = 0
+GREEN_COLOR = [0,1,0,1]
 
 class MyApp(App):
     def build(self):
-
-        f1 = FloatLayout(size=(300,300))
         global n
+        global GREEN_COLOR
+        f1 = FloatLayout(size=(300,300))
         f1.add_widget(Button(
             text = str(n),
             on_press = self.click,
-            background_color = [0, 1, 0, 1]
+            background_color = GREEN_COLOR
         ))
 
         return f1
 
     def click(self,i):
         global n
-        print('Work')
         n += 1
         i.text = str(n)
 
