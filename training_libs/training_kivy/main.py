@@ -17,7 +17,10 @@ class MyApp(App):
         f1.add_widget(Button(
             text = str(n),
             on_press = self.click,
-            background_color = GREEN_COLOR
+            background_color = GREEN_COLOR,
+            background_normal = '',
+            size_hint = (.5,.25),
+            pos = (100,200)
         ))
 
         return f1
