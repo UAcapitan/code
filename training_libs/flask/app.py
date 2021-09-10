@@ -17,8 +17,16 @@ class Product(db.Model):
         return '<Article %r>' % self.id
 
 @app.route('/')
-def index():
+def main():
     return render_template('main.html')
+
+@app.route('/products')
+def products():
+    return render_template('products.html')
+
+@app.route('/product/<int:id>')
+def product(id):
+    return render_template('product.html')
 
 if __name__ == '__main__':
     app.run()
