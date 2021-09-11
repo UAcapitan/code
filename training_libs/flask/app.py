@@ -29,5 +29,9 @@ def products():
 def product(id):
     return render_template('product.html')
 
+@app.route('/basket')
+def basket():
+    return render_template('basket.html')
+
 if __name__ == '__main__':
     app.run()
