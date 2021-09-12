@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -11,7 +11,7 @@ db = SQLAlchemy(app)
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    cost = db.Column(db.Integer)
+    cost = db.Column(db.String(50), nullable=False)
     decription = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
@@ -35,6 +35,8 @@ def basket():
 
 @app.route('/create-product', methods=['POST', 'GET'])
 def create_product():
+    if request.method == 'POST':
+        return render_template('create_product.html')
     return render_template('create_product.html')
 
 if __name__ == '__main__':

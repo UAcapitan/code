@@ -4,4 +4,15 @@
 
 {% block content %}
     <h3>Create product</h3>
+    <form method='POST'>
+        <input type="text" name='name' class='form-control' placeholder='Name of product'>
+        <br>
+        <input type="text" name='cost' class='form-control' placeholder='Cost'>
+        <br>
+        <input type="text" name='description' class='form-control' placeholder='Description'>
+        <br>
+        <input type="text" name='password' class='form-control' placeholder='Admin password'>
+        <br>
+        <input type="submit" value="Add product">
+    </form>
 {% endblock %}
