@@ -16,6 +16,7 @@ class Product(db.Model):
     name = db.Column(db.String(100), nullable=False)
     cost = db.Column(db.String(50), nullable=False)
     description = db.Column(db.Text, nullable=False)
+    image = db.Column(db.String(300), nullable=False)
 
     def __repr__(self):
         return '<Article %r>' % self.id
@@ -44,10 +45,11 @@ def create_product():
         name = request.form['name']
         cost = request.form['cost']
         description = request.form['description']
+        image = request.form['image']
         password = request.form['password']
 
         if password == adminPassword:
-            product = Product(name=name, cost=cost, description=description)
+            product = Product(name=name, cost=cost, description=description, image=image)
 
             try:
                 db.session.add(product)
