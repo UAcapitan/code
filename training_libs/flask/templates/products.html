@@ -4,4 +4,13 @@
 
 {% block content %}
     <h3>Products</h3>
+    {% for product in products %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.cost }}</p>
+            <a href="/product/{{ product.id }}" class="btn btn-primary">Open</a>
+        </div>
+    </div>
+    {% endfor %}
 {% endblock %}

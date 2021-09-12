@@ -2,6 +2,7 @@ from os import error
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from password import adminPassword
+from sqlalchemy import desc
 
 app = Flask(__name__)
 
@@ -25,11 +26,13 @@ def main():
 
 @app.route('/products')
 def products():
-    return render_template('products.html')
+    product = Product.query.order_by(desc(Product.id)).all()
+    return render_template('products.html', products=product)
 
 @app.route('/product/<int:id>')
 def product(id):
-    return render_template('product.html')
+    product = Product.query.get(id)
+    return render_template('product.html', product=product)
 
 @app.route('/basket')
 def basket():
