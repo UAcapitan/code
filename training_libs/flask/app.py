@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request
+from os import error
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
+from password import adminPassword
 
 app = Flask(__name__)
 
@@ -12,7 +14,7 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     cost = db.Column(db.String(50), nullable=False)
-    decription = db.Column(db.Text, nullable=False)
+    description = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
         return '<Article %r>' % self.id
@@ -36,7 +38,23 @@ def basket():
 @app.route('/create-product', methods=['POST', 'GET'])
 def create_product():
     if request.method == 'POST':
-        return render_template('create_product.html')
+        name = request.form['name']
+        cost = request.form['cost']
+        description = request.form['description']
+        password = request.form['password']
+
+        if password == adminPassword:
+            product = Product(name=name, cost=cost, description=description)
+
+            try:
+                db.session.add(product)
+                db.session.commit()
+                return redirect('/')
+            except:
+                return render_template('error.html', error='Error')
+        else:
+            return render_template('error.html', error='Incorect password')
+
     return render_template('create_product.html')
 
 if __name__ == '__main__':

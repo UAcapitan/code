@@ -1,0 +1,1 @@
+adminPassword = '12345'
