@@ -33,5 +33,9 @@ def product(id):
 def basket():
     return render_template('basket.html')
 
+@app.route('/create-product', methods=['POST', 'GET'])
+def create_product():
+    return render_template('create_product.html')
+
 if __name__ == '__main__':
     app.run()
