@@ -5,7 +5,7 @@
 {% block content %}
     <h3>{{ product.name }}</h3>
     <p class='text-secondary'>{{ product.tag }}</p>
-    <img src="{{ product.image }}" width='400' alt="Image of product">
     <p>{{ product.cost }}$</p>
+    <img src="{{ product.image }}" style='width: 80%; margin-left: 10%;' alt="Image of product">
     <p>{{ product.description }}</p>
 {% endblock %}

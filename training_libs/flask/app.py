@@ -22,6 +22,14 @@ class Product(db.Model):
     def __repr__(self):
         return '<Article %r>' % self.id
 
+class Basket(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String(100), nullable=False)
+    id_product = db.Column(db.Integer)
+
+    def __repr__(self):
+        return '<Article %r>' % self.id
+
 @app.route('/')
 def main():
     product_tech = Product.query.filter_by(tag='Tech').order_by(desc(Product.id)).limit(3)
