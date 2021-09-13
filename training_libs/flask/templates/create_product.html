@@ -13,7 +13,21 @@
         <br>
         <input type="text" name='description' class='form-control' placeholder='Description'>
         <br>
-        <input type="text" name='tag' class='form-control' placeholder='Tag'>
+        <p class='text-secondary'>Tag</p>
+        <div class="container">
+            <div class="custom-control custom-radio">
+                <input type="radio" id='Tech' name="tag" value="Tech" class="custom-control-input" checked>
+                <label class="custom-control-label" for="Tech">Tech</label>
+            </div>
+            <div class="custom-control custom-radio">
+                <input type="radio" id='Food' name="tag" value="Food" class="custom-control-input">
+                <label class="custom-control-label" for="Food">Food</label>
+            </div>
+            <div class="custom-control custom-radio">
+                <input type="radio" id='Books' name="tag" value="Books" class="custom-control-input">
+                <label class="custom-control-label" for="Books">Books</label>
+            </div>
+        </div>
         <br>
         <input type="text" name='password' class='form-control' placeholder='Admin password'>
         <br>

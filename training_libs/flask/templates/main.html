@@ -7,14 +7,62 @@
     <p>Shop for people</p>
     <div class='container'>
         <h4>Tech</h4>
+        <div class="container">
+            <div class="row">
+                {% for product in product_tech %}
+                <div class="col-sm-4">
+                    <div class="card" style="width: 18rem;">
+                        <img src="{{ product.image }}" height='250' class="card-img-top" alt="Image">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.cost }}$</p>
+                            <a href="/product/{{ product.id }}" class="btn btn-primary">Open</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
     <br>
     <div class='container'>
         <h4>Food</h4>
+        <div class="container">
+            <div class="row">
+                {% for product in product_food %}
+                <div class="col-sm-4">
+                    <div class="card" style="width: 18rem;">
+                        <img src="{{ product.image }}" height='250' class="card-img-top" alt="Image">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.cost }}$</p>
+                            <a href="/product/{{ product.id }}" class="btn btn-primary">Open</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
     <br>
     <div class='container'>
         <h4>Books</h4>
+        <div class="container">
+            <div class="row">
+                {% for product in product_books %}
+                <div class="col-sm-4">
+                    <div class="card" style="width: 18rem;">
+                        <img src="{{ product.image }}" height='250' class="card-img-top" alt="Image">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.cost }}$</p>
+                            <a href="/product/{{ product.id }}" class="btn btn-primary">Open</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
     <br>
 {% endblock %}

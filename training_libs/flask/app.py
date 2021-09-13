@@ -24,7 +24,10 @@ class Product(db.Model):
 
 @app.route('/')
 def main():
-    return render_template('main.html')
+    product_tech = Product.query.filter_by(tag='Tech').order_by(desc(Product.id)).limit(3)
+    product_food = Product.query.filter_by(tag='Food').order_by(desc(Product.id)).limit(3)
+    product_books = Product.query.filter_by(tag='Books').order_by(desc(Product.id)).limit(3)
+    return render_template('main.html', product_tech=product_tech, product_food=product_food, product_books=product_books)
 
 @app.route('/products/<string:tag>')
 def products(tag):
