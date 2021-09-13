@@ -1,5 +1,5 @@
 from os import error
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, make_response
 from flask_sqlalchemy import SQLAlchemy
 from password import adminPassword
 from sqlalchemy import desc
@@ -50,7 +50,16 @@ def product(id):
 @app.route('/basket')
 def basket():
     basket = False
-    return render_template('basket.html', basket=basket)
+    basket_list = request.cookies.get('basket')
+    # return render_template('basket.html', basket=basket)
+    return basket_list
+
+@app.route('/add-in-basket/<int:id>')
+def add_in_basket(id):
+    basket = str(request.cookies.get('basket')) + ' ' + str(id)
+    resp = make_response(render_template('add_in_basket.html'))
+    resp.set_cookie('basket', basket)
+    return resp
 
 @app.route('/create-product', methods=['POST', 'GET'])
 def create_product():
