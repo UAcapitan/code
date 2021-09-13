@@ -41,7 +41,8 @@ def product(id):
 
 @app.route('/basket')
 def basket():
-    return render_template('basket.html')
+    basket = False
+    return render_template('basket.html', basket=basket)
 
 @app.route('/create-product', methods=['POST', 'GET'])
 def create_product():

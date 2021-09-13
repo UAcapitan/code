@@ -4,4 +4,9 @@
 
 {% block content %}
     <h3>Basket</h3>
+    {% if basket %}
+        <p>Not empty</p>
+    {% else %}
+        <p>Empty</p>
+    {% endif%}
 {% endblock %}
