@@ -4,14 +4,22 @@
 
 {% block content %}
     <h3>Products</h3>
+    <div class="buttons">
+        <a href="/products/tech" class='btn btn-info'>Tech</a>
+        <a href="/products/food" class='btn btn-success'>Food</a>
+        <a href="/products/books" class='btn btn-warning'>Books</a>
+    </div>
+    <br>
     {% for product in products %}
     <div class="card" style="width: 18rem;">
         <img src="{{ product.image }}" height='250' class="card-img-top" alt="Image">
         <div class="card-body">
             <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text text-secondary">{{ product.tag }}</p>
             <p class="card-text">{{ product.cost }}$</p>
             <a href="/product/{{ product.id }}" class="btn btn-primary">Open</a>
         </div>
     </div>
     {% endfor %}
+    <br>
 {% endblock %}
