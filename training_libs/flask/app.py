@@ -26,9 +26,9 @@ class Product(db.Model):
 def main():
     return render_template('main.html')
 
-@app.route('/products')
-def products():
-    product = Product.query.order_by(desc(Product.id)).all()
+@app.route('/products/<string:tag>')
+def products(tag):
+    product = Product.query.filter_by(tag=tag).order_by(desc(Product.id))
     return render_template('products.html', products=product)
 
 @app.route('/product/<int:id>')
