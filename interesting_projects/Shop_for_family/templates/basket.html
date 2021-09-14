@@ -6,6 +6,9 @@
     <h3>Basket</h3>
     {{ name }}
     {% if basket %}
+        <div class='container'>
+            <a href='/clean-basket' class='btn btn-danger'>Clean basket</a>
+        </div>
         <div class="container">
             <div class="row">
                 {% for product in basket %}

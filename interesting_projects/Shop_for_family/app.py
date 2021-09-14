@@ -97,5 +97,11 @@ def create_product():
 
     return render_template('create_product.html')
 
+@app.route('/clean-basket')
+def clean_basket():
+    resp = make_response(render_template('add_in_basket.html'))
+    resp.set_cookie('basket', '', expires=0)
+    return resp
+
 if __name__ == '__main__':
     app.run()
