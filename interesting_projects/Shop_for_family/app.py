@@ -49,14 +49,23 @@ def product(id):
 
 @app.route('/basket')
 def basket():
-    basket = False
     basket_list = request.cookies.get('basket')
-    # return render_template('basket.html', basket=basket)
-    return basket_list
+    if basket_list:
+        basket_list = basket_list.split()
+        basket_list.reverse()
+        products = []
+        for b in basket_list:
+            products.append(Product.query.get(int(b)))
+        return render_template('basket.html', basket=products)
+    else:
+        return render_template('basket.html', basket=False)
 
 @app.route('/add-in-basket/<int:id>')
 def add_in_basket(id):
-    basket = str(request.cookies.get('basket')) + ' ' + str(id)
+    basket_list = request.cookies.get('basket')
+    if basket_list == None:
+        basket_list = ''
+    basket = str(basket_list) + ' ' + str(id)
     resp = make_response(render_template('add_in_basket.html'))
     resp.set_cookie('basket', basket)
     return resp
