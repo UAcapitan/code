@@ -54,9 +54,12 @@ def basket():
         basket_list = basket_list.split()
         basket_list.reverse()
         products = []
+        cost = 0
         for b in basket_list:
             products.append(Product.query.get(int(b)))
-        return render_template('basket.html', basket=products)
+        for product in products:
+            cost += int(product.cost)
+        return render_template('basket.html', basket=products, cost=cost)
     else:
         return render_template('basket.html', basket=False)
 
