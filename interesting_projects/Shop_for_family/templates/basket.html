@@ -29,8 +29,18 @@
         <br>
         <div class='container'>
             <div class="row justify-content-end">
-                    <p class='font-weight-bold'>All cost: {{ cost }}$</p>
-              </div>
+                <form action='/buy-basket' method='POST'>
+                    <div class='row'>
+                        <div class='col-sm-8'>
+                            <input type="text" name='user' class='form-control' placeholder='Your name' required>
+                        </div>
+                        <div class='col-sm-4'>
+                            <input type="submit" class='btn btn-success' value="Buy">
+                        </div>
+                    </div>
+                </form>
+                <p class='font-weight-bold mt-2'>All cost: {{ cost }}$</p>
+            </div>
         </div>
         <br>
     {% else %}

@@ -103,5 +103,33 @@ def clean_basket():
     resp.set_cookie('basket', '', expires=0)
     return resp
 
+@app.route('/buy-basket', methods=['POST', 'GET'])
+def buy_basket():
+    if request.method == 'POST':
+
+        user = request.form['user']
+
+        basket_list = request.cookies.get('basket')
+        if basket_list:
+            basket_list = basket_list.split()
+            basket_list.reverse()
+            for b in basket_list:
+
+                basket = Basket(user=user, id_product=int(b))
+
+                try:
+                    db.session.add(basket)
+                except:
+                    return render_template('error.html', error='Error')
+            try:
+                    db.session.commit()
+            except:
+                return render_template('error.html', error='Error')
+
+        
+        return redirect('/basket')
+    else:
+        return render_template('buy_basket.html')
+
 if __name__ == '__main__':
     app.run()
