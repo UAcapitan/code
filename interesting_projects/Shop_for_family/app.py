@@ -50,11 +50,11 @@ def product(id):
 @app.route('/basket')
 def basket():
     basket_list = request.cookies.get('basket')
+    cost = 0
     if basket_list:
         basket_list = basket_list.split()
         basket_list.reverse()
         products = []
-        cost = 0
         for b in basket_list:
             products.append(Product.query.get(int(b)))
         for product in products:
