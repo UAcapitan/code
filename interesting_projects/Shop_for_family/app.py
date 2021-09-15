@@ -133,7 +133,18 @@ def buy_basket():
 
 @app.route('/all-orders')
 def all_orders():
-    return render_template('all_orders.html')
+    products = Basket.query.order_by(desc(Basket.id)).all()
+
+    products_name = []
+
+    for p in products:
+        products_name.append(Product.query.get(p.id_product))
+
+    products_name.reverse()
+
+    print(products_name)
+
+    return render_template('all_orders.html', products=products, products_name=products_name)
 
 if __name__ == '__main__':
     app.run()

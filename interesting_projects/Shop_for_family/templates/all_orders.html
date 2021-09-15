@@ -4,4 +4,25 @@
 
 {% block content %}
     <h3>All orders</h3>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">User name</th>
+            <th scope="col">ID of product</th>
+            <th scope="col">Name of product</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <th scope="row">{{ product.id }}</th>
+                    <td>{{ product.user }}</td>
+                    <td>{{ product.id_product }}</td>
+                    <td>{{ products_name[product.id - 1].name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+
 {% endblock %}
