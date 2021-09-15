@@ -131,5 +131,9 @@ def buy_basket():
     else:
         return render_template('buy_basket.html')
 
+@app.route('/all-orders')
+def all_orders():
+    return render_template('all_orders.html')
+
 if __name__ == '__main__':
     app.run()
