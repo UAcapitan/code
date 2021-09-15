@@ -26,9 +26,13 @@
                 {% endfor %}
             </div>
         </div>
+        <br>
         <div class='container'>
-            <p>All cost: {{ cost }}$</p>
+            <div class="row justify-content-end">
+                    <p class='font-weight-bold'>All cost: {{ cost }}$</p>
+              </div>
         </div>
+        <br>
     {% else %}
         <p>Empty</p>
     {% endif%}
