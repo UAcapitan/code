@@ -133,18 +133,27 @@ def buy_basket():
     else:
         return render_template('buy_basket.html')
 
-@app.route('/all-orders')
+@app.route('/all-orders', methods=['POST', 'GET'])
 def all_orders():
-    products = Basket.query.order_by(desc(Basket.id)).all()
+    if request.method == 'GET':
+        return render_template('all_orders.html', admin=False)
+    else:
+        password = request.form['password']
 
-    products_name = []
+        if password == adminPassword:
 
-    for p in products:
-        products_name.append(Product.query.get(p.id_product))
+            products = Basket.query.order_by(desc(Basket.id)).all()
 
-    products_name.reverse()
+            products_name = []
 
-    return render_template('all_orders.html', products=products, products_name=products_name)
+            for p in products:
+                products_name.append(Product.query.get(p.id_product))
+
+            products_name.reverse()
+
+            return render_template('all_orders.html', products=products, products_name=products_name, admin=True)
+        else:
+            return render_template('error.html', error='Incorect password')
 
 if __name__ == '__main__':
     app.run()

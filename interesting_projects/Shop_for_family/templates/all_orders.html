@@ -4,7 +4,8 @@
 
 {% block content %}
     <h3>All orders</h3>
-    <table class="table">
+    {% if admin %}
+      <table class="table">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -26,5 +27,15 @@
             {% endfor %}
         </tbody>
       </table>
+    {% else %}
+      <p>Input admin password</p>
+      <div class='container'>
+        <form method='POST'>
+          <input type="text" name='password' class='form-control' placeholder="Admin password" required>
+          <br>
+          <input type="submit" class='btn btn-success' value="Open">
+        </form>
+      </div>
+    {% endif %}
 
 {% endblock %}
