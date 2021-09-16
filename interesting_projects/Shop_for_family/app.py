@@ -142,8 +142,6 @@ def all_orders():
 
     products_name.reverse()
 
-    print(products_name)
-
     return render_template('all_orders.html', products=products, products_name=products_name)
 
 if __name__ == '__main__':
