@@ -127,7 +127,9 @@ def buy_basket():
                 return render_template('error.html', error='Error')
 
         
-        return redirect('/basket')
+        resp = make_response(render_template('basket.html'))
+        resp.set_cookie('basket', '', expires=0)
+        return resp
     else:
         return render_template('buy_basket.html')
 
