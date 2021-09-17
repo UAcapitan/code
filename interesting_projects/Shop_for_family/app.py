@@ -126,7 +126,6 @@ def buy_basket():
             except:
                 return render_template('error.html', error='Error')
 
-        
         resp = make_response(render_template('basket.html'))
         resp.set_cookie('basket', '', expires=0)
         return resp
@@ -161,6 +160,10 @@ def admin():
         password = request.form['password']
         if password == adminPassword:
             return render_template('admin.html', admin=True)
+
+@app.route('/product/<int:id>/delete')
+def delete_product(id):
+    return render_template('delete_product.html')
 
 if __name__ == '__main__':
     app.run()
