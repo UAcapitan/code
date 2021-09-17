@@ -130,8 +130,6 @@ def buy_basket():
         resp = make_response(render_template('basket.html'))
         resp.set_cookie('basket', '', expires=0)
         return resp
-    else:
-        return render_template('buy_basket.html')
 
 @app.route('/all-orders', methods=['POST', 'GET'])
 def all_orders():
@@ -155,9 +153,14 @@ def all_orders():
         else:
             return render_template('error.html', error='Incorect password')
 
-@app.route('/admin')
+@app.route('/admin', methods=['POST', 'GET'])
 def admin():
-    return render_template('admin.html', admin=True)
+    if request.method == 'GET':
+        return render_template('admin.html', admin=False)
+    else:
+        password = request.form['password']
+        if password == adminPassword:
+            return render_template('admin.html', admin=True)
 
 if __name__ == '__main__':
     app.run()
