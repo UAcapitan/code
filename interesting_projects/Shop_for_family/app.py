@@ -163,6 +163,12 @@ def admin():
 
 @app.route('/product/<int:id>/delete')
 def delete_product(id):
+    product = Product.query.get(id)
+    try:
+        db.session.delete(product)
+        db.session.commit()
+    except:
+        return render_template('error.html', error='Error')
     return render_template('delete_product.html')
 
 if __name__ == '__main__':
