@@ -160,16 +160,24 @@ def admin():
         password = request.form['password']
         if password == adminPassword:
             return render_template('admin.html', admin=True)
+        else:
+            return render_template('error.html', error='Incorect password')
 
-@app.route('/product/<int:id>/delete')
+@app.route('/product/<int:id>/delete', methods=['POST', 'GET'])
 def delete_product(id):
-    product = Product.query.get(id)
-    try:
-        db.session.delete(product)
-        db.session.commit()
-    except:
-        return render_template('error.html', error='Error')
-    return render_template('delete_product.html')
+    if request.method == 'GET':
+        return render_template('delete_product.html', admin=False)
+    else:
+        password = request.form['password']
+        if password == adminPassword:
+            product = Product.query.get(id)
+            try:
+                db.session.delete(product)
+                db.session.commit()
+            except:
+                return render_template('error.html', error='Error')
+            return render_template('delete_product.html', admin=True)
+        return render_template('error.html', error='Incorect password')
 
 if __name__ == '__main__':
     app.run()
