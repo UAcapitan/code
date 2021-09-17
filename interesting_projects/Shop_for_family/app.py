@@ -155,5 +155,9 @@ def all_orders():
         else:
             return render_template('error.html', error='Incorect password')
 
+@app.route('/admin')
+def admin():
+    return render_template('admin.html', admin=True)
+
 if __name__ == '__main__':
     app.run()
