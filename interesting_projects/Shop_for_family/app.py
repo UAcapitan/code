@@ -179,5 +179,10 @@ def delete_product(id):
             return render_template('delete_product.html', admin=True)
         return render_template('error.html', error='Incorect password')
 
+@app.route('/admin/products')
+def admin_products():
+    products = Product.query.order_by(desc(Product.id))
+    return render_template('admin_products.html', admin=True, products=products)
+
 if __name__ == '__main__':
     app.run()
