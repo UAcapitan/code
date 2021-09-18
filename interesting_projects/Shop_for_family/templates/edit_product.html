@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit product{% endblock %}
+
+{% block content %}
+    <h3>Edit product</h3>
+    <form method='POST'>
+        <input type="text" name='name' class='form-control' placeholder='Name of product'>
+        <br>
+        <input type="text" name='image' class='form-control' placeholder='Image URL'>
+        <br>
+        <input type="text" name='cost' class='form-control' placeholder='Cost'>
+        <br>
+        <input type="text" name='description' class='form-control' placeholder='Description'>
+        <br>
+        <p class='text-secondary'>Tag</p>
+        <div class="container">
+            <div class="custom-control custom-radio">
+                <input type="radio" id='Tech' name="tag" value="Tech" class="custom-control-input" checked>
+                <label class="custom-control-label" for="Tech">Tech</label>
+            </div>
+            <div class="custom-control custom-radio">
+                <input type="radio" id='Food' name="tag" value="Food" class="custom-control-input">
+                <label class="custom-control-label" for="Food">Food</label>
+            </div>
+            <div class="custom-control custom-radio">
+                <input type="radio" id='Books' name="tag" value="Books" class="custom-control-input">
+                <label class="custom-control-label" for="Books">Books</label>
+            </div>
+        </div>
+        <br>
+        <input type="password" name='password' class='form-control' placeholder='Admin password'>
+        <br>
+        <input type="submit" class='btn btn-success' value="Add product">
+    </form>
+    <br>
+    <a href="/all-orders" class='btn btn-info'>All orders</a>
+    <br><br>
+{% endblock %}
