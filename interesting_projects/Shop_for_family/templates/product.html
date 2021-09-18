@@ -3,10 +3,25 @@
 {% block title %}Product{% endblock %}
 
 {% block content %}
-    <h3>{{ product.name }}</h3>
-    <p class='text-secondary'>{{ product.tag }}</p>
-    <p>{{ product.cost }}$</p>
-    <p><a href="/add-in-basket/{{ product.id }}" class="btn btn-success">Buy</a></p>
-    <img src="{{ product.image }}" style='width: 80%; margin-left: 10%;' alt="Image of product">
-    <p>{{ product.description }}</p>
+    <div>
+        <div class="row">
+            <div class="col-sm">
+                <br>
+                <br>
+                <div style='margin-left: 2em;'>
+                    <h3>{{ product.name }}</h3>
+                    <p class='text-secondary'>{{ product.tag }}</p>
+                    <p>{{ product.cost }}$</p>
+                    <p><a href="/add-in-basket/{{ product.id }}" class="btn btn-success">Buy</a></p>
+                </div>
+            </div>
+            <div class="col-sm">
+                <img src="{{ product.image }}" style='width: 80%; margin-left: 10%;' alt="Image of product">
+            </div>
+        </div>
+    </div>
+    <br>
+    <div style='margin-left: 2em; margin-right: 2em;'>
+        <p>{{ product.description }}</p>
+    </div>
 {% endblock %}
