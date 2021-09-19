@@ -31,7 +31,7 @@ class Basket(db.Model):
         return '<Article %r>' % self.id
 
 class Daily(db.Model):
-    id = db.column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     old_cost = db.Column(db.String(100), nullable=False)
     cost = db.Column(db.String(50), nullable=False)
