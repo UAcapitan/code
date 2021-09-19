@@ -30,6 +30,15 @@ class Basket(db.Model):
     def __repr__(self):
         return '<Article %r>' % self.id
 
+class Daily(db.Model):
+    id = db.column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    old_cost = db.Column(db.String(100), nullable=False)
+    cost = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    image = db.Column(db.String(300), nullable=False)
+    tag = db.Column(db.String(50), nullable=False)
+
 @app.route('/')
 def main():
     product_tech = Product.query.filter_by(tag='Tech').order_by(desc(Product.id)).limit(3)
