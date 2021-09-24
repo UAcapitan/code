@@ -3,11 +3,11 @@
 {% block title %}Delete product{% endblock %}
 
 {% block content %}
-    <h3>Delete product</h3>
+    <h3 class='text-center'>Delete product</h3>
     {% if admin %}
-        <p>Success. This product deleted</p>
+        <p class='text-center'>Success. This product deleted</p>
         <div class='col text-center'>
-            <a href="#" class='btn btn-warning'>Admin products</a>
+            <a href="/admin/products" class='btn btn-warning'>Admin products</a>
         </div>
     {% else %}
         <p>Input admin password</p>

@@ -44,7 +44,8 @@ def main():
     product_tech = Product.query.filter_by(tag='Tech').order_by(desc(Product.id)).limit(3)
     product_food = Product.query.filter_by(tag='Food').order_by(desc(Product.id)).limit(3)
     product_books = Product.query.filter_by(tag='Books').order_by(desc(Product.id)).limit(3)
-    return render_template('main.html', product_tech=product_tech, product_food=product_food, product_books=product_books)
+    daily = Daily.query.get(1)
+    return render_template('main.html', product_tech=product_tech, product_food=product_food, product_books=product_books, daily=daily)
 
 @app.route('/products/<string:tag>')
 def products(tag):
@@ -192,6 +193,36 @@ def delete_product(id):
 def admin_products():
     products = Product.query.order_by(desc(Product.id))
     return render_template('admin_products.html', admin=True, products=products)
+
+@app.route('/admin/daily', methods=['POST', 'GET'])
+def admin_daily():
+    if request.method == 'POST':
+        name = request.form['name']
+        old_cost = request.form['old_cost']
+        cost = request.form['cost']
+        description = request.form['description']
+        image = request.form['image']
+        tag = request.form['tag']
+        password = request.form['password']
+
+        if password == adminPassword:
+            product = Daily(name=name, old_cost=old_cost, cost=cost, description=description, image=image, tag=tag)
+            product_delete = Daily.query.get(1)
+            try:
+                db.session.delete(product_delete)
+                db.session.commit()
+            except:
+                return render_template('error.html', error='Error')
+
+            try:
+                db.session.add(product)
+                db.session.commit()
+                return redirect('/')
+            except:
+                return render_template('error.html', error='Error')
+        else:
+            return render_template('error.html', error='Incorect password')
+    return render_template('admin_daily.html')
 
 if __name__ == '__main__':
     app.run()

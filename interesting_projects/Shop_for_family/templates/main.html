@@ -6,6 +6,21 @@
     <h3>Main</h3>
     <p>Shop for people</p>
     <div class='container'>
+
+        <div class="container bg-light rounded" style='width: 30%;'>
+            <br>
+            <img src="{{ daily.image }}" width='300' alt="Image">
+            <br>
+            <h5>{{ daily.name }}</h5>
+            <p>Old cost: {{ daily.old_cost }}</p>
+            <p>Cost: {{ daily.cost }}</p>
+            <p>Description: {{ daily.description }}</p>
+            <p>Tag: {{ daily.tag }}</p>
+            <a href="/products/Tech" class='btn btn-success'>Products</a>
+            <br>
+            <br>
+        </div>
+
         <h4>Tech</h4>
         <div class="container">
             <div class="row">
