@@ -15,6 +15,11 @@ def application():
     text_1.move(10, 10)
     text_1.adjustSize()
 
+    btn_1 = QtWidgets.QPushButton(window)
+    btn_1.move(10,150)
+    btn_1.setText('Add to database')
+    btn_1.setFixedWidth(200)
+
     window.show()
     sys.exit(app.exec_())
 
