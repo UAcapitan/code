@@ -3,6 +3,9 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 
 import sys
 
+def add_in_db():
+    print('Add in database')
+
 def application():
     app = QApplication(sys.argv)
     window = QMainWindow()
@@ -19,6 +22,7 @@ def application():
     btn_1.move(10,150)
     btn_1.setText('Add to database')
     btn_1.setFixedWidth(200)
+    btn_1.clicked.connect(add_in_db)
 
     window.show()
     sys.exit(app.exec_())
