@@ -1,6 +1,4 @@
-def app():
-    print('App')
-    exit()
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QApplication, QMainWindow
 
-if __name__ == '__main__':
-    app()
+import sys
