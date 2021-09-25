@@ -10,6 +10,11 @@ def application():
     window.setWindowTitle('English helper')
     window.setGeometry(300,250,450,300)
 
+    text_1 = QtWidgets.QLabel(window)
+    text_1.setText('Add new words')
+    text_1.move(10, 10)
+    text_1.adjustSize()
+
     window.show()
     sys.exit(app.exec_())
 
