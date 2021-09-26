@@ -2,6 +2,8 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
 import sys
+import sqlite3
+import random
 
 class Window(QMainWindow):
     def __init__(self):
@@ -13,7 +15,7 @@ class Window(QMainWindow):
         # Text - add new words
         self.text_add_new_words = QtWidgets.QLabel(self)
         self.text_add_new_words.setText('Add new words')
-        self.text_add_new_words.move(10, 10)
+        self.text_add_new_words.move(170, 10)
         self.text_add_new_words.adjustSize()
 
         # Text - English 1
@@ -43,19 +45,19 @@ class Window(QMainWindow):
         self.btn_add_to_database.move(10,100)
         self.btn_add_to_database.setText('Add to database')
         self.btn_add_to_database.setFixedWidth(200)
-        self.btn_add_to_database.clicked.connect(add_in_db)
+        self.btn_add_to_database.clicked.connect(self.add_in_db)
 
         # Button - clear database
         self.btn_clear_database = QtWidgets.QPushButton(self)
         self.btn_clear_database.move(230,100)
         self.btn_clear_database.setText('Clear database')
         self.btn_clear_database.setFixedWidth(200)
-        self.btn_clear_database.clicked.connect(clear_db)
+        self.btn_clear_database.clicked.connect(self.clear_db)
 
         # Text - check English words
         self.text_check_english_words = QtWidgets.QLabel(self)
         self.text_check_english_words.setText('Check English words')
-        self.text_check_english_words.move(10, 140)
+        self.text_check_english_words.move(150, 140)
         self.text_check_english_words.adjustSize()
 
         # Text - English 2
@@ -78,20 +80,20 @@ class Window(QMainWindow):
         # Text - Russian word
         self.text_russian_word = QtWidgets.QLabel(self)
         self.text_russian_word.setText('- ...')
-        self.text_russian_word.move(230, 190)
-        self.text_russian_word.adjustSize()
+        self.text_russian_word.move(230, 185)
+        self.text_russian_word.setFixedWidth(200)
 
         # Button - check English words
         self.btn_check_english_words = QtWidgets.QPushButton(self)
         self.btn_check_english_words.move(10,230)
         self.btn_check_english_words.setText('Check')
         self.btn_check_english_words.setFixedWidth(200)
-        self.btn_check_english_words.clicked.connect(check_en)
+        self.btn_check_english_words.clicked.connect(self.check_en)
 
         # Text - check Russian words
         self.text_check_russian_words = QtWidgets.QLabel(self)
         self.text_check_russian_words.setText('Check Russian words')
-        self.text_check_russian_words.move(10, 270)
+        self.text_check_russian_words.move(150, 270)
         self.text_check_russian_words.adjustSize()
 
         # Text - English 3
@@ -109,8 +111,8 @@ class Window(QMainWindow):
         # Text - English word
         self.text_english_word = QtWidgets.QLabel(self)
         self.text_english_word.setText('... -')
-        self.text_english_word.move(10, 320)
-        self.text_english_word.adjustSize()
+        self.text_english_word.move(10, 315)
+        self.text_english_word.setFixedWidth(200)
 
         # Field - check Russian words
         self.textbox_check_russian_words = QtWidgets.QLineEdit(self)
@@ -122,7 +124,7 @@ class Window(QMainWindow):
         self.btn_check_russian_words.move(10,360)
         self.btn_check_russian_words.setText('Check')
         self.btn_check_russian_words.setFixedWidth(200)
-        self.btn_check_russian_words.clicked.connect(check_ru)
+        self.btn_check_russian_words.clicked.connect(self.check_ru)
 
         # Text - result
         self.text_result = QtWidgets.QLabel(self)
@@ -130,17 +132,44 @@ class Window(QMainWindow):
         self.text_result.move(200, 435)
         self.text_result.adjustSize()
 
-def add_in_db():
-    print('Add in database')
+        # Connect and cursor for database
+        self.con = sqlite3.connect('english.db')
+        self.cur = self.con.cursor()
 
-def clear_db():
-    print('Clear database')
+    def add_in_db(self):
+        en = self.textbox_add_english_words.text().split(',')
+        ru = self.textbox_add_russian_words.text().split(',')
 
-def check_en():
-    print('Check English')
+        if len(en) == len(ru):
+            for i in range(len(en)):
+                self.cur.execute(f"INSERT INTO words VALUES ('{en[i]}','{ru[i]}')")
 
-def check_ru():
-    print('Check Russian')
+        self.con.commit()
+
+    def clear_db(self):
+        self.cur.execute("DELETE FROM words;")
+        self.con.commit()
+
+    def check_en(self):
+        self.cur.execute("SELECT english, russian FROM words;")
+
+        words = self.cur.fetchall()
+        word = random.choice(words)
+        self.text_russian_word.setText(word[1])
+
+    def check_ru(self):
+        self.cur.execute("SELECT english, russian FROM words;")
+
+        words = self.cur.fetchall()
+        word = random.choice(words)
+        self.text_english_word.setText(word[0])
+
+    def first_start(self):
+        self.cur = self.con.cursor()
+        self.cur.execute('''CREATE TABLE words
+                (english, russian)''')
+        self.con.commit()
+        
 
 def application():
     app = QApplication(sys.argv)
