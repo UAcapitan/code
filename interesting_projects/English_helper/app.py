@@ -82,13 +82,53 @@ class Window(QMainWindow):
         text_3.move(230, 160)
         text_3.adjustSize()
 
-        # Text - add new words
+        # Text - Russian word
         text_4 = QtWidgets.QLabel(self)
         text_4.setText('- ...')
         text_4.move(230, 190)
         text_4.adjustSize()
 
+        # Text - check Russian words
+        text_2 = QtWidgets.QLabel(self)
+        text_2.setText('Check Russian words')
+        text_2.move(10, 270)
+        text_2.adjustSize()
 
+        # Button - check Russian words
+        btn_3 = QtWidgets.QPushButton(self)
+        btn_3.move(10,360)
+        btn_3.setText('Check')
+        btn_3.setFixedWidth(200)
+        btn_3.clicked.connect(check_en)
+
+        # Text - English 3
+        text_3 = QtWidgets.QLabel(self)
+        text_3.setText('English')
+        text_3.move(10, 290)
+        text_3.adjustSize()
+
+        # Field - check Russian words
+        self.textbox_3 = QtWidgets.QLineEdit(self)
+        self.textbox_3.move(220, 310)
+        self.textbox_3.resize(200,40)
+
+        # Text - Russian 3
+        text_3 = QtWidgets.QLabel(self)
+        text_3.setText('Russian')
+        text_3.move(230, 290)
+        text_3.adjustSize()
+
+        # Text - English word
+        text_4 = QtWidgets.QLabel(self)
+        text_4.setText('... -')
+        text_4.move(10, 320)
+        text_4.adjustSize()
+
+        # Text - result
+        text_4 = QtWidgets.QLabel(self)
+        text_4.setText('Result')
+        text_4.move(200, 435)
+        text_4.adjustSize()
 
 def add_in_db():
     print('Add in database')
