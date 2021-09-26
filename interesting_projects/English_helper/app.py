@@ -38,7 +38,7 @@ class Window(QMainWindow):
 
         # Button - check English words
         btn_3 = QtWidgets.QPushButton(self)
-        btn_3.move(10,220)
+        btn_3.move(10,230)
         btn_3.setText('Check')
         btn_3.setFixedWidth(200)
         btn_3.clicked.connect(check_en)
@@ -64,6 +64,29 @@ class Window(QMainWindow):
         text_3.setText('Russian')
         text_3.move(230, 30)
         text_3.adjustSize()
+
+        # Text - English 2
+        text_3 = QtWidgets.QLabel(self)
+        text_3.setText('English')
+        text_3.move(10, 160)
+        text_3.adjustSize()
+
+        # Field - check English words
+        self.textbox_3 = QtWidgets.QLineEdit(self)
+        self.textbox_3.move(10, 180)
+        self.textbox_3.resize(200,40)
+
+        # Text - Russian 2
+        text_3 = QtWidgets.QLabel(self)
+        text_3.setText('Russian')
+        text_3.move(230, 160)
+        text_3.adjustSize()
+
+        # Text - add new words
+        text_4 = QtWidgets.QLabel(self)
+        text_4.setText('- ...')
+        text_4.move(230, 190)
+        text_4.adjustSize()
 
 
 
