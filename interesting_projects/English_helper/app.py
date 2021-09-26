@@ -11,22 +11,22 @@ class Window(QMainWindow):
         self.setGeometry(300,250,450,500)
 
         # Text - add new words
-        text_1 = QtWidgets.QLabel(self)
-        text_1.setText('Add new words')
-        text_1.move(10, 10)
-        text_1.adjustSize()
+        self.text_1 = QtWidgets.QLabel(self)
+        self.text_1.setText('Add new words')
+        self.text_1.move(10, 10)
+        self.text_1.adjustSize()
 
         # Text - English 1
-        text_3 = QtWidgets.QLabel(self)
-        text_3.setText('English')
-        text_3.move(10, 30)
-        text_3.adjustSize()
+        self.text_3 = QtWidgets.QLabel(self)
+        self.text_3.setText('English')
+        self.text_3.move(10, 30)
+        self.text_3.adjustSize()
 
         # Text - Russian 1
-        text_3 = QtWidgets.QLabel(self)
-        text_3.setText('Russian')
-        text_3.move(230, 30)
-        text_3.adjustSize()
+        self.text_3 = QtWidgets.QLabel(self)
+        self.text_3.setText('Russian')
+        self.text_3.move(230, 30)
+        self.text_3.adjustSize()
 
         # Field - add English words
         self.textbox_1 = QtWidgets.QLineEdit(self)
@@ -39,36 +39,36 @@ class Window(QMainWindow):
         self.textbox_2.resize(200,40)
 
         # Button - add to database
-        btn_1 = QtWidgets.QPushButton(self)
-        btn_1.move(10,100)
-        btn_1.setText('Add to database')
-        btn_1.setFixedWidth(200)
-        btn_1.clicked.connect(add_in_db)
+        self.btn_1 = QtWidgets.QPushButton(self)
+        self.btn_1.move(10,100)
+        self.btn_1.setText('Add to database')
+        self.btn_1.setFixedWidth(200)
+        self.btn_1.clicked.connect(add_in_db)
 
         # Button - clear database
-        btn_2 = QtWidgets.QPushButton(self)
-        btn_2.move(230,100)
-        btn_2.setText('Clear database')
-        btn_2.setFixedWidth(200)
-        btn_2.clicked.connect(clear_db)
+        self.btn_2 = QtWidgets.QPushButton(self)
+        self.btn_2.move(230,100)
+        self.btn_2.setText('Clear database')
+        self.btn_2.setFixedWidth(200)
+        self.btn_2.clicked.connect(clear_db)
 
         # Text - check English words
-        text_2 = QtWidgets.QLabel(self)
-        text_2.setText('Check English words')
-        text_2.move(10, 140)
-        text_2.adjustSize()
+        self.text_2 = QtWidgets.QLabel(self)
+        self.text_2.setText('Check English words')
+        self.text_2.move(10, 140)
+        self.text_2.adjustSize()
 
         # Text - English 2
-        text_3 = QtWidgets.QLabel(self)
-        text_3.setText('English')
-        text_3.move(10, 160)
-        text_3.adjustSize()
+        self.text_3 = QtWidgets.QLabel(self)
+        self.text_3.setText('English')
+        self.text_3.move(10, 160)
+        self.text_3.adjustSize()
 
         # Text - Russian 2
-        text_3 = QtWidgets.QLabel(self)
-        text_3.setText('Russian')
-        text_3.move(230, 160)
-        text_3.adjustSize()
+        self.text_3 = QtWidgets.QLabel(self)
+        self.text_3.setText('Russian')
+        self.text_3.move(230, 160)
+        self.text_3.adjustSize()
 
         # Field - check English words
         self.textbox_3 = QtWidgets.QLineEdit(self)
@@ -76,41 +76,41 @@ class Window(QMainWindow):
         self.textbox_3.resize(200,40)
 
         # Text - Russian word
-        text_4 = QtWidgets.QLabel(self)
-        text_4.setText('- ...')
-        text_4.move(230, 190)
-        text_4.adjustSize()
+        self.text_4 = QtWidgets.QLabel(self)
+        self.text_4.setText('- ...')
+        self.text_4.move(230, 190)
+        self.text_4.adjustSize()
 
         # Button - check English words
-        btn_3 = QtWidgets.QPushButton(self)
-        btn_3.move(10,230)
-        btn_3.setText('Check')
-        btn_3.setFixedWidth(200)
-        btn_3.clicked.connect(check_en)
+        self.btn_3 = QtWidgets.QPushButton(self)
+        self.btn_3.move(10,230)
+        self.btn_3.setText('Check')
+        self.btn_3.setFixedWidth(200)
+        self.btn_3.clicked.connect(check_en)
 
         # Text - check Russian words
-        text_2 = QtWidgets.QLabel(self)
-        text_2.setText('Check Russian words')
-        text_2.move(10, 270)
-        text_2.adjustSize()
+        self.text_2 = QtWidgets.QLabel(self)
+        self.text_2.setText('Check Russian words')
+        self.text_2.move(10, 270)
+        self.text_2.adjustSize()
 
         # Text - English 3
-        text_3 = QtWidgets.QLabel(self)
-        text_3.setText('English')
-        text_3.move(10, 290)
-        text_3.adjustSize()
+        self.text_3 = QtWidgets.QLabel(self)
+        self.text_3.setText('English')
+        self.text_3.move(10, 290)
+        self.text_3.adjustSize()
 
         # Text - Russian 3
-        text_3 = QtWidgets.QLabel(self)
-        text_3.setText('Russian')
-        text_3.move(230, 290)
-        text_3.adjustSize()
+        self.text_3 = QtWidgets.QLabel(self)
+        self.text_3.setText('Russian')
+        self.text_3.move(230, 290)
+        self.text_3.adjustSize()
 
         # Text - English word
-        text_4 = QtWidgets.QLabel(self)
-        text_4.setText('... -')
-        text_4.move(10, 320)
-        text_4.adjustSize()
+        self.text_4 = QtWidgets.QLabel(self)
+        self.text_4.setText('... -')
+        self.text_4.move(10, 320)
+        self.text_4.adjustSize()
 
         # Field - check Russian words
         self.textbox_3 = QtWidgets.QLineEdit(self)
@@ -118,17 +118,17 @@ class Window(QMainWindow):
         self.textbox_3.resize(200,40)
 
         # Button - check Russian words
-        btn_3 = QtWidgets.QPushButton(self)
-        btn_3.move(10,360)
-        btn_3.setText('Check')
-        btn_3.setFixedWidth(200)
-        btn_3.clicked.connect(check_ru)
+        self.btn_3 = QtWidgets.QPushButton(self)
+        self.btn_3.move(10,360)
+        self.btn_3.setText('Check')
+        self.btn_3.setFixedWidth(200)
+        self.btn_3.clicked.connect(check_ru)
 
         # Text - result
-        text_4 = QtWidgets.QLabel(self)
-        text_4.setText('Result')
-        text_4.move(200, 435)
-        text_4.adjustSize()
+        self.text_4 = QtWidgets.QLabel(self)
+        self.text_4.setText('Result')
+        self.text_4.move(200, 435)
+        self.text_4.adjustSize()
 
 def add_in_db():
     print('Add in database')
