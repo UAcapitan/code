@@ -141,13 +141,18 @@ class Window(QMainWindow):
         self.ru = ''
 
     def add_in_db(self):
-        en = self.textbox_add_english_words.text().split(',')
-        ru = self.textbox_add_russian_words.text().split(',')
+        en = self.textbox_add_english_words.text().replace(' ', '').split(',')
+        ru = self.textbox_add_russian_words.text().replace(' ', '').split(',')
+
+        self.textbox_add_english_words.setText('')
+        self.textbox_add_russian_words.setText('')
 
         if len(en) == len(ru):
+            j = 0
             for i in range(len(en)):
                 self.cur.execute(f"INSERT INTO words VALUES ('{en[i]}','{ru[i]}')")
-            self.text_result.setText('Success.')
+                j += 1
+            self.text_result.setText(f'Success. {j} words added')
             self.text_result.adjustSize()
             self.text_result.move(int(220-(self.text_result.width() / 2)), 435)
             self.text_result.setStyleSheet('color: green')
