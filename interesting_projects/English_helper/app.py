@@ -148,10 +148,10 @@ class Window(QMainWindow):
         en = self.textbox_add_english_words.text().replace(' ', '').split(',')
         ru = self.textbox_add_russian_words.text().replace(' ', '').split(',')
 
-        self.textbox_add_english_words.setText('')
-        self.textbox_add_russian_words.setText('')
-
         if len(en) == len(ru):
+            self.textbox_add_english_words.setText('')
+            self.textbox_add_russian_words.setText('')
+            
             j = 0
             for i in range(len(en)):
                 self.cur.execute(f"INSERT INTO words VALUES ('{en[i]}','{ru[i]}')")
