@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 import sys
 import sqlite3
 import random
+import os
 
 class Window(QMainWindow):
     def __init__(self):
@@ -133,7 +134,10 @@ class Window(QMainWindow):
         self.text_result.adjustSize()
 
         # Connect and cursor for database
-        self.con = sqlite3.connect('english.db')
+        dir = __file__.replace('app.py', 'english.db')
+
+        self.con = sqlite3.connect(dir)
+        
         self.cur = self.con.cursor()
 
         # Memory of words
@@ -212,7 +216,6 @@ class Window(QMainWindow):
         self.text_result.adjustSize()
         self.text_result.move(int(220-(self.text_result.width() / 2)), 445)
         self.text_result.setStyleSheet('color: ' + color)
-        
 
 def application():
     app = QApplication(sys.argv)
