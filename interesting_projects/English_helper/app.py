@@ -156,11 +156,13 @@ class Window(QMainWindow):
     def check_en(self):
         if self.text_russian_word.text() != '- ...':
             if self.en == self.textbox_check_english_words.text():
-                print(self.en)
-                print(self.textbox_check_english_words.text())
                 self.text_result.setText(self.en + ' - ' + self.text_russian_word.text())
                 self.text_result.move(150, 435)
                 self.text_result.setStyleSheet('color: green')
+            else:
+                self.text_result.setText(self.textbox_check_english_words.text() + ' - ' + self.text_russian_word.text())
+                self.text_result.move(150, 435)
+                self.text_result.setStyleSheet('color: red')
         self.cur.execute("SELECT * FROM words;")
 
         words = self.cur.fetchall()
@@ -171,11 +173,13 @@ class Window(QMainWindow):
     def check_ru(self):
         if self.text_english_word.text() != '... -':
             if self.ru == self.textbox_check_russian_words.text():
-                print(self.ru)
-                print(self.textbox_check_russian_words.text())
                 self.text_result.setText(self.text_english_word.text() + ' - ' + self.ru)
                 self.text_result.move(150, 435)
                 self.text_result.setStyleSheet('color: green')
+            else:
+                self.text_result.setText(self.text_english_word.text() + ' - ' + self.textbox_check_russian_words.text())
+                self.text_result.move(150, 435)
+                self.text_result.setStyleSheet('color: red')
         self.cur.execute("SELECT * FROM words;")
 
         words = self.cur.fetchall()
@@ -188,7 +192,7 @@ class Window(QMainWindow):
         try:
             self.cur.execute("SELECT * FROM words;")
         except:
-            self.cur.execute("CREATE TABLE words (english, russian)")
+            self.cur.execute("CREATE TABLE words (english, russian);")
         self.con.commit()
         
 
