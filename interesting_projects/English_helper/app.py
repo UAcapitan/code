@@ -147,25 +147,41 @@ class Window(QMainWindow):
         if len(en) == len(ru):
             for i in range(len(en)):
                 self.cur.execute(f"INSERT INTO words VALUES ('{en[i]}','{ru[i]}')")
+            self.text_result.setText('Success.')
+            self.text_result.adjustSize()
+            self.text_result.move(int(220-(self.text_result.width() / 2)), 435)
+            self.text_result.setStyleSheet('color: green')
+        else:
+            self.text_result.setText('Error')
+            self.text_result.adjustSize()
+            self.text_result.move(int(220-(self.text_result.width() / 2)), 435)
+            self.text_result.setStyleSheet('color: red')
 
         self.con.commit()
 
     def clear_db(self):
         self.cur.execute("DELETE FROM words;")
         self.con.commit()
+        self.text_result.setText('Success clean')
+        self.text_result.adjustSize()
+        self.text_result.move(int(220-(self.text_result.width() / 2)), 435)
+        self.text_result.setStyleSheet('color: green')
 
     def check_en(self):
         if self.text_russian_word.text() != '- ...':
             if self.en == self.textbox_check_english_words.text():
                 self.text_result.setText(self.en + ' - ' + self.text_russian_word.text())
                 self.text_result.adjustSize()
-                self.text_result.move(150, 435)
+                self.text_result.move(int(220-(self.text_result.width() / 2)), 435)
                 self.text_result.setStyleSheet('color: green')
             else:
                 self.text_result.setText(self.textbox_check_english_words.text() + ' - ' + self.text_russian_word.text())
-                self.text_result.move(150, 435)
+                self.text_result.adjustSize()
+                self.text_result.move(int(220-(self.text_result.width() / 2)), 435)
                 self.text_result.setStyleSheet('color: red')
         self.cur.execute("SELECT * FROM words;")
+
+        self.textbox_check_english_words.setText('')
 
         words = self.cur.fetchall()
         word = random.choice(words)
@@ -177,13 +193,16 @@ class Window(QMainWindow):
             if self.ru == self.textbox_check_russian_words.text():
                 self.text_result.setText(self.text_english_word.text() + ' - ' + self.ru)
                 self.text_result.adjustSize()
-                self.text_result.move(150, 435)
+                self.text_result.move(int(220-(self.text_result.width() / 2)), 435)
                 self.text_result.setStyleSheet('color: green')
             else:
                 self.text_result.setText(self.text_english_word.text() + ' - ' + self.textbox_check_russian_words.text())
-                self.text_result.move(150, 435)
+                self.text_result.adjustSize()
+                self.text_result.move(int(220-(self.text_result.width() / 2)), 435)
                 self.text_result.setStyleSheet('color: red')
         self.cur.execute("SELECT * FROM words;")
+
+        self.textbox_check_russian_words.setText('')
 
         words = self.cur.fetchall()
         word = random.choice(words)
