@@ -130,11 +130,14 @@ class Window(QMainWindow):
         self.text_result = QtWidgets.QLabel(self)
         self.text_result.setText('Result')
         self.text_result.move(200, 435)
-        self.text_result.adjustSize()
+        self.text_result.setFixedWidth(200)
 
         # Connect and cursor for database
         self.con = sqlite3.connect('english.db')
         self.cur = self.con.cursor()
+
+        self.en = ''
+        self.ru = ''
 
     def add_in_db(self):
         en = self.textbox_add_english_words.text().split(',')
@@ -151,23 +154,41 @@ class Window(QMainWindow):
         self.con.commit()
 
     def check_en(self):
-        self.cur.execute("SELECT english, russian FROM words;")
+        if self.text_russian_word.text() != '- ...':
+            if self.en == self.textbox_check_english_words.text():
+                print(self.en)
+                print(self.textbox_check_english_words.text())
+                self.text_result.setText(self.en + ' - ' + self.text_russian_word.text())
+                self.text_result.move(150, 435)
+                self.text_result.setStyleSheet('color: green')
+        self.cur.execute("SELECT * FROM words;")
 
         words = self.cur.fetchall()
         word = random.choice(words)
         self.text_russian_word.setText(word[1])
+        self.en = word[0]
 
     def check_ru(self):
-        self.cur.execute("SELECT english, russian FROM words;")
+        if self.text_english_word.text() != '... -':
+            if self.ru == self.textbox_check_russian_words.text():
+                print(self.ru)
+                print(self.textbox_check_russian_words.text())
+                self.text_result.setText(self.text_english_word.text() + ' - ' + self.ru)
+                self.text_result.move(150, 435)
+                self.text_result.setStyleSheet('color: green')
+        self.cur.execute("SELECT * FROM words;")
 
         words = self.cur.fetchall()
         word = random.choice(words)
         self.text_english_word.setText(word[0])
+        self.ru = word[1]
 
-    def first_start(self):
+    def create_table(self):
         self.cur = self.con.cursor()
-        self.cur.execute('''CREATE TABLE words
-                (english, russian)''')
+        try:
+            self.cur.execute("SELECT * FROM words;")
+        except:
+            self.cur.execute("CREATE TABLE words (english, russian)")
         self.con.commit()
         
 
@@ -175,9 +196,10 @@ def application():
     app = QApplication(sys.argv)
     window = Window()
 
+    window.create_table()
+
     window.show()
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
     application()
-
