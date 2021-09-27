@@ -126,16 +126,17 @@ class Window(QMainWindow):
         self.btn_check_russian_words.setFixedWidth(200)
         self.btn_check_russian_words.clicked.connect(self.check_ru)
 
-        # Text - result
+        # Text - result 1
         self.text_result = QtWidgets.QLabel(self)
         self.text_result.setText('Result')
         self.text_result.move(200, 435)
-        self.text_result.setFixedWidth(200)
+        self.text_result.adjustSize()
 
         # Connect and cursor for database
         self.con = sqlite3.connect('english.db')
         self.cur = self.con.cursor()
 
+        # Memory of words
         self.en = ''
         self.ru = ''
 
@@ -157,6 +158,7 @@ class Window(QMainWindow):
         if self.text_russian_word.text() != '- ...':
             if self.en == self.textbox_check_english_words.text():
                 self.text_result.setText(self.en + ' - ' + self.text_russian_word.text())
+                self.text_result.adjustSize()
                 self.text_result.move(150, 435)
                 self.text_result.setStyleSheet('color: green')
             else:
@@ -174,6 +176,7 @@ class Window(QMainWindow):
         if self.text_english_word.text() != '... -':
             if self.ru == self.textbox_check_russian_words.text():
                 self.text_result.setText(self.text_english_word.text() + ' - ' + self.ru)
+                self.text_result.adjustSize()
                 self.text_result.move(150, 435)
                 self.text_result.setStyleSheet('color: green')
             else:
