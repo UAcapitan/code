@@ -30,3 +30,44 @@ def test_1():
 
 # ---------------------------------------------------------
 
+# Raise ---------------------------------------------------
+
+def error_1():
+    raise Exception('Error 1')
+
+# error_1()
+
+def error_2():
+    raise Exception
+
+# error_2()
+
+def error_3():
+    raise BaseException('Error 3')
+
+# error_3()
+
+# ---------------------------------------------------------
+
+# With ----------------------------------------------------
+
+def print_in_file():
+    with open('newfile.txt', 'w', encoding='utf-8') as g:
+        print('Test', file=g)
+
+# ---------------------------------------------------------
+
+# Yield ---------------------------------------------------
+
+def create_generator():
+    mylist = range(3)
+    for i in mylist:
+        yield i*i
+
+# mygenerator = create_generator()
+# print(mygenerator)
+
+# for i in mygenerator:
+#     print(i)
+
+# ---------------------------------------------------------
