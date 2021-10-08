@@ -81,3 +81,27 @@ def f(name):
 f = frozenset('Mike')
 
 # print(f)
+
+# getattr -------------------------------------------------
+
+class User:
+    name = 'Andrey'
+    age = 50
+
+user = User()
+
+# print(getattr(user, 'name'))
+# print(getattr(user, 'age'))
+
+# globals -------------------------------------------------
+
+# print(globals())
+
+globals()['test'] = 10
+
+# print(globals())
+
+# hasattr -------------------------------------------------
+
+# print(hasattr(user, 'name'))
+# print(hasattr(user, 'job'))
