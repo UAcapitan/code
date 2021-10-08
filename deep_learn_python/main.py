@@ -79,7 +79,6 @@ def f(name):
 # frozenset -----------------------------------------------
 
 f = frozenset('Mike')
-
 # print(f)
 
 # getattr -------------------------------------------------
@@ -96,9 +95,7 @@ user = User()
 # globals -------------------------------------------------
 
 # print(globals())
-
 globals()['test'] = 10
-
 # print(globals())
 
 # hasattr -------------------------------------------------
@@ -120,7 +117,6 @@ h_text = hex(255)
 
 x = isinstance(5, int)
 y = isinstance(5, str)
-
 # print(x)
 # print(y)
 
@@ -151,3 +147,56 @@ iter_t = iter(['a','b','c'])
 license
 # print(license)
 # license()
+
+# locals --------------------------------------------------
+
+l = locals()
+# print(l)
+
+# map -----------------------------------------------------
+
+def addition(n):
+    return n + n
+
+numbers = (1, 2, 3, 4)
+result = map(addition, numbers)
+# print(list(result))
+nums = list(result)
+# print(nums)
+res = map(lambda x: x+x, nums)
+# print(list(res))
+
+# max -----------------------------------------------------
+
+l = [1,2,19,28,41,57,94,184,838,729,2948,392,38,4843,94839]
+m = max(l)
+# print(m)
+
+# memoryview ----------------------------------------------
+
+random_byte_array = bytearray('ABC', 'utf-8')
+# print('Before updation:', random_byte_array)
+mv = memoryview(random_byte_array)
+# print(list(mv))
+mv[1] = 90
+# print('After updation:', random_byte_array)
+
+# min -----------------------------------------------------
+
+l = [4,6,9,49,945,35,593,2939,1,3,595,30,49549,398,31]
+m = min(l)
+# print(m)
+
+# next ----------------------------------------------------
+
+i = iter([1,2,3])
+i_1 = next(i)
+i_2 = next(i)
+i_3 = next(i)
+
+# print('{}, {}, {}'.format(i_1,i_2,i_3))
+
+# oct -----------------------------------------------------
+
+n_o = oct(10)
+# print(n_o)
