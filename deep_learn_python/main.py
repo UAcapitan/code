@@ -105,3 +105,21 @@ globals()['test'] = 10
 
 # print(hasattr(user, 'name'))
 # print(hasattr(user, 'job'))
+
+# hash ----------------------------------------------------
+
+text = hash('Hello, world')
+# print(text)
+
+# hex -----------------------------------------------------
+
+h_text = hex(255)
+# print(h_text)
+
+# isistance -----------------------------------------------
+
+x = isinstance(5, int)
+y = isinstance(5, str)
+
+# print(x)
+# print(y)
