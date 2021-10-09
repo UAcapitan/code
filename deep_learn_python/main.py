@@ -193,10 +193,46 @@ i = iter([1,2,3])
 i_1 = next(i)
 i_2 = next(i)
 i_3 = next(i)
-
 # print('{}, {}, {}'.format(i_1,i_2,i_3))
 
 # oct -----------------------------------------------------
 
 n_o = oct(10)
 # print(n_o)
+
+# open ----------------------------------------------------
+
+# f = open('text.txt', 'w')
+# print('Test', file=f)
+# f.write('Text \n')
+# text_list = ['Text_1 \n','Text_2 \n','Text_3 \n']
+# f.writelines(text_list)
+
+# all -----------------------------------------------------
+
+l = [True, True, True]
+l2 = [True, False, True]
+l3 = [1,2,3,4,5]
+l4 = ['1', 'a', 'cb']
+l5 = [1, 1, 1, [1,1,1]]
+l6 = [1,1,1,1,1]
+l7 = [1,1,0,1,1]
+
+# print(all(l))
+# print(all(l2))
+# print(all(l3))
+# print(all(l4))
+# print(all(l5))
+# print(all(l6))
+# print(all(l7))
+
+# any -----------------------------------------------------
+
+l1 = [True, True]
+l2 = [True, False]
+l3 = [False, False]
+
+# print(any(l))
+# print(any(l2))
+# print(any(l3))
+
