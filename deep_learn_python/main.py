@@ -236,3 +236,40 @@ l3 = [False, False]
 # print(any(l2))
 # print(any(l3))
 
+# ascii ---------------------------------------------------
+
+a = ascii('''Test
+is
+good!''')
+# print(a)
+
+# bin -----------------------------------------------------
+
+b = bin(10)
+# print(b)
+
+# bool ----------------------------------------------------
+
+b1 = bool(1)
+b2 = bool(0)
+b3 = bool('None')
+# print(b1)
+# print(b2)
+# print(b3)
+
+# bytes ---------------------------------------------------
+
+message = 'Python is fun'
+byte_message = bytes(message, 'utf-8')
+# print(byte_message)
+# print(list(byte_message))
+
+# callable ------------------------------------------------
+
+x = 5
+# print(callable(x))
+
+def test():
+    return 5
+
+# print(callable(test))
