@@ -273,3 +273,20 @@ def test():
     return 5
 
 # print(callable(test))
+
+# compile -------------------------------------------------
+
+codeInString = 'a = 5\nb=6\nsum=a+b\nprint("sum =",sum)'
+codeObejct = compile(codeInString, 'sumstring', 'exec')
+# print(codeObejct)
+
+# complex -------------------------------------------------
+
+z = complex(10,20)
+# print(z)
+
+# enumerate -----------------------------------------------
+
+languages = ['Python', 'Java', 'JavaScript']
+enumerate_prime = enumerate(languages)
+# print(list(enumerate_prime))
