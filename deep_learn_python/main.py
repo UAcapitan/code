@@ -290,3 +290,18 @@ z = complex(10,20)
 languages = ['Python', 'Java', 'JavaScript']
 enumerate_prime = enumerate(languages)
 # print(list(enumerate_prime))
+
+# eval ----------------------------------------------------
+
+n = 9
+# print(eval('n * n'))
+
+# exec ----------------------------------------------------
+
+a = 'b = 5\nb += 1\nprint(b)'
+# exec(a)
+
+# exit ----------------------------------------------------
+
+# input()
+# exit()
