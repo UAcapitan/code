@@ -305,3 +305,40 @@ a = 'b = 5\nb += 1\nprint(b)'
 
 # input()
 # exit()
+
+# ord -----------------------------------------------------
+
+o = ord('P')
+
+# print(o)
+
+# pow -----------------------------------------------------
+
+p = pow(10,2)
+
+# print(p)
+
+# property ------------------------------------------------
+
+class Person:
+    def __init__(self, name):
+        self._name = name
+
+    def get_name(self):
+        print('Getting name')
+        return 'The name is: ' + self._name
+
+    def set_name(self, value):
+        print('Setting name to ' + value)
+        self._name = value
+
+    def del_name(self):
+        print('Deleting name')
+        del self._name
+
+    name = property(get_name, set_name, del_name)
+
+# p = Person('Adam')
+# print(p.name)
+# p.name = 'John'
+# del p.name
