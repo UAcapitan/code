@@ -367,3 +367,32 @@ numbers = [1, 2, 3, 4, 5]
 
 printable_numbers = repr(numbers)
 # print(printable_numbers)
+
+# reversed ------------------------------------------------
+
+i = reversed('Test')
+# print(list(i))
+
+# round ---------------------------------------------------
+
+number = 12.10
+number2 = 11.95
+
+rounded_number = round(number)
+rounded_number2 = round(number2)
+# print(rounded_number)
+# print(rounded_number2)
+
+# setattr -------------------------------------------------
+
+class Student:
+  marks = 88
+  name = 'Sheeran'
+
+person = Student()
+
+setattr(person, 'name', 'Adam')
+# print(person.name)
+
+setattr(person, 'marks', 78)
+# print(person.marks)
