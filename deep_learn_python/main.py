@@ -454,3 +454,35 @@ languages = ['Java', 'Python', 'JavaScript']
 versions = [14, 3, 6]
 result = zip(languages, versions)
 # print(list(result))
+
+# sorted --------------------------------------------------
+
+numbers = [4, 2, 12, 8]
+sorted_numbers = sorted(numbers)
+# print(sorted_numbers)
+
+# classmethod ---------------------------------------------
+
+class Student:
+  marks = 0
+
+  def compute_marks(self, obtained_marks):
+    marks = obtained_marks
+    print('Obtained Marks:', marks)
+
+Student.print_marks = classmethod(Student.compute_marks)
+# Student.print_marks(88)
+
+# delattr -------------------------------------------------
+
+class Coordinate:
+    def __init__(self):
+        self.x = 10
+        self.y = -5
+        self.z = 0
+
+point1 = Coordinate() 
+
+delattr(point1, 'z')
+# print(vars(point1))
+
