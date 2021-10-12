@@ -428,3 +428,29 @@ class Mammal(Animal):
         print('Mammals give birth directly')
     
 # dog = Mammal()
+
+# type ----------------------------------------------------
+
+t = type('abc')
+t2 = type(1)
+t3 = type([])
+# print(t)
+# print(t2)
+# print(t3)
+
+# vars ----------------------------------------------------
+
+class Foo:
+  def __init__(self, a = 5, b = 10):
+    self.a = a
+    self.b = b
+  
+object = Foo()
+# print(vars(object))
+
+# zip -----------------------------------------------------
+
+languages = ['Java', 'Python', 'JavaScript']
+versions = [14, 3, 6]
+result = zip(languages, versions)
+# print(list(result))
