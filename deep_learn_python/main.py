@@ -396,3 +396,35 @@ setattr(person, 'name', 'Adam')
 
 setattr(person, 'marks', 78)
 # print(person.marks)
+
+# slice ---------------------------------------------------
+
+text = 'Python Programing'
+sliced_text = slice(9)
+# print(sliced_text)
+# print(text[sliced_text])
+
+# staticmethod --------------------------------------------
+
+class Calculator:
+
+  def add_numbers(num1, num2):
+    return num1 + num2
+
+Calculator.add_numbers = staticmethod(Calculator.add_numbers)
+
+sum = Calculator.add_numbers(5, 7)
+# print('Sum:', sum)
+
+# super ---------------------------------------------------
+
+class Animal(object):
+    def __init__(self, animal_type):
+        print('Animal Type:', animal_type)
+    
+class Mammal(Animal):
+    def __init__(self):
+        super().__init__('Mammal')
+        print('Mammals give birth directly')
+    
+# dog = Mammal()
