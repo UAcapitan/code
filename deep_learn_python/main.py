@@ -413,8 +413,8 @@ class Calculator:
 
 Calculator.add_numbers = staticmethod(Calculator.add_numbers)
 
-sum = Calculator.add_numbers(5, 7)
-# print('Sum:', sum)
+sum1 = Calculator.add_numbers(5, 7)
+# print('Sum:', sum1)
 
 # super ---------------------------------------------------
 
@@ -486,3 +486,23 @@ point1 = Coordinate()
 delattr(point1, 'z')
 # print(vars(point1))
 
+# dir -----------------------------------------------------
+
+number = [1, 2, 3]
+# print(dir(number))
+# print('\nReturn Value from empty dir()')
+# print(dir())
+
+# id ------------------------------------------------------
+
+class Foo:
+    b = 5
+
+dummyFoo = Foo()
+# print('id of dummyFoo =',id(dummyFoo))
+
+# sum -----------------------------------------------------
+
+n = [65, 71, 68, 74, 61]
+t = sum(n)
+# print(t)
