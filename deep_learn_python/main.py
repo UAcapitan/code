@@ -506,3 +506,18 @@ dummyFoo = Foo()
 n = [65, 71, 68, 74, 61]
 t = sum(n)
 # print(t)
+
+# __import__ ----------------------------------------------
+
+mathematics = __import__('math', globals(), locals(), [], 0)
+# print(mathematics.fabs(-2.5))
+
+# divmod --------------------------------------------------
+
+n = divmod(8, 3)
+# print(n)
+
+# tuple ---------------------------------------------------
+
+t1 = tuple('Python')
+# print(t1)
