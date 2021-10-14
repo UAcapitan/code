@@ -24,7 +24,7 @@ class User():
 # user.name = 'Maxim'
 # del user.name
 
-# decorator ----------------------------------------------
+# decorator example 1-------------------------------------
 
 def decorator_list(fnc):
     def inner(list_of_tuples):
@@ -36,4 +36,19 @@ def add_together(a, b):
     return a + b
 
 # print(add_together([(1, 3), (3, 17), (5, 5), (6, 7)]))
+
+# decorators example 2 -----------------------------------
+
+def decorator_with_arguments(function):
+    def wrapper_accepting_arguments(arg1, arg2):
+        print("My arguments are: {0}, {1}".format(arg1,arg2))
+        function(arg1, arg2)
+    return wrapper_accepting_arguments
+
+
+@decorator_with_arguments
+def cities(city_one, city_two):
+    print("Cities I love are {0} and {1}".format(city_one, city_two))
+
+# cities("Nairobi", "Accra")
 
