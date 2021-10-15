@@ -52,3 +52,15 @@ def cities(city_one, city_two):
 
 # cities("Nairobi", "Accra")
 
+# staticmethod
+
+class Interface:
+
+    @staticmethod
+    def test():
+        print('Work')
+        return True
+
+i = Interface()
+# i.test()
+# print(i.test())
