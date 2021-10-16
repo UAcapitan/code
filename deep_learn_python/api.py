@@ -35,7 +35,7 @@ if auth.status_code == 200:
             try:
                 print(res['Translation']['Translation'])
             except:
-                print('Не найдено разультатов')
+                print('Results not founded')
 
         if point == 2:
             params_translate = {
