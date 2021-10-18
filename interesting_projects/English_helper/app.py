@@ -185,7 +185,7 @@ class Window(QMainWindow):
                 self.result_true_styles()
             else:
                 self.text_result.setText(self.textbox_check_english_words.text() + ' - ' + self.text_russian_word.text())
-                self.text_true_result.setText(self.en + ' - ' + self.ru)
+                self.text_true_result.setText(self.en + ' - ' + self.text_russian_word.text())
                 self.result_styles('red')
                 self.result_true_styles()
         self.cur.execute("SELECT * FROM words;")
@@ -206,7 +206,7 @@ class Window(QMainWindow):
                 self.result_true_styles()
             else:
                 self.text_result.setText(self.text_english_word.text() + ' - ' + self.textbox_check_russian_words.text())
-                self.text_true_result.setText(self.en + ' - ' + self.ru)
+                self.text_true_result.setText(self.text_english_word.text() + ' - ' + self.ru)
                 self.result_styles('red')
                 self.result_true_styles()
 
