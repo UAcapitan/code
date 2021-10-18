@@ -133,6 +133,12 @@ class Window(QMainWindow):
         self.text_result.move(200, 445)
         self.text_result.adjustSize()
 
+        # Text - true result
+        self.text_true_result = QtWidgets.QLabel(self)
+        self.text_true_result.setText('')
+        self.text_true_result.move(200, 465)
+        self.text_true_result.adjustSize()
+
         # Connect and cursor for database
         dir = __file__.replace('app.py', 'english.db')
 
@@ -174,10 +180,14 @@ class Window(QMainWindow):
         if self.text_russian_word.text() != '- ...':
             if self.en == self.textbox_check_english_words.text():
                 self.text_result.setText(self.en + ' - ' + self.text_russian_word.text())
+                self.text_true_result.setText('')
                 self.result_styles('green')
+                self.result_true_styles()
             else:
                 self.text_result.setText(self.textbox_check_english_words.text() + ' - ' + self.text_russian_word.text())
+                self.text_true_result.setText(self.en + ' - ' + self.ru)
                 self.result_styles('red')
+                self.result_true_styles()
         self.cur.execute("SELECT * FROM words;")
 
         self.textbox_check_english_words.setText('')
@@ -191,10 +201,15 @@ class Window(QMainWindow):
         if self.text_english_word.text() != '... -':
             if self.ru == self.textbox_check_russian_words.text():
                 self.text_result.setText(self.text_english_word.text() + ' - ' + self.ru)
+                self.text_true_result.setText('')
                 self.result_styles('green')
+                self.result_true_styles()
             else:
                 self.text_result.setText(self.text_english_word.text() + ' - ' + self.textbox_check_russian_words.text())
+                self.text_true_result.setText(self.en + ' - ' + self.ru)
                 self.result_styles('red')
+                self.result_true_styles()
+
         self.cur.execute("SELECT * FROM words;")
 
         self.textbox_check_russian_words.setText('')
@@ -216,6 +231,11 @@ class Window(QMainWindow):
         self.text_result.adjustSize()
         self.text_result.move(int(220-(self.text_result.width() / 2)), 445)
         self.text_result.setStyleSheet('color: ' + color)
+
+    def result_true_styles(self):
+        self.text_true_result.adjustSize()
+        self.text_true_result.move(int(220-(self.text_true_result.width() / 2)), 465)
+        self.text_true_result.setStyleSheet('color: green')
 
 def application():
     app = QApplication(sys.argv)
