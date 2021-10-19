@@ -52,7 +52,7 @@ def cities(city_one, city_two):
 
 # cities("Nairobi", "Accra")
 
-# staticmethod
+# staticmethod -------------------------------------------
 
 class Interface:
 
