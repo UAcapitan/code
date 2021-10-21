@@ -43,3 +43,21 @@ i = itertools.combinations_with_replacement('ABCDF', 2)
 
 # for x in i:
 #     print('{}{}'.format(x[0], x[1]))
+
+# itertools.compress -------------------------------
+i = itertools.compress('ABCDF', [1,1,0,0,1])
+
+# for x in i:
+#     print(x, end=" ")
+
+# iterable.dropwhile -------------------------------
+i = itertools.dropwhile(lambda x: x < 10, [1,2,10,15,159])
+
+for x in i:
+    print(x, end=" ")
+
+# iterable.filterfalse -----------------------------
+i = itertools.filterfalse(lambda x: x < 10, [1,2,10,15,159])
+
+for x in i:
+    print(x, end=" ")
