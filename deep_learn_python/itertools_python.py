@@ -50,14 +50,20 @@ i = itertools.compress('ABCDF', [1,1,0,0,1])
 # for x in i:
 #     print(x, end=" ")
 
-# iterable.dropwhile -------------------------------
-i = itertools.dropwhile(lambda x: x < 10, [1,2,10,15,159])
+# itertools.product --------------------------------
+i = itertools.product('ABCD', 'AB')
 
-for x in i:
-    print(x, end=" ")
+# for x in i:
+#     print(x[0] + x[1], end=" ")
 
-# iterable.filterfalse -----------------------------
-i = itertools.filterfalse(lambda x: x < 10, [1,2,10,15,159])
+# itertools.takewhile ------------------------------
+i = itertools.takewhile(lambda x: x < 10, [1,2,3,5,10,15,19,95,290,398])
 
-for x in i:
-    print(x, end=" ")
+# for x in i:
+#     print(x, end=" ")
+
+# itertools.zip_longest ----------------------------
+i = itertools.zip_longest('ABC', 'AB', fillvalue='-')
+
+# for x in i:
+#     print(x[0]+x[1], end=" ")
