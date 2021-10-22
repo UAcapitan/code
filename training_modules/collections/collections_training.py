@@ -31,3 +31,14 @@ c += collections.Counter()
 print(c)
 c.clear()
 print(c)
+
+# Defaultdict -------------------------------------------------
+
+defdict = collections.defaultdict(list)
+
+print(defdict)
+
+for i in range(5):
+    defdict[i].append(i)
+
+print(defdict)
