@@ -14,7 +14,7 @@ if auth.status_code == 200:
     TOKEN = auth.text
 
     point = int(input('Choose\n1.Translate\n2.Wordforms\n'))
-    
+
     while True:
         word = input('Input word for translate or "q" for exit: ')
         if word == 'q':
@@ -23,6 +23,17 @@ if auth.status_code == 200:
         headers_translate = {
             'Authorization':'Bearer ' + TOKEN
         }
+        params_translate = {
+            'text':word,
+            'srcLang':1033,
+            'dstLang':1049
+        }
+        result = requests.get(URL_TRANSLATE, headers=headers_translate, params=params_translate)
+        res = result.json()
+        try:
+            print(res['Translation']['Translation'])
+        except:
+            print('Не найдено разультатов')
 
         if point == 1:
             params_translate = {
@@ -35,7 +46,7 @@ if auth.status_code == 200:
             try:
                 print(res['Translation']['Translation'])
             except:
-                print('Results not founded')
+                print('Не найдено разультатов')
 
         if point == 2:
             params_translate = {
@@ -61,4 +72,3 @@ Continuous - {}'
 
 else:
     print('Error')
-    exit()
