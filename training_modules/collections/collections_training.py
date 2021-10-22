@@ -42,3 +42,21 @@ for i in range(5):
     defdict[i].append(i)
 
 print(defdict)
+
+# OrderedDict -------------------------------------------------
+
+d = {'banana': 3, 'apple':4, 'pear': 1, 'orange': 2}
+o = collections.OrderedDict(sorted(d.items(), key=lambda t: t[0]))
+print(o)
+
+o.popitem(last=True)
+print(o)
+
+o.popitem(last=False)
+print(o)
+
+o.move_to_end('banana', last=True)
+print(o)
+
+o.move_to_end('banana', last=False)
+print(o)
