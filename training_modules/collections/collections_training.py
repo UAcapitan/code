@@ -60,3 +60,11 @@ print(o)
 
 o.move_to_end('banana', last=False)
 print(o)
+
+# namedtuple() ------------------------------------------------
+
+Point = collections.namedtuple('Point', ['x','y'])
+p = Point(x=1, y=2)
+print(p)
+print(p.x)
+print(p[0])
