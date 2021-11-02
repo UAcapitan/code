@@ -41,7 +41,3 @@ class CalcExTests(unittest.TestCase):
 
     def test_pow(self):
         self.assertEqual(pow(3, 3), 27)
-
-
-
-
