@@ -1,20 +1,72 @@
 import googletrans
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget
+import PyQt5.QtWidgets as qt5
 
 translator = googletrans.Translator()
 
-def translate(t, src, dest):
-    result = translator.translate(t, src=src, dest=dest)
-    return result.text
+class TranslateApp(qt5.QMainWindow):
+    def __init__(self):
+        super().__init__()
 
-print(translate('Привет! Как дела? Что нового у тебя?', 'ru', 'en'))
+        # Setup for main window
+        self.resize(500, 500)
+        self.move(300, 300)
+        self.setWindowTitle('TranslateApp')
+
+        # Name app
+        self.label = qt5.QLabel('Translator', self)
+        self.label.move(10,5)
+
+        # Src label
+        self.label_src = qt5.QLabel('Src', self)
+        self.label_src.move(25,40)
+
+        # Dest label
+        self.label_dest = qt5.QLabel('Dest', self)
+        self.label_dest.move(275,40)
+
+        # Field for src
+        self.text_src = qt5.QPlainTextEdit(self)
+        self.text_src.insertPlainText('')
+        self.text_src.move(25,70)
+        self.text_src.resize(200,30)
+
+        # Symbol between fields
+        self.label_sym = qt5.QLabel('->', self)
+        self.label_sym.move(242,70)
+
+        # Field for dest
+        self.text_dest = qt5.QPlainTextEdit(self)
+        self.text_dest.insertPlainText('')
+        self.text_dest.move(275,70)
+        self.text_dest.resize(200,30)
+
+        # Text after main field
+        self.label_input = qt5.QLabel('Input your text', self)
+        self.label_input.move(25,110)
+        self.label_input.resize(200, 20)
+        
+        # Field for text for translate
+        self.text_for_translate = qt5.QPlainTextEdit(self)
+        self.text_for_translate.insertPlainText('')
+        self.text_for_translate.move(25,140)
+        self.text_for_translate.resize(450,100)
+
+        # Button for translate
+        self.button = qt5.QPushButton('Translate', self)
+        self.button.move(340,260)
+
+        self.show()
+
+    def translate(self, t, src, dest):
+        result = translator.translate(t, src=src, dest=dest)
+        return result.text
+
+    def exit(self,app):
+        sys.exit(app.exec())
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    w = QWidget()
-    w.resize(250, 150)
-    w.move(300, 300)
-    w.setWindowTitle('Simple')
-    w.show()
-    sys.exit(app.exec_())
+    app = qt5.QApplication(sys.argv)
+    translate_app = TranslateApp()
+    # print(translate_app.translate('Привет! Как дела? Что нового у тебя?', 'ru', 'en'))
+    translate_app.exit(app)
