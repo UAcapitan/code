@@ -54,12 +54,24 @@ class TranslateApp(qt5.QMainWindow):
 
         # Button for translate
         self.button = qt5.QPushButton('Translate', self)
-        self.button.move(340,260)
+        self.button.move(200,260)
+
+        # Label before button
+        self.label_input = qt5.QLabel('v', self)
+        self.label_input.move(249,290)
+
+        # Field for translated text
+        self.text_translated = qt5.QPlainTextEdit(self)
+        self.text_translated.insertPlainText('')
+        self.text_translated.move(25,330)
+        self.text_translated.resize(450,100)
+        self.text_translated.setReadOnly(True)
 
         self.show()
 
     def translate(self, t, src, dest):
         result = translator.translate(t, src=src, dest=dest)
+        self.text_translated.setPlainText(result.text)
         return result.text
 
     def exit(self,app):
@@ -68,5 +80,5 @@ class TranslateApp(qt5.QMainWindow):
 if __name__ == '__main__':
     app = qt5.QApplication(sys.argv)
     translate_app = TranslateApp()
-    # print(translate_app.translate('Привет! Как дела? Что нового у тебя?', 'ru', 'en'))
+    print(translate_app.translate('Привет! Как дела? Что нового у тебя?', 'ru', 'en'))
     translate_app.exit(app)
