@@ -9,13 +9,29 @@ class TranslateApp(qt5.QMainWindow):
         super().__init__()
 
         # Setup for main window
-        self.resize(500, 500)
+        self.resize(500, 450)
         self.move(300, 300)
         self.setWindowTitle('TranslateApp')
 
-        # Name app
-        self.label = qt5.QLabel('Translator', self)
-        self.label.move(10,5)
+        # Menu
+        self.menuBar = self.menuBar()
+        self.fileMenu = qt5.QMenu("&Main", self)
+        self.menuBar.addMenu(self.fileMenu)
+
+        self.fileMenu.addAction('Save in file')
+        self.fileMenu.addAction('Save all text in file')
+        self.fileMenu.addAction('All languages')
+        self.fileMenu.addAction('Exit')
+
+        self.editMenu = self.menuBar.addMenu("&Update")
+        self.editMenu.addAction('About this version')
+        self.editMenu.addAction('Open official site')
+        self.editMenu.addAction('What`s new?')
+
+        self.helpMenu = self.menuBar.addMenu("&Help")
+        self.helpMenu.addAction('Support')
+        self.helpMenu.addAction('About program')
+        self.helpMenu.addAction('About author')
 
         # Src label
         self.label_src = qt5.QLabel('Src', self)
