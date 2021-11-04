@@ -18,20 +18,30 @@ class TranslateApp(qt5.QMainWindow):
         self.fileMenu = qt5.QMenu("&Main", self)
         self.menuBar.addMenu(self.fileMenu)
 
-        self.fileMenu.addAction('Save in file')
-        self.fileMenu.addAction('Save all text in file')
-        self.fileMenu.addAction('All languages')
-        self.fileMenu.addAction('Exit')
+        self.save_file_item = self.fileMenu.addAction('Save in file')
+        self.save_file_item.triggered.connect(self.save_text)
+        self.save_all_file_item = self.fileMenu.addAction('Save all text in file')
+        self.save_all_file_item.triggered.connect(self.save_all_text)
+        self.all_lang_item = self.fileMenu.addAction('All languages')
+        self.all_lang_item.triggered.connect(self.all_languages)
+        self.exit_item = self.fileMenu.addAction('Exit')
+        self.exit_item.triggered.connect(app.instance().quit)
 
         self.editMenu = self.menuBar.addMenu("&Update")
-        self.editMenu.addAction('About this version')
-        self.editMenu.addAction('Open official site')
-        self.editMenu.addAction('What`s new?')
+        self.about_version_item = self.editMenu.addAction('About this version')
+        self.about_version_item.triggered.connect(self.about_version)
+        self.open_site_item = self.editMenu.addAction('Open official site')
+        self.open_site_item.triggered.connect(self.open_site)
+        self.what_is_new_item = self.editMenu.addAction('What`s new?')
+        self.what_is_new_item.triggered.connect(self.what_is_new)
 
         self.helpMenu = self.menuBar.addMenu("&Help")
-        self.helpMenu.addAction('Support')
-        self.helpMenu.addAction('About program')
-        self.helpMenu.addAction('About author')
+        self.support_item = self.helpMenu.addAction('Support')
+        self.support_item.triggered.connect(self.support)
+        self.about_program_item = self.helpMenu.addAction('About program')
+        self.about_program_item.triggered.connect(self.about_program)
+        self.about_author_item = self.helpMenu.addAction('About author')
+        self.about_author_item.triggered.connect(self.about_author)
 
         # Src label
         self.label_src = qt5.QLabel('Src', self)
@@ -86,12 +96,58 @@ class TranslateApp(qt5.QMainWindow):
 
         self.show()
 
+    # Function translate text
     def translate(self):
         result = translator.translate(self.text_for_translate.toPlainText(), src=self.text_src.toPlainText(), dest=self.text_dest.toPlainText())
         self.text_translated.setPlainText(result.text)
 
+    # Functions for menu
+    def save_text(self):
+        self.nw_save_text = AnotherWindow('Save text in file', [400, 400])
+        self.nw_save_text.show()
+
+    def save_all_text(self):
+        self.nw_save_all_text = AnotherWindow('Save all text in file', [400, 400])
+        self.nw_save_all_text.show()
+
+    def all_languages(self):
+        self.nw_all_lang = AnotherWindow('All languages', [400, 400])
+        self.nw_all_lang.show()
+
+    def about_version(self):
+        self.nw_about_version = AnotherWindow('About this version', [400, 150])
+        self.nw_about_version.show()
+
+    def open_site(self):
+        self.nw_open_site = AnotherWindow('Open site', [400, 150])
+        self.nw_open_site.show()
+
+    def what_is_new(self):
+        self.nw_what_is_new = AnotherWindow('What`s new?', [400, 200])
+        self.nw_what_is_new.show()
+
+    def support(self):
+        self.nw_support = AnotherWindow('Support', [400, 250])
+        self.nw_support.show()
+
+    def about_program(self):
+        self.nw_about_program = AnotherWindow('About program', [400, 200])
+        self.nw_about_program.show()
+
+    def about_author(self):
+        self.nw_about_author = AnotherWindow('About author', [400, 200])
+        self.nw_about_author.show()
+
+    # Function exit
     def exit(self,app):
         sys.exit(app.exec())
+
+# Class for create new window
+class AnotherWindow(qt5.QWidget):
+    def __init__(self, name: str, size: list):
+        super().__init__()
+        self.setWindowTitle(name)
+        self.resize(size[0], size[1])
 
 if __name__ == '__main__':
     app = qt5.QApplication(sys.argv)
