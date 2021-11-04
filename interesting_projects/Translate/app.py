@@ -101,9 +101,18 @@ class TranslateApp(qt5.QMainWindow):
         result = translator.translate(self.text_for_translate.toPlainText(), src=self.text_src.toPlainText(), dest=self.text_dest.toPlainText())
         self.text_translated.setPlainText(result.text)
 
-    # Functions for menu
+    # Functions for open menu windows
     def save_text(self):
-        self.nw_save_text = AnotherWindow('Save text in file', [400, 400])
+        self.nw_save_text = AnotherWindow('Save text in file', [400, 115])
+        self.nw_save_text.label_address = qt5.QLabel('Address for save file', self.nw_save_text)
+        self.nw_save_text.label_address.move(10,10)
+        self.nw_save_text.text_address = qt5.QPlainTextEdit(self.nw_save_text)
+        self.nw_save_text.text_address.insertPlainText('D://text.txt')
+        self.nw_save_text.text_address.move(10,30)
+        self.nw_save_text.text_address.resize(380,30)
+        self.nw_save_text.button_save = qt5.QPushButton('Save', self.nw_save_text)
+        self.nw_save_text.button_save.move(250,70)
+        self.nw_save_text.button_save.clicked.connect(self.save_in_file_button)
         self.nw_save_text.show()
 
     def save_all_text(self):
@@ -137,6 +146,11 @@ class TranslateApp(qt5.QMainWindow):
     def about_author(self):
         self.nw_about_author = AnotherWindow('About author', [400, 200])
         self.nw_about_author.show()
+
+    # Function for save in files
+    def save_in_file_button(self):
+        with open(self.nw_save_text.text_address.toPlainText(), 'a') as f:
+            f.write(self.text_translated.toPlainText() + '\n\n')
 
     # Function exit
     def exit(self,app):
