@@ -10,9 +10,23 @@ import re
 # pattern = '^[a-zA-Z0-9]{5}$'
 pattern = '(good|bad|nice) man'
 
-user_input = input()
+def search_pattern(p):
+    if (re.search(p, input())):
+        print('Valid')
+    else:
+        print('Not valid')
 
-if (re.search(pattern, user_input)):
-    print('Valid')
-else:
-    print('Not valid')
+# search_pattern(pattern)
+
+text = '123 123 123 ed@gmail.com ' \
+    '123textuser user123 who am I' \
+    'I don`t know'
+
+pattern = '\w+@\w+\.\w{2,5}'
+# pattern = '\d\d\d'
+
+def find_text(p, t):
+    print(re.findall(p, t))
+
+find_text(pattern, text)
+
