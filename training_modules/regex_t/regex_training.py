@@ -20,9 +20,11 @@ def search_pattern(p):
 
 text = '123 123 123 ed@gmail.com ' \
     '123textuser user123 who am I' \
-    'I don`t know'
+    'I don`t know' \
+    'Hello, friend main@gmail.com' \
+    ' c.at@poshta.ua 223 good_day'
 
-pattern = '\w+@\w+\.\w{2,5}'
+pattern = '[a-zA-Z.]+@\w+\.\w{2,5}'
 # pattern = '\d\d\d'
 
 def find_text(p, t):
