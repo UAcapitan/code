@@ -1,8 +1,13 @@
 import threading
 import time
 
+result = 0
+
 def one(n):
+    global result
     time.sleep(n)
+    result = str(n) + ' seconds'
+    print(result)
 
 t1 = threading.Thread(target=one, args=(5,))
 t2 = threading.Thread(target=one, args=(3,))
