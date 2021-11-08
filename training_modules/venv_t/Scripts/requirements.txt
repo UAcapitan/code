@@ -1,2 +1,0 @@
-pytest==5.2.0
-requsts==2.22.0
