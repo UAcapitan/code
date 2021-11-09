@@ -38,3 +38,11 @@ response = requests.delete(url)
 response = requests.head(url)
 response = requests.options(url)
 
+url = 'http://lit.lib.ru/a/abramcewa_n_k/text_0180.shtml'
+
+response = requests.get(url, stream=True)
+
+with open('story.txt', 'w', encoding='utf-8') as f:
+    for i in response.iter_content(chunk_size=5000):
+        print('Writed')
+        f.write(i.decode(response.encoding))
