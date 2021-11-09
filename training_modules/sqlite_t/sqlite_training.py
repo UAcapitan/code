@@ -14,13 +14,13 @@ with sqlite3.connect('database.db') as db:
     query_2 = """INSERT INTO users(id, name, login, password) VALUES (?,?,?,?)"""
     # cursor.execute(query)
     l_t = [
-        (6, 'Misha', 'cat', 'naruto'),
-        (7, 'Maxim', 'Max', 'maxmaxmax'),
-        (8, 'Vanya', 'monster_guy', 'lol123'),
-        (9, 'John', 'not_girl', '1q2w3ssdfkjvdfjbglkjgbnkjrenb'),
+        (6, 'Kiril', 'guy_good', '193422243'),
+        (7, 'Michael', 'Mi', 'uiwqrehjfbji'),
+        (8, 'Georgiy', 'Gi', 'iewouoiw'),
+        (9, 'Li', 'li_naruto_man', '734yierw'),
     ]
-    # cursor.executemany(query_2, l_t)
-    # db.commit()
+    cursor.executemany(query_2, l_t)
+    db.commit()
 
     query = """SELECT * FROM users"""
     cursor.execute(query)
