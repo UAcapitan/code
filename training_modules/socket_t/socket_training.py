@@ -8,6 +8,7 @@ class Server:
         self.server = socket.create_server(('127.0.0.1', 2000))
         self.server.listen(4)
         self.HDRS = 'HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8\r\n\r\n'.encode('utf-8')
+        self.HDRS_404 = 'HTTP/1.1 404 OK\r\nContent-Type: text/html; charset=utf-8\r\n\r\n'.encode('utf-8')
 
     def run(self):
         try:
@@ -24,10 +25,12 @@ class Server:
     def load_file(self, data):
         path = data.split()[1]
         result = ''
-        with open('views' + path, 'rb') as file:
-            result = file.read()
-        print(self.HDRS + result)
-        return self.HDRS + result
+        try:
+            with open('views' + path, 'rb') as file:
+                result = file.read()
+            return self.HDRS + result
+        except:
+            return self.HDRS_404 + 'Page not found'.encode('utf-8')
             
 if __name__ == '__main__':
     server = Server()
