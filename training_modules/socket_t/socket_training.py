@@ -11,19 +11,20 @@ class Server:
         self.HDRS_404 = 'HTTP/1.1 404 OK\r\nContent-Type: text/html; charset=utf-8\r\n\r\n'.encode('utf-8')
 
     def run(self):
-        try:
+        # try:
             while True:
                 self.client_socket, self.address = self.server.accept()
                 data = self.client_socket.recv(1024).decode('utf-8')
                 text = self.load_file(data)
                 self.client_socket.send(text)
                 self.client_socket.shutdown(socket.SHUT_WR)
-        except:
-            print('Error')
-            self.server.close()
+        # except:
+        #     print('Error')
+        #     self.server.close()
 
     def load_file(self, data):
-        path = data.split()[1]
+        path = data.split(' ')
+        print(path)
         result = ''
         try:
             with open('views' + path, 'rb') as file:
