@@ -23,8 +23,7 @@ class Server:
         #     self.server.close()
 
     def load_file(self, data):
-        path = data.split(' ')
-        print(path)
+        path = data.split(' ')[1]
         result = ''
         try:
             with open('views' + path, 'rb') as file:
