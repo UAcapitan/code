@@ -26,5 +26,12 @@ def year(request, year):
         return redirect('main', permanent=True)
     return HttpResponse(f'<h1>Year {str(year)}</h1>')
 
+def articles(request):
+    articles = Article.objects.all()
+    context = {
+        'articles':articles
+    }
+    return render(request, 'appmain/articles.html', context)
+
 def pageNotFound(request, exception):
     return HttpResponseNotFound(f'<h1>Page not found</h1>')
