@@ -1,8 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseNotFound, Http404
+from .models import *
+
+menu = ['Main page', 'Articles', 'About']
 
 def index(request):
-    return HttpResponse('Hello, world')
+    articles = Article.objects.all()
+    return render(request, 'appmain/index.html', {'title':'Main page', 'menu':menu, 'articles':articles})
 
 def article(request, id):
     if (request.GET):
@@ -11,7 +15,7 @@ def article(request, id):
     if (request.POST):
         print(request.POST)
 
-    return HttpResponse(f'<h1>Page {str(id)}</h1>')
+    return render(request, 'appmain/article.html', {'title':'Article', 'menu':menu})
 
 def year(request, year):
     if int(year) > 2021:

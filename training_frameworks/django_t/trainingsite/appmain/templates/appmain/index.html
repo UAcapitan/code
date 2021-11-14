@@ -1,0 +1,8 @@
+{% extends 'appmain/base.html' %}
+
+{% block content %}
+    <h1>Hello, world</h1>
+    {% for article in articles %}
+        <p>{{ article.title }}</p>
+    {% endfor %}
+{% endblock %}
