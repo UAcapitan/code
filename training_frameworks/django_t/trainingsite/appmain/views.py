@@ -36,6 +36,8 @@ def articles(request):
 def show_category(request, id):
     category = Category.objects.get(pk=id)
     articles = Article.objects.filter(cat=id)
+    if len(articles) == 0:
+        raise Http404()
     return render(request, 'appmain/category.html', {'category':category, 'articles':articles})
 
 def pageNotFound(request, exception):
