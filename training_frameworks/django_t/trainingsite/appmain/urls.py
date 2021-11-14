@@ -5,5 +5,6 @@ urlpatterns = [
     path('', index, name='main'),
     path('article/<int:id>/', article, name='article'),
     re_path(r'^year/(?P<year>[0-9]{4})/', year),
-    path('articles/', articles, name='articles')
+    path('articles/', articles, name='articles'),
+    path('category/<int:id>/', show_category, name='category')
 ]

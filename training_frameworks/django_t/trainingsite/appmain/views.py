@@ -33,5 +33,10 @@ def articles(request):
     }
     return render(request, 'appmain/articles.html', context)
 
+def show_category(request, id):
+    category = Category.objects.get(pk=id)
+    articles = Article.objects.filter(cat=id)
+    return render(request, 'appmain/category.html', {'category':category, 'articles':articles})
+
 def pageNotFound(request, exception):
     return HttpResponseNotFound(f'<h1>Page not found</h1>')
