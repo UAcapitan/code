@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from .models import *
+from .forms import *
 
 menu = ['Main page', 'Articles', 'About']
 
@@ -50,6 +51,20 @@ def show_category(request, id):
         'category':category,
         'articles':articles
     })
+
+def form_page(request):
+    if request.method == 'POST':
+        form = AddForm(request.POST)
+        if form.is_valid():
+            # print(form.cleaned_data)
+            try:
+                Article.objects.create(**form.cleaned_data)
+                return redirect('main')
+            except:
+                form.add_error(None, 'Error')
+    else:
+        form = AddForm()
+    return render(request, 'appmain/form_page.html', {'form':form})
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound(f'<h1>Page not found</h1>')

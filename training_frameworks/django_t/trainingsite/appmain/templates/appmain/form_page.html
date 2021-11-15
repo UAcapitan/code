@@ -1,0 +1,20 @@
+{% extends 'appmain/base.html' %}
+
+{% block title %}Form page{% endblock %}
+
+{% block content %}
+    <h1>Form</h1>
+
+    <form action="{% url 'form_page' %}" method='post'>
+        {% csrf_token %}
+        <!-- {{ form.as_p }} -->
+        <p>{{ form.non_field_errors }}</p>
+        {% for f in form %}
+            <p>{{ f.label }}</p>
+            {{ f }}
+            {{ f.errors }}
+        {% endfor %}
+        <br><br>
+        <input type="submit" value="Send">
+    </form>
+{% endblock %}
