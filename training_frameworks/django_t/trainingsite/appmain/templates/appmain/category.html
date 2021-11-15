@@ -1,10 +1,19 @@
 {% extends 'appmain/base.html' %}
+{% load appmain_tags %}
 
 {% block title %}Category{% endblock %}
 
 {% block content %}
     <h1>Category</h1>
-    <p>{{ category.name }}</p>
+    <p>{% get_cats as categories %}</p>
+    {% for i in categories %}
+        <a href="{{ i.get_absolute_url }}">{{ i.name }}</a>
+    {% endfor %}
+
+    <p>{% get_cats %}</p>
+    <p>{% get_cats 1 %}</p>
+
+    {% show_categories cat_selected=0 %}
 
     {% for article in articles %}
         <div>
