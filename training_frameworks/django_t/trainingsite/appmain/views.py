@@ -54,14 +54,11 @@ def show_category(request, id):
 
 def form_page(request):
     if request.method == 'POST':
-        form = AddForm(request.POST)
+        form = AddForm(request.POST, request.FILES)
         if form.is_valid():
             # print(form.cleaned_data)
-            try:
-                Article.objects.create(**form.cleaned_data)
-                return redirect('main')
-            except:
-                form.add_error(None, 'Error')
+            form.save()
+            return redirect('main')
     else:
         form = AddForm()
     return render(request, 'appmain/form_page.html', {'form':form})
