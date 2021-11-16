@@ -27,5 +27,4 @@ class AddForm(forms.ModelForm):
         if len(text) < 5:
             raise ValidationError('Length less than 5 symbols')
 
-        return text        
-
+        return text

@@ -15,7 +15,7 @@ class Article(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('article', kwargs={'id': self.slug})
+        return reverse('article', kwargs={'slug': self.slug})
 
     class Meta:
         verbose_name = 'Article'
