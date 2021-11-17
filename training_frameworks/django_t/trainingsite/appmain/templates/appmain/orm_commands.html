@@ -1,0 +1,69 @@
+
+{% extends 'appmain/base.html' %}
+
+{% block title %}ORM Commands{% endblock %}
+
+{% block content %}
+    <h1>ORM Commands</h1>
+    <p>Model.objects.all()[1:5] - 1,2,3,4</p>
+    <p>Model.objects.order_by('name') - sort by id</p>
+    <p>Model.objects.all().reverse() - all are reversed</p>
+    <br>
+    <p>Model.objects.filter(key=value) - filter</p>
+    <p>- [field_name]__gte - more or equal</p>
+    <p>- [field_name]__lte - less or equal</p>
+    <p>- [field_name]__contains - contains the value</p>
+    <p>- [field_name]__in=[values] - all elements suitable for conditions</p>
+    <p>- [field_name]__slug=value - element with this slug</p>
+    <br>
+    <p>Model.objects.get(key=value) - only one element</p>
+    <br>
+    <p>from django.db import connection</p>
+    <p>connection.query - SQL query</p>
+    <br>
+    <p>c = ModelForeignKey.objects.get(key=value)</p>
+    <p>c_model_set.all() - all articles from model with foreign key</p>
+    <br>
+    <p>from django.db.models import Q</p>
+    <p>Model.objects.filter(~Q([field_name]__lte=value) | Q([field_name]_id=2))</p>
+    <p>- & - and</p>
+    <p>- | - or</p>
+    <p>- ~ - not</p>
+    <br>
+    <p>Model.objects.first() - first article</p>
+    <p>Model.objects.last() - last article</p>
+    <p>Model.objects.latest([field_name]) - last article by field</p>
+    <p>Model.objects.earlist([field_name]) - first article by field</p>
+    <br>
+    <p>m = Model.objects.get([field_name]=value)</p>
+    <p>m.get_previous_by_[field_name]() - previous article with datetime field</p>
+    <p>m.get_next_by_[field_name]() - next article with datetime field</p>
+    <br>
+    <p>c.model_set.exists() - check for existence</p>
+    <p>c.model_set.count() - check for quantity</p>
+    <br>
+    <p>Model.objects.get([filter]=value).distinct() - unique</p>
+    <br>
+    <p>from django.db.models import *</p>
+    <p>Model.objects.aggregate(Min('[field_name]')) - min value</p>
+    <p>Model.objects.aggregate(Max('[field_name]')) - max value</p>
+    <p>Model.objects.aggregate(res=Avg('[field_name]')) - average and save in variable</p>
+    <br>
+    <p>Model.objects.values([field_name], [field_name],...).all() - only some fields</p>
+    <br>
+    <p>Model.objects.values([field_name]).annotate(Count([field_name])) - count</p>
+    <br>
+    <p>m.views = F('[field_name]') + 1 - add 1 to value</p>
+    <br>
+    <p>from django.db.models.functions import Length</p>
+    <p>ml = Model.objects.annotate(len=Length([field_name])) - Length of field</p>
+    <p>for item in ml:</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;print(item.len)</p>
+    <br>
+    <p>m = Model.objects.raw(query) - all SQL query</p>
+    <p>for p in m:</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;print(p.[field_name])</p>
+    <br>
+    <p>from django.db import reset_queries</p>
+    <p>reset_queries() - Lazy SQL queries</p>
+{% endblock %}

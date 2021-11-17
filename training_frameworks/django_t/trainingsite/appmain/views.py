@@ -109,5 +109,8 @@ class FormPage(CreateView):
 #         form = AddForm()
 #     return render(request, 'appmain/form_page.html', {'form':form})
 
+def orm_commands(request):
+    return render(request, 'appmain/orm_commands.html')
+
 def pageNotFound(request, exception):
     return HttpResponseNotFound(f'<h1>Page not found</h1>')

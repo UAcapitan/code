@@ -20,7 +20,7 @@ class Article(models.Model):
     class Meta:
         verbose_name = 'Article'
         verbose_name_plural = 'Articles'
-        ordering = ['-title', 'id']
+        # ordering = ['-title', 'id']
 
 class Category(models.Model):
     name = models.CharField(max_length=100, db_index=True)
