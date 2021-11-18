@@ -9,5 +9,7 @@ urlpatterns = [
     path('category/<slug:id>/', CategoryPage.as_view(), name='category'),
     path('form-page/', FormPage.as_view(), name='form_page'),
     path('orm/', orm_commands, name='orm_commands'),
-    path('reg/', reg, name='reg')
+    path('reg/', reg_view, name='reg'),
+    path('login/', login_view, name='login'),
+    path('logout/', logout_view, name='logout')
 ]

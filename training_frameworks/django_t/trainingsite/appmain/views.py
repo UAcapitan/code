@@ -8,8 +8,9 @@ from .utils import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
 
 menu = ['Main page', 'Articles', 'About']
 
@@ -127,7 +128,7 @@ class FormPage(CreateView):
 def orm_commands(request):
     return render(request, 'appmain/orm_commands.html')
 
-def reg(request):
+def reg_view(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
@@ -138,6 +139,29 @@ def reg(request):
         messages.error(request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
     return render(request, 'appmain/reg.html', {"register_form":form})
+
+def login_view(request):
+	if request.method == "POST":
+		form = AuthenticationForm(request, data=request.POST)
+		if form.is_valid():
+			username = form.cleaned_data.get('username')
+			password = form.cleaned_data.get('password')
+			user = authenticate(username=username, password=password)
+			if user is not None:
+				login(request, user)
+				messages.info(request, f"You are now logged in as {username}.")
+				return redirect("main")
+			else:
+				messages.error(request,"Invalid username or password.")
+		else:
+			messages.error(request,"Invalid username or password.")
+	form = AuthenticationForm()
+	return render(request=request, template_name="appmain/login.html", context={"login_form":form})
+
+def logout_view(request):
+    logout(request)
+    messages.info(request, "You have successfully logged out.") 
+    return redirect("main")
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound(f'<h1>Page not found</h1>')
