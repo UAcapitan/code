@@ -7,6 +7,7 @@ from .forms import *
 from .utils import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 menu = ['Main page', 'Articles', 'About']
 
@@ -66,9 +67,14 @@ class ShowPage(DetailView):
 
 @login_required
 def articles(request):
-    articles = Article.objects.all()
+    contact_list = Article.objects.all()
+    paginator = Paginator(contact_list, 3)
+    # articles = Article.objects.all()
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
-        'articles':articles
+        # 'articles':articles,
+        'page_obj': page_obj
     }
     return render(request, 'appmain/articles.html', context)
 
