@@ -8,6 +8,8 @@ from .utils import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.contrib.auth import login
+from django.contrib import messages
 
 menu = ['Main page', 'Articles', 'About']
 
@@ -124,6 +126,18 @@ class FormPage(CreateView):
 
 def orm_commands(request):
     return render(request, 'appmain/orm_commands.html')
+
+def reg(request):
+    if request.method == "POST":
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, "Registration successful." )
+            return redirect("main")
+        messages.error(request, "Unsuccessful registration. Invalid information.")
+    form = NewUserForm()
+    return render(request, 'appmain/reg.html', {"register_form":form})
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound(f'<h1>Page not found</h1>')

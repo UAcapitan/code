@@ -8,5 +8,6 @@ urlpatterns = [
     path('articles/', articles, name='articles'),
     path('category/<slug:id>/', CategoryPage.as_view(), name='category'),
     path('form-page/', FormPage.as_view(), name='form_page'),
-    path('orm/', orm_commands, name='orm_commands')
+    path('orm/', orm_commands, name='orm_commands'),
+    path('reg/', reg, name='reg')
 ]

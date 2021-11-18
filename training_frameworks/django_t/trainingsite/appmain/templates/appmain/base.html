@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="{% static 'appmain/css/style.css' %}">
 </head>
 <body>
+    {% if not user.is_authenticated %}
+        <a href="{% url 'reg' %}">Register</a>
+    {% endif %}
     <ul>
         {% for i in menu %}
             <li>{{i}}</li>
