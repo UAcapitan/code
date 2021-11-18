@@ -4,6 +4,9 @@ from django.urls.base import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 from .models import *
 from .forms import *
+from .utils import *
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 menu = ['Main page', 'Articles', 'About']
 
@@ -61,6 +64,7 @@ class ShowPage(DetailView):
     context_object_name = 'art'
     allow_empty = False
 
+@login_required
 def articles(request):
     articles = Article.objects.all()
     context = {
@@ -68,16 +72,19 @@ def articles(request):
     }
     return render(request, 'appmain/articles.html', context)
 
-class CategoryPage(ListView):
+class CategoryPage(LoginRequiredMixin, DataMixin, ListView):
     model = Category
     template_name = 'appmain/category.html'
     context_object_name = 'cats'
     allow_empty = False
+    login_url = reverse_lazy('main')
+    raise_exception = False
 
     def get_context_data(self, *, object_list = None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Category'
-        return context
+        c_def = self.get_user_context()
+        return context | c_def
 
     def get_queryset(self):
         return Article.objects.filter(cat__slug=self.kwargs['id'],is_published=True)
