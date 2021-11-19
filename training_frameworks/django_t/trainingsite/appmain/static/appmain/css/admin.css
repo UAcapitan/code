@@ -1,0 +1,19 @@
+#header {
+    background: #00FF00;
+}
+
+#branding > h1 > a {
+    color: #FFFFFF !important;
+}
+
+.app-appmain > table > caption {
+    background: #00FF00;
+}
+
+.app-auth > table > caption {
+    background: #00FF00;
+}
+
+th > a {
+    color: #FFFFFF !important;
+}
