@@ -3,11 +3,14 @@ from .models import *
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from captcha.fields import CaptchaField
 
 class AddForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['cat'].empty_label = 'Empty'
+
+    captcha = CaptchaField()
 
     class Meta:
         model = Article

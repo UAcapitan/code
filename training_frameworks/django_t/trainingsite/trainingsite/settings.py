@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'captcha',
     'appmain.apps.AppmainConfig',
 ]
 
@@ -143,3 +144,7 @@ CACHES = {
         'LOCATION': os.path.join(BASE_DIR, 'trainingsite_cache'),
     }
 }
+
+CAPTCHA_FONT_SIZE = 30
+CAPTCHA_LETTER_ROTATION = (-20,20)
+CAPTCHA_BACKGROUND_COLOR = '#00FF00'
