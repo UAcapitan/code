@@ -85,7 +85,6 @@ class CategoryPage(LoginRequiredMixin, DataMixin, ListView):
     model = Category
     template_name = 'appmain/category.html'
     context_object_name = 'cats'
-    allow_empty = False
     login_url = reverse_lazy('main')
     raise_exception = False
 

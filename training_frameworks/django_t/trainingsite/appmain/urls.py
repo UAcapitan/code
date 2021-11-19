@@ -11,5 +11,5 @@ urlpatterns = [
     path('orm/', orm_commands, name='orm_commands'),
     path('reg/', reg_view, name='reg'),
     path('login/', login_view, name='login'),
-    path('logout/', logout_view, name='logout')
+    path('logout/', logout_view, name='logout'),
 ]
