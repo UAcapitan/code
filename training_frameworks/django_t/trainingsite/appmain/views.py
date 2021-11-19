@@ -11,31 +11,34 @@ from django.core.paginator import Paginator
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
 menu = ['Main page', 'Articles', 'About']
 
-class ArticleMain(ListView):
-    model = Article
-    template_name = 'appmain/index.html'
-    context_object_name = 'articles'
+# class ArticleMain(ListView):
+#     model = Article
+#     template_name = 'appmain/index.html'
+#     context_object_name = 'articles'
 
-    def get_context_data(self, *, object_list = None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        context['title'] = 'Main page'
-        return context
+#     def get_context_data(self, *, object_list = None, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['menu'] = menu
+#         context['title'] = 'Main page'
+#         return context
 
-    def get_queryset(self):
-        return Article.objects.filter(is_published=True)
+#     def get_queryset(self):
+#         return Article.objects.filter(is_published=True)
 
-# def index(request):
-#     articles = Article.objects.all()
-#     context = {
-#         'title':'Main page', 
-#         'menu':menu,
-#         'articles':articles
-#     }
-#     return render(request, 'appmain/index.html', context)
+@cache_page(60)
+def index(request):
+    articles = Article.objects.all()
+    context = {
+        'title':'Main page', 
+        'menu':menu,
+        'articles':articles
+    }
+    return render(request, 'appmain/index.html', context)
 
 # def article(request, id):
 #     art = get_object_or_404(Article, slug=id)
@@ -70,7 +73,10 @@ class ShowPage(DetailView):
 
 @login_required
 def articles(request):
-    contact_list = Article.objects.all()
+    contact_list = cache.get('cats')
+    if not contact_list:
+        contact_list = Article.objects.all()
+        cache.set('cats', contact_list, 60)
     paginator = Paginator(contact_list, 3)
     # articles = Article.objects.all()
     page_number = request.GET.get('page')
