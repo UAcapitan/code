@@ -35,3 +35,15 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Category'
         verbose_name_plural = 'Categories'
+
+class Email(models.Model):
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = 'Email'
+        verbose_name_plural = 'Emails'
+
+

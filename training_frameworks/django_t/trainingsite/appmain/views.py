@@ -179,5 +179,14 @@ def send_emails(request):
     )
     return redirect('main')
 
+def form_email(request):
+    if request.method == "POST":
+        form = AddEmail(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("main")
+    form = AddEmail()
+    return render(request, 'appmain/form_email.html', {'form':form})
+
 def pageNotFound(request, exception):
     return HttpResponseNotFound(f'<h1>Page not found</h1>')

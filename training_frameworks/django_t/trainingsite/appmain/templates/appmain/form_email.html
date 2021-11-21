@@ -1,0 +1,12 @@
+{% extends "appmain/base.html" %}
+
+{% block title %}Add email{% endblock %}
+
+{% block content %}          
+    <h1>Add Email</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Email</button>
+    </form>
+{% endblock %}

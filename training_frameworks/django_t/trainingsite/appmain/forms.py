@@ -1,4 +1,5 @@
 from django import forms
+from django.db.models import fields
 from .models import *
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
@@ -47,3 +48,10 @@ class NewUserForm(UserCreationForm):
 		if commit:
 			user.save()
 		return user
+
+class AddEmail(forms.ModelForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = Email
+        fields = ['email',]
