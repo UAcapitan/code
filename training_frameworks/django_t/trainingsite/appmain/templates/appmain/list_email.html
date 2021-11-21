@@ -1,0 +1,19 @@
+{% extends 'appmain/base.html' %}
+
+{% block title %}List of emails{% endblock %}
+
+{% block content %}
+    <h1>List of emails</h1>
+    {% for i in list_e %}
+        <p>{{ i.email }}</p>
+    {% endfor %}
+    <p>
+        {% if list_e.has_previous %}
+            <a href="?page={{ list_e.previous_page_number }}"><</a>
+        {% endif %}
+        {{ list_e.number }}
+        {% if list_e.has_next %}
+            <a href="?page={{ list_e.next_page_number }}">></a>
+        {% endif %}
+    </p>
+{% endblock %}

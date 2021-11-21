@@ -13,5 +13,6 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     # path('send-email/', send_emails, name='emails')
-    path('form-email/', form_email, name='form_email')
+    path('form-email/', form_email, name='form_email'),
+    path('list-email/', list_email, name='list_email')
 ]
