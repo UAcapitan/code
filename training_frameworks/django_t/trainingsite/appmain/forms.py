@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from captcha.fields import CaptchaField
+import re
 
 class AddForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -55,3 +56,10 @@ class AddEmail(forms.ModelForm):
     class Meta:
         model = Email
         fields = ['email',]
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if re.search("[a-zA-Z0-9]+@[a-zA-Z]+\.[a-z]{1,10}", email):
+            raise ValidationError('Is is not valid')
+
+        return email 

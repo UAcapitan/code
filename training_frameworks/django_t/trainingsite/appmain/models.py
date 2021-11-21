@@ -38,6 +38,8 @@ class Category(models.Model):
 
 class Email(models.Model):
     email = models.EmailField()
+    message_to_client = models.BooleanField(default=False)
+    client = models.BooleanField(default=False)
 
     def __str__(self):
         return self.email

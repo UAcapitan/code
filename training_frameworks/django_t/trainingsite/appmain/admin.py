@@ -23,9 +23,12 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     prepopulated_fields = {'slug':('name',)}
 
+class EmailAdmin(admin.ModelAdmin):
+    list_display = ('id', 'email', 'message_to_client', 'client')
+
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Email)
+admin.site.register(Email, EmailAdmin)
 
 admin.site.site_title = 'Admin panel'
 admin.site.site_header = 'Admin panel for admin users'

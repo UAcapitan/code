@@ -6,7 +6,11 @@
     <h1>Add Email</h1>
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.email }}
+        {{ form.email.errors }}
+        {{ form.non_field_errors }}
+        <br>
+        <br>
         <button type="submit">Add Email</button>
     </form>
 {% endblock %}
