@@ -12,4 +12,5 @@ urlpatterns = [
     path('reg/', reg_view, name='reg'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
+    # path('send-email/', send_emails, name='emails')
 ]

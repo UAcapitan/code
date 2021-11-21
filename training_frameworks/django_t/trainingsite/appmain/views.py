@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
+from django.core.mail import send_mail
 
 menu = ['Main page', 'Articles', 'About']
 
@@ -167,6 +168,16 @@ def logout_view(request):
     logout(request)
     messages.info(request, "You have successfully logged out.") 
     return redirect("main")
+
+def send_emails(request):
+    send_mail(
+        'Subject here',
+        'Here is the message.',
+        'ua.capitan@testtrainingsite.com',
+        ['ua.capitan@gmail.com'],
+        fail_silently=False,
+    )
+    return redirect('main')
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound(f'<h1>Page not found</h1>')
