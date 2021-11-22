@@ -25,6 +25,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class EmailAdmin(admin.ModelAdmin):
     list_display = ('id', 'email', 'message_to_client', 'client')
+    list_editable = ('message_to_client', 'client')
 
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Category, CategoryAdmin)

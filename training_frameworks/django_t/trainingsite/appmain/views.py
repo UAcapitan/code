@@ -195,5 +195,12 @@ def list_email(request):
     list_e = l_e.get_page(page_n)
     return render(request, 'appmain/list_email.html', {'list_e':list_e})
 
+def list_client(request):
+    l = Email.objects.filter(client=True)
+    l_e = Paginator(l, 3)
+    page_n = request.GET.get('page')
+    list_e = l_e.get_page(page_n)
+    return render(request, 'appmain/list_email.html', {'list_e':list_e})
+
 def pageNotFound(request, exception):
     return HttpResponseNotFound(f'<h1>Page not found</h1>')
