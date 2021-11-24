@@ -11,22 +11,51 @@ class App():
         self.text = tk.Label(self.root, text='-', font=("Arial", 25))
         self.text.place(x=120, y=150)
 
+        self.day_av = tk.Label(self.root, text='Day average', font=("Arial", 10))
+        self.day_av.place(x=90, y=200)
+
         self.input_text = tk.Text(self.root, height=1, width=10)
         self.input_text.place(x=88, y=320)
 
-        self.button_success = tk.Button(self.root, height=1, width=10, text='Show weather')
+        self.button_success = tk.Button(self.root, height=1, width=10, text='Show weather',
+        command=self.show_temperature)
         self.button_success.place(x=90, y=350)
 
     def show_temperature(self):
-        daily_forecast = self.mgr.forecast_at_place('Kiev', '3h').forecast
+        print(self.input_text.get("1.0",'end-1c'))
+        daily_forecast = self.mgr.forecast_at_place(self.input_text.get("1.0",'end-1c'), '3h').forecast
         t_3h = 0
         l = 0
         for weather in daily_forecast:
-            # print(weather.reference_time('iso'), weather.temperature(unit='celsius')['temp'])
+            print(weather.reference_time('iso'), weather.temperature(unit='celsius')['temp'])
             t_3h += weather.temperature(unit='celsius')['temp']
             l += 1
 
-        return t_3h / l
+        self.text.place(x=90, y=150)
+        self.text['text'] = str(round(t_3h/l)) + ' °C'
+
+        t_3h = 0
+        l = 0
+
+        for weather in daily_forecast:
+            print(weather.reference_time('iso'), weather.temperature(unit='celsius')['temp'])
+            t_3h += weather.temperature(unit='celsius')['temp']
+            l += 1
+            if l == 3:
+                break
+        print(str(round(t_3h/l)) + ' °C')
+        print(l)
+        
+        t_3h = 0
+        l = 0
+
+        for weather in daily_forecast:
+            l += 1
+            if l > 3:
+                print(weather.reference_time('iso'), weather.temperature(unit='celsius')['temp'])
+                t_3h += weather.temperature(unit='celsius')['temp']
+        print(str(round(t_3h/l)) + ' °C')
+        print(l)
 
 
 if __name__ == '__main__':
