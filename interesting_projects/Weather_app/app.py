@@ -21,8 +21,19 @@ class App():
         command=self.show_temperature)
         self.button_success.place(x=90, y=350)
 
+        self.day = tk.Label(self.root, text='-', font=("Arial", 15))
+        self.day.place(x=185, y=240)
+
+        self.night = tk.Label(self.root, text='-', font=("Arial", 15))
+        self.night.place(x=50, y=240)
+
+        self.day_text = tk.Label(self.root, text='Day', font=("Arial", 10))
+        self.day_text.place(x=175, y=270)
+
+        self.night_text = tk.Label(self.root, text='Night', font=("Arial", 10))
+        self.night_text.place(x=40, y=270)
+
     def show_temperature(self):
-        print(self.input_text.get("1.0",'end-1c'))
         daily_forecast = self.mgr.forecast_at_place(self.input_text.get("1.0",'end-1c'), '3h').forecast
         t_3h = 0
         l = 0
@@ -38,13 +49,13 @@ class App():
         l = 0
 
         for weather in daily_forecast:
-            print(weather.reference_time('iso'), weather.temperature(unit='celsius')['temp'])
             t_3h += weather.temperature(unit='celsius')['temp']
             l += 1
             if l == 3:
                 break
-        print(str(round(t_3h/l)) + ' °C')
-        print(l)
+
+        self.night.place(x=35, y=240)
+        self.night['text'] = str(round(t_3h/l)) + ' °C'
         
         t_3h = 0
         l = 0
@@ -52,10 +63,10 @@ class App():
         for weather in daily_forecast:
             l += 1
             if l > 3:
-                print(weather.reference_time('iso'), weather.temperature(unit='celsius')['temp'])
                 t_3h += weather.temperature(unit='celsius')['temp']
-        print(str(round(t_3h/l)) + ' °C')
-        print(l)
+
+        self.day.place(x=165, y=240)
+        self.day['text'] = str(round(t_3h/l)) + ' °C'
 
 
 if __name__ == '__main__':
