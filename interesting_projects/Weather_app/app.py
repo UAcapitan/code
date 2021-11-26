@@ -1,10 +1,12 @@
 import tkinter as tk
 import pyowm
+import datetime
 
 class App():
     def __init__(self, root, mgr):
         self.root = root
         self.mgr = mgr
+        self.dt = datetime.datetime.today()
 
         self.root.geometry("250x400")
 
@@ -34,13 +36,14 @@ class App():
         self.night_text.place(x=40, y=270)
 
     def show_temperature(self):
-        daily_forecast = self.mgr.forecast_at_place(self.input_text.get("1.0",'end-1c'), '3h').forecast
+        w = self.mgr.forecast_at_place(self.input_text.get("1.0",'end-1c'), '3h')
+        daily_forecast = w.forecast
         t_3h = 0
         l = 0
         for weather in daily_forecast:
-            print(weather.reference_time('iso'), weather.temperature(unit='celsius')['temp'])
-            t_3h += weather.temperature(unit='celsius')['temp']
-            l += 1
+            if int(weather.reference_time('iso')[8:10]) == self.dt.day:
+                t_3h += weather.temperature(unit='celsius')['temp']
+                l += 1
 
         self.text.place(x=90, y=150)
         self.text['text'] = str(round(t_3h/l)) + ' °C'
@@ -49,10 +52,10 @@ class App():
         l = 0
 
         for weather in daily_forecast:
-            t_3h += weather.temperature(unit='celsius')['temp']
-            l += 1
-            if l == 3:
-                break
+            if int(weather.reference_time('iso')[8:10]) == self.dt.day + 1:
+                if 0 <= int(weather.reference_time('iso')[11:13]) <= 6:
+                    t_3h += weather.temperature(unit='celsius')['temp']
+                    l += 1
 
         self.night.place(x=35, y=240)
         self.night['text'] = str(round(t_3h/l)) + ' °C'
@@ -61,9 +64,10 @@ class App():
         l = 0
 
         for weather in daily_forecast:
-            l += 1
-            if l > 3:
-                t_3h += weather.temperature(unit='celsius')['temp']
+            if int(weather.reference_time('iso')[8:10]) == self.dt.day:
+                if 7 <= int(weather.reference_time('iso')[11:13]) <= 23:
+                    t_3h += weather.temperature(unit='celsius')['temp']
+                    l += 1
 
         self.day.place(x=165, y=240)
         self.day['text'] = str(round(t_3h/l)) + ' °C'
