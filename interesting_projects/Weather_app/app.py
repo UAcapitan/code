@@ -36,7 +36,17 @@ class App():
         self.night_text.place(x=40, y=270)
 
         self.canvas = tk.Canvas(root, width=64, height=64)  
-        self.canvas.place(x=93, y=50)         
+        self.canvas.place(x=93, y=50)    
+
+        self.main_menu = tk.Menu(root) 
+        self.root.config(menu=self.main_menu)
+        self.extra_menu = tk.Menu(self.main_menu, tearoff=0)
+        self.extra_menu.add_command(label="Days")
+        self.settings_menu = tk.Menu(self.main_menu, tearoff=0)
+        self.settings_menu.add_command(label="Main city")
+        self.main_menu.add_cascade(label="Extra", menu=self.extra_menu)
+        self.main_menu.add_cascade(label="Settings", menu=self.settings_menu)
+        self.main_menu.add_command(label='Exit')
 
     def show_temperature(self):
         self.w = self.mgr.forecast_at_place(self.input_text.get("1.0",'end-1c'), '3h')
@@ -108,6 +118,3 @@ if __name__ == '__main__':
     app = App(root, mgr)
 
     root.mainloop()
-
-    w = mgr.forecast_at_place('Moscow', '3h')
-    print(dir(w))
