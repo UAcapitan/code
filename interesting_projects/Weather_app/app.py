@@ -35,9 +35,12 @@ class App():
         self.night_text = tk.Label(self.root, text='Night', font=("Arial", 10))
         self.night_text.place(x=40, y=270)
 
+        self.canvas = tk.Canvas(root, width=64, height=64)  
+        self.canvas.place(x=93, y=50)         
+
     def show_temperature(self):
-        w = self.mgr.forecast_at_place(self.input_text.get("1.0",'end-1c'), '3h')
-        daily_forecast = w.forecast
+        self.w = self.mgr.forecast_at_place(self.input_text.get("1.0",'end-1c'), '3h')
+        daily_forecast = self.w.forecast
         t_3h = 0
         l = 0
         for weather in daily_forecast:
@@ -72,6 +75,29 @@ class App():
         self.day.place(x=165, y=240)
         self.day['text'] = str(round(t_3h/l)) + ' °C'
 
+        self.set_image_weather()
+
+    def set_image_weather(self):
+        if self.w.will_have_snow():
+            self.img = tk.PhotoImage(file="src/snow.png")
+        elif self.w.will_have_hurricane():
+            self.img = tk.PhotoImage(file="src/hurricane.png")
+        elif self.w.will_have_storm():
+            self.img = tk.PhotoImage(file="src/storm.png")
+        elif self.w.will_have_tornado():
+            self.img = tk.PhotoImage(file="src/tornado.png")
+        elif self.w.will_have_fog():
+            self.img = tk.PhotoImage(file="src/fog.png")
+        elif self.w.will_have_rain():
+            self.img = tk.PhotoImage(file="src/rain.png")
+        elif self.w.will_have_clouds():
+            self.img = tk.PhotoImage(file="src/clouds.png")
+        elif self.w.will_have_clear():
+            self.img = tk.PhotoImage(file="src/sun.png")
+
+
+        self.canvas.create_image(0,0, anchor=tk.NW, image=self.img) 
+
 
 if __name__ == '__main__':
     root = tk.Tk()
@@ -82,3 +108,6 @@ if __name__ == '__main__':
     app = App(root, mgr)
 
     root.mainloop()
+
+    w = mgr.forecast_at_place('Moscow', '3h')
+    print(dir(w))
