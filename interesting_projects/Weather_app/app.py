@@ -54,44 +54,47 @@ class App():
         self.city_name.place(x=115, y=10)
 
     def show_temperature(self):
-        self.set_city()
-        self.w = self.mgr.forecast_at_place(self.input_text.get("1.0",'end-1c'), '3h')
-        daily_forecast = self.w.forecast
-        t_3h = 0
-        l = 0
-        for weather in daily_forecast:
-            if int(weather.reference_time('iso')[8:10]) == self.dt.day:
-                t_3h += weather.temperature(unit='celsius')['temp']
-                l += 1
-
-        self.text.place(x=90, y=150)
-        self.text['text'] = str(round(t_3h/l)) + ' °C'
-
-        t_3h = 0
-        l = 0
-
-        for weather in daily_forecast:
-            if int(weather.reference_time('iso')[8:10]) == self.dt.day + 1:
-                if 0 <= int(weather.reference_time('iso')[11:13]) <= 6:
+        try:
+            self.set_city()
+            self.w = self.mgr.forecast_at_place(self.input_text.get("1.0",'end-1c'), '3h')
+            daily_forecast = self.w.forecast
+            t_3h = 0
+            l = 0
+            for weather in daily_forecast:
+                if int(weather.reference_time('iso')[8:10]) == self.dt.day:
                     t_3h += weather.temperature(unit='celsius')['temp']
                     l += 1
 
-        self.night.place(x=35, y=240)
-        self.night['text'] = str(round(t_3h/l)) + ' °C'
-        
-        t_3h = 0
-        l = 0
+            self.text.place(x=90, y=150)
+            self.text['text'] = str(round(t_3h/l)) + ' °C'
 
-        for weather in daily_forecast:
-            if int(weather.reference_time('iso')[8:10]) == self.dt.day:
-                if 12 <= int(weather.reference_time('iso')[11:13]) <= 18:
-                    t_3h += weather.temperature(unit='celsius')['temp']
-                    l += 1
+            t_3h = 0
+            l = 0
 
-        self.day.place(x=165, y=240)
-        self.day['text'] = str(round(t_3h/l)) + ' °C'
+            for weather in daily_forecast:
+                if int(weather.reference_time('iso')[8:10]) == self.dt.day + 1:
+                    if 0 <= int(weather.reference_time('iso')[11:13]) <= 6:
+                        t_3h += weather.temperature(unit='celsius')['temp']
+                        l += 1
 
-        self.set_image_weather()
+            self.night.place(x=35, y=240)
+            self.night['text'] = str(round(t_3h/l)) + ' °C'
+            
+            t_3h = 0
+            l = 0
+
+            for weather in daily_forecast:
+                if int(weather.reference_time('iso')[8:10]) == self.dt.day:
+                    if 12 <= int(weather.reference_time('iso')[11:13]) <= 18:
+                        t_3h += weather.temperature(unit='celsius')['temp']
+                        l += 1
+
+            self.day.place(x=165, y=240)
+            self.day['text'] = str(round(t_3h/l)) + ' °C'
+
+            self.set_image_weather()
+        except:
+            self.show_error()
 
     def set_image_weather(self):
         if self.w.will_have_snow():
@@ -120,6 +123,12 @@ class App():
 
     def app_exit(self):
         sys.exit()
+
+    def show_error(self):
+        self.error_window = tk.Toplevel(self.root)
+        self.label_error = tk.Label(self.error_window, text = "Error")
+
+        self.label_error.pack()
 
 
 if __name__ == '__main__':
