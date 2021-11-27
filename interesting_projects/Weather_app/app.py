@@ -48,7 +48,11 @@ class App():
         self.main_menu.add_cascade(label="Settings", menu=self.settings_menu)
         self.main_menu.add_command(label='Exit')
 
+        self.city_name = tk.Label(text='---', font=("Arial", 15))
+        self.city_name.place(x=115, y=10)
+
     def show_temperature(self):
+        self.set_city()
         self.w = self.mgr.forecast_at_place(self.input_text.get("1.0",'end-1c'), '3h')
         daily_forecast = self.w.forecast
         t_3h = 0
@@ -106,7 +110,11 @@ class App():
             self.img = tk.PhotoImage(file="src/sun.png")
 
 
-        self.canvas.create_image(0,0, anchor=tk.NW, image=self.img) 
+        self.canvas.create_image(0,0, anchor=tk.NW, image=self.img)
+
+    def set_city(self):
+        self.city_name['text'] = self.input_text.get("1.0",'end-1c')
+        self.city_name.place(x=110-len(self.city_name['text'])*3, y=10)
 
 
 if __name__ == '__main__':
