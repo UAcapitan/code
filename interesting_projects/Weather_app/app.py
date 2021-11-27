@@ -1,6 +1,7 @@
 import tkinter as tk
 import pyowm
 import datetime
+import sys
 
 class App():
     def __init__(self, root, mgr):
@@ -9,6 +10,7 @@ class App():
         self.dt = datetime.datetime.today()
 
         self.root.geometry("250x400")
+        self.root.title("Weather app")
 
         self.text = tk.Label(self.root, text='-', font=("Arial", 25))
         self.text.place(x=120, y=150)
@@ -46,7 +48,7 @@ class App():
         self.settings_menu.add_command(label="Main city")
         self.main_menu.add_cascade(label="Extra", menu=self.extra_menu)
         self.main_menu.add_cascade(label="Settings", menu=self.settings_menu)
-        self.main_menu.add_command(label='Exit')
+        self.main_menu.add_command(label='Exit', command=self.app_exit)
 
         self.city_name = tk.Label(text='---', font=("Arial", 15))
         self.city_name.place(x=115, y=10)
@@ -82,7 +84,7 @@ class App():
 
         for weather in daily_forecast:
             if int(weather.reference_time('iso')[8:10]) == self.dt.day:
-                if 7 <= int(weather.reference_time('iso')[11:13]) <= 23:
+                if 12 <= int(weather.reference_time('iso')[11:13]) <= 18:
                     t_3h += weather.temperature(unit='celsius')['temp']
                     l += 1
 
@@ -115,6 +117,9 @@ class App():
     def set_city(self):
         self.city_name['text'] = self.input_text.get("1.0",'end-1c')
         self.city_name.place(x=110-len(self.city_name['text'])*3, y=10)
+
+    def app_exit(self):
+        sys.exit()
 
 
 if __name__ == '__main__':
