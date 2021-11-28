@@ -138,7 +138,7 @@ class App():
         self.main_city = tk.Toplevel(self.root)
         self.main_city.geometry("200x70")
         self.main_city_entry = tk.Entry(self.main_city)
-        self.main_city_btn = tk.Button(self.main_city, text="Save")
+        self.main_city_btn = tk.Button(self.main_city, text="Save", command=self.save_main_city_in_json)
 
         self.main_city_entry.place(x=40, y=10)
         self.main_city_btn.place(x=83, y=40)
@@ -147,6 +147,11 @@ class App():
         self.weather_days = tk.Toplevel(self.root)
         self.weather_days.geometry("250x400")
         self.weather_days.title("List of weather")
+
+    def save_main_city_in_json(self):
+        city = self.main_city_entry.get()
+        with open('settings.json', 'w') as f:
+            json.dump({'city':city}, f)
 
 
 if __name__ == '__main__':
