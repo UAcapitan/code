@@ -19,7 +19,10 @@ class App():
         self.day_av = tk.Label(self.root, text='Day average', font=("Arial", 10))
         self.day_av.place(x=88, y=200)
 
+        self.main_city_text = self.open_main_city_in_json()
+
         self.input_text = tk.Text(self.root, height=1, width=10)
+        self.input_text.insert(1.0, self.main_city_text)
         self.input_text.place(x=88, y=320)
 
         self.button_success = tk.Button(self.root, height=1, width=10, text='Show weather',
@@ -53,6 +56,9 @@ class App():
 
         self.city_name = tk.Label(text='---', font=("Arial", 15))
         self.city_name.place(x=115, y=10)
+
+        if self.main_city_text != None:
+            self.show_temperature()
 
     def show_temperature(self):
         try:
@@ -101,9 +107,7 @@ class App():
             self.show_error()
 
     def set_image_weather(self):
-        if self.w.will_have_snow():
-            self.img = tk.PhotoImage(file="src/snow.png")
-        elif self.w.will_have_hurricane():
+        if self.w.will_have_hurricane():
             self.img = tk.PhotoImage(file="src/hurricane.png")
         elif self.w.will_have_storm():
             self.img = tk.PhotoImage(file="src/storm.png")
@@ -113,6 +117,8 @@ class App():
             self.img = tk.PhotoImage(file="src/fog.png")
         elif self.w.will_have_rain():
             self.img = tk.PhotoImage(file="src/rain.png")
+        elif self.w.will_have_snow():
+            self.img = tk.PhotoImage(file="src/snow.png")
         elif self.w.will_have_clouds():
             self.img = tk.PhotoImage(file="src/clouds.png")
         elif self.w.will_have_clear():
@@ -131,13 +137,16 @@ class App():
     def show_error(self):
         self.error_window = tk.Toplevel(self.root)
         self.label_error = tk.Label(self.error_window, text = "Error")
+        self.btn_error = tk.Button(self.error_window, text='Exit', command=self.app_exit)
 
         self.label_error.pack()
+        self.btn_error.pack()
 
     def show_main_city(self):
         self.main_city = tk.Toplevel(self.root)
         self.main_city.geometry("200x70")
         self.main_city_entry = tk.Entry(self.main_city)
+        self.main_city_entry.insert(0, self.main_city_text)
         self.main_city_btn = tk.Button(self.main_city, text="Save", command=self.save_main_city_in_json)
 
         self.main_city_entry.place(x=40, y=10)
@@ -152,6 +161,17 @@ class App():
         city = self.main_city_entry.get()
         with open('settings.json', 'w') as f:
             json.dump({'city':city}, f)
+
+    def open_main_city_in_json(self):
+        try:
+            with open('settings.json', 'r') as f:
+                main_city = json.load(f)['city']
+        except:
+            with open('settings.json', 'w') as f:
+                json.dump({'city':''}, f)
+            with open('settings.json', 'r') as f:
+                main_city = json.load(f)['city']
+        return main_city
 
 
 if __name__ == '__main__':
