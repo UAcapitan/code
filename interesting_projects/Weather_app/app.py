@@ -124,7 +124,6 @@ class App():
         elif self.w.will_have_clear():
             self.img = tk.PhotoImage(file="src/sun.png")
 
-
         self.canvas.create_image(0,0, anchor=tk.NW, image=self.img)
 
     def set_city(self):
@@ -137,10 +136,14 @@ class App():
     def show_error(self):
         self.error_window = tk.Toplevel(self.root)
         self.label_error = tk.Label(self.error_window, text = "Error")
-        self.btn_error = tk.Button(self.error_window, text='Exit', command=self.app_exit)
+        self.btn_error = tk.Button(self.error_window, text='Exit', command=self.error_exit)
 
         self.label_error.pack()
         self.btn_error.pack()
+
+    def error_exit(self):
+        self.error_window.destroy()
+        self.app_exit()
 
     def show_main_city(self):
         self.main_city = tk.Toplevel(self.root)
@@ -157,6 +160,11 @@ class App():
         self.weather_days.geometry("250x400")
         self.weather_days.title("List of weather")
 
+        self.days_weather_list = tk.Listbox(self.weather_days, width=30, height=20)
+        self.days_weather_list.place(x=20, y=20)
+        self.days_weather_btn = tk.Button(self.weather_days, text='Exit', command=self.weather_days.destroy)
+        self.days_weather_btn.place(x=150, y=350)
+
     def save_main_city_in_json(self):
         city = self.main_city_entry.get()
         with open('settings.json', 'w') as f:
@@ -172,7 +180,6 @@ class App():
             with open('settings.json', 'r') as f:
                 main_city = json.load(f)['city']
         return main_city
-
 
 if __name__ == '__main__':
     root = tk.Tk()
