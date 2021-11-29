@@ -160,10 +160,21 @@ class App():
         self.weather_days.geometry("250x400")
         self.weather_days.title("List of weather")
 
-        self.days_weather_list = tk.Listbox(self.weather_days, width=30, height=20)
-        self.days_weather_list.place(x=20, y=20)
+        self.label_1 = tk.Label(self.weather_days, text='Date and time')
+        self.label_2 = tk.Label(self.weather_days, text='°C')
+        self.label_1.place(x=22, y=20)
+        self.label_2.place(x=200, y=20)
+
+        self.days_weather_list = tk.Listbox(self.weather_days, width=34, height=20)
+        daily_forecast = self.w.forecast
+        l = 1
+        for weather in daily_forecast:
+            text = weather.reference_time('iso')[0:16] + ' ' * 30 + str(weather.temperature(unit='celsius')['temp'])
+            self.days_weather_list.insert(l, text)
+            l += 1
+        self.days_weather_list.place(x=20, y=40)
         self.days_weather_btn = tk.Button(self.weather_days, text='Exit', command=self.weather_days.destroy)
-        self.days_weather_btn.place(x=150, y=350)
+        self.days_weather_btn.place(x=180, y=370)
 
     def save_main_city_in_json(self):
         city = self.main_city_entry.get()
