@@ -9,6 +9,7 @@ class App():
         self.root = root
         self.mgr = mgr
         self.dt = datetime.datetime.today()
+        self.now = datetime.datetime.now().strftime("%H")
 
         self.root.geometry("250x400")
         self.root.title("Weather app")
@@ -29,17 +30,18 @@ class App():
         command=self.show_temperature)
         self.button_success.place(x=90, y=350)
 
-        self.day = tk.Label(self.root, text='-', font=("Arial", 15))
-        self.day.place(x=185, y=240)
+        if int(self.now) >= 12:
+            self.day = tk.Label(self.root, text='-', font=("Arial", 15))
+            self.day.place(x=185, y=240)
 
-        self.night = tk.Label(self.root, text='-', font=("Arial", 15))
-        self.night.place(x=50, y=240)
+            self.night = tk.Label(self.root, text='-', font=("Arial", 15))
+            self.night.place(x=50, y=240)
 
-        self.day_text = tk.Label(self.root, text='Next day', font=("Arial", 10))
-        self.day_text.place(x=162, y=270)
+            self.day_text = tk.Label(self.root, text='Next day', font=("Arial", 10))
+            self.day_text.place(x=162, y=270)
 
-        self.night_text = tk.Label(self.root, text='Next night', font=("Arial", 10))
-        self.night_text.place(x=26, y=270)
+            self.night_text = tk.Label(self.root, text='Next night', font=("Arial", 10))
+            self.night_text.place(x=26, y=270)
 
         self.canvas = tk.Canvas(root, width=64, height=64)  
         self.canvas.place(x=93, y=50)    
@@ -81,26 +83,27 @@ class App():
             t_3h = 0
             l = 0
 
-            for weather in daily_forecast:
-                if int(weather.reference_time('iso')[8:10]) == self.dt.day + 1:
-                    if 0 <= int(weather.reference_time('iso')[11:13]) <= 6:
-                        t_3h += weather.temperature(unit='celsius')['temp']
-                        l += 1
+            if int(self.now) >= 12:
+                for weather in daily_forecast:
+                    if int(weather.reference_time('iso')[8:10]) == self.dt.day + 1:
+                        if 0 <= int(weather.reference_time('iso')[11:13]) <= 6:
+                            t_3h += weather.temperature(unit='celsius')['temp']
+                            l += 1
 
-            self.night.place(x=35, y=240)
-            self.night['text'] = str(round(t_3h/l)) + ' °C'
-            
-            t_3h = 0
-            l = 0
+                self.night.place(x=35, y=240)
+                self.night['text'] = str(round(t_3h/l)) + ' °C'
+                
+                t_3h = 0
+                l = 0
 
-            for weather in daily_forecast:
-                if int(weather.reference_time('iso')[8:10]) == self.dt.day + 1:
-                    if 12 <= int(weather.reference_time('iso')[11:13]) <= 18:
-                        t_3h += weather.temperature(unit='celsius')['temp']
-                        l += 1
+                for weather in daily_forecast:
+                    if int(weather.reference_time('iso')[8:10]) == self.dt.day + 1:
+                        if 12 <= int(weather.reference_time('iso')[11:13]) <= 18:
+                            t_3h += weather.temperature(unit='celsius')['temp']
+                            l += 1
 
-            self.day.place(x=165, y=240)
-            self.day['text'] = str(round(t_3h/l)) + ' °C'
+                self.day.place(x=165, y=240)
+                self.day['text'] = str(round(t_3h/l)) + ' °C'
 
             self.set_image_weather()
         except:
