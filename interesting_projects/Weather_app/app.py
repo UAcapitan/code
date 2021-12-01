@@ -50,8 +50,10 @@ class App():
         self.root.config(menu=self.main_menu)
         self.extra_menu = tk.Menu(self.main_menu, tearoff=0)
         self.extra_menu.add_command(label="Days", command=self.show_weather_days)
+        self.extra_menu.add_command(label="Save weather", command=self.show_save_weather)
         self.settings_menu = tk.Menu(self.main_menu, tearoff=0)
         self.settings_menu.add_command(label="Main city", command=self.show_main_city)
+        self.settings_menu.add_command(label="About program", command=self.show_about_program)
         self.main_menu.add_cascade(label="Extra", menu=self.extra_menu)
         self.main_menu.add_cascade(label="Settings", menu=self.settings_menu)
         self.main_menu.add_command(label='Exit', command=self.app_exit)
@@ -176,8 +178,8 @@ class App():
             self.days_weather_list.insert(l, text)
             l += 1
         self.days_weather_list.place(x=20, y=40)
-        self.days_weather_btn = tk.Button(self.weather_days, text='Exit', command=self.weather_days.destroy)
-        self.days_weather_btn.place(x=180, y=370)
+        self.days_weather_btn = tk.Button(self.weather_days, text='Exit', command=self.weather_days.destroy, width=7)
+        self.days_weather_btn.place(x=170, y=370)
 
     def save_main_city_in_json(self):
         city = self.main_city_entry.get()
@@ -194,6 +196,46 @@ class App():
             with open('settings.json', 'r') as f:
                 main_city = json.load(f)['city']
         return main_city
+
+    def show_about_program(self):
+        self.about_program = tk.Toplevel(self.root)
+        self.about_program.geometry("360x120")
+        self.about_program.title("About program")
+
+        self.label_about_program = tk.Label(self.about_program, text='\
+The program is made to obtain\n weather data. \
+The weather in the specified city is indicated\n for 1 or 2 days ahead. \
+You can also get more specific\n information about the weather in the Days\n section. \
+The developer of the program is EdMix.')
+        self.label_about_program.place(x=20, y=20)
+
+    def show_save_weather(self):
+        self.save_weather = tk.Toplevel(self.root)
+        self.save_weather.geometry("70x90")
+        self.save_weather.title("Save weather")
+
+        self.entry_save_weather = tk.Entry(self.save_weather, width=12)
+        self.btn_save_weather = tk.Button(self.save_weather, text='Save weather', command=self.save_weather_in_file)
+
+        self.entry_save_weather.place(x=20, y=20)
+        self.btn_save_weather.place(x=20, y=50)
+
+    def save_weather_in_file(self):
+        try:
+            name_file = self.entry_save_weather.get()
+            l = [self.input_text.get("1.0",'end-1c') + '\n\n', 'Date and time   Temperature\n']
+            daily_forecast = self.w.forecast
+            for weather in daily_forecast:
+                text = weather.reference_time('iso')[0:16] + ' ' * 3 + str(weather.temperature(unit='celsius')['temp']) + '\n'
+                l.append(text)
+            l[-1] = l[-1][0:-1]
+            with open(name_file+'.txt', 'w') as f:
+                f.writelines(l)
+        except:
+            self.show_error()
+        self.save_weather.destroy()
+
+
 
 if __name__ == '__main__':
     root = tk.Tk()
