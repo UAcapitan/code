@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -13,13 +13,19 @@ class Article(db.Model):
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
-        return self.id
+        return '<Article %r>' % str(self.id)
 
-@app.route('/')
+@app.route('/', methods=['post', 'get'])
 def main_page():
-    db.session.add(Article(text="New test text"))
-    db.session.commit()
-    return render_template('index.html')
+    if request.method == 'post':
+        db.session.add(Article(text=request.form.get('text')))
+        db.session.commit()
+
+    articles = Article.query.all()
+    context = {
+        'articles':articles
+    }
+    return render_template('index.html', **context)
 
 if __name__ == '__main__':
     app.run(debug=True)

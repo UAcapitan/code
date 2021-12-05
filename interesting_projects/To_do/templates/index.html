@@ -4,4 +4,15 @@
 
 {% block content %}
     <h1>To do app</h1>
+    <form method="POST">
+        <input type="text" name='text' placeholder="Task" required>
+        <input type="submit" value='Save new task'>
+    </form>
+    {% for article in articles %}
+        <div>
+            <p>{{ article.text }}</p>
+            <p> {{ article.date }}</p>
+        </div>
+        <br>
+    {% endfor %}
 {% endblock %}
