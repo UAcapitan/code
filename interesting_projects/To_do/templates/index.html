@@ -3,13 +3,18 @@
 {% block title %}To do app{% endblock %}
 
 {% block content %}
-    <h1>To do app</h1>
+    <h1 class='h3'>To do app</h1>
     <br>
     <div class='container'>
-        <form method="POST">
-            <input type="text" name='text' placeholder="Task" class='form-control' required>
-            <input type="submit" value='Save new task' class='btn btn-info'>
-        </form>
+        <div class='container'>
+            <div class='container'>
+                <form method="POST">
+                    <input type="text" name='text' placeholder="Task" class='form-control' required>
+                    <br>
+                    <input type="submit" value='Save new task' class='btn btn-info'>
+                </form>
+            </div>
+        </div>
         <br>
         {% for article in articles %}
             <div>

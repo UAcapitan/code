@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from sqlalchemy import desc
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/to_do.db'
@@ -21,7 +22,7 @@ def main_page():
         db.session.add(Article(text=request.form.get('text')))
         db.session.commit()
 
-    articles = Article.query.all()
+    articles = Article.query.order_by(desc(Article.id)).all()
     context = {
         'articles':articles
     }
