@@ -20,6 +20,7 @@
             <div>
                 <p>{{ article.text }}</p>
                 <p> {{ article.date }}</p>
+                <p><a href="/delete/{{ article.id }}">Delete</a></p>
             </div>
             <br>
         {% endfor %}

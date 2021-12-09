@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy import desc
+from werkzeug.utils import redirect
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/to_do.db'
@@ -18,7 +19,7 @@ class Article(db.Model):
 
 @app.route('/', methods=['post', 'get'])
 def main_page():
-    if request.method == 'post':
+    if request.method == 'POST':
         db.session.add(Article(text=request.form.get('text')))
         db.session.commit()
 
@@ -27,6 +28,12 @@ def main_page():
         'articles':articles
     }
     return render_template('index.html', **context)
+
+@app.route('/delete/<int:id>')
+def delete_article(id):
+    Article.query.filter_by(id=id).delete()
+    db.session.commit()
+    return redirect('/')
 
 if __name__ == '__main__':
     app.run(debug=True)
