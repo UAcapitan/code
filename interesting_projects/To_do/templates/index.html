@@ -9,20 +9,34 @@
         <div class='container'>
             <div class='container'>
                 <form method="POST">
-                    <input type="text" name='text' placeholder="Task" class='form-control' required>
+                    <div class="d-flex justify-content-center">
+                        <input type="text" name='text' placeholder="Task" class='form-control w-50' style="text-align:center;" required>
+                    </div>
                     <br>
-                    <input type="submit" value='Save new task' class='btn btn-info'>
+                    <div class="d-flex justify-content-center">
+                        <input type="submit" value='Save new task' class='btn btn-info'>
+                    </div>
                 </form>
             </div>
         </div>
         <br>
-        {% for article in articles %}
+        <div class="d-flex justify-content-center">
             <div>
-                <p>{{ article.text }}</p>
-                <p> {{ article.date }}</p>
-                <p><a href="/delete/{{ article.id }}">Delete</a></p>
+                {% for article in articles %}
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <p>{{ article.text }}</p>
+                                <p>{{ article.date }}</p>
+                            </div>
+                            <div class="col-sm-2">
+                                <p><a href="/delete/{{ article.id }}" class="btn btn-danger">✕</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                {% endfor %}
             </div>
-            <br>
-        {% endfor %}
+        </div>
     </div>
 {% endblock %}
