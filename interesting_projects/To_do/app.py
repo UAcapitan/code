@@ -17,6 +17,15 @@ class Article(db.Model):
     def __repr__(self):
         return '<Article %r>' % str(self.id)
 
+class DeletedArticle(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_article = db.Column(db.Integer)
+    text = db.Column(db.Text, nullable=False)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<Article %r>' % str(self.id_article)
+
 @app.route('/', methods=['post', 'get'])
 def main_page():
     if request.method == 'POST':
@@ -34,6 +43,11 @@ def delete_article(id):
     Article.query.filter_by(id=id).delete()
     db.session.commit()
     return redirect('/')
+
+@app.route('/deleted')
+def deleted_list():
+    articles = DeletedArticle.query.all()
+    return render_template('deleted_list.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
