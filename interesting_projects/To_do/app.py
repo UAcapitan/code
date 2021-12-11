@@ -40,8 +40,11 @@ def main_page():
 
 @app.route('/delete/<int:id>')
 def delete_article(id):
-    Article.query.filter_by(id=id).delete()
+    article = Article.query.filter_by(id=id)
+    db.session.add(DeletedArticle(id_article=article.id, text=article.text))
+    article.delete()
     db.session.commit()
+    articles = DeletedArticle.query.all()
     return redirect('/')
 
 @app.route('/deleted')

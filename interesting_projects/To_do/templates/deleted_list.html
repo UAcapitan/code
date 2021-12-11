@@ -4,4 +4,7 @@
 
 {% block content %}
     <h1 class='h5'>Deleted list</h1>
+    {% for article in articles %}
+        <p>{{ article.text}}</p>
+    {% endfor %}
 {% endblock %}
