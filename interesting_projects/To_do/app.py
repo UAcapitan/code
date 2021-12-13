@@ -40,17 +40,19 @@ def main_page():
 
 @app.route('/delete/<int:id>')
 def delete_article(id):
-    article = Article.query.filter_by(id=id)
-    db.session.add(DeletedArticle(id_article=article.id, text=article.text))
-    article.delete()
+    article = Article.query.filter_by(id=id).all()
+    db.session.add(DeletedArticle(id_article=id, text=article[0].text))
+    Article.query.filter_by(id=id).delete()
     db.session.commit()
-    articles = DeletedArticle.query.all()
     return redirect('/')
 
 @app.route('/deleted')
 def deleted_list():
     articles = DeletedArticle.query.all()
-    return render_template('deleted_list.html')
+    context = {
+        'articles': articles
+    }
+    return render_template('deleted_list.html', **context)
 
 if __name__ == '__main__':
     app.run(debug=True)
