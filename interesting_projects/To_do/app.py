@@ -24,7 +24,7 @@ class DeletedArticle(db.Model):
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
-        return '<Article %r>' % str(self.id_article)
+        return '<Article %r>' % str(self.id)
 
 @app.route('/', methods=['post', 'get'])
 def main_page():
