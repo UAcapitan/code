@@ -21,6 +21,9 @@ class DrawApp:
         self.cnv_color.place(x=50, y=308)
         self.cnv_color.create_rectangle(0, 0, 20, 20, fill=self.color, outline='')
 
+        self.erase_btn = tk.Button(text='Erase all', command=self.erase_canvas)
+        self.erase_btn.place(x=40, y=337)
+
         self.root.bind('<Motion>', self.motion)
         self.root.bind('q', self.draw_flag)
 
@@ -41,6 +44,12 @@ class DrawApp:
         else:
             self.draw = True
         print(self.draw)
+
+    def erase_canvas(self):
+        self.cnv.create_rectangle(0, 0, 700, 300, fill='#FFFFFF', outline='')
+
+    def fill_canvas(self):
+        self.cnv.create_rectangle(0, 0, 700, 300, fill=self.color, outline='')
 
     def app_run(self):
         self.root.mainloop()
