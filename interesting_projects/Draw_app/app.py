@@ -1,4 +1,5 @@
 import tkinter as tk
+import re
 
 class DrawApp:
     def __init__(self):
@@ -24,18 +25,28 @@ class DrawApp:
         self.erase_btn = tk.Button(text='Erase all', command=self.erase_canvas)
         self.erase_btn.place(x=40, y=337)
 
+        self.erase_btn = tk.Button(text='Fill all', command=self.fill_canvas)
+        self.erase_btn.place(x=110, y=337)
+
+        self.erase_btn = tk.Button(text='Eraser') #TO DO - command
+        self.erase_btn.place(x=250, y=307)
+
         self.root.bind('<Motion>', self.motion)
         self.root.bind('q', self.draw_flag)
 
     def change_color(self):
         color = self.f1.get('1.0', tk.END)[0:7]
-        self.cnv_color.create_rectangle(0, 0, 20, 20, fill=color, outline='')
-        print(color)
+        if re.fullmatch('^\#[0F8]{6}$', color):
+            self.color = color
+            self.cnv_color.create_rectangle(0, 0, 20, 20, fill=self.color, outline='')
+            #TO DO - set '' text
+        else:
+            print('Error')
+            # TO DO - open error window
 
     def motion(self, event):
         if self.draw:
             x, y = event.x, event.y
-            print('{}, {}'.format(x, y))
             self.cnv.create_rectangle(x, y, x+5, y+5, fill=self.color, outline='')
 
     def draw_flag(self, event):
@@ -43,7 +54,6 @@ class DrawApp:
             self.draw = False
         else:
             self.draw = True
-        print(self.draw)
 
     def erase_canvas(self):
         self.cnv.create_rectangle(0, 0, 700, 300, fill='#FFFFFF', outline='')
