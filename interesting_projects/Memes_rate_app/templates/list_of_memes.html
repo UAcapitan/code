@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}List of memes{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="d-flex justify-content-center">
+        <div>
+            {% for element in list %}
+                <div>
+                    <p>{{ element.title }}</p>
+                    <img src="{{ element.url }}" alt="Meme" height=50>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

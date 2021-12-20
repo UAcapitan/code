@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Add meme{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="d-flex justify-content-center">
+        <div>
+            <form method='post'>
+                <input type="text" name='title' placeholder="Title">
+                <br>
+                <br>
+                <input type="text" name='url', placeholder="URL">
+                <br>
+                <br>
+                <input type="submit" value='Add meme'>
+            </form>
+        </div>
+    </div>
+    <br>
+{% endblock %}
