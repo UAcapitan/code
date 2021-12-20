@@ -37,6 +37,9 @@ class DrawApp:
         self.size_field = tk.Entry(self.root, width=10)
         self.size_field.place(x=310, y=310)
 
+        self.set_size_btn = tk.Button(self.root, text='Set size', command=self.set_size)
+        self.set_size_btn.place(x=380, y=307)
+
         self.root.bind('<Motion>', self.motion)
         self.root.bind('q', self.draw_flag)
 
@@ -48,8 +51,8 @@ class DrawApp:
             self.set_color()
             self.f1.delete(1.0,"end")
         else:
-            print('Error')
-            # TO DO - open error window
+            self.open_error_window()
+            self.f1.delete(1.0,"end")
 
     def motion(self, event):
         if self.draw:
@@ -62,6 +65,7 @@ class DrawApp:
         else:
             self.draw = True
         self.f1.delete(1.0,"end")
+        self.size_field.delete(0, tk.END)
 
     def erase_canvas(self):
         self.cnv.create_rectangle(0, 0, 700, 300, fill='#FFFFFF', outline='')
@@ -77,6 +81,20 @@ class DrawApp:
 
     def set_color(self):
         self.cnv_color.create_rectangle(0, 0, 20, 20, fill=self.color, outline='')
+
+    def set_size(self):
+        try:
+            size = int(self.size_field.get())
+            self.wide_x = size
+            self.wide_y = size
+        except:
+            self.open_error_window()
+        self.size_field.delete(0, tk.END)
+
+    def open_error_window(self):
+        self.error_window = tk.Toplevel(self.root)
+        self.error_label = tk.Label(self.error_window, text = "Error")
+        self.error_label.pack()
 
     def app_run(self):
         self.root.mainloop()
