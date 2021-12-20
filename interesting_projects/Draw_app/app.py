@@ -31,8 +31,11 @@ class DrawApp:
         self.erase_btn = tk.Button(text='Fill all', command=self.fill_canvas)
         self.erase_btn.place(x=110, y=337)
 
-        self.erase_btn = tk.Button(text='Eraser') #TO DO - command
+        self.erase_btn = tk.Button(text='Eraser', command=self.eraser)
         self.erase_btn.place(x=250, y=307)
+
+        self.size_field = tk.Entry(self.root, width=10)
+        self.size_field.place(x=310, y=310)
 
         self.root.bind('<Motion>', self.motion)
         self.root.bind('q', self.draw_flag)
@@ -42,7 +45,7 @@ class DrawApp:
 
         if re.fullmatch('^\#[0F8]{6}$', color):
             self.color = color
-            self.cnv_color.create_rectangle(0, 0, 20, 20, fill=self.color, outline='')
+            self.set_color()
             self.f1.delete(1.0,"end")
         else:
             print('Error')
@@ -70,6 +73,10 @@ class DrawApp:
         self.wide_x = 10
         self.wide_y = 10
         self.color = '#FFFFFF'
+        self.set_color()
+
+    def set_color(self):
+        self.cnv_color.create_rectangle(0, 0, 20, 20, fill=self.color, outline='')
 
     def app_run(self):
         self.root.mainloop()
