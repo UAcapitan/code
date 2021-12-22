@@ -40,6 +40,9 @@ class DrawApp:
         self.set_size_btn = tk.Button(self.root, text='Set size', command=self.set_size)
         self.set_size_btn.place(x=380, y=307)
 
+        self.set_size_btn = tk.Button(self.root, text='Menu', command=self.open_menu)
+        self.set_size_btn.place(x=170, y=337)
+
         self.root.bind('<Motion>', self.motion)
         self.root.bind('q', self.draw_flag)
 
@@ -57,7 +60,7 @@ class DrawApp:
     def motion(self, event):
         if self.draw:
             x, y = event.x, event.y
-            self.cnv.create_rectangle(x, y, x+self.wide_x, y+self.wide_y, fill=self.color, outline='')
+            self.cnv.create_rectangle(x-self.wide_x/2, y-self.wide_y/2, x+self.wide_x/2, y+self.wide_y/2, fill=self.color, outline='')
 
     def draw_flag(self, event):
         if self.draw:
@@ -95,6 +98,13 @@ class DrawApp:
         self.error_window = tk.Toplevel(self.root)
         self.error_label = tk.Label(self.error_window, text = "Error")
         self.error_label.pack()
+
+    def open_menu(self):
+        self.menu_window = tk.Toplevel(self.root)
+        self.menu_window.geometry('100x300')
+        self.menu_window.title('Menu')
+        self.menu_label = tk.Label(self.error_window, text = "Menu")
+        self.menu_label.place(x=20, y=10)
 
     def app_run(self):
         self.root.mainloop()
