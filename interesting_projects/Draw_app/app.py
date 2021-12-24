@@ -1,10 +1,11 @@
 import tkinter as tk
 import re
+from PIL import ImageGrab
 
 class DrawApp:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.geometry("700x370")
+        self.root.geometry("700x370+300+100")
         self.root.title("Paint app")
 
         self.color = '#00FF00'
@@ -16,32 +17,34 @@ class DrawApp:
         self.cnv = tk.Canvas(self.root, bg="white", height=300, width=700)
         self.cnv.place(x=0, y=0)
         self.f1 = tk.Text(self.root, height=1, width=10)
-        self.f1.place(x=90, y=310)
+        self.f1.place(x=160, y=310)
 
         self.f_btn = tk.Button(text='Change', command=self.change_color)
-        self.f_btn.place(x=190, y=307)
+        self.f_btn.place(x=260, y=307)
 
         self.cnv_color = tk.Canvas(self.root, bg="white", height=20, width=20)
-        self.cnv_color.place(x=50, y=308)
+        self.cnv_color.place(x=110, y=308)
         self.cnv_color.create_rectangle(0, 0, 20, 20, fill=self.color, outline='')
 
         self.erase_btn = tk.Button(text='Erase all', command=self.erase_canvas)
-        self.erase_btn.place(x=40, y=337)
+        self.erase_btn.place(x=210, y=337)
 
         self.erase_btn = tk.Button(text='Fill all', command=self.fill_canvas)
-        self.erase_btn.place(x=110, y=337)
+        self.erase_btn.place(x=310, y=337)
 
         self.erase_btn = tk.Button(text='Eraser', command=self.eraser)
-        self.erase_btn.place(x=250, y=307)
+        self.erase_btn.place(x=340, y=307)
 
         self.size_field = tk.Entry(self.root, width=10)
-        self.size_field.place(x=310, y=310)
+        self.size_field.place(x=410, y=310)
 
         self.set_size_btn = tk.Button(self.root, text='Set size', command=self.set_size)
-        self.set_size_btn.place(x=380, y=307)
+        self.set_size_btn.place(x=480, y=307)
 
-        self.set_size_btn = tk.Button(self.root, text='Menu', command=self.open_menu)
-        self.set_size_btn.place(x=170, y=337)
+        self.set_size_btn = tk.Button(self.root, text='Save', command=self.open_save_image_window)
+        self.set_size_btn.place(x=390, y=337)
+
+        self.root.resizable(False,False)
 
         self.root.bind('<Motion>', self.motion)
         self.root.bind('q', self.draw_flag)
@@ -99,13 +102,26 @@ class DrawApp:
         self.error_label = tk.Label(self.error_window, text = "Error")
         self.error_label.pack()
 
-    def open_menu(self):
-        self.menu_window = tk.Toplevel(self.root)
-        self.menu_window.geometry('100x300')
-        self.menu_window.title('Menu')
-        self.menu_label = tk.Label(self.error_window, text = "Menu")
-        self.menu_label.place(x=20, y=10)
+    def open_save_image_window(self):
+        self.save_image_window = tk.Toplevel(self.root)
+        self.save_image_window.geometry('200x90+95+100')
+        self.save_image_window.title('Save image')
+        self.save_image_window_label = tk.Label(self.save_image_window, text ='Input name of image:')
+        self.save_image_window_label.place(x=20, y=10)
+        self.save_image_window_entry = tk.Entry(self.save_image_window)
+        self.save_image_window_entry.place(x=20, y=35)
+        self.save_image_window_btn = tk.Button(self.save_image_window, command=self.save_image, text='Save image')
+        self.save_image_window_btn.place(x=20, y=60)
+        self.save_image_window.resizable(False,False)
 
+    def save_image(self):
+        self.name_of_image = self.save_image_window_entry.get()
+        x = self.root.winfo_rootx()+self.cnv.winfo_rootx()
+        y = self.root.winfo_rooty()+self.cnv.winfo_rooty()
+        x1=x+self.cnv.winfo_width()
+        y1=y+self.cnv.winfo_height()
+        ImageGrab.grab().crop((x,y,x1,y1)).save('saved_images/' + self.name_of_image + '.jpg')
+        
     def app_run(self):
         self.root.mainloop()
 
