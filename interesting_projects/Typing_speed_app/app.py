@@ -12,6 +12,7 @@ class TSApp:
         self.root = tk.Tk()
         self.root.title('Typing speed app')
         self.root.geometry('700x300+100+100')
+        self.root.resizable(False, False)
         self.start()
         self.set_binds()
 
@@ -113,6 +114,7 @@ class TSApp:
         self.end_window = tk.Toplevel(self.root)
         self.end_window.title('Results')
         self.end_window.geometry('400x150+150+150')
+        self.end_window.resizable(False, False)
 
         self.time_end_label = tk.Label(self.end_window, text='Time: ' + self.convert_time())
         self.time_end_label.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
@@ -155,6 +157,7 @@ class TSApp:
         self.add_window = tk.Toplevel(self.root)
         self.add_window.title('Add')
         self.add_window.geometry('200x120+150+150')
+        self.add_window.resizable(False, False)
 
         self.text_add_label = tk.Label(self.add_window, text='Add new text')
         self.field_add_entry = tk.Entry(self.add_window)
@@ -168,6 +171,7 @@ class TSApp:
         self.results_window = tk.Toplevel(self.root)
         self.results_window.title('Results')
         self.results_window.geometry('250x450+150+150')
+        self.results_window.resizable(False, False)
 
         tk.Label(self.results_window, text='Id   Date   Time   Right   Per/Min').place(relx=0.5, rely=0.05, anchor=tk.CENTER)
 
