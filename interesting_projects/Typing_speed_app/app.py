@@ -4,19 +4,15 @@ import sys
 import random
 import pathlib
 import os
+import time
+import datetime
 
 class TSApp:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title('Typing speed app')
-        self.root.geometry('700x300')
-        self.check_folder()
-        self.set_variables()
-        self.build_menu()
-        self.build_main_field()
-        self.build_labels()
-        self.set_text_now()
-        self.set_text_in_main_field()
+        self.root.geometry('700x300+100+100')
+        self.start()
 
         self.root.bind('<Key>', self.key_pressed)
         self.root.bind('<KeyPress-Shift_L>', self.shift_delete)
@@ -25,6 +21,7 @@ class TSApp:
         self.right_answers = 0
         self.wrong_answers = 0
         self.letter_now = 0
+        self.time_result = 0
 
         self.text_now = 'Hello, world!'
 
@@ -33,17 +30,8 @@ class TSApp:
     def build_menu(self):
         menu = tk.Menu(self.root)
         self.root.config(menu=menu)
-
-        main_menu = tk.Menu(menu)
-        main_menu.add_command(label="User")
-        main_menu.add_command(label="Add")
-        menu.add_cascade(label="Main", menu=main_menu)
-
-        result_menu = tk.Menu(menu)
-        result_menu.add_command(label="Table")
-        result_menu.add_command(label="User")
-        menu.add_cascade(label="Result", menu=result_menu)
-
+        menu.add_command(label='Add', command=self.open_add_window)
+        menu.add_command(label='Results', command=self.open_results_window)
         menu.add_command(label='Exit', command=self.exit_from_app)
 
     def build_main_field(self):
@@ -79,6 +67,8 @@ class TSApp:
 
     def key_pressed(self, event):
         if self.write_flag:
+            if len(self.text_now) == self.len_text_now:
+                self.time_begin = time.perf_counter()
             self.letter_label['text'] = event.char
             if event.char == self.text_now[0]:
                 self.right_answers += 1
@@ -98,15 +88,69 @@ class TSApp:
 
     def check_end(self):
         if len(self.text_now) == 0:
-            # TO DO
+            self.time_end = time.perf_counter()
+            self.count_time()
             self.write_flag = False
+            self.open_end_window()
+            self.restart_btn = tk.Button(self.root, text='Restart', font=('Arial', 15), command=self.restart)
+            self.restart_btn.place(x=590,y=150)
 
     def set_text_now(self):
         self.text_now = random.choice(self.open_list_of_texts_json())
+        self.len_text_now = len(self.text_now)
+
+    def open_end_window(self):
+        self.end_window = tk.Toplevel(self.root)
+        self.end_window.title('Results')
+        self.end_window.geometry('400x150+150+150')
+
+        self.time_end_label = tk.Label(self.end_window, text='Time: ' + self.convert_time())
+        self.time_end_label.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
+
+        self.right_end_label = tk.Label(self.end_window, text='Right: ' + str(self.right_answers))
+        self.right_end_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+        self.symbols_end_label = tk.Label(self.end_window, text='Symbols in one minute: ' + self.symbols_per_minute())
+        self.symbols_end_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
+
+    def count_time(self):
+        self.time_result = int(self.time_end) - int(self.time_begin)
+
+    def convert_time(self):
+        return str(datetime.timedelta(seconds = self.time_result))
+
+    def symbols_per_minute(self):
+        return str(int(self.right_answers / int(self.time_result) * 60))
+
+    def start(self):
+        self.check_folder()
+        self.set_variables()
+        self.build_menu()
+        self.build_main_field()
+        self.build_labels()
+        self.set_text_now()
+        self.set_text_in_main_field()
+
+    def restart(self):
+        self.right_label.place_forget()
+        self.wrong_label.place_forget()
+        self.start()
+        self.restart_btn.place_forget()
+
+    def open_add_window(self):
+        self.add_window = tk.Toplevel(self.root)
+        self.add_window.title('Add')
+        self.add_window.geometry('400x150+150+150')
+
+    def open_results_window(self):
+        self.results_window = tk.Toplevel(self.root)
+        self.results_window.title('Results')
+        self.results_window.geometry('400x150+150+150')
 
     def run(self):
         self.root.mainloop()
 
 if __name__ == '__main__':
     app = TSApp()
+    # app.open_end_window()
     app.run()
