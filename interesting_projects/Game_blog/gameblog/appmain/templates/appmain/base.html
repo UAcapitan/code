@@ -5,6 +5,11 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    <div class='nav'>
+        {% if not user.is_authenticated %}
+            <a href="{% url 'reg' %}">Register</a>
+        {% endif %}
+    </div>
     {% block content %}
     
     {% endblock %}
