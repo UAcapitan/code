@@ -69,3 +69,7 @@ def set_recommendation(request):
     if request.method == 'POST':
         return redirect('recommendation')
     return render(request, 'appmain/set_recommendation.html')
+
+def admin_page(request):
+    if request.user.is_staff:
+        return render(request, 'admin_page.html')
