@@ -37,9 +37,33 @@ def login_view(request):
         else:
             messages.error(request,"Invalid username or password.")
     form = AuthenticationForm()
-    return render(request=request, template_name="appmain/login.html", context={"login_form":form})
+    return render(request, "appmain/login.html", {"login_form":form})
 
 def logout_view(request):
     logout(request)
     messages.info(request, "You have successfully logged out.") 
     return redirect("main")
+
+def profile(request):
+    return render(request, 'appmain/profile.html')
+
+def articles(request):
+    return render(request, 'appmain/articles.html')
+
+def favourite(request):
+    return render(request, 'appmain/favourite.html')
+
+def rate(request):
+    return render(request, 'appmain/rate.html')
+
+def list_of_articles(request):
+    return render(request, 'appmain/list_of_articles.html')
+
+def add_article(request):
+    return render(request, 'appmain/add_article.html')
+
+def recommendation(request):
+    return render(request, 'appmain/recommendation.html')
+
+def set_recommendation(request):
+    return render(request, 'appmain/set_recommendation.html')
