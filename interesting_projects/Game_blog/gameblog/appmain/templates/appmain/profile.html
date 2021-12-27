@@ -4,4 +4,11 @@
 
 {% block content %}
     <h3>Profile</h3>
+    {% if user.is_authenticated %}
+        <p>Login: {{ user.get_username }}</p>
+        <p>Email: {{ user.email }}</p>
+        <p>Root: {{ user.is_staff }}</p>
+        <p>Last login: {{ user.last_login }}</p>
+        <p>Date joined: {{ user.date_joined }}</p>
+    {% endif %}
 {% endblock %}

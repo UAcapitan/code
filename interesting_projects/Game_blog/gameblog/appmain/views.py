@@ -47,8 +47,8 @@ def logout_view(request):
 def profile(request):
     return render(request, 'appmain/profile.html')
 
-def articles(request):
-    return render(request, 'appmain/articles.html')
+def article(request):
+    return render(request, 'appmain/article.html')
 
 def favourite(request):
     return render(request, 'appmain/favourite.html')
@@ -66,4 +66,6 @@ def recommendation(request):
     return render(request, 'appmain/recommendation.html')
 
 def set_recommendation(request):
+    if request.method == 'POST':
+        return redirect('recommendation')
     return render(request, 'appmain/set_recommendation.html')
