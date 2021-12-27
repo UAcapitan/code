@@ -6,6 +6,7 @@
 </head>
 <body>
     <div class='nav'>
+        <a href="{% url 'main' %}">Main page</a>
         {% if not user.is_authenticated %}
         <a href="{% url 'reg' %}">Register</a>
         <a href="{% url 'login' %}">Login</a>

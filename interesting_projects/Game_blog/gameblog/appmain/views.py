@@ -1,6 +1,6 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from . import forms
 from django.contrib.auth.forms import AuthenticationForm
@@ -38,3 +38,8 @@ def login_view(request):
             messages.error(request,"Invalid username or password.")
     form = AuthenticationForm()
     return render(request=request, template_name="appmain/login.html", context={"login_form":form})
+
+def logout_view(request):
+    logout(request)
+    messages.info(request, "You have successfully logged out.") 
+    return redirect("main")
