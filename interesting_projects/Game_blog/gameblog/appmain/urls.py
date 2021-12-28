@@ -14,5 +14,5 @@ urlpatterns = [
     path('add-article/', views.add_article, name='add_article'),
     path('recommendation/', views.recommendation, name='recommendation'),
     path('set-recommendation/', views.set_recommendation, name='set_recommendation'),
-    path('admin-page', views.admin_page, name='admin_page')
+    path('admin-page/', views.admin_page, name='admin_page')
 ]

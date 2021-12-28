@@ -72,4 +72,4 @@ def set_recommendation(request):
 
 def admin_page(request):
     if request.user.is_staff:
-        return render(request, 'admin_page.html')
+        return render(request, 'appmain/admin_page.html')
