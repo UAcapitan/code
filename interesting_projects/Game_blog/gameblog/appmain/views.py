@@ -8,7 +8,11 @@ from . import models
 
 
 def main(request):
-    return render(request, 'appmain/main.html', )
+    articles = models.Article.query.limit(3).all()
+    context = {
+        'articles':articles
+    }
+    return render(request, 'appmain/main.html', context=context)
 
 def reg(request):
     if request.method == "POST":
@@ -58,10 +62,21 @@ def rate(request):
     return render(request, 'appmain/rate.html')
 
 def list_of_articles(request):
+    articles = models.Article.query.all()
     return render(request, 'appmain/list_of_articles.html')
 
 def add_article(request):
-    return render(request, 'appmain/add_article.html')
+    if request.method == 'POST':
+        form = forms.ArticleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('admin_page')
+    else:
+        form = forms.ArticleForm()
+    context = {
+        'form':form,
+    }
+    return render(request, 'appmain/add_article.html', context=context)
 
 def recommendation(request):
     title, text = '', ''

@@ -15,3 +15,7 @@ class NewUserForm(UserCreationForm):
 		if commit:
 			user.save()
 		return user 
+
+class ArticleForm(forms.Form):
+	title = forms.CharField(label='Title', max_length=100)
+	text = forms.CharField(widget=forms.Textarea)
