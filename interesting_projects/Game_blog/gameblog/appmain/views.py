@@ -4,6 +4,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from . import forms
 from django.contrib.auth.forms import AuthenticationForm
+from . import models
 
 
 def main(request):
@@ -47,7 +48,7 @@ def logout_view(request):
 def profile(request):
     return render(request, 'appmain/profile.html')
 
-def article(request):
+def article(request, id):
     return render(request, 'appmain/article.html')
 
 def favourite(request):
@@ -63,6 +64,9 @@ def add_article(request):
     return render(request, 'appmain/add_article.html')
 
 def recommendation(request):
+    title, text = '', ''
+    a = models.Article(title=title, text=text)
+    a.save()
     return render(request, 'appmain/recommendation.html')
 
 def set_recommendation(request):
