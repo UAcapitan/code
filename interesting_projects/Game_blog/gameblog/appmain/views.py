@@ -8,7 +8,7 @@ from . import models
 
 
 def main(request):
-    articles = models.Article.query.limit(3).all()
+    articles = models.Article.objects.all()[:3]
     context = {
         'articles':articles
     }
@@ -62,30 +62,42 @@ def rate(request):
     return render(request, 'appmain/rate.html')
 
 def list_of_articles(request):
-    articles = models.Article.query.all()
-    return render(request, 'appmain/list_of_articles.html')
+    articles = models.Article.objects.all()
+    context = {
+        'articles':articles
+    }
+    return render(request, 'appmain/list_of_articles.html', context=context)
 
 def add_article(request):
-    if request.method == 'POST':
-        form = forms.ArticleForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('admin_page')
-    else:
-        form = forms.ArticleForm()
-    context = {
-        'form':form,
-    }
-    return render(request, 'appmain/add_article.html', context=context)
+    if request.user.is_staff:
+        if request.method == 'POST':
+            form = forms.ArticleForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('admin_page')
+        else:
+            form = forms.ArticleForm()
+        context = {
+            'form':form,
+        }
+        return render(request, 'appmain/add_article.html', context=context)
 
 def recommendation(request):
-    title, text = '', ''
-    a = models.Article(title=title, text=text)
-    a.save()
     return render(request, 'appmain/recommendation.html')
 
 def set_recommendation(request):
     if request.method == 'POST':
+        if request.user.is_staff:
+            if request.method == 'POST':
+                form = forms.ArticleForm(request.POST)
+                if form.is_valid():
+                    form.save()
+                    return redirect('admin_page')
+            else:
+                form = forms.ArticleForm()
+        context = {
+            'form':form,
+        }
         return redirect('recommendation')
     return render(request, 'appmain/set_recommendation.html')
 

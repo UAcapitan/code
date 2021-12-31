@@ -4,4 +4,11 @@
 
 {% block content %}
     <h3>Add new article</h3>
+    <form method='POST'>
+        {{ form.title }}
+        <br><br>
+        {{ form.text }}
+        <br><br>
+        <input type="submit" value="Add new article">
+    </form>
 {% endblock %}
