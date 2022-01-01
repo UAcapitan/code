@@ -28,7 +28,7 @@ def reg(request):
 
 def login_view(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = forms.AuthForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -41,7 +41,7 @@ def login_view(request):
                 messages.error(request,"Invalid username or password.")
         else:
             messages.error(request,"Invalid username or password.")
-    form = AuthenticationForm()
+    form = forms.AuthForm()
     return render(request, "appmain/login.html", {"login_form":form})
 
 def logout_view(request):

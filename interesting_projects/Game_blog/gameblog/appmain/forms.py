@@ -1,10 +1,15 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import password_changed
 from . import models
+from django.contrib.auth.forms import AuthenticationForm
 
 class NewUserForm(UserCreationForm):
-	email = forms.EmailField(required=True)
+	username = forms.CharField(widget=forms.TextInput(attrs={'class':'validate', 'placeholder':'Login'}))
+	email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'placeholder':'Email'}))
+	password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
+	password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Confirm password'}))
 
 	class Meta:
 		model = User
@@ -15,11 +20,11 @@ class NewUserForm(UserCreationForm):
 		user.email = self.cleaned_data['email']
 		if commit:
 			user.save()
-		return user 
+		return user
 
-# class ArticleForm(forms.Form):
-# 	title = forms.CharField(label='Title', max_length=100)
-# 	text = forms.CharField(label='Text', max_length=2560)
+class AuthForm(AuthenticationForm):
+	username = forms.CharField(widget=forms.TextInput(attrs={'class':'validate', 'placeholder':'Login'}))
+	password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
 
 class ArticleForm(forms.ModelForm):
 	title = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Title'}))
