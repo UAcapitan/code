@@ -4,4 +4,13 @@
 
 {% block content %}
     <h3>Articles</h3>
+    <div class>
+        {% for article in articles %}
+            <div>
+                <p>{{ article.title }}</p>
+                <p>{{ article.text }}</p>
+                <p>{{ article.date_of_save }}</p>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

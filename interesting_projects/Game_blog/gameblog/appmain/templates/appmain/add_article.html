@@ -5,9 +5,12 @@
 {% block content %}
     <h3>Add new article</h3>
     <form method='POST'>
+        {% csrf_token %}
         {{ form.title }}
         <br><br>
         {{ form.text }}
+        <br><br>
+        {{ form.date_of_save }}
         <br><br>
         <input type="submit" value="Add new article">
     </form>
