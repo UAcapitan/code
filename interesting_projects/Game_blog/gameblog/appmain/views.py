@@ -60,6 +60,10 @@ def profile(request):
 def article(request, id):
     return render(request, 'appmain/article.html')
 
+def add_in_favourite(request, id):
+    models.Favourite(username=username, id_article=id)
+    return redirect('favourite')
+
 def favourite(request):
     return render(request, 'appmain/favourite.html')
 
