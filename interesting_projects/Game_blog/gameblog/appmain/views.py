@@ -5,12 +5,17 @@ from django.contrib import messages
 from . import forms
 from django.contrib.auth.forms import AuthenticationForm
 from . import models
+from django.core.paginator import Paginator
 
 
 def main(request):
-    articles = models.Article.objects.all()[:3]
+    articles = models.Article.objects.all()
+    articles_paginator = Paginator(articles, 3)
+    page_number = request.GET.get('page')
+    page_obj = articles_paginator.get_page(page_number)
     context = {
-        'articles':articles
+        'articles':page_obj,
+        'page_obj':page_obj,
     }
     return render(request, 'appmain/main.html', context=context)
 
@@ -63,8 +68,12 @@ def rate(request):
 
 def list_of_articles(request):
     articles = models.Article.objects.all()
+    articles_paginator = Paginator(articles, 7)
+    page_number = request.GET.get('page')
+    page_obj = articles_paginator.get_page(page_number)
     context = {
-        'articles':articles
+        'articles':page_obj,
+        'page_obj':page_obj,
     }
     return render(request, 'appmain/list_of_articles.html', context=context)
 

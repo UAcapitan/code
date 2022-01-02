@@ -4,13 +4,30 @@
 
 {% block content %}
     <h3>Articles</h3>
+    <br>
     <div class='container'>
         {% for article in articles %}
-            <div>
-                <p>{{ article.title }}</p>
+            <div class='border border-secondary rounded'>
+                <p class='h3'>{{ article.title }}</p>
                 <p>{{ article.text }}</p>
-                <p>{{ article.date_of_save }}</p>
+                <p class='text-secondary'>{{ article.date_of_save }}</p>
             </div>
+            <br>
         {% endfor %}
+    </div>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+            {% endif %}
+        </span>
     </div>
 {% endblock %}
