@@ -61,7 +61,12 @@ def article(request, id):
     return render(request, 'appmain/article.html')
 
 def add_in_favourite(request, id):
-    models.Favourite(username=username, id_article=id)
+    username=request.user.username
+    if models.Favourite.objects.filter_by(username=username, id_article=id) == None:
+        models.Favourite(username=username, id_article=id).save()
+        text='You liked this'
+    else:
+        text='You liked this some early'
     return redirect('favourite')
 
 def favourite(request):

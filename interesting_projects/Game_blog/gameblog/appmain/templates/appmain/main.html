@@ -7,35 +7,37 @@
 
     <div class='container'>
         {% for article in articles %}
-            <div class='border border-secondary rounded'>
-                <p class='h3'>{{ article.title }}</p>
-                <p>{{ article.text }}</p>
-                <p class='text-secondary'>{{ article.date_of_save }}</p>
-            </div>
+            <a href="{% url 'article' article.id %}" class="text-decoration-none text-dark">
+                <div class='border border-secondary rounded'>
+                    <p class='h3'>{{ article.title }}</p>
+                    <p>{{ article.text }}</p>
+                    <p class='text-secondary'>{{ article.date_of_save }}</p>
+                </div>
+            </a>
             <br>
         {% endfor %}
     </div>
     <div class="pagination">
-        <span class="step-links">
+        <p><span class="step-links">
             {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
             {% endif %}
-    
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
     
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.next_page_number }}">Next</a>
             {% endif %}
-        </span>
+        </span></p>
+
+        <p>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</p>
     </div>
 
     <br>
 
     <div>
         <a href="{% url 'recommendation' %}">Recommendation</a>
+        <br>
         <a href="{% url 'rate' %}">Rate</a>
+        <br>
         <a href="{% url 'list_of_articles' %}">Articles</a>
     </div>
 {% endblock %}
