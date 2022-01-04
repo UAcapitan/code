@@ -58,7 +58,11 @@ def profile(request):
     return render(request, 'appmain/profile.html')
 
 def article(request, id):
-    return render(request, 'appmain/article.html')
+    article = models.Article.objects.filter(id=id)
+    context = {
+        'article': article[0],
+    }
+    return render(request, 'appmain/article.html', context=context)
 
 def add_in_favourite(request, id):
     username=request.user.username
