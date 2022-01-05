@@ -13,13 +13,11 @@ class CarListView(generics.ListAPIView):
     serializer_class = CarListSerializer
     queryset = Car.objects.all()
     permission_classes = (IsAuthenticated, )
-    authentication_classes = (TokenAuthentication, SessionAuthentication)
 
 class CarDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CarDetailSerializer
     queryset = Car.objects.all()
     permission_classes = (IsOwnerOrReadOnly, )
-    authentication_classes = (TokenAuthentication, )
 
 class UserListView(generics.ListAPIView):
     serializer_class = UserDetailSerializer
