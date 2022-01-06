@@ -8,6 +8,8 @@ urlpatterns = [
     path('api/v1/', include('movies.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('api/auth/', include('djoser.urls')),
+    path('api/auth-token/', include('djoser.urls.authtoken')),
 ]
 
 if settings.DEBUG:
