@@ -1,6 +1,6 @@
 from rest_framework import generics
 from movies.serializers import MovieDetailedSerialize, MovieListSerialize, UserListSerialize, \
-    MovieDetailSerializer
+    MovieDetailSerializer, UserDetailSerialize
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from movies.models import Movie
@@ -22,3 +22,9 @@ class MovieListView(APIView):
 class MovieDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MovieDetailSerializer
     queryset = Movie.objects.all()
+
+class UserDetailView(APIView):
+    def get(self, request, pk):
+        users = User.objects.get(id=pk)
+        serializer = UserDetailSerialize(users)
+        return Response(serializer.data)
