@@ -50,6 +50,19 @@ class MovieListWithReviewsSerialize(serializers.ModelSerializer):
         model = Movie
         fields = ('id', 'name', 'text', 'user', 'reviews')
 
+class GenreListSeriliazer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = '__all__'
+
+class MovieListWithAllSerialize(serializers.ModelSerializer):
+    reviews = ReviewListSerialize(many=True)
+    genre = GenreListSeriliazer()
+
+    class Meta:
+        model = Movie
+        fields = ('id', 'name', 'text', 'user', 'reviews', 'genre')
+
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
             required=True,
@@ -87,12 +100,9 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
 
-class GenreListSeriliazer(serializers.ModelSerializer):
-    class Meta:
-        model = Genre
-        fields = '__all__'
-
 class GenreDetialSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta:
         model = Genre
         fields = '__all__'

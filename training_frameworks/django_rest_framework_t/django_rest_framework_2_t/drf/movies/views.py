@@ -1,11 +1,11 @@
 from rest_framework import generics
-from rest_framework import response
 from movies.serializers import MovieDetailedSerialize, MovieListSerialize, UserListSerialize, \
     MovieDetailSerializer, UserDetailSerialize, ReviewDetailSerializer, \
-    ReviewListSerialize, MovieListWithReviewsSerialize, RegisterSerializer
+    ReviewListSerialize, MovieListWithReviewsSerialize, RegisterSerializer, \
+    GenreListSeriliazer, GenreDetialSerializer, MovieListWithAllSerialize
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from movies.models import Movie, Review
+from movies.models import Movie, Review, Genre
 from django.contrib.auth.models import User
 
 class MovieCreateView(generics.CreateAPIView):
@@ -46,6 +46,17 @@ class MovieListWithReviewsView(generics.ListAPIView):
     serializer_class = MovieListWithReviewsSerialize
     queryset = Movie.objects.all()
 
+class MovieListWithAllView(generics.ListAPIView):
+    serializer_class = MovieListWithAllSerialize
+    queryset = Movie.objects.all()
+
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
+
+class GenreCreateView(generics.CreateAPIView):
+    serializer_class = GenreDetialSerializer
+
+class GenreListView(generics.ListAPIView):
+    queryset = Genre.objects.all()
+    serializer_class = GenreListSeriliazer

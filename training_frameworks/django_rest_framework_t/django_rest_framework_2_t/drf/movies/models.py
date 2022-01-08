@@ -9,7 +9,7 @@ class Genre(models.Model):
 
     class Meta:
         verbose_name = 'Genre'
-        verbose_name_plural = 'Ganres'
+        verbose_name_plural = 'Genres'
 
 class Movie(models.Model):
     name = models.CharField(verbose_name='Name', max_length=255)
