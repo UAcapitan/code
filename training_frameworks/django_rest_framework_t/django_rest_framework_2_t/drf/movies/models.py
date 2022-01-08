@@ -12,3 +12,15 @@ class Movie(models.Model):
     class Meta:
         verbose_name = 'Movie'
         verbose_name_plural = 'Movies'
+
+class Review(models.Model):
+    text = models.CharField(verbose_name='text', max_length=512)
+    article = models.ForeignKey(Movie, on_delete=models.CASCADE, verbose_name='article', related_name='reviews')
+    user = models.CharField(verbose_name='user', max_length=255)
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = 'Review'
+        verbose_name_plural = 'Reviews'

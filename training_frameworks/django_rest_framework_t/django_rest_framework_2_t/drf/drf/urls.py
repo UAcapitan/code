@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from movies.views import RegisterView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -10,6 +11,7 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('api/auth/', include('djoser.urls')),
     path('api/auth-token/', include('djoser.urls.authtoken')),
+    path('api/register/', RegisterView.as_view(), name='auth_register'),
 ]
 
 if settings.DEBUG:
