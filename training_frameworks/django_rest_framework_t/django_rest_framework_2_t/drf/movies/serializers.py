@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from movies.models import Movie, Review
+from movies.models import Movie, Review, Genre
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
@@ -86,3 +86,13 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+class GenreListSeriliazer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = '__all__'
+
+class GenreDetialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = '__all__'
