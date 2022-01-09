@@ -1,62 +1,63 @@
 from rest_framework import generics
-from movies.serializers import MovieDetailedSerialize, MovieListSerialize, UserListSerialize, \
-    MovieDetailSerializer, UserDetailSerialize, ReviewDetailSerializer, \
-    ReviewListSerialize, MovieListWithReviewsSerialize, RegisterSerializer, \
-    GenreListSeriliazer, GenreDetialSerializer, MovieListWithAllSerialize
+from movies import serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from movies.models import Movie, Review, Genre
 from django.contrib.auth.models import User
+from rest_framework.permissions import IsAdminUser
 
 class MovieCreateView(generics.CreateAPIView):
-    serializer_class = MovieDetailedSerialize
+    serializer_class = serializers.MovieDetailedSerialize
 
 class UserListView(generics.ListAPIView):
-    serializer_class = UserListSerialize
+    serializer_class = serializers.UserListSerialize
     queryset = User.objects.all()
+    permission_classes = (IsAdminUser,)
 
 class MovieListView(APIView):
     def get(self, request):
         movies = Movie.objects.filter(id__gte=2)
-        serializer = MovieListSerialize(movies, many=True)
+        serializer = serializers.MovieListSerialize(movies, many=True)
         return Response(serializer.data)
 
 class MovieDetailView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = MovieDetailSerializer
+    serializer_class = serializers.MovieDetailSerializer
     queryset = Movie.objects.all()
 
 class UserDetailView(APIView):
+    permission_classes = (IsAdminUser,)
     def get(self, request, pk):
         users = User.objects.get(id=pk)
-        serializer = UserDetailSerialize(users)
+        serializer = serializers.UserDetailSerialize(users)
         return Response(serializer.data)
 
 class ReviewCreateView(APIView):
     def post(self, request):
-        review = ReviewDetailSerializer(data=request.data, context={"request": request})
+        review = serializers.ReviewDetailSerializer(data=request.data, context={"request": request})
         if review.is_valid():
             review.save()
         return Response(review.data, status=201)
 
 class ReviewListView(generics.ListAPIView):
-    serializer_class = ReviewListSerialize
+    serializer_class = serializers.ReviewListSerialize
     queryset = Review.objects.all()
 
 class MovieListWithReviewsView(generics.ListAPIView):
-    serializer_class = MovieListWithReviewsSerialize
+    serializer_class = serializers.MovieListWithReviewsSerialize
     queryset = Movie.objects.all()
 
 class MovieListWithAllView(generics.ListAPIView):
-    serializer_class = MovieListWithAllSerialize
+    serializer_class = serializers.MovieListWithAllSerialize
     queryset = Movie.objects.all()
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
-    serializer_class = RegisterSerializer
+    serializer_class = serializers.RegisterSerializer
 
 class GenreCreateView(generics.CreateAPIView):
-    serializer_class = GenreDetialSerializer
+    permission_classes = (IsAdminUser,)
+    serializer_class = serializers.GenreDetialSerializer
 
 class GenreListView(generics.ListAPIView):
     queryset = Genre.objects.all()
-    serializer_class = GenreListSeriliazer
+    serializer_class = serializers.GenreListSeriliazer
