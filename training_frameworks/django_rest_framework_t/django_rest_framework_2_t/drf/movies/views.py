@@ -16,7 +16,7 @@ class UserListView(generics.ListAPIView):
 
 class MovieListView(APIView):
     def get(self, request):
-        movies = Movie.objects.filter(id__gte=2)
+        movies = Movie.objects.filter(id__gte=1)
         serializer = serializers.MovieListSerialize(movies, many=True)
         return Response(serializer.data)
 
