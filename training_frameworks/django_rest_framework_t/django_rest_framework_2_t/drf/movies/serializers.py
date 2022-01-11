@@ -99,3 +99,11 @@ class GenreDetialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
         fields = ('name',)
+
+class MovieListAllSerialize(serializers.ModelSerializer):
+    reviews = ReviewListSerialize(many=True)
+    genre = GenreListSeriliazer()
+
+    class Meta:
+        model = Movie
+        fields = '__all__'

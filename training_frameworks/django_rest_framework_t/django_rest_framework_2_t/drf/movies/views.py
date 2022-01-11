@@ -64,3 +64,8 @@ class GenreCreateView(generics.CreateAPIView):
 class GenreListView(generics.ListAPIView):
     queryset = Genre.objects.all()
     serializer_class = serializers.GenreListSeriliazer
+
+class MovieListAllView(APIView):
+    def get(self, request):
+        serializer = serializers.MovieListAllSerialize(Movie.objects.all(), many=True)
+        return Response(serializer.data)
