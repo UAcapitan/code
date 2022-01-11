@@ -9,7 +9,7 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     
     path('api/v1/', include('movies.urls')),
-    path('api/v1/api-auth/', include('rest_framework.urls')),
+    path('api/v1/login-auth/', include('rest_framework.urls')),
     path('api/v1/auth/', include('djoser.urls')),
     path('api/v1/auth-token/', include('djoser.urls.authtoken')),
     path('api/v1/register/', RegisterView.as_view(), name='auth_register'),

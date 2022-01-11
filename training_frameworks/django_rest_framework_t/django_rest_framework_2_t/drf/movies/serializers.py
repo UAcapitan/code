@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.fields import CurrentUserDefault
 from movies.models import Movie, Review, Genre
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
@@ -43,25 +44,10 @@ class ReviewListSerialize(serializers.ModelSerializer):
         model = Review
         fields = ('text', 'user')
 
-class MovieListWithReviewsSerialize(serializers.ModelSerializer):
-    reviews = ReviewListSerialize(many=True)
-
-    class Meta:
-        model = Movie
-        fields = ('id', 'name', 'text', 'user', 'reviews')
-
 class GenreListSeriliazer(serializers.ModelSerializer):
     class Meta:
         model = Genre
         fields = '__all__'
-
-class MovieListWithAllSerialize(serializers.ModelSerializer):
-    reviews = ReviewListSerialize(many=True)
-    genre = GenreListSeriliazer()
-
-    class Meta:
-        model = Movie
-        fields = ('id', 'name', 'text', 'user', 'reviews', 'genre')
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(

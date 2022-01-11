@@ -24,12 +24,9 @@ class MovieDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.MovieDetailSerializer
     queryset = Movie.objects.all()
 
-class UserDetailView(APIView):
+class UserDetailView(generics.ListAPIView):
     permission_classes = (IsAdminUser,)
-    def get(self, request, pk):
-        users = User.objects.get(id=pk)
-        serializer = serializers.UserDetailSerialize(users)
-        return Response(serializer.data)
+    serialier_class = serializers.UserDetailSerialize
 
 class ReviewCreateView(APIView):
     def post(self, request):
@@ -38,20 +35,9 @@ class ReviewCreateView(APIView):
             review.save()
         return Response(review.data, status=201)
 
-class ReviewListView(APIView):
-    def get(self, request):
-        serializer = serializers.ReviewListSerialize(Review.objects.all())
-        return Response(serializer.data)
-
-class MovieListWithReviewsView(generics.ListAPIView):
-    def get(self, request):
-        serializer = serializers.MovieListWithReviewsSerialize(Movie.objects.all())
-        return Response(serializer.data)
-
-class MovieListWithAllView(generics.ListAPIView):
-    def get(self, request):
-        serializer = serializers.MovieListWithAllSerialize(Movie.objects.all())
-        return Response(serializer.data)
+class ReviewListView(generics.ListAPIView):
+    serializer_class = serializers.ReviewListSerialize
+    queryset = Review.objects.all()
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -65,7 +51,6 @@ class GenreListView(generics.ListAPIView):
     queryset = Genre.objects.all()
     serializer_class = serializers.GenreListSeriliazer
 
-class MovieListAllView(APIView):
-    def get(self, request):
-        serializer = serializers.MovieListAllSerialize(Movie.objects.all(), many=True)
-        return Response(serializer.data)
+class MovieListAllView(generics.ListAPIView):
+    serializer_class = serializers.MovieListAllSerialize
+    queryset = Movie.objects.all()
