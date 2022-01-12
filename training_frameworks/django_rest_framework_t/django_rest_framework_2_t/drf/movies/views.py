@@ -6,7 +6,7 @@ from movies.models import Movie, Review, Genre
 from django.contrib.auth.models import User
 from rest_framework.permissions import IsAdminUser
 from django_filters.rest_framework import DjangoFilterBackend
-from movies.service import MovieAllFilter, ReviewFilter, MovieFilter
+from movies import service
 
 class MovieCreateView(generics.CreateAPIView):
     serializer_class = serializers.MovieDetailedSerialize
@@ -22,7 +22,7 @@ class MovieListView(generics.ListAPIView):
     serializer_class = serializers.MovieListSerialize
     queryset = Movie.objects.all()
     filter_backends = (DjangoFilterBackend,)
-    filterset_class = MovieFilter
+    filterset_class = service.MovieFilter
 
 class MovieDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.MovieDetailSerializer
@@ -31,6 +31,7 @@ class MovieDetailView(generics.RetrieveUpdateDestroyAPIView):
 class UserDetailView(generics.ListAPIView):
     permission_classes = (IsAdminUser,)
     serialier_class = serializers.UserDetailSerialize
+    queryset = User.objects.all()
 
 class ReviewCreateView(APIView):
     def post(self, request):
@@ -43,7 +44,7 @@ class ReviewListView(generics.ListAPIView):
     serializer_class = serializers.ReviewListSerialize
     queryset = Review.objects.all()
     filter_backends = (DjangoFilterBackend,)
-    filterset_class = ReviewFilter
+    filterset_class = service.ReviewFilter
 
 class GenreCreateView(generics.CreateAPIView):
     permission_classes = (IsAdminUser,)
@@ -54,7 +55,9 @@ class GenreListView(generics.ListAPIView):
     serializer_class = serializers.GenreListSeriliazer
 
 class MovieListAllView(generics.ListAPIView):
+    '''Output all information about movies'''
+
     serializer_class = serializers.MovieListAllSerialize
     queryset = Movie.objects.all()
     filter_backends = (DjangoFilterBackend,)
-    filterset_class = MovieAllFilter
+    filterset_class = service.MovieAllFilter

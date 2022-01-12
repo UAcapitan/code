@@ -1,9 +1,6 @@
 from rest_framework import serializers
-from rest_framework.fields import CurrentUserDefault
 from movies.models import Movie, Review, Genre
 from django.contrib.auth.models import User
-from rest_framework.validators import UniqueValidator
-from django.contrib.auth.password_validation import validate_password
 
 class MovieDetailedSerialize(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
@@ -54,7 +51,7 @@ class GenreDetialSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Genre
-        fields = ('name',)
+        fields = ('name', 'user')
 
 class MovieListAllSerialize(serializers.ModelSerializer):
     reviews = ReviewListSerialize(many=True)
