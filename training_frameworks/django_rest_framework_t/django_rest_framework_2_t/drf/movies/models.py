@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Genre(models.Model):
     name = models.CharField(verbose_name='name', max_length=128)
     user = models.CharField(verbose_name='user', max_length=255)

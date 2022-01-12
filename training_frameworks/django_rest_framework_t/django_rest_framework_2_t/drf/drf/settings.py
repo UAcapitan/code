@@ -18,10 +18,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'movies',
+
     'djoser',
+
     'ckeditor',
     'ckeditor_uploader',
+
     'rest_framework.authtoken',
+
     'django_filters',
 ]
 

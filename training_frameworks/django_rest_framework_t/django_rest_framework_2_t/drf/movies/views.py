@@ -5,20 +5,24 @@ from rest_framework.response import Response
 from movies.models import Movie, Review, Genre
 from django.contrib.auth.models import User
 from rest_framework.permissions import IsAdminUser
+from django_filters.rest_framework import DjangoFilterBackend
+from movies.service import MovieAllFilter, ReviewFilter, MovieFilter
 
 class MovieCreateView(generics.CreateAPIView):
     serializer_class = serializers.MovieDetailedSerialize
 
-class UserListView(generics.ListAPIView):
-    serializer_class = serializers.UserListSerialize
-    queryset = User.objects.all()
+class UserListView(APIView):
     permission_classes = (IsAdminUser,)
-
-class MovieListView(APIView):
     def get(self, request):
-        movies = Movie.objects.filter(id__gte=1)
-        serializer = serializers.MovieListSerialize(movies, many=True)
+        users = User.objects.all()
+        serializer = serializers.UserListSerialize(users, many=True)
         return Response(serializer.data)
+
+class MovieListView(generics.ListAPIView):
+    serializer_class = serializers.MovieListSerialize
+    queryset = Movie.objects.all()
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = MovieFilter
 
 class MovieDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.MovieDetailSerializer
@@ -38,6 +42,8 @@ class ReviewCreateView(APIView):
 class ReviewListView(generics.ListAPIView):
     serializer_class = serializers.ReviewListSerialize
     queryset = Review.objects.all()
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ReviewFilter
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -54,3 +60,5 @@ class GenreListView(generics.ListAPIView):
 class MovieListAllView(generics.ListAPIView):
     serializer_class = serializers.MovieListAllSerialize
     queryset = Movie.objects.all()
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = MovieAllFilter
