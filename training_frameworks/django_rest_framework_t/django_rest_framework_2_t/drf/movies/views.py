@@ -45,10 +45,6 @@ class ReviewListView(generics.ListAPIView):
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ReviewFilter
 
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = serializers.RegisterSerializer
-
 class GenreCreateView(generics.CreateAPIView):
     permission_classes = (IsAdminUser,)
     serializer_class = serializers.GenreDetialSerializer

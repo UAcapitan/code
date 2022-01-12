@@ -14,7 +14,7 @@ urlpatterns = [
     
     path('api/v1/auth/', include('djoser.urls')),
     path('api/v1/auth/', include('djoser.urls.authtoken')),
-    path('api/v1/register/', RegisterView.as_view(), name='auth_register'),
+    path('api/v1/auth/', include('djoser.urls.jwt')),
 ]
 
 if settings.DEBUG:
