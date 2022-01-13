@@ -15,6 +15,8 @@ urlpatterns = [
     path('api/v1/auth/', include('djoser.urls')),
     path('api/v1/auth/', include('djoser.urls.authtoken')),
     path('api/v1/auth/', include('djoser.urls.jwt')),
+
+    path('api/auth/oauth/', include('rest_framework_social_oauth2.urls')),
 ]
 
 urlpatterns += doc_urls

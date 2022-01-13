@@ -37,9 +37,9 @@ class MovieDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.MovieDetailSerializer
     queryset = Movie.objects.all()
 
-class UserDetailView(generics.ListAPIView):
+class UserDetailView(generics.RetrieveAPIView):
     permission_classes = (IsAdminUser,)
-    serialier_class = serializers.UserDetailSerialize
+    serializer_class = serializers.UserDetailSerialize
     queryset = User.objects.all()
 
 class ReviewCreateView(APIView):
@@ -126,3 +126,4 @@ class SocialLoginView(generics.GenericAPIView):
             #generate JWT token
             login(request, authenticated_user)
             return Response(status=status.HTTP_200_OK)
+

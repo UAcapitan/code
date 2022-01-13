@@ -15,4 +15,6 @@ urlpatterns = [
 
     path('users/all/', views.UserListView.as_view()),
     path('users/<int:pk>/', views.UserDetailView.as_view()),
+
+    path('oauth/login/', views.SocialLoginView.as_view()),
 ]
