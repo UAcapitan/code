@@ -172,6 +172,13 @@ SOCIAL_AUTH_PIPELINE = (
 'social_core.pipeline.social_auth.load_extra_data',
 'social_core.pipeline.user.user_details', )
 
+AUTHENTICATION_BACKENDS = [
+'social_core.backends.facebook.FacebookAppOAuth2',
+'social_core.backends.facebook.FacebookOAuth2',
+'rest_framework_social_oauth2.backends.DjangoOAuth2',
+'django.contrib.auth.backends.ModelBackend',
+]
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'

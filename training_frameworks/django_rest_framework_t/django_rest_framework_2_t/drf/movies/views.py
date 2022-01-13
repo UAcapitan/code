@@ -7,15 +7,14 @@ from django.contrib.auth.models import User
 from rest_framework.permissions import IsAdminUser
 from django_filters.rest_framework import DjangoFilterBackend
 from movies import service
-
-from django.http import JsonResponse
 from rest_framework import generics, permissions, status, views
 from requests.exceptions import HTTPError
- 
 from social_django.utils import load_strategy, load_backend
 from social_core.backends.oauth import BaseOAuth2
 from social_core.exceptions import MissingBackend, AuthTokenError, AuthForbidden
 from django.contrib.auth import login
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 
 class MovieCreateView(generics.CreateAPIView):
     serializer_class = serializers.MovieDetailedSerialize
@@ -70,6 +69,7 @@ class MovieListAllView(generics.ListAPIView):
     queryset = Movie.objects.all()
     filter_backends = (DjangoFilterBackend,)
     filterset_class = service.MovieAllFilter
+    
 
 class SocialLoginView(generics.GenericAPIView):
     """Log in using facebook"""
@@ -77,10 +77,9 @@ class SocialLoginView(generics.GenericAPIView):
     permission_classes = [permissions.AllowAny]
  
     def post(self, request):
-        """Authenticate user through the provider and access_token"""
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        provider = serializer.data.get('provider', None)
+        provider = 'facebook'
         strategy = load_strategy(request)
  
         try:
@@ -123,7 +122,11 @@ class SocialLoginView(generics.GenericAPIView):
             }, status=status.HTTP_400_BAD_REQUEST)
  
         if authenticated_user and authenticated_user.is_active:
-            #generate JWT token
             login(request, authenticated_user)
-            return Response(status=status.HTTP_200_OK)
+            token = Token.objects.get_or_create(user=user)[0]
+            response_data = {
+                'username': authenticated_user.username,
+                'token': str(token),
+            }
 
+            return Response(status=status.HTTP_200_OK, data=response_data)
