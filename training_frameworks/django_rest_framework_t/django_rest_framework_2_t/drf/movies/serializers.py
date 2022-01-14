@@ -58,9 +58,7 @@ class MovieListAllSerialize(serializers.ModelSerializer):
         fields = '__all__'
 
 class SocialSerializer(serializers.Serializer):
-    """
-    Serializer which accepts an OAuth2 access token and provider.
-    """
+    '''Serializer which accepts an OAuth2 access token and provider.'''
 
     access_token = serializers.CharField(max_length=4096, trim_whitespace=True,
     default=user_token.TOKEN)

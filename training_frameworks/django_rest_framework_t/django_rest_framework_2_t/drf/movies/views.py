@@ -67,9 +67,10 @@ class MovieListAllView(generics.ListAPIView):
     queryset = models.Movie.objects.all()
     filter_backends = (DjangoFilterBackend,)
     filterset_class = service.MovieAllFilter
+    pagination_class = service.PaginationMovies
 
 class SocialLoginView(generics.GenericAPIView):
-    """Log in using facebook"""
+    '''Log in using facebook'''
     serializer_class = serializers.SocialSerializer
     permission_classes = [permissions.AllowAny]
  
