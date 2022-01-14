@@ -1,5 +1,6 @@
 from django.urls import path
 from movies import views
+from movies import api
 
 urlpatterns = [
     path('movie/create/', views.MovieCreateView.as_view()),
@@ -16,5 +17,8 @@ urlpatterns = [
     path('users/all/', views.UserListView.as_view()),
     path('users/<int:pk>/', views.UserDetailView.as_view()),
 
-    path('oauth/login/', views.SocialLoginView.as_view()),
+    path('auth/oauth/login/', views.SocialLoginView.as_view()),
+
+    path('viewset/movie/all/', api.MovieViewSet.as_view({'get':'list'})),
+    path('viewset/movie/<int:pk>/', api.MovieViewSet.as_view({'get':'retrieve'})),
 ]

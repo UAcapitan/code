@@ -1,19 +1,17 @@
-from rest_framework import generics
+from rest_framework import generics, permissions, status
 from movies import serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from movies.models import Movie, Review, Genre
+from movies import models
 from django.contrib.auth.models import User
 from rest_framework.permissions import IsAdminUser
 from django_filters.rest_framework import DjangoFilterBackend
 from movies import service
-from rest_framework import generics, permissions, status, views
 from requests.exceptions import HTTPError
 from social_django.utils import load_strategy, load_backend
 from social_core.backends.oauth import BaseOAuth2
 from social_core.exceptions import MissingBackend, AuthTokenError, AuthForbidden
 from django.contrib.auth import login
-from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
 class MovieCreateView(generics.CreateAPIView):
@@ -28,13 +26,13 @@ class UserListView(APIView):
 
 class MovieListView(generics.ListAPIView):
     serializer_class = serializers.MovieListSerialize
-    queryset = Movie.objects.all()
+    queryset = models.Movie.objects.all()
     filter_backends = (DjangoFilterBackend,)
     filterset_class = service.MovieFilter
 
 class MovieDetailView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = serializers.MovieDetailSerializer
-    queryset = Movie.objects.all()
+    serializer_class = serializers.MovieDetailedSerialize
+    queryset = models.Movie.objects.all()
 
 class UserDetailView(generics.RetrieveAPIView):
     permission_classes = (IsAdminUser,)
@@ -50,7 +48,7 @@ class ReviewCreateView(APIView):
 
 class ReviewListView(generics.ListAPIView):
     serializer_class = serializers.ReviewListSerialize
-    queryset = Review.objects.all()
+    queryset = models.Review.objects.all()
     filter_backends = (DjangoFilterBackend,)
     filterset_class = service.ReviewFilter
 
@@ -59,17 +57,16 @@ class GenreCreateView(generics.CreateAPIView):
     serializer_class = serializers.GenreDetialSerializer
 
 class GenreListView(generics.ListAPIView):
-    queryset = Genre.objects.all()
+    queryset = models.Genre.objects.all()
     serializer_class = serializers.GenreListSeriliazer
 
 class MovieListAllView(generics.ListAPIView):
     '''Output all information about movies'''
 
     serializer_class = serializers.MovieListAllSerialize
-    queryset = Movie.objects.all()
+    queryset = models.Movie.objects.all()
     filter_backends = (DjangoFilterBackend,)
     filterset_class = service.MovieAllFilter
-    
 
 class SocialLoginView(generics.GenericAPIView):
     """Log in using facebook"""

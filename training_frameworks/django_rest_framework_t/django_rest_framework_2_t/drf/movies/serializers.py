@@ -15,11 +15,6 @@ class MovieListSerialize(serializers.ModelSerializer):
         model = Movie
         fields = ('id', 'name', 'text',)
 
-class MovieDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Movie
-        exclude = ('id', 'user')
-
 class UserListSerialize(serializers.ModelSerializer):
     class Meta:
         model = User
