@@ -8,7 +8,7 @@ def main():
 
 @app.route('/next')
 def another_page():
-    return 'Another page'
+    return render_template('another_page.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
