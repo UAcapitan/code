@@ -8,7 +8,9 @@ def main():
 
 @app.route('/next')
 def another_page():
-    return render_template('another_page.html')
+    with open('data/text.txt','r') as file:
+        text = file.read()
+    return render_template('another_page.html', text=text)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
