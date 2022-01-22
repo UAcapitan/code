@@ -17,9 +17,12 @@ class Game:
         self.clock = pg.time.Clock()
         self.work = True
 
+        self.plate_left = Plate(COLORS['white'], 30, 30)
+        self.plate_right = Plate(COLORS['black'], SIZE_ROOT['x']-40, 30)
+
         self.all_sprites = pg.sprite.Group()
-        self.all_sprites.add(Plate(COLORS['white'], 30, 30))
-        self.all_sprites.add(Plate(COLORS['black'], SIZE_ROOT['x']-40, 30))
+        self.all_sprites.add(self.plate_left)
+        self.all_sprites.add(self.plate_right)
 
         self.run()
 
@@ -30,7 +33,7 @@ class Game:
                 if event.type == pg.QUIT:
                     self.work = False
 
-            keys = pg.key.get_pressed()
+            self.check_keys()
 
             self.all_sprites.update()
 
@@ -46,6 +49,17 @@ class Game:
     def bgScreen(self):
         self.root.fill(COLORS['black'])
         pg.draw.rect(self.root, COLORS['white'], [SIZE_ROOT['x']/2, 0, SIZE_ROOT['x']/2, SIZE_ROOT['y']])
+
+    def check_keys(self):
+        keys = pg.key.get_pressed()
+        if keys[pg.K_w] and self.plate_left.rect.top >= 10:
+            self.plate_left.moveUp()
+        if keys[pg.K_s] and self.plate_left.rect.bottom <= SIZE_ROOT['y'] - 10:
+            self.plate_left.moveDown()
+        if keys[pg.K_UP] and self.plate_right.rect.top >= 10:
+            self.plate_right.moveUp()
+        if keys[pg.K_DOWN] and self.plate_right.rect.bottom <= SIZE_ROOT['y'] - 10:
+            self.plate_right.moveDown()
 
 class Plate(pg.sprite.Sprite):
     def __init__(self, color, x, y):
