@@ -18,6 +18,7 @@ SIZE_ROOT = {
 class Game:
     def __init__(self):
         pg.init()
+        pg.font.init()
         pg.display.set_caption('Plates and Ball')
         self.root = pg.display.set_mode((SIZE_ROOT['x'],SIZE_ROOT['y']))
         self.clock = pg.time.Clock()
@@ -31,6 +32,8 @@ class Game:
             'left': 0,
             'right': 0
         }
+
+        self.myfont = pg.font.SysFont('Comic Sans MS', 50)
 
         self.all_sprites = pg.sprite.Group()
         self.all_sprites.add(self.plate_left)
@@ -48,6 +51,10 @@ class Game:
 
                 self.checkKeys()
 
+                self.bgScreen()
+
+                self.pointsShow()
+
                 self.ball.move()
                 self.hitTheBall()
                 self.checkGoal()
@@ -55,7 +62,6 @@ class Game:
 
                 self.all_sprites.update()
 
-                self.bgScreen()
                 self.all_sprites.draw(self.root)
 
                 pg.display.flip()
@@ -90,14 +96,28 @@ class Game:
         if self.ball.rect.left <= 0:
             self.work = False
             self.addPoint('right')
-            self.ifGoal()
         if self.ball.rect.right >= SIZE_ROOT['x']:
             self.work = False
             self.addPoint('left')
+        if self.ball.rect.left <= 0 or self.ball.rect.right >= SIZE_ROOT['x']:
             self.ifGoal()
 
     def ifGoal(self):
-        time.sleep(5)
+        self.bgScreen()
+        self.myfont = pg.font.SysFont('Comic Sans MS', 120)
+        left = self.myfont.render(str(self.points['left']), False, COLORS['white'])
+        right = self.myfont.render(str(self.points['right']), False, COLORS['black'])
+        if self.points['left'] < 10:
+            self.root.blit(left,(SIZE_ROOT['x']/2-210,90))
+        else:
+            self.root.blit(left,(SIZE_ROOT['x']/2-230,90))
+        if self.points['right'] < 10:
+            self.root.blit(right,(SIZE_ROOT['x']/2+150,90))
+        else:
+            self.root.blit(right,(SIZE_ROOT['x']/2+130,90))
+        pg.display.flip()
+        self.myfont = pg.font.SysFont('Comic Sans MS', 50)
+        time.sleep(1)
         self.ball.rect.x = SIZE_ROOT['x']/2-20
         self.ball.rect.y = random.randint(20, SIZE_ROOT['y']-20)
         self.ball.setDirection(random.randint(0,1),random.randint(0,1))
@@ -106,13 +126,32 @@ class Game:
     def addPoint(self, p):
         self.points[p] += 1
         self.win()
-        print(self.points)
 
     def win(self):
+        if self.points['left'] == 15 or self.points['right'] == 15:
+            self.bgScreen()
+            pg.display.flip()
         if self.points['left'] == 15:
-            pass
+            left = self.myfont.render('Left', False, COLORS['white'])
+            win = self.myfont.render('win!', False, COLORS['black'])
+            self.root.blit(left,(125,120))
+            self.root.blit(win,(SIZE_ROOT['x']/2+135,190))
+            pg.display.flip()
         if self.points['right'] == 15:
-            pass
+            right = self.myfont.render('Right', False, COLORS['black'])
+            win = self.myfont.render('win!', False, COLORS['white'])
+            self.root.blit(right,(SIZE_ROOT['x']/2+120,120))
+            self.root.blit(win,(130,190))
+            pg.display.flip()
+        if self.points['left'] == 15 or self.points['right'] == 15:
+            time.sleep(5)
+            sys.exit()
+
+    def pointsShow(self):
+        left = self.myfont.render(str(self.points['left']), False, COLORS['white'])
+        right = self.myfont.render(str(self.points['right']), False, COLORS['black'])
+        self.root.blit(left,(SIZE_ROOT['x']/2-60,10))
+        self.root.blit(right,(SIZE_ROOT['x']/2+30,10))
 
 
 class Plate(pg.sprite.Sprite):
