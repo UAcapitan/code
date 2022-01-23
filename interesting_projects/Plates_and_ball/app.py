@@ -1,5 +1,8 @@
-from turtle import right
 import pygame as pg
+import random
+import time
+import sys
+
 
 COLORS = {
     'white': (255,255,255),
@@ -11,6 +14,7 @@ SIZE_ROOT = {
     'y':400
 }
 
+
 class Game:
     def __init__(self):
         pg.init()
@@ -19,9 +23,14 @@ class Game:
         self.clock = pg.time.Clock()
         self.work = True
 
-        self.plate_left = Plate(COLORS['white'], 30, 30)
-        self.plate_right = Plate(COLORS['black'], SIZE_ROOT['x']-40, 30)
+        self.plate_left = Plate(COLORS['white'], 10, 30)
+        self.plate_right = Plate(COLORS['black'], SIZE_ROOT['x']-20, 30)
         self.ball = Ball(SIZE_ROOT['x']/2-20, SIZE_ROOT['y']/2-10, COLORS['white'])
+
+        self.points = {
+            'left': 0,
+            'right': 0
+        }
 
         self.all_sprites = pg.sprite.Group()
         self.all_sprites.add(self.plate_left)
@@ -31,34 +40,33 @@ class Game:
         self.run()
 
     def run(self):
-        while self.work:
+        while True:
+            if self.work:
+                for event in pg.event.get():
+                    if event.type == pg.QUIT:
+                        sys.exit()
 
-            for event in pg.event.get():
-                if event.type == pg.QUIT:
-                    self.work = False
+                self.checkKeys()
 
-            self.check_keys()
+                self.ball.move()
+                self.hitTheBall()
+                self.checkGoal()
+                self.ball.draw()
 
-            self.ball.move()
+                self.all_sprites.update()
 
-            self.ball.draw()
+                self.bgScreen()
+                self.all_sprites.draw(self.root)
 
-            self.all_sprites.update()
+                pg.display.flip()
 
-            self.bgScreen()
-            self.all_sprites.draw(self.root)
-            pg.display.flip()
-
-            self.clock.tick(60)
-
-
-        pg.quit()
+                self.clock.tick(60)
 
     def bgScreen(self):
         self.root.fill(COLORS['black'])
         pg.draw.rect(self.root, COLORS['white'], [SIZE_ROOT['x']/2, 0, SIZE_ROOT['x']/2, SIZE_ROOT['y']])
 
-    def check_keys(self):
+    def checkKeys(self):
         keys = pg.key.get_pressed()
         if keys[pg.K_w] and self.plate_left.rect.top >= 10:
             self.plate_left.moveUp()
@@ -69,15 +77,53 @@ class Game:
         if keys[pg.K_DOWN] and self.plate_right.rect.bottom <= SIZE_ROOT['y'] - 10:
             self.plate_right.moveDown()
 
+    def hitTheBall(self):
+        if self.plate_left.rect.left >= self.ball.rect.left <= self.plate_left.rect.right:
+            if self.plate_left.rect.top <= self.ball.rect.center[1] <= self.plate_left.rect.bottom:
+                self.ball.setDirection(1, self.ball.direction_y)
+
+        if self.plate_right.rect.left <= self.ball.rect.right >= self.plate_right.rect.right:
+            if self.plate_right.rect.top <= self.ball.rect.center[1] <= self.plate_right.rect.bottom:
+                self.ball.setDirection(0, self.ball.direction_y)
+
+    def checkGoal(self):
+        if self.ball.rect.left <= 0:
+            self.work = False
+            self.addPoint('right')
+            self.ifGoal()
+        if self.ball.rect.right >= SIZE_ROOT['x']:
+            self.work = False
+            self.addPoint('left')
+            self.ifGoal()
+
+    def ifGoal(self):
+        time.sleep(5)
+        self.ball.rect.x = SIZE_ROOT['x']/2-20
+        self.ball.rect.y = random.randint(20, SIZE_ROOT['y']-20)
+        self.ball.setDirection(random.randint(0,1),random.randint(0,1))
+        self.work = True
+        
+    def addPoint(self, p):
+        self.points[p] += 1
+        self.win()
+        print(self.points)
+
+    def win(self):
+        if self.points['left'] == 15:
+            pass
+        if self.points['right'] == 15:
+            pass
+
+
 class Plate(pg.sprite.Sprite):
     def __init__(self, color, x, y):
 
         super().__init__()
 
-        self.image = pg.Surface((10,50))
+        self.image = pg.Surface((10,70))
         self.image.fill(color)
 
-        pg.draw.rect(self.image, color, [0,0,10,50])
+        self.draw(color)
 
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -88,6 +134,10 @@ class Plate(pg.sprite.Sprite):
 
     def moveDown(self):
         self.rect.y += 10
+
+    def draw(self, color):
+        pg.draw.rect(self.image, color, [0,0,10,50])
+
 
 class Ball(pg.sprite.Sprite):
     def __init__(self, x, y, color):
@@ -101,18 +151,18 @@ class Ball(pg.sprite.Sprite):
         # Directions
         # 0 - Left, Down
         # 1 - Right, Up
-        self.setDirection(1,1)
+        self.setDirection(random.randint(0,1),random.randint(0,1))
 
         self.rect = self.image.get_rect()
         self.rect.x = x
-        self.rect.y = y
+        self.rect.y = random.randint(20, SIZE_ROOT['y']-20)
 
     def setDirection(self, x, y):
         self.direction_x = x
         self.direction_y = y
 
     def move(self):
-        self.check_direction()
+        self.checkDirection()
         if self.direction_x == 0:
             self.rect.x -= 3
         if self.direction_y == 0:
@@ -121,19 +171,15 @@ class Ball(pg.sprite.Sprite):
             self.rect.x += 3
         if self.direction_y == 1:
             self.rect.y -= 3
-        self.change_color()
+        self.changeColor()
 
-    def check_direction(self):
+    def checkDirection(self):
         if self.rect.top <= 3:
             self.setDirection(self.direction_x, 0)
         if self.rect.bottom >= SIZE_ROOT['y'] - 3:
             self.setDirection(self.direction_x, 1)
-        if self.rect.left <= 3:
-            self.setDirection(1, self.direction_y)
-        if self.rect.right >= SIZE_ROOT['x'] - 3:
-            self.setDirection(0, self.direction_y)
 
-    def change_color(self):
+    def changeColor(self):
         if self.rect.center[0] < SIZE_ROOT['x']/2:
             self.color = COLORS['white']
         else:
