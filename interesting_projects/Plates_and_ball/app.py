@@ -45,10 +45,13 @@ class Game:
 
     def run(self):
         while True:
-            if self.work:
-                for event in pg.event.get():
+            for event in pg.event.get():
                     if event.type == pg.QUIT:
                         sys.exit()
+                    if event.type == pg.KEYDOWN:
+                        if event.key == pg.K_p:
+                            self.pause()
+            if self.work:
 
                 self.checkKeys()
 
@@ -176,6 +179,21 @@ class Game:
             self.root.blit(right,(SIZE_ROOT['x']/2+150,90))
         else:
             self.root.blit(right,(SIZE_ROOT['x']/2+130,90))
+        pg.display.flip()
+
+    def pause(self):
+        if self.work:
+            self.pauseText()
+            self.work = False
+        else:
+            self.work = True
+
+    def pauseText(self):
+        self.bgScreen()
+        text_1 = self.myfont.render('Pause', False, COLORS['white'])
+        self.root.blit(text_1,(SIZE_ROOT['x']/2-250,150))
+        text_2 = self.myfont.render('Pause', False, COLORS['black'])
+        self.root.blit(text_2,(SIZE_ROOT['x']/2+120,150))
         pg.display.flip()
 
 
