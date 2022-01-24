@@ -23,8 +23,7 @@ class Game:
         self.root = pg.display.set_mode((SIZE_ROOT['x'],SIZE_ROOT['y']))
         self.clock = pg.time.Clock()
         self.work = True
-        self.speed = 3
-        self.hits = 0
+        self.setSpeedAndHits()
 
         self.plate_left = Plate(COLORS['white'], 10, 30)
         self.plate_right = Plate(COLORS['black'], SIZE_ROOT['x']-20, 30)
@@ -89,10 +88,12 @@ class Game:
         if self.plate_left.rect.left >= self.ball.rect.left <= self.plate_left.rect.right:
             if self.plate_left.rect.top <= self.ball.rect.center[1] <= self.plate_left.rect.bottom:
                 self.ball.setDirection(1, self.ball.direction_y)
+                self.addHits()
 
         if self.plate_right.rect.left <= self.ball.rect.right >= self.plate_right.rect.right:
             if self.plate_right.rect.top <= self.ball.rect.center[1] <= self.plate_right.rect.bottom:
                 self.ball.setDirection(0, self.ball.direction_y)
+                self.addHits()
 
     def checkGoal(self):
         if self.ball.rect.left <= 0:
@@ -105,19 +106,8 @@ class Game:
             self.ifGoal()
 
     def ifGoal(self):
-        self.bgScreen()
-        self.myfont = pg.font.SysFont('Comic Sans MS', 120)
-        left = self.myfont.render(str(self.points['left']), False, COLORS['white'])
-        right = self.myfont.render(str(self.points['right']), False, COLORS['black'])
-        if self.points['left'] < 10:
-            self.root.blit(left,(SIZE_ROOT['x']/2-210,90))
-        else:
-            self.root.blit(left,(SIZE_ROOT['x']/2-230,90))
-        if self.points['right'] < 10:
-            self.root.blit(right,(SIZE_ROOT['x']/2+150,90))
-        else:
-            self.root.blit(right,(SIZE_ROOT['x']/2+130,90))
-        pg.display.flip()
+        self.setSpeedAndHits()
+        self.showRoundScore()
         self.myfont = pg.font.SysFont('Comic Sans MS', 50)
         time.sleep(1)
         self.ball.rect.x = SIZE_ROOT['x']/2-20
@@ -155,8 +145,38 @@ class Game:
         self.root.blit(left,(SIZE_ROOT['x']/2-60,10))
         self.root.blit(right,(SIZE_ROOT['x']/2+30,10))
 
-    def add_speed(self):
+    def addSpeed(self):
         self.speed += 1
+
+    def addHits(self):
+        self.hits += 1
+        if self.hits == 10:
+            self.addSpeed()
+        if self.hits == 20:
+            self.addSpeed()
+        if self.hits == 30:
+            self.addSpeed()
+        if self.hits == 50:
+            self.addSpeed()
+        
+    def setSpeedAndHits(self):
+        self.speed = 3
+        self.hits = 0
+
+    def showRoundScore(self):
+        self.bgScreen()
+        self.myfont = pg.font.SysFont('Comic Sans MS', 120)
+        left = self.myfont.render(str(self.points['left']), False, COLORS['white'])
+        right = self.myfont.render(str(self.points['right']), False, COLORS['black'])
+        if self.points['left'] < 10:
+            self.root.blit(left,(SIZE_ROOT['x']/2-210,90))
+        else:
+            self.root.blit(left,(SIZE_ROOT['x']/2-230,90))
+        if self.points['right'] < 10:
+            self.root.blit(right,(SIZE_ROOT['x']/2+150,90))
+        else:
+            self.root.blit(right,(SIZE_ROOT['x']/2+130,90))
+        pg.display.flip()
 
 
 class Plate(pg.sprite.Sprite):
