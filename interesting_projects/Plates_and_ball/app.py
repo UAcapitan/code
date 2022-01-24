@@ -23,6 +23,8 @@ class Game:
         self.root = pg.display.set_mode((SIZE_ROOT['x'],SIZE_ROOT['y']))
         self.clock = pg.time.Clock()
         self.work = True
+        self.speed = 3
+        self.hits = 0
 
         self.plate_left = Plate(COLORS['white'], 10, 30)
         self.plate_right = Plate(COLORS['black'], SIZE_ROOT['x']-20, 30)
@@ -55,7 +57,7 @@ class Game:
 
                 self.pointsShow()
 
-                self.ball.move()
+                self.ball.move(self.speed)
                 self.hitTheBall()
                 self.checkGoal()
                 self.ball.draw()
@@ -153,6 +155,9 @@ class Game:
         self.root.blit(left,(SIZE_ROOT['x']/2-60,10))
         self.root.blit(right,(SIZE_ROOT['x']/2+30,10))
 
+    def add_speed(self):
+        self.speed += 1
+
 
 class Plate(pg.sprite.Sprite):
     def __init__(self, color, x, y):
@@ -200,16 +205,16 @@ class Ball(pg.sprite.Sprite):
         self.direction_x = x
         self.direction_y = y
 
-    def move(self):
+    def move(self, speed):
         self.checkDirection()
         if self.direction_x == 0:
-            self.rect.x -= 3
+            self.rect.x -= speed
         if self.direction_y == 0:
-            self.rect.y += 3
+            self.rect.y += speed
         if self.direction_x == 1:
-            self.rect.x += 3
+            self.rect.x += speed
         if self.direction_y == 1:
-            self.rect.y -= 3
+            self.rect.y -= speed
         self.changeColor()
 
     def checkDirection(self):
