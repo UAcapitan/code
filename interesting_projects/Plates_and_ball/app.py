@@ -25,9 +25,12 @@ class Game:
         self.work = True
         self.setSpeedAndHits()
 
+        self.sound_hit = pg.mixer.Sound('sounds/Blip_Select.ogg')
+        self.sound_hit_border = pg.mixer.Sound('sounds/Blip_Select5.ogg')
+
         self.plate_left = Plate(COLORS['white'], 10, 30)
         self.plate_right = Plate(COLORS['black'], SIZE_ROOT['x']-20, 30)
-        self.ball = Ball(SIZE_ROOT['x']/2-20, SIZE_ROOT['y']/2-10, COLORS['white'])
+        self.ball = Ball(SIZE_ROOT['x']/2-20, SIZE_ROOT['y']/2-10, COLORS['white'], self.sound_hit_border)
 
         self.points = {
             'left': 0,
@@ -152,6 +155,7 @@ class Game:
         self.speed += 1
 
     def addHits(self):
+        self.sound_hit.play()
         self.hits += 1
         if self.hits == 10:
             self.addSpeed()
@@ -222,13 +226,15 @@ class Plate(pg.sprite.Sprite):
 
 
 class Ball(pg.sprite.Sprite):
-    def __init__(self, x, y, color):
+    def __init__(self, x, y, color, sound_1):
 
         super().__init__()
 
         self.image = pg.Surface((20,20), pg.SRCALPHA, 32)
 
         self.color = color
+
+        self.sound_hit_border = sound_1
 
         # Directions
         # 0 - Left, Down
@@ -257,8 +263,10 @@ class Ball(pg.sprite.Sprite):
 
     def checkDirection(self):
         if self.rect.top <= 3:
+            self.sound_hit_border.play()
             self.setDirection(self.direction_x, 0)
         if self.rect.bottom >= SIZE_ROOT['y'] - 3:
+            self.sound_hit_border.play()
             self.setDirection(self.direction_x, 1)
 
     def changeColor(self):
