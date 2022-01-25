@@ -23,10 +23,13 @@ class Game:
         self.root = pg.display.set_mode((SIZE_ROOT['x'],SIZE_ROOT['y']))
         self.clock = pg.time.Clock()
         self.work = True
+        self.game_run = True
         self.setSpeedAndHits()
 
         self.sound_hit = pg.mixer.Sound('sounds/Blip_Select.ogg')
         self.sound_hit_border = pg.mixer.Sound('sounds/Blip_Select5.ogg')
+        self.sound_goal = pg.mixer.Sound('sounds/Blip_Select12.ogg')
+        self.sound_win = pg.mixer.Sound('sounds/Blip_Select15.ogg')
 
         self.plate_left = Plate(COLORS['white'], 10, 30)
         self.plate_right = Plate(COLORS['black'], SIZE_ROOT['x']-20, 30)
@@ -112,6 +115,7 @@ class Game:
             self.ifGoal()
 
     def ifGoal(self):
+        self.sound_goal.play()
         self.setSpeedAndHits()
         self.showRoundScore()
         self.myfont = pg.font.SysFont('Comic Sans MS', 50)
@@ -127,6 +131,7 @@ class Game:
 
     def win(self):
         if self.points['left'] == 15 or self.points['right'] == 15:
+            self.sound_win.play()
             self.bgScreen()
             pg.display.flip()
         if self.points['left'] == 15:
@@ -143,7 +148,7 @@ class Game:
             pg.display.flip()
         if self.points['left'] == 15 or self.points['right'] == 15:
             time.sleep(5)
-            sys.exit()
+            self.game_run = False
 
     def pointsShow(self):
         left = self.myfont.render(str(self.points['left']), False, COLORS['white'])
