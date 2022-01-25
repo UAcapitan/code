@@ -30,6 +30,44 @@ class Game:
         pg.display.set_caption('Plates and Ball')
         self.root = pg.display.set_mode((SIZE_ROOT['x'],SIZE_ROOT['y']))
         self.clock = pg.time.Clock()
+        self.start()
+
+        self.run()
+
+    def run(self):
+        while True:
+            for event in pg.event.get():
+                    if event.type == pg.QUIT:
+                        sys.exit()
+                    if event.type == pg.KEYDOWN:
+                        if event.key == pg.K_p:
+                            self.pause()
+                        if event.key == pg.K_SPACE and self.game_run == False:
+                            self.start()
+                            self.game_run = True
+            if self.game_run:
+                if self.work:
+
+                    self.checkKeys()
+
+                    self.bgScreen()
+
+                    self.pointsShow()
+
+                    self.ball.move(self.speed)
+                    self.hitTheBall()
+                    self.checkGoal()
+                    self.ball.draw()
+
+                    self.all_sprites.update()
+
+                    self.all_sprites.draw(self.root)
+
+                    pg.display.flip()
+
+                    self.clock.tick(60)
+
+    def start(self):
         self.work = True
         self.game_run = True
         self.setSpeedAndHits()
@@ -49,37 +87,6 @@ class Game:
         self.all_sprites.add(self.plate_left)
         self.all_sprites.add(self.plate_right)
         self.all_sprites.add(self.ball)
-
-        self.run()
-
-    def run(self):
-        while True:
-            for event in pg.event.get():
-                    if event.type == pg.QUIT:
-                        sys.exit()
-                    if event.type == pg.KEYDOWN:
-                        if event.key == pg.K_p:
-                            self.pause()
-            if self.work:
-
-                self.checkKeys()
-
-                self.bgScreen()
-
-                self.pointsShow()
-
-                self.ball.move(self.speed)
-                self.hitTheBall()
-                self.checkGoal()
-                self.ball.draw()
-
-                self.all_sprites.update()
-
-                self.all_sprites.draw(self.root)
-
-                pg.display.flip()
-
-                self.clock.tick(60)
 
     def bgScreen(self):
         self.root.fill(COLORS['black'])
