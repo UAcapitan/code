@@ -5,6 +5,7 @@
 {% block content %}
     <h3>Main page</h3>
 
+    <!-- Block of articles -->
     <div class='container'>
         {% for article in articles %}
             <a href="{% url 'article' article.id %}" class="text-decoration-none text-dark">
@@ -16,7 +17,10 @@
             </a>
             <br>
         {% endfor %}
+        <p><a href="{% url 'list_of_articles' %}">Articles</a></p>
+        <br>
     </div>
+
     <div class="pagination">
         <p><span class="step-links">
             {% if page_obj.has_previous %}
@@ -27,7 +31,6 @@
                 <a href="?page={{ page_obj.next_page_number }}">Next</a>
             {% endif %}
         </span></p>
-
         <p>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</p>
     </div>
 
@@ -37,7 +40,5 @@
         <a href="{% url 'recommendation' %}">Recommendation</a>
         <br>
         <a href="{% url 'rate' %}">Rate</a>
-        <br>
-        <a href="{% url 'list_of_articles' %}">Articles</a>
     </div>
 {% endblock %}

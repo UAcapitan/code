@@ -1,9 +1,7 @@
-from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from . import forms
-from django.contrib.auth.forms import AuthenticationForm
 from . import models
 from django.core.paginator import Paginator
 
@@ -55,7 +53,8 @@ def logout_view(request):
     return redirect("main")
 
 def profile(request):
-    return render(request, 'appmain/profile.html')
+    token = ''
+    return render(request, 'appmain/profile.html', {'token':token})
 
 def article(request, id):
     article = models.Article.objects.filter(id=id)

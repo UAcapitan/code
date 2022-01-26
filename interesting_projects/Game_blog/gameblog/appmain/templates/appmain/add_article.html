@@ -3,15 +3,27 @@
 {% block title %}Add article{% endblock %}
 
 {% block content %}
-    <h3>Add new article</h3>
+    <br>
+    <div class='d-flex justify-content-center'>
+        <h3>Add new article</h3>
+    </div>
+    <br>
     <form method='POST'>
         {% csrf_token %}
-        {{ form.title }}
-        <br><br>
-        {{ form.text }}
-        <br><br>
-        {{ form.date_of_save }}
-        <br><br>
-        <input type="submit" value="Add new article">
+        <div class='d-flex justify-content-center'>
+            {{ form.title }}
+        </div>
+        <br>
+        <div class='d-flex justify-content-center'>
+            {{ form.text }}
+        </div>
+        <br>
+        <div class='d-flex justify-content-center'>
+            {{ form.date_of_save }}
+        </div>
+        <br>
+        <div class='d-flex justify-content-center'>
+            <input type="submit" class='btn btn-success' value="Add new article">
+        </div>
     </form>
 {% endblock %}

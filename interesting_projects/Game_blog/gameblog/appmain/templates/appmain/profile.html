@@ -10,5 +10,12 @@
         <p>Root: {{ user.is_staff }}</p>
         <p>Last login: {{ user.last_login }}</p>
         <p>Date joined: {{ user.date_joined }}</p>
+        <p>Token: 
+            {% if token %}
+                {{ token }}
+            {% else %}
+                None
+            {% endif %}
+        </p>
     {% endif %}
 {% endblock %}
