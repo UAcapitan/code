@@ -59,9 +59,9 @@ class Game:
                     self.checkGoal()
                     self.ball.draw()
 
-                    self.all_sprites.update()
-
-                    self.all_sprites.draw(self.root)
+                    if self.points['left'] < 15 and self.points['right'] < 15:
+                        self.all_sprites.update()
+                        self.all_sprites.draw(self.root)
 
                     pg.display.flip()
 
@@ -157,8 +157,8 @@ class Game:
             self.root.blit(win,(130,190))
             pg.display.flip()
         if self.points['left'] == 15 or self.points['right'] == 15:
-            time.sleep(1)
             self.game_run = False
+            time.sleep(5)
 
     def pointsShow(self):
         left = self.myfont.render(str(self.points['left']), False, COLORS['white'])
