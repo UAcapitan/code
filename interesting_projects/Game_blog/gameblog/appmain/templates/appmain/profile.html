@@ -4,6 +4,7 @@
 
 {% block content %}
     <h3>Profile</h3>
+    <br>
     {% if user.is_authenticated %}
         <p>Login: {{ user.get_username }}</p>
         <p>Email: {{ user.email }}</p>
