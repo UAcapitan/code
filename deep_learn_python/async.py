@@ -1,7 +1,10 @@
 import socket
-import selectors
+from select import select
 
-selector = selectors.DefaultSelector()
+tasks = []
+
+to_read = {}
+to_write = {}
 
 def server():
     socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -9,31 +12,51 @@ def server():
     socket_server.bind(('localhost',5000))
     socket_server.listen()
 
-    selector.register(fileobj=socket_server, events=selectors.EVENT_READ, data=accept_connection)
+    while True:
+        yield ('read', socket_server)
+        socket_client, addr = socket_server.accept()
+        print('Connection from', addr)
+        tasks.append(client(socket_client))
 
-def accept_connection(socket_server):
-    socket_client, addr = socket_server.accept()
-    print('Connection from', addr)
-    selector.register(fileobj=socket_client, events=selectors.EVENT_READ, data=send_message)
+def client(socket_client):
+    while True:
+        yield ('read', socket_client)
+        request = socket_client.recv(4096)
 
-def send_message(socket_client):
-    request = socket_client.recv(4096)
+        if not request:
+            break
+        else:
+            response = 'Hello, world\n'.encode()
 
-    if request:
-        response = 'Hello, world\n'.encode()
-        socket_client.send(response)
-    else:
-        print('Remove one connection')
-        selector.unregister(socket_client)
-        socket_client.close()
+            yield ('write', socket_client)
+            socket_client.send(response)
+    
+    socket_client.close()
 
 def event_loop():
-    while True:
-        events = selector.select()
-        for key, _ in events:
-            callback = key.data
-            callback(key.fileobj)
+    while any([tasks, to_read, to_write]):
+        while not tasks:
+            ready_to_read, ready_to_write, _ = select(to_read, to_write, [])
+
+            for sock in ready_to_read:
+                tasks.append(to_read.pop(sock))
+
+            for sock in ready_to_write:
+                tasks.append(to_write.pop(sock))
+        
+        try:
+            task = tasks.pop(0)
+
+            reason, sock = next(task)
+
+            if reason == 'read':
+                to_read[sock] = task
+            if reason == 'write':
+                to_write[sock] = task
+        except:
+            pass
+
 
 if __name__ == '__main__':
-    server()
+    tasks.append(server())
     event_loop()
