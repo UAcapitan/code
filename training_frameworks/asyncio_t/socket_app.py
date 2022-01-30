@@ -3,12 +3,13 @@ import asyncio
 
 async def accept_connection(socket_server):
     print('Server is listening')
-    loop = asyncio.get_event_loop()
+    loop = asyncio.get_running_loop()
     global clients
     while True:
         socket_client, addr = socket_server.accept()
         print('Connection from', addr)
         loop.create_task(send_message(socket_client))
+        print('Task was created')
         
 
 async def send_message(socket_client):
