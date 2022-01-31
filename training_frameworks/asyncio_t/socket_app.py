@@ -1,10 +1,14 @@
 import socket
 import asyncio
 
+socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+socket_server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+socket_server.bind(('localhost',5000))
+socket_server.listen()
+
 async def accept_connection(socket_server):
     print('Server is listening')
     loop = asyncio.get_event_loop()
-    global clients
     while True:
         socket_client, addr = socket_server.accept()
         print('Connection from', addr)
@@ -19,7 +23,7 @@ async def send_message(socket_client):
         if not request:
             print('Client is closed')
             socket_client.close()
-        else:
+        else: 
             socket_client.send('Hello, world\n'.encode())
         print('End read request')
 
