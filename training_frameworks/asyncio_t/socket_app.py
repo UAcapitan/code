@@ -1,4 +1,5 @@
 import socket
+import asyncio
 
 class Socket:
     def __init__(self):
@@ -6,15 +7,18 @@ class Socket:
             socket.AF_INET,
             socket.SOCK_STREAM
         )
+        self.socket.listen(5)
+        self.loop = asyncio.get_event_loop()
 
-    def send_data(self, data):
+    async def send_data(self, data):
         raise NotImplementedError()
 
-    def listen_socket(self, listened_socket=None):
+    async def listen_socket(self, listened_socket=None):
         raise NotImplementedError()
 
     def set_up(self):
-        raise NotImplementedError()
+        self.socket.bind(('localhost', 5000))
+        self.socket.setblocking(False)
 
 if __name__ == '__main__':
     pass
