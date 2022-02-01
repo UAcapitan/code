@@ -3,18 +3,17 @@ import asyncio
 
 class EchoServerProtocol(asyncio.Protocol):
     def connection_made(self, transport):
-        peername = transport.get_extra_info('peername')
-        print('Connection from {}'.format(peername))
+        self.peername = transport.get_extra_info('peername')
+        print('Connection from {}'.format(self.peername))
         self.transport = transport
 
     def data_received(self, data):
         message = data.decode()
-        print('Data received: {!r}'.format(message))
+        print('Data received: {!r}'.format(message.replace('\n', '')))
+        self.transport.write(str.encode('Thank you for your data!\n'))
 
-        print('Send: {!r}'.format(message))
-        self.transport.write(data)
-
-        print('Close the client socket')
+    def connection_lost(self, exc):
+        print('Close the client socket:', self.peername)
         self.transport.close()
 
 
@@ -23,7 +22,7 @@ async def main():
 
     server = await loop.create_server(
         lambda: EchoServerProtocol(),
-        '127.0.0.1', 8888)
+        'localhost', 5000)
 
     async with server:
         await server.serve_forever()
