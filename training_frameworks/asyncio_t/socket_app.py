@@ -7,25 +7,24 @@ async def accept_connection(socket_server):
         loop = asyncio.get_event_loop()
         socket_client, addr = await loop.sock_accept(socket_server)
         print('Connection from', addr)
-        loop.create_task(send_message(socket_client))
+        asyncio.create_task(send_message(socket_client))
         print('Added')
         await asyncio.sleep(1/1000)
 
 
 async def send_message(socket_client):
-    while True:
-        print('Read')
-        loop = asyncio.get_event_loop()
-        request = await loop.sock_recv(socket_client, 4096)
+    print('Read')
+    loop = asyncio.get_event_loop()
+    request = await loop.sock_recv(socket_client, 4096)
 
-        if not request:
-            print('Client is closed')
-            socket_client.close()
-        else: 
-            await loop.sock_sendall(socket_client, 'Hello, world\n'.encode())
-        print('End read request')
+    if not request:
+        print('Client is closed')
         socket_client.close()
-        await asyncio.sleep(1)
+    else: 
+        await loop.sock_sendall(socket_client, 'Hello, world\n'.encode())
+    print('End read request')
+    socket_client.close()
+    await asyncio.sleep(1/1000)
 
 async def main():
     print('Start')
@@ -36,8 +35,8 @@ async def main():
     print('Server is created')
 
     task = asyncio.create_task(accept_connection(socket_server))
-    # asyncio.gather(task)
-    await task
+    asyncio.gather(task)
+    # await task
 
 if __name__ == '__main__':
     asyncio.run(main())
