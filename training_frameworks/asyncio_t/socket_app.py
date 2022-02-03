@@ -32,7 +32,10 @@ async def send_message(socket_client):
         if not request:
             break
         else:
-            await loop.sock_sendall(socket_client, b'Hello, world\n')
+            try:
+                await loop.sock_sendall(socket_client, b'Hello, world\n')
+            except:
+                break
             print('End read request')
     socket_client.close()
     users -= 1
