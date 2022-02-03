@@ -2,6 +2,7 @@ import socket
 import asyncio
 
 users = 0
+code = []
 
 async def accept_connection(socket_server):
     global users
@@ -33,7 +34,20 @@ async def send_message(socket_client):
             break
         else:
             try:
-                await loop.sock_sendall(socket_client, b'Hello, world\n')
+                print(request)
+                if request == b'/code':
+                    await loop.sock_sendall(socket_client, b'Coding mode starting...')
+                    await asyncio.sleep(1)
+                    await loop.sock_sendall(socket_client, b'... installing package ...')
+                    await asyncio.sleep(5)
+                    await loop.sock_sendall(socket_client, b'... initialization user data ...')
+                    await asyncio.sleep(2)
+                    await loop.sock_sendall(socket_client, b'... open virtual machine ...')
+                    await asyncio.sleep(3)
+                    await loop.sock_sendall(socket_client, b'... Coding mode started')
+                    await asyncio.sleep(3)
+                else:
+                    await loop.sock_sendall(socket_client, b'Hello, world\n')
             except:
                 break
             print('End read request')
