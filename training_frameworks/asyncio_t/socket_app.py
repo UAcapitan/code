@@ -1,28 +1,46 @@
 import socket
 import asyncio
 
+users = 0
+
 async def accept_connection(socket_server):
+    global users
     print('Server is listening')
     loop = asyncio.get_event_loop()
+    loop.create_task(show_count_of_users())
     while True:
         socket_client, addr = await loop.sock_accept(socket_server)
         print('Connection from', addr)
+        users += 1
         loop.create_task(send_message(socket_client))
         print('Added')
 
 
 async def send_message(socket_client):
     loop = asyncio.get_event_loop()
+    global users
     while True:
         print('Read')
         print('Before sock recv')
-        request = await loop.sock_recv(socket_client, 4096)
+        request = loop.sock_recv(socket_client, 4096)
+        try:
+            await asyncio.wait_for(request, timeout=60.0)
+        except asyncio.TimeoutError:
+            await loop.sock_sendall(socket_client, b'Connection was closed\n')
+            break
         print('After sock recv')
         if not request:
-            socket_client.close()
+            break
         else:
-            await loop.sock_sendall(socket_client, 'Hello, world\n'.encode())
+            await loop.sock_sendall(socket_client, b'Hello, world\n')
             print('End read request')
+    socket_client.close()
+    users -= 1
+
+async def show_count_of_users():
+    while True:
+        print(f'Users right now: {str(users)}')
+        await asyncio.sleep(5)
 
 async def main():
     print('Start')
@@ -34,6 +52,8 @@ async def main():
     print('Server is created')
 
     await accept_connection(socket_server)
+    asyncio.get_event_loop().close()
+    print('Close')
 
 if __name__ == '__main__':
     asyncio.run(main())
