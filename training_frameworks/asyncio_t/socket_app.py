@@ -2,10 +2,11 @@ import socket
 import asyncio
 
 users = 0
-code = []
+logs = []
 
 async def accept_connection(socket_server):
     global users
+    global logs
     print('Server is listening')
     loop = asyncio.get_event_loop()
     loop.create_task(show_count_of_users())
@@ -13,13 +14,15 @@ async def accept_connection(socket_server):
         socket_client, addr = await loop.sock_accept(socket_server)
         print('Connection from', addr)
         users += 1
-        loop.create_task(send_message(socket_client))
+        logs.append(f'Connection from {socket_client} - {addr}')
+        await add_client(socket_client)
         print('Added')
 
 
 async def send_message(socket_client):
     loop = asyncio.get_event_loop()
     global users
+    global logs
     while True:
         print('Read')
         print('Before sock recv')
@@ -30,29 +33,19 @@ async def send_message(socket_client):
             await loop.sock_sendall(socket_client, b'Connection was closed\n')
             break
         print('After sock recv')
-        if not request:
+        try:
+            print(str(request))
+
+            await loop.sock_sendall(socket_client, b'Hello, world\n')
+        except:
             break
-        else:
-            try:
-                print(request)
-                if request == b'/code':
-                    await loop.sock_sendall(socket_client, b'Coding mode starting...')
-                    await asyncio.sleep(1)
-                    await loop.sock_sendall(socket_client, b'... installing package ...')
-                    await asyncio.sleep(5)
-                    await loop.sock_sendall(socket_client, b'... initialization user data ...')
-                    await asyncio.sleep(2)
-                    await loop.sock_sendall(socket_client, b'... open virtual machine ...')
-                    await asyncio.sleep(3)
-                    await loop.sock_sendall(socket_client, b'... Coding mode started')
-                    await asyncio.sleep(3)
-                else:
-                    await loop.sock_sendall(socket_client, b'Hello, world\n')
-            except:
-                break
-            print('End read request')
+        print('End read request')
     socket_client.close()
     users -= 1
+
+async def add_client(socket_client):
+    loop = asyncio.get_event_loop()
+    loop.create_task(send_message(socket_client))
 
 async def show_count_of_users():
     while True:
