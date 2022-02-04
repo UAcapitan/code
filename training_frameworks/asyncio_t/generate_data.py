@@ -1,4 +1,5 @@
 import asyncio
+from time import time
 
 async def generate(name, num):
     print(f'{name} start calculation')
@@ -23,4 +24,6 @@ async def main():
     print(list_of_nums)
 
 if __name__ == '__main__':
+    t = time()
     asyncio.run(main())
+    print(time() - t)
