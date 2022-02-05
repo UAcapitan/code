@@ -3,23 +3,21 @@ import asyncio
 
 users = 0
 logs = []
+clients = []
 
 async def accept_connection(socket_server):
-    global users
     global logs
     print('Server is listening')
     loop = asyncio.get_event_loop()
+    sem = asyncio.Semaphore(2)
     loop.create_task(show_count_of_users())
     while True:
         socket_client, addr = await loop.sock_accept(socket_server)
-        print('Connection from', addr)
-        users += 1
-        logs.append(f'Connection from {socket_client} - {addr}')
-        await add_client(socket_client)
+        await add_client(socket_client, addr, sem)
         print('Added')
 
 
-async def send_message(socket_client):
+async def send_message(socket_client, sem):
     loop = asyncio.get_event_loop()
     global users
     global logs
@@ -34,23 +32,32 @@ async def send_message(socket_client):
             break
         print('After sock recv')
         try:
-            print(str(request))
-
             await loop.sock_sendall(socket_client, b'Hello, world\n')
         except:
             break
         print('End read request')
+    sem.release()
     socket_client.close()
     users -= 1
 
-async def add_client(socket_client):
+async def add_client(socket_client, addr, sem):
+    global users
     loop = asyncio.get_event_loop()
-    loop.create_task(send_message(socket_client))
+    await sem.acquire()
+    loop.create_task(send_message(socket_client, sem))
+    users += 1
+    print('Connection from', addr)
+    logs.append(f'Connection from {socket_client} - {addr}')
+    print(sem)
 
 async def show_count_of_users():
     while True:
         print(f'Users right now: {str(users)}')
         await asyncio.sleep(5)
+
+async def print_logs():
+    while True:
+        print(logs)
 
 async def main():
     print('Start')
