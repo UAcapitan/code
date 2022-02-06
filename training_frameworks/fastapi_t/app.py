@@ -1,5 +1,6 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Path
 from schemas import Book
+from typing import List
 
 
 app = FastAPI()
@@ -29,5 +30,9 @@ def create_book(item: Book):
     return item
 
 @app.get('/books/book')
-def get_book(q: str = Query(None, min_length=2, max_length=5)):
+def get_book(q: List[str] = Query(..., description='Search book', deprecated=True)):
     return q
+
+@app.get('/books/book/{pk}')
+def get_book(pk: int = Path(..., gt=1, lt=10), pages: int = Query(None, gt=10, le=500)):
+    return {pk: pages}
