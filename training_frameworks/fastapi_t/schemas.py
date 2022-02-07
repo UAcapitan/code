@@ -11,7 +11,7 @@ class Book(BaseModel):
     duration: str
     date: date
     summary: str
-    genres: List[Genre]
+    genres: List[Genre] = []
     pages: int
     count: int = Field(
         ...,
@@ -25,3 +25,6 @@ class Book(BaseModel):
         if v < 50:
             raise ValueError('Pages of book must be more than 50')
         return 50
+
+class BookOut(Book):
+    id: int

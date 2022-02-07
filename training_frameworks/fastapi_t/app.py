@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Query, Path, Body
-from schemas import Book
+from schemas import Book, BookOut
 from typing import List
 
 
@@ -25,7 +25,15 @@ def get_test(pk: int, t: str):
 def get_user_item(user: str, id: int):
     return {'user': user, 'id':id}
 
-@app.post('/book')
+@app.post('/book', response_model=Book, response_model_exclude_unset=False)
+def create_book(item: Book = Body(..., embed=True)):
+    return item
+
+@app.post('/bookOut', response_model=BookOut, response_model_exclude={'pages', 'count'})
+def create_book(item: Book = Body(..., embed=True)):
+    return BookOut(**item.dict(), id=3)
+
+@app.post('/bookInclude', response_model=Book, response_model_include={'pages', 'count'})
 def create_book(item: Book = Body(..., embed=True)):
     return item
 
