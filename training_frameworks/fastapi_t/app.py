@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query, Path
+from fastapi import FastAPI, Query, Path, Body
 from schemas import Book
 from typing import List
 
@@ -26,7 +26,7 @@ def get_user_item(user: str, id: int):
     return {'user': user, 'id':id}
 
 @app.post('/book')
-def create_book(item: Book):
+def create_book(item: Book = Body(..., embed=True)):
     return item
 
 @app.get('/books/book')
@@ -36,3 +36,7 @@ def get_book(q: List[str] = Query(..., description='Search book', deprecated=Tru
 @app.get('/books/book/{pk}')
 def get_book(pk: int = Path(..., gt=1, lt=10), pages: int = Query(None, gt=10, le=500)):
     return {pk: pages}
+
+@app.post('/update/data')
+def get_data(data: str = Body(...)):
+    return {'data': data}
