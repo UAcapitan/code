@@ -104,24 +104,9 @@ def add_article(request):
         }
         return render(request, 'appmain/add_article.html', context=context)
 
-def recommendation(request):
-    return render(request, 'appmain/recommendation.html')
-
 def set_recommendation(request):
-    if request.method == 'POST':
-        if request.user.is_staff:
-            if request.method == 'POST':
-                form = forms.ArticleForm(request.POST)
-                if form.is_valid():
-                    form.save()
-                    return redirect('admin_page')
-            else:
-                form = forms.ArticleForm()
-        context = {
-            'form':form,
-        }
-        return redirect('recommendation')
-    return render(request, 'appmain/set_recommendation.html')
+    if request.user.is_staff:
+        pass
 
 def admin_page(request):
     if request.user.is_staff:
