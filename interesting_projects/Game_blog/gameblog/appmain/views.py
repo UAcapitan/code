@@ -93,6 +93,7 @@ def add_article(request):
     if request.user.is_staff:
         if request.method == 'POST':
             form = forms.ArticleForm(request.POST)
+            print(request.POST)
             if form.is_valid():
                 form.save()
                 return redirect('admin_page')

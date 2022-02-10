@@ -5,45 +5,98 @@
 {% block content %}
     <h3>Main page</h3>
 
+    <br>
+
     <!-- Block of recommendation -->
     <div class='container'>
-        <p><a href="{% url 'recommendation' %}">Recommendation</a></p>
+        <a href="{% url 'recommendation' %}" class="text-decoration-none text-dark">
+            <div class="card mb-3">
+                <img class="card-img-top" src="..." alt="Card image cap">
+                <div class="card-body">
+                <h5 class="card-title">Recommendation</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </a>
     </div>
 
     <br>
 
     <!-- Block of articles -->
     <div class='container'>
-        {% for article in articles %}
-            <a href="{% url 'article' article.id %}" class="text-decoration-none text-dark">
-                <div class='border border-secondary rounded'>
-                    <p class='h3'>{{ article.title }}</p>
-                    <p>{{ article.text }}</p>
-                    <p class='text-secondary'>{{ article.date_of_save }}</p>
+        <div>
+            <div class="container">
+                <div class="row">
+                    {% for article in articles %}
+                        <div class="col-sm">
+                            <a href="{% url 'article' article.id %}" class="text-decoration-none text-dark">
+                                <div class="card" style="width: 18rem;">
+                                    <img class="card-img-top" src="..." alt="Card image cap">
+                                    <div class="card-body">
+                                    <p class="card-text">{{ article.title }}</p>
+                                    <p class='text-secondary'>{{ article.date_of_save }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <br>
+                    {% endfor %}
                 </div>
-            </a>
-            <br>
-        {% endfor %}
-        <p><a href="{% url 'list_of_articles' %}">Articles</a></p>
-        <br>
-        <div class="pagination">
-            <p><span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                {% endif %}
-        
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">Next</a>
-                {% endif %}
-            </span></p>
-            <p>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</p>
+            </div>
         </div>
+
+        <br>
+
+        <div class="container">
+            <div class="pagination">
+                <p><span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    {% endif %}
+                </span></p>
+
+                <p>&nbsp; Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}. &nbsp;</p>
+
+                <span class="step-links">
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <br>
     </div>
 
     <br>
 
     <!-- Block of rate -->
     <div>
-        <a href="{% url 'rate' %}">Rate</a>
+        <a href="{% url 'rate' %}">
+            <div class="card bg-dark text-white">
+                <img class="card-img" src="..." alt="Card image">
+                <div class="card-img-overlay">
+                <h5 class="card-title">Rate</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <p class="card-text">Last updated 3 mins ago</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <br>
+
+    <!-- Articles block link -->
+    <div>
+        <a href="{% url 'list_of_articles' %}" class="text-decoration-none text-dark">
+            <div class="card bg-dark text-white">
+                <img class="card-img" src="..." alt="Card image">
+                <div class="card-img-overlay">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <p class="card-text">Last updated 3 mins ago</p>
+                </div>
+            </div>
+        </a>
     </div>
 {% endblock %}

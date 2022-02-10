@@ -1,3 +1,4 @@
+from email.policy import default
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -29,8 +30,7 @@ class AuthForm(AuthenticationForm):
 class ArticleForm(forms.ModelForm):
 	title = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Title'}))
 	text = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Text'}), max_length=2560)
-	date_of_save = forms.DateField(input_formats=['%d-%m-%Y'], widget=forms.DateInput(attrs={'placeholder':'DD-MM-YYYY'}))
 
 	class Meta:
 		model = models.Article
-		fields = ['title', 'text', 'date_of_save']
+		fields = ['title', 'text']

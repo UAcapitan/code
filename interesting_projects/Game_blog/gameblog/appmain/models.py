@@ -1,10 +1,11 @@
+import datetime
 from django.db import models
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
     text = models.TextField()
     username = models.CharField(max_length=50)
-    date_of_save = models.DateField()
+    date_of_save = models.DateField(default=datetime.date.today()) 
 
     def __str__(self):
         return self.title
