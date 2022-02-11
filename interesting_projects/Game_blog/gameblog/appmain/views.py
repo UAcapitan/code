@@ -129,18 +129,25 @@ def admin_page(request):
         return render(request, 'appmain/admin_page.html')
 
 def admin_articles(request):
-    articles = models.Article.objects.all().order_by('-id')
-    articles_paginator = Paginator(articles, 15)
-    page_number = request.GET.get('page')
-    page_obj = articles_paginator.get_page(page_number)
-    context = {
-        'articles': page_obj,
-        'page_obj': page_obj
-    }
-    return render(request, 'appmain/admin_articles.html', context=context)
+    if request.user.is_staff:
+        articles = models.Article.objects.all().order_by('-id')
+        articles_paginator = Paginator(articles, 15)
+        page_number = request.GET.get('page')
+        page_obj = articles_paginator.get_page(page_number)
+        context = {
+            'articles': page_obj,
+            'page_obj': page_obj
+        }
+        return render(request, 'appmain/admin_articles.html', context=context)
 
 def article_edit(request, id):
     pass
 
 def article_delete(request, id):
-    pass
+    if request.user.is_staff:
+        try:
+            article = models.Article.objects.get(id=id)
+            article.delete()
+        except:
+            pass
+        return redirect('admin_articles')

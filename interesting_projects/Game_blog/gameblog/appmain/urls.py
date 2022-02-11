@@ -12,8 +12,9 @@ urlpatterns = [
     path('rate/', views.rate, name='rate'),
     path('list-of-article/', views.list_of_articles, name='list_of_articles'),
     path('add-article/', views.add_article, name='add_article'),
-    path('set-recommendation/<int:id>', views.set_recommendation, name='set_recommendation'),
+    path('set-recommendation/<int:id>/', views.set_recommendation, name='set_recommendation'),
     path('admin-page/', views.admin_page, name='admin_page'),
     path('add-in-favourite/<int:id>', views.add_in_favourite, name='add_in_favourite'),
-    path('admin_article/', views.admin_articles, name='admin_articles')
+    path('admin-article/', views.admin_articles, name='admin_articles'),
+    path('admit-article-delete/<int:id>/', views.article_delete, name='article_delete')
 ]
