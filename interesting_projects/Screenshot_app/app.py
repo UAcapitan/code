@@ -8,11 +8,11 @@ import keyboard
 class ScreenApp:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title('Screenshoot')
+        self.root.title('Screenshot')
 
         self.entry = tk.Entry(self.root, width=15)
 
-        self.btn = tk.Button(self.root, text='Screenshoot', command=self.screen)
+        self.btn = tk.Button(self.root, text='Screenshot', command=self.screen)
 
         self.set_start()
 
