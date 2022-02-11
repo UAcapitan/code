@@ -9,5 +9,5 @@
     <p>{{ article.date_of_save }}</p>
     <p>{{ article.text }}</p>
     
-    <a href="#" class="btn btn-success">Set recommendation</a>
+    <a href="{% url 'set_recommendation' article.id %}" class="btn btn-success">Set recommendation</a>
 {% endblock %}

@@ -7,13 +7,21 @@ from django.core.paginator import Paginator
 
 
 def main(request):
-    articles = models.Article.objects.all()
+    articles = models.Article.objects.all().order_by('-id')
     articles_paginator = Paginator(articles, 3)
     page_number = request.GET.get('page')
     page_obj = articles_paginator.get_page(page_number)
+
+    last_rec = None
+    try:
+        last_rec = models.Recommendation.objects.get(pk=1)
+    except:
+        pass
+
     context = {
         'articles':page_obj,
         'page_obj':page_obj,
+        'last_rec':last_rec
     }
     return render(request, 'appmain/main.html', context=context)
 
@@ -104,10 +112,35 @@ def add_article(request):
         }
         return render(request, 'appmain/add_article.html', context=context)
 
-def set_recommendation(request):
+def set_recommendation(request, id):
     if request.user.is_staff:
-        pass
+        last_rec = None
+        try:
+            last_rec = models.Recommendation.objects.get(pk=1)
+        except:
+            pass
+        if last_rec:
+            last_rec.delete()
+        models.Recommendation(id=1, article=models.Article.objects.get(id=id)).save()
+        return redirect('main')
 
 def admin_page(request):
     if request.user.is_staff:
         return render(request, 'appmain/admin_page.html')
+
+def admin_articles(request):
+    articles = models.Article.objects.all().order_by('-id')
+    articles_paginator = Paginator(articles, 15)
+    page_number = request.GET.get('page')
+    page_obj = articles_paginator.get_page(page_number)
+    context = {
+        'articles': page_obj,
+        'page_obj': page_obj
+    }
+    return render(request, 'appmain/admin_articles.html', context=context)
+
+def article_edit(request, id):
+    pass
+
+def article_delete(request, id):
+    pass
