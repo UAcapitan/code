@@ -80,11 +80,14 @@ def article(request, id):
             form.save()
     form = forms.CommentsForm()
     comments = models.Comment.objects.filter(article_id=id)
+    user = request.user
+    like = True if len(models.Like.objects.filter(article=article, user=user)) > 0 else False
     context = {
         'article': article,
         'articles': rec,
         'form': form,
-        'comments': comments
+        'comments': comments,
+        'like': like
     }
     return render(request, 'appmain/article.html', context=context)
 
@@ -187,3 +190,14 @@ def article_delete(request, id):
         except:
             pass
         return redirect('admin_articles')
+
+def like(request, id):
+    if request.user.is_authenticated:
+        article = models.Article.objects.get(id=id)
+        user = request.user
+        like = models.Like.objects.filter(article=article, user=user)
+        if len(like) > 0:
+            models.Like.objects.get(article=article, user=user).delete()
+        else:
+            models.Like(article=article, user=user).save()
+        return redirect('article', id=id)

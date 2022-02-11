@@ -18,11 +18,11 @@ class Article(models.Model):
         verbose_name_plural = 'Articles'
 
 class Like(models.Model):
-    username = models.ForeignKey(User, on_delete=models.CASCADE)
-    id_article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.id
+        return f'{self.user.username} - {self.article.title}'
 
     class Meta:
         verbose_name = 'Like'
