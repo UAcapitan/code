@@ -67,9 +67,24 @@ def profile(request):
 def article(request, id):
     article = models.Article.objects.get(id=id)
     rec = models.Article.objects.all().order_by('-id')[:3]
+    if request.method == 'POST':
+        temp = request.POST.copy()
+        temp['article'] = article
+        if request.user.is_authenticated:
+            username = request.user
+        else:
+            username = 'Anonymous'
+        temp['user'] = username
+        form = forms.CommentsForm(temp)
+        if form.is_valid():
+            form.save()
+    form = forms.CommentsForm()
+    comments = models.Comments.objects.filter(article_id=id)
     context = {
         'article': article,
-        'articles': rec
+        'articles': rec,
+        'form': form,
+        'comments': comments
     }
     return render(request, 'appmain/article.html', context=context)
 

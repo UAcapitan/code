@@ -34,3 +34,10 @@ class ArticleForm(forms.ModelForm):
 	class Meta:
 		model = models.Article
 		fields = ['title', 'text', 'image', 'video']
+
+class CommentsForm(forms.ModelForm):
+	text = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Comment'}))
+
+	class Meta:
+		model = models.Comments
+		fields = ['text', 'user', 'article']

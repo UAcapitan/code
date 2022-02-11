@@ -3,22 +3,27 @@
 {% block title %}Article{% endblock %}
 
 {% block content %}
+    <!-- Information -->
     <img class="card-img-top" src="/media/{{ article.image }}" alt="Card image cap">
-    <h3>Article</h3>
     <h1>{{ article.title }}</h1>
     <p>{{ article.username }}</p>
     <p>{{ article.date_of_save }}</p>
     <p>{{ article.text }}</p>
     
+    <!-- Admin menu -->
     <p><a href="{% url 'article_edit' article.id %}" class="btn btn-success">Edit</a> 
     <a href="{% url 'set_recommendation' article.id %}" class="btn btn-info">Set recommendation</a>
     <a href="{% url 'article_delete' article.id %}" class="btn btn-danger">Delete</a></p>
     
+    <!-- Video -->
     <iframe width="560" height="315" src="{{ article.video }}" 
     title="YouTube video player" frameborder="0" 
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
     allowfullscreen></iframe>
+
+    <br><br>
     
+    <!-- Recommendation -->
     <p class="h3">Recommendation</p>
     <div class="container">
         <div class="row">
@@ -37,6 +42,49 @@
                 <br>
             {% endfor %}
         </div>
+    </div>
+
+    <br>
+
+    <!-- Comments -->
+    <p class="h3">Comments</p>
+    <div>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.text }}
+
+            <input type="submit" value="Add comment">
+        </form>
+    </div>
+
+    <br>
+
+    <div>
+        {% if comments %}
+            {% for comment in comments %}
+                <!-- <div>
+                    <p>{{ comment.text }}</p>
+                    <p>{{ comment.user.username }}</p>
+                    <p class='text-secondary'>{{ comment.date }}</p>
+                </div> -->
+                <div class="d-flex justify-content-left py-2" 
+                     style="box-shadow: 10px 10px 5px #aaaaaa; background-color: #fcfcfc;
+                     border-radius: 20px;">
+                    &nbsp;
+                    <div class="second py-2 px-2"> <span class="text1">{{ comment.text }}</span>
+                        <div class="d-flex justify-content-between py-1 pt-2">
+                            &nbsp;&nbsp;&nbsp;
+                            <div><!--<img src="https://i.imgur.com/AgAC1Is.jpg" width="18">--><span class="text2">{{ comment.user.username }}</span></div>
+                            &nbsp;&nbsp;&nbsp;
+                            <div><span class="text3 text-secondary">{{ comment.date }}</span></div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            {% endfor %}
+        {% else %}
+            <p>No comments</p>
+        {% endif %}
     </div>
 
 {% endblock %}
