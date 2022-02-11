@@ -79,7 +79,7 @@ def article(request, id):
         if form.is_valid():
             form.save()
     form = forms.CommentsForm()
-    comments = models.Comments.objects.filter(article_id=id)
+    comments = models.Comment.objects.filter(article_id=id)
     context = {
         'article': article,
         'articles': rec,

@@ -39,5 +39,5 @@ class CommentsForm(forms.ModelForm):
 	text = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Comment'}))
 
 	class Meta:
-		model = models.Comments
+		model = models.Comment
 		fields = ['text', 'user', 'article']

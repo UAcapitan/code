@@ -17,16 +17,16 @@ class Article(models.Model):
         verbose_name = 'Article'
         verbose_name_plural = 'Articles'
 
-class Favourite(models.Model):
-    username = models.CharField(max_length=50)
-    id_article = models.IntegerField()
+class Like(models.Model):
+    username = models.ForeignKey(User, on_delete=models.CASCADE)
+    id_article = models.ForeignKey(Article, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.id_article
+        return self.id
 
     class Meta:
-        verbose_name = 'Favourite'
-        verbose_name_plural = 'Favourites'
+        verbose_name = 'Like'
+        verbose_name_plural = 'Likes'
 
 class Recommendation(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
@@ -38,7 +38,7 @@ class Recommendation(models.Model):
         verbose_name = 'Recommendation'
         verbose_name_plural = 'Recommendations'
 
-class Comments(models.Model):
+class Comment(models.Model):
     text = models.CharField(max_length=4096)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
