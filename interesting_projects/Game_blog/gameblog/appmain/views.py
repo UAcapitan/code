@@ -141,7 +141,26 @@ def admin_articles(request):
         return render(request, 'appmain/admin_articles.html', context=context)
 
 def article_edit(request, id):
-    pass
+    if request.user.is_staff:
+        try:
+            model = models.Article.objects.get(pk=id)
+        except:
+            pass
+        if request.method == 'POST':
+            form = forms.ArticleForm(request.POST, instance=model)
+            if form.is_valid():
+                form.save()
+                return redirect('admin_articles')
+        else:
+            form = None
+            try:
+                form = forms.ArticleForm(instance=model)
+            except:
+                pass
+            context = {
+                'form': form
+            }
+        return render(request, 'appmain/article_edit.html', context=context)
 
 def article_delete(request, id):
     if request.user.is_staff:

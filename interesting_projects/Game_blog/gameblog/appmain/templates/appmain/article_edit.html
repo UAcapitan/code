@@ -1,0 +1,18 @@
+{% extends 'appmain/base.html' %}
+
+{% block title %}Article edit{% endblock %}
+
+{% block content %}
+    <br>
+    <h1>Edit article</h1>
+
+    <br>
+
+    {% if form %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Edit">
+        </form>
+    {% endif %}
+{% endblock %}

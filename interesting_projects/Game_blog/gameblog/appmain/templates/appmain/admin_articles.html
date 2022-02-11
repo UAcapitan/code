@@ -13,7 +13,7 @@
                         <div class="card-body">
                         <p class="card-text">{{ article.title }}</p>
                         <p class='text-secondary'>{{ article.date_of_save }}</p>
-                        <p><a href="#" class="btn btn-success">Edit</a> 
+                        <p><a href="{% url 'article_edit' article.id %}" class="btn btn-success">Edit</a> 
                            <a href="{% url 'article' article.id %}" class="btn btn-info">Watch</a> 
                            <a href="{% url 'article_delete' article.id %}" class="btn btn-danger">Delete</a></p>
                         </div>

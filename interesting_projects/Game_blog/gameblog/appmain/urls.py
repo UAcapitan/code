@@ -16,5 +16,6 @@ urlpatterns = [
     path('admin-page/', views.admin_page, name='admin_page'),
     path('add-in-favourite/<int:id>', views.add_in_favourite, name='add_in_favourite'),
     path('admin-article/', views.admin_articles, name='admin_articles'),
-    path('admit-article-delete/<int:id>/', views.article_delete, name='article_delete')
+    path('admin-article-delete/<int:id>/', views.article_delete, name='article_delete'),
+    path('admin-article-edit/<int:id>/', views.article_edit, name='article_edit')
 ]
