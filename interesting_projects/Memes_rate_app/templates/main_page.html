@@ -14,6 +14,8 @@
         <p>Likes: {{ meme.likes }}</p>
     </div>
     <div class="d-flex justify-content-center">
-        <p><a href="/next">Next</a> <a href="/like/{{ meme.id }}">Like</a></p>
+        <p><a href="/next" class="btn btn-success">Next</a>
+        &nbsp;
+        <a href="/like/{{ meme.id }}" class="btn btn-info">Like</a></p>
     </div>
 {% endblock %}

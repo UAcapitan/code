@@ -7,10 +7,19 @@
     <div class="d-flex justify-content-center">
         <div>
             {% for element in list %}
-                <div>
-                    <p>{{ element.title }}</p>
-                    <img src="{{ element.url }}" alt="Meme" height=50>
+                <div class="d-flex justify-content-center py-2" 
+                style="box-shadow: 10px 10px 5px #aaaaaa; background-color: #fcfcfc;
+                border-radius: 20px; width: 220px;">
+                    <div>
+                        <br>
+                        <img src="{{ element.url }}" alt="Meme" height=50>
+                        <div>
+                            <br>
+                            <p>{{ element.title }}</p>
+                        </div>
+                    </div>
                 </div>
+                <br>
             {% endfor %}
         </div>
     </div>
