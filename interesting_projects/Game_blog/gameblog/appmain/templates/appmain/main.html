@@ -10,7 +10,7 @@
     <!-- Block of recommendation -->
     {% if last_rec %}
         <div class='container'>
-            <a href="{% url 'article' last_rec.id %}" class="text-decoration-none text-dark">
+            <a href="{% url 'article' last_rec.article.id %}" class="text-decoration-none text-dark">
                 <div class="card mb-3">
                     <img class="card-img-top" src="..." alt="Card image cap">
                     <div class="card-body">

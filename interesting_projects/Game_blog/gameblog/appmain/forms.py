@@ -33,4 +33,4 @@ class ArticleForm(forms.ModelForm):
 
 	class Meta:
 		model = models.Article
-		fields = ['title', 'text']
+		fields = ['title', 'text', 'image', 'video']

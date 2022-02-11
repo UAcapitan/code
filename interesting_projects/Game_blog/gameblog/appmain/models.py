@@ -6,6 +6,8 @@ class Article(models.Model):
     text = models.TextField()
     username = models.CharField(max_length=50)
     date_of_save = models.DateField(default=datetime.date.today()) 
+    image = models.ImageField(upload_to='articles/')
+    video = models.CharField(max_length=512)
 
     def __str__(self):
         return self.title

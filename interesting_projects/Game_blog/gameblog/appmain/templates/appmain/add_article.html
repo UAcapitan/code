@@ -9,7 +9,7 @@
             <h3>Add new article</h3>
         </div>
         <br>
-        <form method='POST'>
+        <form method='POST' enctype="multipart/form-data">
             {% csrf_token %}
             <div class='d-flex justify-content-center'>
                 {{ form.title }}
@@ -20,7 +20,11 @@
             </div>
             <br>
             <div class='d-flex justify-content-center'>
-                {{ form.date_of_save }}
+                {{ form.image }}
+            </div>
+            <br>
+            <div class='d-flex justify-content-center'>
+                {{ form.video }}
             </div>
             <br>
             <div class='d-flex justify-content-center'>

@@ -65,9 +65,11 @@ def profile(request):
     return render(request, 'appmain/profile.html', {'token':token})
 
 def article(request, id):
-    article = models.Article.objects.filter(id=id)
+    article = models.Article.objects.get(id=id)
+    rec = models.Article.objects.all().order_by('-id')[:3]
     context = {
-        'article': article[0],
+        'article': article,
+        'articles': rec
     }
     return render(request, 'appmain/article.html', context=context)
 
@@ -100,11 +102,11 @@ def list_of_articles(request):
 def add_article(request):
     if request.user.is_staff:
         if request.method == 'POST':
-            form = forms.ArticleForm(request.POST)
-            print(request.POST)
+            form = forms.ArticleForm(request.POST, request.FILES)
             if form.is_valid():
                 form.save()
                 return redirect('admin_page')
+            print(form.is_valid())
         else:
             form = forms.ArticleForm()
         context = {
@@ -147,7 +149,7 @@ def article_edit(request, id):
         except:
             pass
         if request.method == 'POST':
-            form = forms.ArticleForm(request.POST, instance=model)
+            form = forms.ArticleForm(request.POST, request.FILES, instance=model)
             if form.is_valid():
                 form.save()
                 return redirect('admin_articles')
