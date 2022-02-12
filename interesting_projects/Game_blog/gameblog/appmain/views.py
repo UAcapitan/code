@@ -101,13 +101,22 @@ def add_in_favourite(request, id):
     return redirect('favourite')
 
 def favourite(request):
-    return render(request, 'appmain/favourite.html')
+    user = request.user
+    articles = models.Like.objects.filter(user=user).order_by('-id')
+    articles_paginator = Paginator(articles, 15)
+    page_number = request.GET.get('page')
+    page_obj = articles_paginator.get_page(page_number)
+    context = {
+        'articles':page_obj,
+        'page_obj':page_obj,
+    }
+    return render(request, 'appmain/favourite.html', context=context)
 
 def rate(request):
     return render(request, 'appmain/rate.html')
 
 def list_of_articles(request):
-    articles = models.Article.objects.all()
+    articles = models.Article.objects.all().order_by('-id')
     articles_paginator = Paginator(articles, 7)
     page_number = request.GET.get('page')
     page_obj = articles_paginator.get_page(page_number)
