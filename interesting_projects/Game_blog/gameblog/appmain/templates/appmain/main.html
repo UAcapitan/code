@@ -12,11 +12,12 @@
         <div class='container'>
             <a href="{% url 'article' last_rec.article.id %}" class="text-decoration-none text-dark">
                 <div class="card mb-3">
-                    <img class="card-img-top" src="..." alt="Card image cap">
+                    <img class="card-img-top" src="/media/{{ last_rec.article.image }}" 
+                    alt="Card image cap" style="object-fit: cover; width: 100%; height: 10em;">
                     <div class="card-body">
-                    <h5 class="card-title">Recommendation</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    <h5 class="card-title">{{ last_rec.article.title }}</h5>
+                    <p class="card-text">{{ last_rec.article.text }}</p>
+                    <p class="card-text"><small class="text-muted">{{ last_rec.article.date_of_save }}</small></p>
                     </div>
                 </div>
             </a>
@@ -42,7 +43,8 @@
                         <div class="col-sm">
                             <a href="{% url 'article' article.id %}" class="text-decoration-none text-dark">
                                 <div class="card" style="width: 18rem;">
-                                    <img class="card-img-top" src="..." alt="Card image cap">
+                                    <img class="card-img-top" src="/media/{{ article.image }}" alt="Card image cap"
+                                    style="object-fit: cover; width: 100%; height: 10em;">
                                     <div class="card-body">
                                     <p class="card-text">{{ article.title }}</p>
                                     <p class='text-secondary'>{{ article.date_of_save }}</p>
@@ -84,11 +86,13 @@
     <div>
         <a href="{% url 'rate' %}">
             <div class="card bg-dark text-white">
-                <img class="card-img" src="..." alt="Card image">
+                <img class="card-img" src="/media/src/bg_rate.jpg" alt="Card image"
+                style="object-fit: cover; width: 100%; height: 10em;">
                 <div class="card-img-overlay">
+                <br>
                 <h5 class="card-title">Rate</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                <p class="card-text">Last updated 3 mins ago</p>
+                <p class="card-text">List of the most popular games by the number of likes</p>
+                <p class="card-text">Click to view</p>
                 </div>
             </div>
         </a>
@@ -100,11 +104,13 @@
     <div>
         <a href="{% url 'list_of_articles' %}" class="text-decoration-none text-dark">
             <div class="card bg-dark text-white">
-                <img class="card-img" src="..." alt="Card image">
+                <img class="card-img" src="/media/src/bg_article.jpg" alt="Card image"
+                style="object-fit: cover; width: 100%; height: 10em;">
                 <div class="card-img-overlay">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                <p class="card-text">Last updated 3 mins ago</p>
+                <br>
+                <h5 class="card-title">Articles</h5>
+                <p class="card-text">List of all games articles sorted by date added</p>
+                <p class="card-text">Click to view</p>
                 </div>
             </div>
         </a>
