@@ -62,7 +62,15 @@ def logout_view(request):
 
 def profile(request):
     token = ''
-    return render(request, 'appmain/profile.html', {'token':token})
+    try:
+        avatar = models.Avatar.objects.get(user=request.user)
+    except:
+        avatar = None
+    context = {
+        'token': token,
+        'avatar': avatar
+    }
+    return render(request, 'appmain/profile.html', context=context)
 
 def article(request, id):
     article = models.Article.objects.get(id=id)
@@ -210,3 +218,24 @@ def like(request, id):
         else:
             models.Like(article=article, user=user).save()
         return redirect('article', id=id)
+
+def settings(request):
+    form_set_avatar = forms.AvatarForm()
+    context = {
+        'form_avatar': form_set_avatar,
+    }
+    return render(request, 'appmain/settings.html', context=context)
+
+def set_avatar(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            print(request.POST)
+            temp = request.POST.copy()
+            temp['user'] = request.user
+            form = forms.AvatarForm(temp, request.FILES)
+            if form.is_valid():
+                if models.Avatar.objects.filter(user=request.user):
+                    models.Avatar.objects.get(user=request.user).delete()
+                form.save()
+                return redirect('profile')
+    return redirect('main')

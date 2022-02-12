@@ -18,5 +18,7 @@ urlpatterns = [
     path('admin-article/', views.admin_articles, name='admin_articles'),
     path('admin-article-delete/<int:id>/', views.article_delete, name='article_delete'),
     path('admin-article-edit/<int:id>/', views.article_edit, name='article_edit'),
-    path('like/<int:id>/', views.like, name='like')
+    path('like/<int:id>/', views.like, name='like'),
+    path('settings/', views.settings, name='settings'),
+    path('set-avatar/', views.set_avatar, name='set-avatar')
 ]

@@ -1,0 +1,26 @@
+{% extends 'appmain/base.html' %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+
+    <h1>Settings</h1>
+
+    <br>
+
+    <div class="container">
+        <p class="h3">Update user data</p>
+    </div>
+
+    <div class="container">
+        <p class="h3">Update user avatar</p>
+        <form action="{% url 'set-avatar' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form_avatar.image }}
+            <br><br>
+            <input type="submit" value="Set">
+        </form>
+        
+    </div>
+
+{% endblock %}

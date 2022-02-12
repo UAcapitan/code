@@ -41,3 +41,8 @@ class CommentsForm(forms.ModelForm):
 	class Meta:
 		model = models.Comment
 		fields = ['text', 'user', 'article']
+
+class AvatarForm(forms.ModelForm):
+	class Meta:
+		model = models.Avatar
+		fields = ['user','image']

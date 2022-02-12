@@ -4,19 +4,45 @@
 
 {% block content %}
     <h3>Profile</h3>
+
+    <br><br>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-5">
+                {% if avatar %}
+                    <img src="/media/{{ avatar.image }}" alt="Avatar" class="rounded-circle border border-dark"
+                    style="width: 20em; height:20em;">
+                {% else %}
+                    <img src="/media/src/user.png" alt="Avatar" class="rounded-circle border border-dark"
+                    style="width: 20em; height:20em;">
+                {% endif %}
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-5">
+                <br>
+                {% if user.is_authenticated %}
+                    <p>Login: {{ user.get_username }}</p>
+                    <p>Email: {{ user.email }}</p>
+                    <p>Root: {{ user.is_staff }}</p>
+                    <p>Last login: {{ user.last_login }}</p>
+                    <p>Date joined: {{ user.date_joined }}</p>
+                    <p>Token: 
+                        {% if token %}
+                            {{ token }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </p>
+                    <br>
+
+                    <a href="{% url 'settings' %}" class="btn btn-success">Settings</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
     <br>
-    {% if user.is_authenticated %}
-        <p>Login: {{ user.get_username }}</p>
-        <p>Email: {{ user.email }}</p>
-        <p>Root: {{ user.is_staff }}</p>
-        <p>Last login: {{ user.last_login }}</p>
-        <p>Date joined: {{ user.date_joined }}</p>
-        <p>Token: 
-            {% if token %}
-                {{ token }}
-            {% else %}
-                None
-            {% endif %}
-        </p>
-    {% endif %}
+
 {% endblock %}
