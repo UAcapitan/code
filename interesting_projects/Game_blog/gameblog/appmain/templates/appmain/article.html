@@ -14,13 +14,13 @@
 
     <!-- Like -->
     <div>
-        <a href="{% url 'like' article.id %}">
+        <p><a href="{% url 'like' article.id %}" class="text-decoration-none">
             {% if like %}
                 <img src="/media/src/like.png" alt="Like" width="40">
             {% else %}
                 <img src="/media/src/not_like.png" alt="Like" width="40">
             {% endif %}
-        </a>
+        </a> {{ article.likes }}</p>
     </div>
 
     <br>

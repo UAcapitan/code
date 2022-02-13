@@ -10,6 +10,7 @@ class Article(models.Model):
     date_of_save = models.DateField(default=datetime.date.today()) 
     image = models.ImageField(upload_to='articles/')
     video = models.CharField(max_length=512)
+    likes = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title

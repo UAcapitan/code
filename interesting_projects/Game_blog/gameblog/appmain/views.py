@@ -121,7 +121,11 @@ def favourite(request):
     return render(request, 'appmain/favourite.html', context=context)
 
 def rate(request):
-    return render(request, 'appmain/rate.html')
+    articles = models.Article.objects.all().order_by('-likes')[:10]
+    context = {
+        'articles': articles
+    }
+    return render(request, 'appmain/rate.html', context=context)
 
 def list_of_articles(request):
     articles = models.Article.objects.all().order_by('-id')
@@ -215,8 +219,11 @@ def like(request, id):
         like = models.Like.objects.filter(article=article, user=user)
         if len(like) > 0:
             models.Like.objects.get(article=article, user=user).delete()
+            article.likes -= 1
         else:
             models.Like(article=article, user=user).save()
+            article.likes += 1
+        article.save()
         return redirect('article', id=id)
 
 def settings(request):
