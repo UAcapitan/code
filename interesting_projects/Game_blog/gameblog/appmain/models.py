@@ -1,12 +1,11 @@
 import datetime
-from tabnanny import verbose
 from django.db import models
 from django.contrib.auth.models import User
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
     text = models.TextField()
-    username = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     date_of_save = models.DateField(default=datetime.date.today()) 
     image = models.ImageField(upload_to='articles/')
     video = models.CharField(max_length=512)

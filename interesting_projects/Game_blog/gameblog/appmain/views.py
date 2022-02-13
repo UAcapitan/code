@@ -144,6 +144,7 @@ def add_article(request):
         if request.method == 'POST':
             form = forms.ArticleForm(request.POST, request.FILES)
             if form.is_valid():
+                form.instance.user = request.user
                 form.save()
                 return redirect('admin_page')
             print(form.is_valid())
@@ -263,8 +264,9 @@ def set_avatar(request):
                 form.save()
                 return redirect('profile')
         else:
-            return error(request, 'You did not send image')
-    return redirect('main')
+            if models.Avatar.objects.filter(user=request.user):
+                models.Avatar.objects.get(user=request.user).delete()
+                return redirect('profile')
 
 def error(request, text):
     return render(request, 'appmain/error_page.html', {'error': text})
