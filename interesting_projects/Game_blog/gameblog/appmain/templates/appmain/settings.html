@@ -7,20 +7,34 @@
     <h1>Settings</h1>
 
     <br>
-
-    <div class="container">
-        <p class="h3">Update user data</p>
-    </div>
-
-    <div class="container">
-        <p class="h3">Update user avatar</p>
-        <form action="{% url 'set-avatar' %}" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form_avatar.image }}
-            <br><br>
-            <input type="submit" value="Set">
-        </form>
-        
+    <div class="d-flex justify-content-center">
+        <div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="container">
+                            <p class="h3">Update user data</p>
+                            <form method="POST">
+                                {% csrf_token %}
+                                {{ form_user.as_p }}
+                                <input type="submit" class="btn btn-info" value="Set">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="container">
+                            <p class="h3">Update user avatar</p>
+                            <form action="{% url 'set-avatar' %}" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ form_avatar.image }}
+                                <br><br>
+                                <input type="submit" class="btn btn-info" value="Set">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

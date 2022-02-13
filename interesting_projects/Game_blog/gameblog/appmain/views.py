@@ -4,6 +4,7 @@ from django.contrib import messages
 from . import forms
 from . import models
 from django.core.paginator import Paginator
+from django.contrib.auth.models import User
 
 
 def main(request):
@@ -227,8 +228,24 @@ def like(request, id):
         return redirect('article', id=id)
 
 def settings(request):
+    try:
+        user_data = User.objects.get(id=request.user.id)
+    except:
+        pass
+    if request.method == 'POST':
+        form_update_user = forms.NewUserForm(request.POST, instance=user_data)
+        if form_update_user.is_valid():
+            form_update_user.save()
+            return redirect('profile')
+    else:
+        form_update_user = None
+        try:
+            form_update_user = forms.NewUserForm(instance=user_data)
+        except:
+            pass
     form_set_avatar = forms.AvatarForm()
     context = {
+        'form_user': form_update_user,
         'form_avatar': form_set_avatar,
     }
     return render(request, 'appmain/settings.html', context=context)
