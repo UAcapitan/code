@@ -111,7 +111,7 @@ def add_in_favourite(request, id):
 def favourite(request):
     user = request.user
     articles = models.Like.objects.filter(user=user).order_by('-id')
-    articles_paginator = Paginator(articles, 15)
+    articles_paginator = Paginator(articles, 9)
     page_number = request.GET.get('page')
     page_obj = articles_paginator.get_page(page_number)
     context = {
@@ -245,4 +245,6 @@ def set_avatar(request):
                     models.Avatar.objects.get(user=request.user).delete()
                 form.save()
                 return redirect('profile')
+        else:
+            return redirect('main')
     return redirect('main')
