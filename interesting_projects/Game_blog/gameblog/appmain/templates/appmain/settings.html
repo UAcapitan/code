@@ -14,9 +14,17 @@
                     <div class="col-sm">
                         <div class="container">
                             <p class="h3">Update user data</p>
+                            <br>
                             <form method="POST">
                                 {% csrf_token %}
-                                {{ form_user.as_p }}
+                                {{ form_user.username }}
+                                <br><br>
+                                {{ form_user.email }}
+                                <br><br>
+                                {{ form_user.password1 }}
+                                <br><br>
+                                {{ form_user.password2 }}
+                                <br><br>
                                 <input type="submit" class="btn btn-info" value="Set">
                             </form>
                         </div>
@@ -24,6 +32,7 @@
                     <div class="col-sm">
                         <div class="container">
                             <p class="h3">Update user avatar</p>
+                            <br>
                             <form action="{% url 'set_avatar' %}" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {{ form_avatar.image }}
