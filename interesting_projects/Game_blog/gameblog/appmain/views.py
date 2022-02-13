@@ -246,5 +246,8 @@ def set_avatar(request):
                 form.save()
                 return redirect('profile')
         else:
-            return redirect('main')
+            return error(request, 'You did not send image')
     return redirect('main')
+
+def error(request, text):
+    return render(request, 'appmain/error_page.html', {'error': text})
