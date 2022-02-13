@@ -60,23 +60,26 @@
 
         <br>
 
-        <div class="container">
-            <div class="pagination">
-                <p><span class="step-links">
-                    {% if page_obj.has_previous %}
-                        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                    {% endif %}
-                </span></p>
+        {% if page_obj.paginator.num_pages > 1 %}
+            <div class="container">
+                <div class="pagination">
+                    <p><span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        {% endif %}
+                    </span></p>
 
-                <p>&nbsp; Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}. &nbsp;</p>
+                    <p>&nbsp; Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}. &nbsp;</p>
 
-                <span class="step-links">
-                    {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}">Next</a>
-                    {% endif %}
-                </span>
+                    <span class="step-links">
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                        {% endif %}
+                    </span>
+                </div>
             </div>
-        </div>
+        {% endif %}
+        
         <br>
     </div>
 
