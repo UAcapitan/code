@@ -21,10 +21,17 @@
             </div>
             <div class="col-sm-1"></div>
             <div class="col-sm-5">
-                <br>
+                
                 {% if user.is_authenticated %}
                     <p>Login: {{ user.get_username }}</p>
-                    <p>Email: {{ user.email }}</p>
+                    <p>
+                        Email:
+                        {% if user.email %}
+                            {{ user.email }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </p>
                     <p>Root: {{ user.is_staff }}</p>
                     <p>Last login: {{ user.last_login }}</p>
                     <p>Date joined: {{ user.date_joined }}</p>
