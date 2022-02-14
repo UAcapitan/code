@@ -30,6 +30,8 @@ class AuthForm(AuthenticationForm):
 class ArticleForm(forms.ModelForm):
 	title = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Title'}))
 	text = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Text'}), max_length=2560)
+	image = forms.ImageField(widget=forms.FileInput(attrs={'class':'form-control form-control-sm'}))
+	video = forms.EmailField(widget=forms.TextInput(attrs={'placeholder':'URL to video'}))
 
 	class Meta:
 		model = models.Article
@@ -43,6 +45,8 @@ class CommentsForm(forms.ModelForm):
 		fields = ['text', 'user', 'article']
 
 class AvatarForm(forms.ModelForm):
+	image = forms.ImageField(widget=forms.FileInput(attrs={'class':'form-control form-control-sm'}))
+
 	class Meta:
 		model = models.Avatar
 		fields = ['user','image']

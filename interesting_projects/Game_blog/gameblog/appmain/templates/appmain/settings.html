@@ -36,7 +36,7 @@
                             <form action="{% url 'set_avatar' %}" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {{ form_avatar.image }}
-                                <br><br>
+                                <br>
                                 <input type="submit" class="btn btn-info" value="Set">
                                 <a href="{% url 'set_avatar' %}" class="btn btn-danger">Delete</a>
                             </form>

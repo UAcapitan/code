@@ -9,10 +9,21 @@
     <br>
 
     {% if form %}
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Edit">
-        </form>
+        <div>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.title }}
+                <br><br>
+                {{ form.text }}
+                <br><br>
+                <div style="width: 15em;">
+                    {{ form.image }}
+                </div>
+                <br>
+                {{ form.video }}
+                <br><br>
+                <input type="submit" class="btn btn-success" value="Edit">
+            </form>
+        </div>
     {% endif %}
 {% endblock %}
