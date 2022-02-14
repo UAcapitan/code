@@ -25,7 +25,7 @@
                                 <br><br>
                                 {{ form_user.password2 }}
                                 <br><br>
-                                <input type="submit" class="btn btn-info" value="Set">
+                                <input type="submit" class="btn btn-success" value="Set">
                             </form>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                                 {% csrf_token %}
                                 {{ form_avatar.image }}
                                 <br>
-                                <input type="submit" class="btn btn-info" value="Set">
+                                <input type="submit" class="btn btn-success" value="Set">
                                 <a href="{% url 'set_avatar' %}" class="btn btn-danger">Delete</a>
                             </form>
                         </div>

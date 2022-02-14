@@ -39,34 +39,38 @@
 
     <!-- Block of articles -->
     <div class='container'>
-        <div>
-            <div class="d-flex justify-content-center">
-                <div>
-                    <div class="container">
-                        <div class="row">
-                            {% for article in articles %}
-                                <div class="col-sm">
-                                    <a href="{% url 'article' article.id %}" class="text-decoration-none text-dark">
-                                        <div class="card" style="width: 18rem;">
-                                            <img class="card-img-top" src="/media/{{ article.image }}" alt="Card image cap"
-                                            style="object-fit: cover; width: 100%; height: 10em;">
-                                            <div class="card-body">
-                                            <p class="card-text">{{ article.title }}</p>
-                                            <p class="card-text">
-                                                <img src="/media/src/like.png" alt="Like" width="30"> {{ article.likes }}
-                                            </p>
-                                            <p class='text-secondary'>{{ article.date_of_save }}</p>
+        {% if articles %}
+            <div>
+                <div class="d-flex justify-content-center">
+                    <div>
+                        <div class="container">
+                            <div class="row">
+                                {% for article in articles %}
+                                    <div class="col-sm">
+                                        <a href="{% url 'article' article.id %}" class="text-decoration-none text-dark">
+                                            <div class="card" style="width: 18rem;">
+                                                <img class="card-img-top" src="/media/{{ article.image }}" alt="Card image cap"
+                                                style="object-fit: cover; width: 100%; height: 10em;">
+                                                <div class="card-body">
+                                                <p class="card-text">{{ article.title }}</p>
+                                                <p class="card-text">
+                                                    <img src="/media/src/like.png" alt="Like" width="30"> {{ article.likes }}
+                                                </p>
+                                                <p class='text-secondary'>{{ article.date_of_save }}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <br>
-                            {% endfor %}
+                                        </a>
+                                    </div>
+                                    <br>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% else %}
+            <p>No articles now</p>
+        {% endif %}
 
         <br>
 
@@ -75,15 +79,17 @@
                 <div class="pagination">
                     <p><span class="step-links">
                         {% if page_obj.has_previous %}
-                            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                            <a href="?page={{ page_obj.previous_page_number }}"
+                            class="text-decoration-none">Previous</a>
                         {% endif %}
                     </span></p>
 
-                    <p>&nbsp; Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}. &nbsp;</p>
+                    <p>&nbsp; Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} &nbsp;</p>
 
                     <span class="step-links">
                         {% if page_obj.has_next %}
-                            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                            <a href="?page={{ page_obj.next_page_number }}"
+                            class="text-decoration-none">Next</a>
                         {% endif %}
                     </span>
                 </div>
