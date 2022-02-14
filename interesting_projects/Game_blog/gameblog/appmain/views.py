@@ -144,10 +144,12 @@ def add_article(request):
         if request.method == 'POST':
             form = forms.ArticleForm(request.POST, request.FILES)
             if form.is_valid():
+                video = request.POST['video']
+                video = video.replace('watch?v=', 'embed/')
+                form.instance.video = video
                 form.instance.user = request.user
                 form.save()
                 return redirect('admin_page')
-            print(form.is_valid())
         else:
             form = forms.ArticleForm()
         context = {

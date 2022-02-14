@@ -31,7 +31,7 @@ class ArticleForm(forms.ModelForm):
 	title = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Title'}))
 	text = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Text'}), max_length=2560)
 	image = forms.ImageField(widget=forms.FileInput(attrs={'class':'form-control form-control-sm'}))
-	video = forms.EmailField(widget=forms.TextInput(attrs={'placeholder':'URL to video'}))
+	video = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'URL to video'}))
 
 	class Meta:
 		model = models.Article
