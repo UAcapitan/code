@@ -117,6 +117,10 @@ REST_FRAMEWORK = {
     ]
 }
 
+DJOSER = {
+    "USER_ID_FIELD": "username"
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
