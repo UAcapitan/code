@@ -5,6 +5,7 @@ from . import forms
 from . import models
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 
 
 def main(request):
@@ -62,7 +63,11 @@ def logout_view(request):
     return redirect("main")
 
 def profile(request):
-    token = ''
+    try:
+        token = Token.objects.get(user=request.user)
+        print('Work')
+    except:
+        token = None
     try:
         avatar = models.Avatar.objects.get(user=request.user)
     except:
