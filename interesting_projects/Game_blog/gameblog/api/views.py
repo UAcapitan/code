@@ -12,7 +12,3 @@ class ArticleListView(generics.ListAPIView):
 class RateView(generics.ListAPIView):
     serializer_class = serializers.RateSerializer
     queryset = models.Article.objects.all().order_by('-likes')[:10]
-
-class ArticleCreateView(generics.CreateAPIView):
-    serializer_class = serializers.ArticleSerializer
-    permission_classes = (IsAdminUser,)

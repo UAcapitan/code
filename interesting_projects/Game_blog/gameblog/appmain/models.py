@@ -7,7 +7,7 @@ class Article(models.Model):
     text = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date_of_save = models.DateField(default=datetime.date.today()) 
-    image = models.ImageField(upload_to='articles/')
+    image = models.ImageField(upload_to='articles/', default=None, blank=True)
     video = models.CharField(max_length=512)
     likes = models.IntegerField(default=0)
 
