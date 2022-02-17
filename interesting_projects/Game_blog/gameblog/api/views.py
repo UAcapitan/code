@@ -20,3 +20,8 @@ class ArticleView(APIView):
         movies = models.Article.objects.filter(id=id)
         serializer = serializers.ArticleSerializer(movies, many=True)
         return Response(serializer.data)
+
+class ArticleNameListView(generics.ListAPIView):
+    serializer_class = serializers.NameOfArticlesSerializer
+    queryset = models.Article.objects.all().order_by('-id')
+    pagination_class = service.PagonationArticlePageSize10
