@@ -8,4 +8,5 @@ urlpatterns = [
     path('articles/names/', views.ArticleNameListView.as_view(), name='articles_names'),
     path('profile/', views.UserDataView.as_view(), name='profile'),
     path('article/delete/', views.DeleteArticleView.as_view(), name='delete_article'),
+    path('article/liked/', views.FavouriteArticleView.as_view(), name='article_liked'),
 ]

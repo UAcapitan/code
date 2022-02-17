@@ -58,4 +58,18 @@ class DeleteArticleView(APIView):
 
         return Response({'status': 'Article was deleted'}, status=200)
 
+class FavouriteArticleView(APIView):
+    def post(self, request):
+        json_dict = {}
+        user_token = request.data.get('token')
+
+        try:
+            token = Token.objects.get(key=user_token)
+            articles = models.Like.objects.filter(user=token.user)
+            json_dict["article"] = [article.article.title for article in articles]
+        except Exception as e:
+            json_dict["error"] = str(e)
+
+        return Response(json_dict)
+
         
