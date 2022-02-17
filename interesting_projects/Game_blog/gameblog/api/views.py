@@ -46,4 +46,16 @@ class UserDataView(APIView):
 
         return Response(json_dict)
 
+class DeleteArticleView(APIView):
+    def post(self, request):
+        id = request.data.get('id')
+
+        try:
+            id = int(id)
+            models.Article.objects.get(id=id).delete()
+        except:
+            return Response({'status': 'Article was not deleted'})
+
+        return Response({'status': 'Article was deleted'}, status=200)
+
         

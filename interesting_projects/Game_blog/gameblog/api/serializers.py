@@ -26,3 +26,7 @@ class NameOfArticlesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Article
         fields = ['title',]
+
+class FavouriteArticleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Like
