@@ -11,4 +11,6 @@ urlpatterns = [
     path('article/liked/', views.FavouriteArticleView.as_view(), name='article_liked'),
     path('article/create/', views.CreateArticleView.as_view(), name='create_article'),
     path('article/comment/', views.CommentToArticleView.as_view(), name='article_comment'),
+    path('recommendation/', views.RecommendationView.as_view(), name='recommendation'),
+    path('comments/', views.CommentListView.as_view(), name='comments'),
 ]

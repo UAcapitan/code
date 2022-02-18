@@ -131,4 +131,24 @@ class CommentToArticleView(APIView):
             json_dict["error"] = str(e)
 
         return Response(json_dict)
-        
+
+class RecommendationView(APIView):
+    def get(self, request):
+        article = models.Recommendation.objects.get(pk=1)
+        model = article.article
+        json_dict = {
+                'id': model.id,
+                'title': model.title,
+                'text': model.text,
+                'user': model.user.username,
+                'date_of_user': model.date_of_save,
+                'image': 'None, please install image via admin menu',
+                'video': model.video,
+                'likes': model.likes,
+            }
+        return Response(json_dict)
+
+class CommentListView(generics.ListAPIView):
+    serializer_class = serializers.CommentSerializer
+    queryset = models.Comment.objects.all().order_by('-id')
+    pagination_class = service.PagonationArticlePageSize10 

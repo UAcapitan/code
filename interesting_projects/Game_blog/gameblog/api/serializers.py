@@ -17,12 +17,12 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'email']
 
-class RecommendationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Recommendation
-        fields = '__all__'
-
 class NameOfArticlesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Article
         fields = ['title',]
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Comment
+        fields = '__all__'
