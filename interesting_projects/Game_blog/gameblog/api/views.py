@@ -151,4 +151,5 @@ class RecommendationView(APIView):
 class CommentListView(generics.ListAPIView):
     serializer_class = serializers.CommentSerializer
     queryset = models.Comment.objects.all().order_by('-id')
-    pagination_class = service.PagonationArticlePageSize10 
+    pagination_class = service.PagonationArticlePageSize10
+    permission_classes = (IsAdminUser,)
