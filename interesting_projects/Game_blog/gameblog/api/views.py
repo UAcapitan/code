@@ -61,12 +61,46 @@ class DeleteArticleView(APIView):
 class FavouriteArticleView(APIView):
     def post(self, request):
         json_dict = {}
+        json_dict.items
         user_token = request.data.get('token')
 
         try:
             token = Token.objects.get(key=user_token)
             articles = models.Like.objects.filter(user=token.user)
             json_dict["article"] = [article.article.title for article in articles]
+        except Exception as e:
+            json_dict["error"] = str(e)
+
+        return Response(json_dict)
+
+class CreateArticleView(APIView):
+    permission_classes = (IsAdminUser,)
+    def post(self, request):
+        json_dict = {}
+        user_token = request.data.get('token')
+        print(request.data)
+
+        try:
+            token = Token.objects.get(key=user_token)
+            user = User.objects.get(username=token.user)
+            model = models.Article(
+                title=request.data.get('title'),
+                text=request.data.get('text'),
+                user=user,
+                video=request.data.get('video'),
+            )
+            model.save()
+            json_dict["article"] = {
+                'id': model.id,
+                'title': model.title,
+                'text': model.text,
+                'user': model.user.username,
+                'date_of_user': model.date_of_save,
+                'image': 'None, please install image via admin menu',
+                'video': model.video,
+                'likes': model.likes,
+            }
+            print('All is good')
         except Exception as e:
             json_dict["error"] = str(e)
 
