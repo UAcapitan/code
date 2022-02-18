@@ -42,7 +42,7 @@ class Recommendation(models.Model):
 class Comment(models.Model):
     text = models.CharField(max_length=4096)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateTimeField(default=datetime.datetime.now())
 
     def __str__(self):

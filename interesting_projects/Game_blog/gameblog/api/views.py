@@ -100,10 +100,35 @@ class CreateArticleView(APIView):
                 'video': model.video,
                 'likes': model.likes,
             }
-            print('All is good')
         except Exception as e:
             json_dict["error"] = str(e)
 
         return Response(json_dict)
 
+class CommentToArticleView(APIView):
+    def post(self, request):
+        json_dict = {}
+        user_token = request.data.get('token')
+
+        try:
+            token = Token.objects.get(key=user_token)
+            user = User.objects.get(username=token.user)
+            article = models.Article.objects.get(id=int(request.data.get('id')))
+            model = models.Comment(
+                text=request.data.get('text'),
+                user=user,
+                article=article,
+            )
+            model.save()
+            json_dict["comment"] = {
+                'id': model.id,
+                'title': model.text,
+                'user': model.user.username,
+                'article': model.article.title,
+                'date': model.date,
+            }
+        except Exception as e:
+            json_dict["error"] = str(e)
+
+        return Response(json_dict)
         
