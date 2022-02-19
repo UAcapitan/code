@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'djoser',
     'drf_yasg',
     'login_social',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -155,3 +156,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+LOGIN_URL = 'login_social'
+LOGIN_REDIRECT_URL = 'main'
+LOGOUT_URL = 'logout_social'
+LOGOUT_REDIRECT_URL = 'login_social'
+
+SOCIAL_AUTH_FACEBOOK_KEY = ''
+SOCIAL_AUTH_FACEBOOK_SECRET = ''

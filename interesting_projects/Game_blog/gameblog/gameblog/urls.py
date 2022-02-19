@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/v1/', include('api.urls')),
     path('api/v1/auth/', include('djoser.urls.authtoken')),
     path('', include('appmain.urls')),
+    path('social/', include('login_social.urls')),
 ]
 
 urlpatterns += doc_urls
