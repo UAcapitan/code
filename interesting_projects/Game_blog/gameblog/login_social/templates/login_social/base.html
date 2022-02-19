@@ -24,21 +24,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'login' %}">Login</a>
                     </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile' %}">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'favourite' %}">Favourite</a>
-                    </li>
-                        {% if user.is_staff %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'admin_page' %}">Admin</a>
-                            </li>
-                        {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                    </li>
                     {% endif %}
                 </ul>
             </div>
@@ -52,11 +37,8 @@
         {% block content %}
         
         {% endblock %}
+        <br><br><br>
     </div>
-
-    <br>
-    <br>
-    <br>
 
     <footer class="page-footer font-small blue fixed-bottom bg-light">
 
