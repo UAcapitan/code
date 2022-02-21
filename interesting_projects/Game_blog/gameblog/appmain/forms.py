@@ -5,12 +5,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import password_changed
 from . import models
 from django.contrib.auth.forms import AuthenticationForm
+from captcha.fields import CaptchaField
 
 class NewUserForm(UserCreationForm):
 	username = forms.CharField(widget=forms.TextInput(attrs={'class':'validate', 'placeholder':'Login'}))
 	email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'placeholder':'Email'}))
 	password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
 	password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Confirm password'}))
+
+	captcha = CaptchaField()
 
 	class Meta:
 		model = User
@@ -26,6 +29,7 @@ class NewUserForm(UserCreationForm):
 class AuthForm(AuthenticationForm):
 	username = forms.CharField(widget=forms.TextInput(attrs={'class':'validate', 'placeholder':'Login'}))
 	password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
+	captcha = CaptchaField()
 
 class ArticleForm(forms.ModelForm):
 	title = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Title'}))

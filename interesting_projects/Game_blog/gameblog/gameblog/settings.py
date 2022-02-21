@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'social_django',
     'sslserver',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -172,3 +173,7 @@ SOCIAL_AUTH_FACEBOOK_KEY = ''
 SOCIAL_AUTH_FACEBOOK_SECRET = ''
 
 ALLOWED_HOSTS = ['localhost',]
+
+CAPTCHA_FONT_SIZE = 20
+CAPTCHA_LETTER_ROTATION = (-20,20)
+CAPTCHA_BACKGROUND_COLOR = '#FFFFFF'

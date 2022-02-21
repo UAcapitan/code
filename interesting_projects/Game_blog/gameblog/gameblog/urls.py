@@ -28,6 +28,7 @@ urlpatterns = [
     path('', include('appmain.urls')),
     path('social/logout/', auth_views.LogoutView.as_view(), name="logout_social"),
     path('social/social-auth/', include('social_django.urls', namespace="social")),
+    path('captcha/', include('captcha.urls')),
 ]
 
 urlpatterns += doc_urls
