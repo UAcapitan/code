@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import os
 from pathlib import Path
+from secret_keys import FACEBOOK_ID, FACEBOOK_TOKEN
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -169,8 +170,8 @@ LOGIN_REDIRECT_URL = 'main'
 LOGOUT_URL = 'logout_social'
 LOGOUT_REDIRECT_URL = 'login'
 
-SOCIAL_AUTH_FACEBOOK_KEY = ''
-SOCIAL_AUTH_FACEBOOK_SECRET = ''
+SOCIAL_AUTH_FACEBOOK_KEY = FACEBOOK_ID
+SOCIAL_AUTH_FACEBOOK_SECRET = FACEBOOK_TOKEN
 
 ALLOWED_HOSTS = ['localhost',]
 
