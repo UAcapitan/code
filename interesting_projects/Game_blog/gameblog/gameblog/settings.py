@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'drf_yasg',
-    'login_social',
     'social_django',
     'sslserver',
 ]
@@ -164,36 +163,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-LOGIN_URL = 'login_social'
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'main'
 LOGOUT_URL = 'logout_social'
-LOGOUT_REDIRECT_URL = 'login_social'
+LOGOUT_REDIRECT_URL = 'login'
 
 SOCIAL_AUTH_FACEBOOK_KEY = ''
 SOCIAL_AUTH_FACEBOOK_SECRET = ''
 
-# SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-# SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-# 'fields': 'name, email, age_range'
-# }
-
-# SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link']
-# SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-#   'fields': 'id, name, email, picture.type(large), link'
-# }
-
-# SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
-#     ('name', 'name'),
-#     ('email', 'email'),
-#     ('picture', 'picture'),
-#     ('link', 'profile_url'),
-# ]
-
-# SOCIAL_AUTH_REDIRECT = True
-
-SOCIAL_AUTH_INSTAGRAM_KEY = ''
-SOCIAL_AUTH_INSTAGRAM_SECRET = ''
-
-# SOCIAL_AUTH_INSTAGRAM_EXTRA_DATA = [('user', 'user'),]
-
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost',]

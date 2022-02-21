@@ -68,9 +68,14 @@
                 <button type="submit" class='btn btn-primary'>Login</button>
             </div>
             <br>
-            <div class='d-flex justify-content-center'>
-                <p><a href="{% url 'login_social' %}" class="text-decoration-none">Login via social networks</a></p>
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'social:begin' 'facebook' %}"><img 
+                src="/media/src/facebook.png" 
+                alt="Login via Facebook"
+                width="50"
+                height="auto"></a>
             </div>
+            <br>
             <div class='d-flex justify-content-center'>
                 <p><a href="{% url 'reg' %}" class="text-decoration-none">Do you not have an account?</a></p>
             </div>
