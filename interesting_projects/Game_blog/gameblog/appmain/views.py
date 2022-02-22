@@ -7,8 +7,7 @@ from . import models
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
-import aiohttp
-
+import requests
 
 def main(request):
     articles = models.Article.objects.all().order_by('-id')
@@ -278,10 +277,25 @@ def set_avatar(request):
                 return redirect('profile')
 
 def get_token(request):
-    return render(request, 'appmain/get_token.html')
+    print(get_api_token())
+    return redirect('main')
+    # return render(request, 'appmain/get_token.html')
 
 def delete_token(request):
     return redirect('profile')
 
+
+
+# Service
 def error(request, text):
     return render(request, 'appmain/error_page.html', {'error': text})
+
+def get_api_token():
+    with requests.post(
+        url='http://localhost:8000/api/v1/auth/token/login',
+        data = {
+            'password': 'rootrootroot',
+            'username': 'admin'
+        }
+    ) as response:
+        return response.json()['auth_token']
