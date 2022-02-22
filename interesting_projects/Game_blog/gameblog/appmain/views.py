@@ -275,5 +275,8 @@ def set_avatar(request):
                 models.Avatar.objects.get(user=request.user).delete()
                 return redirect('profile')
 
+def get_token(request):
+    return render(request, 'appmain/get_token.html')
+
 def error(request, text):
     return render(request, 'appmain/error_page.html', {'error': text})

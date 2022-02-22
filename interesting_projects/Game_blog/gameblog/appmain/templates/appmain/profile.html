@@ -39,7 +39,7 @@
                         {% if token %}
                             {{ token }}
                         {% else %}
-                            None
+                            None <a href="{% url 'get_token' %}">Get token</a>
                         {% endif %}
                     </p>
                     <br>

@@ -21,4 +21,5 @@ urlpatterns = [
     path('like/<int:id>/', views.like, name='like'),
     path('settings/', views.settings, name='settings'),
     path('set-avatar/', views.set_avatar, name='set_avatar'),
+    path('get-token/', views.get_token, name='get_token'),
 ]
