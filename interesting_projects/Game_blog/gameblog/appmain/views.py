@@ -1,4 +1,3 @@
-from multiprocessing import context
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
@@ -7,7 +6,7 @@ from . import models
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
-import requests
+from . import service
 
 def main(request):
     articles = models.Article.objects.all().order_by('-id')
@@ -277,25 +276,11 @@ def set_avatar(request):
                 return redirect('profile')
 
 def get_token(request):
-    print(get_api_token())
-    return redirect('main')
-    # return render(request, 'appmain/get_token.html')
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        result = service.get_api_token(request, request.user.username, password)
+    print(result)
+    return redirect('profile')
 
 def delete_token(request):
     return redirect('profile')
-
-
-
-# Service
-def error(request, text):
-    return render(request, 'appmain/error_page.html', {'error': text})
-
-def get_api_token():
-    with requests.post(
-        url='http://localhost:8000/api/v1/auth/token/login',
-        data = {
-            'password': 'rootrootroot',
-            'username': 'admin'
-        }
-    ) as response:
-        return response.json()['auth_token']

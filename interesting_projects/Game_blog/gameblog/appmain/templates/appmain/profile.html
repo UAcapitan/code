@@ -46,7 +46,11 @@
                         <p><a href="{% url 'schema-swagger-ui' %}" class="btn btn-info">All API methods</a></p>
                         <p><a href="{% url 'logout_social' %}" class="btn btn-danger">Delete API token</a></p>
                     {% else %}
-                        <p><a href="{% url 'get_token' %}" class="btn btn-success">Get token</a></p>
+                        <form action="{% url 'get_token' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="password" name="password" placeholder="Password">
+                            <input type="submit" class="btn btn-success" value="Get token">
+                        </form>
                     {% endif %}
                     <br>
 

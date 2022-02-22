@@ -1,17 +1,18 @@
 from django.shortcuts import render
-import aiohttp
+import requests
 
 def error(request, text):
     return render(request, 'appmain/error_page.html', {'error': text})
 
-async def get_token():
-        async with aiohttp.ClientSession() as session:
-            async with session.post(
-                url='http://localhost:8000/api/v1/auth/token/login',
-                json = {
-                    'Password': 'rootrootroot',
-                    'Username': 'admin'
-                }
-            ) as response:
-                result = await response.json()
-        return result
+def get_api_token(request, username, password):
+    try:
+        with requests.post(
+            url='http://localhost:8000/api/v1/auth/token/login',
+            data = {
+                'username': username,
+                'password': password
+            }
+        ) as response:
+            return response.json()['auth_token']
+    except:
+        error(request, 'Error')
