@@ -65,7 +65,6 @@ def logout_view(request):
 def profile(request):
     try:
         token = Token.objects.get(user=request.user)
-        print('Work')
     except:
         token = None
     try:
@@ -242,6 +241,8 @@ def settings(request):
         pass
     if request.method == 'POST':
         form_update_user = forms.NewUserForm(request.POST, instance=user_data)
+        print(request.POST)
+        print(form_update_user.is_valid())
         if form_update_user.is_valid():
             form_update_user.save()
             return redirect('profile')
@@ -284,3 +285,11 @@ def get_token(request):
 def delete_token(request):
     service.delete_api_token(request)
     return redirect('profile')
+
+def change_password(request):
+    # if request.method == 'POST':
+    #     form_update_user = forms.NewUserForm(request.POST, instance=user_data)
+    #     if form_update_user.is_valid():
+    #         form_update_user.save()
+    #         return redirect('profile')
+    pass

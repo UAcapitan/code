@@ -6,7 +6,7 @@
 
     <h1>Settings</h1>
 
-    <br>
+    <br><br>
     <div class="d-flex justify-content-center">
         <div>
             <div class="container">
@@ -24,6 +24,22 @@
                                 {{ form_user.password1 }}
                                 <br><br>
                                 {{ form_user.password2 }}
+                                <br><br>
+                                {{ form_user.captcha }}
+                                <br><br>
+                                <input type="submit" class="btn btn-success" value="Set">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="container">
+                            <p class="h3">Update password</p>
+                            <br>
+                            <form method="POST" action="{% url 'change_password' %}">
+                                {% csrf_token %}
+                                <!-- {{ form_user.password1 }}
+                                <br><br>
+                                {{ form_user.password2 }} -->
                                 <br><br>
                                 <input type="submit" class="btn btn-success" value="Set">
                             </form>
