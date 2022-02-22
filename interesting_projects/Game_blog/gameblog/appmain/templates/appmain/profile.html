@@ -42,6 +42,9 @@
                             None <a href="{% url 'get_token' %}">Get token</a>
                         {% endif %}
                     </p>
+                    {% if token %}
+                        <p><a href="{% url 'logout_social' %}" class="btn btn-danger">Delete API token</a></p>
+                    {% endif %}
                     <br>
 
                     <a href="{% url 'settings' %}" class="btn btn-success">Settings</a>

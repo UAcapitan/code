@@ -6,6 +6,7 @@ from . import models
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
+import aiohttp
 
 
 def main(request):
@@ -277,6 +278,9 @@ def set_avatar(request):
 
 def get_token(request):
     return render(request, 'appmain/get_token.html')
+
+def delete_token(request):
+    return redirect('profile')
 
 def error(request, text):
     return render(request, 'appmain/error_page.html', {'error': text})
