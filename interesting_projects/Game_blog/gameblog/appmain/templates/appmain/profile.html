@@ -44,7 +44,7 @@
                     </p>
                     {% if token %}
                         <p><a href="{% url 'schema-swagger-ui' %}" class="btn btn-info">All API methods</a></p>
-                        <p><a href="{% url 'logout_social' %}" class="btn btn-danger">Delete API token</a></p>
+                        <p><a href="{% url 'delete_token' %}" class="btn btn-danger">Delete API token</a></p>
                     {% else %}
                         <form action="{% url 'get_token' %}" method="POST">
                             {% csrf_token %}

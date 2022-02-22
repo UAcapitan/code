@@ -279,8 +279,8 @@ def get_token(request):
     if request.method == 'POST':
         password = request.POST.get('password')
         result = service.get_api_token(request, request.user.username, password)
-    print(result)
     return redirect('profile')
 
 def delete_token(request):
+    service.delete_api_token(request)
     return redirect('profile')

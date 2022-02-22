@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework.authtoken.models import Token
 import requests
 
 def error(request, text):
@@ -14,5 +15,11 @@ def get_api_token(request, username, password):
             }
         ) as response:
             return response.json()['auth_token']
+    except:
+        error(request, 'Error')
+
+def delete_api_token(request):
+    try:
+        Token.objects.get(user=request.user).delete()
     except:
         error(request, 'Error')
