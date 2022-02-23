@@ -17,15 +17,9 @@
                             <br>
                             <form method="POST">
                                 {% csrf_token %}
-                                {{ form_user.username }}
+                                <input type="text" name="username" placeholder="Username" value="{{ user.username }}" required>
                                 <br><br>
-                                {{ form_user.email }}
-                                <br><br>
-                                {{ form_user.password1 }}
-                                <br><br>
-                                {{ form_user.password2 }}
-                                <br><br>
-                                {{ form_user.captcha }}
+                                <input type="text" name="email" placeholder="Username" value="{{ user.email }}" required>
                                 <br><br>
                                 <input type="submit" class="btn btn-success" value="Set">
                             </form>
@@ -35,14 +29,14 @@
                         <div class="container">
                             <p class="h3">Update password</p>
                             <br>
-                            <form method="POST" action="{% url 'change_password' %}">
+                            <!-- <form method="POST" action="{% url 'change_password' %}">
                                 {% csrf_token %}
-                                <!-- {{ form_user.password1 }}
+                                {{ form_user.password1 }}
                                 <br><br>
-                                {{ form_user.password2 }} -->
+                                {{ form_user.password2 }}
                                 <br><br>
                                 <input type="submit" class="btn btn-success" value="Set">
-                            </form>
+                            </form> -->
                         </div>
                     </div>
                     <div class="col-sm">

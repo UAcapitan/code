@@ -26,21 +26,6 @@ class NewUserForm(UserCreationForm):
 			user.save()
 		return user
 
-class UpdateNewUserForm(UserCreationForm):
-	username = forms.CharField(widget=forms.TextInput(attrs={'class':'validate', 'placeholder':'Login'}))
-	email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'placeholder':'Email'}))
-
-	class Meta:
-		model = User
-		fields = ("username", "email")
-
-	def save(self, commit=True):
-		user = super().save(commit=False)
-		user.email = self.cleaned_data['email']
-		if commit:
-			user.save()
-		return user
-
 class AuthForm(AuthenticationForm):
 	username = forms.CharField(widget=forms.TextInput(attrs={'class':'validate', 'placeholder':'Login'}))
 	password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password'}))

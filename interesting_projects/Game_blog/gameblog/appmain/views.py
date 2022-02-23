@@ -235,26 +235,14 @@ def like(request, id):
         return redirect('article', id=id)
 
 def settings(request):
-    try:
-        user_data = User.objects.get(id=request.user.id)
-    except:
-        pass
     if request.method == 'POST':
-        form_update_user = forms.NewUserForm(request.POST, instance=user_data)
-        print(request.POST)
-        print(form_update_user.is_valid())
-        if form_update_user.is_valid():
-            form_update_user.save()
-            return redirect('profile')
-    else:
-        form_update_user = None
-        try:
-            form_update_user = forms.NewUserForm(instance=user_data)
-        except:
-            pass
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        user = User.objects.get(id=request.user.id)
+        return redirect('profile')
     form_set_avatar = forms.AvatarForm()
     context = {
-        'form_user': form_update_user,
+        'user': request.user,
         'form_avatar': form_set_avatar,
     }
     return render(request, 'appmain/settings.html', context=context)
