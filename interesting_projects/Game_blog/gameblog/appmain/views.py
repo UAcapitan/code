@@ -254,7 +254,6 @@ def settings(request):
 def set_avatar(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            print(request.POST)
             temp = request.POST.copy()
             temp['user'] = request.user
             form = forms.AvatarForm(temp, request.FILES)
@@ -286,5 +285,4 @@ def change_password(request):
         if password_1 == password_2:
             user.password = make_password(password_1)
             user.save()
-            print(user.password)
         return redirect('profile')
