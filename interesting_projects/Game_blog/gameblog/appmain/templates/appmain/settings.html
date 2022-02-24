@@ -29,14 +29,14 @@
                         <div class="container">
                             <p class="h3">Update password</p>
                             <br>
-                            <!-- <form method="POST" action="{% url 'change_password' %}">
+                            <form method="POST" action="{% url 'change_password' %}">
                                 {% csrf_token %}
-                                {{ form_user.password1 }}
+                                <input type="password" name="password_1" placeholder="New password">
                                 <br><br>
-                                {{ form_user.password2 }}
+                                <input type="password" name="password_2" placeholder="Confirm password">
                                 <br><br>
                                 <input type="submit" class="btn btn-success" value="Set">
-                            </form> -->
+                            </form>
                         </div>
                     </div>
                     <div class="col-sm">

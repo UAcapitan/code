@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from . import service
+from django.contrib.auth.hashers import make_password
 
 def main(request):
     articles = models.Article.objects.all().order_by('-id')
@@ -239,6 +240,9 @@ def settings(request):
         username = request.POST.get("username")
         email = request.POST.get("email")
         user = User.objects.get(id=request.user.id)
+        user.username = username
+        user.email = email
+        user.save()
         return redirect('profile')
     form_set_avatar = forms.AvatarForm()
     context = {
@@ -275,9 +279,12 @@ def delete_token(request):
     return redirect('profile')
 
 def change_password(request):
-    # if request.method == 'POST':
-    #     form_update_user = forms.NewUserForm(request.POST, instance=user_data)
-    #     if form_update_user.is_valid():
-    #         form_update_user.save()
-    #         return redirect('profile')
-    pass
+    if request.method == 'POST':
+        password_1 = request.POST.get("password_1")
+        password_2 = request.POST.get("password_2")
+        user = User.objects.get(id=request.user.id)
+        if password_1 == password_2:
+            user.password = make_password(password_1)
+            user.save()
+            print(user.password)
+        return redirect('profile')
