@@ -33,4 +33,11 @@ def arg(*args: int, **kwargs: float) -> None:
     for k, j in kwargs.items():
         print(f'{k} : {j}')
 
-print(arg(1,2,3,test=3.4))
+# print(arg(1,2,3,test=3.4))
+
+def print_names(names: list[str]) -> None:
+    for i in names:
+        print(f'Hi, {i}')
+
+print(print_names(['Max', 'Ivan', 'Ira']))
+print(print_names([10,20,30]))
