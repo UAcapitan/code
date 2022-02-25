@@ -18,4 +18,11 @@ def p2() -> None:
 def p3() -> None:
     1 + 2
 
-print(p3())
+# print(p3())
+
+def hi(name: str, flag: bool) -> str:
+    if flag:
+        return f'Hi, {name}'
+    return f'Hello, {name}'
+
+print(hi('Max', True))
