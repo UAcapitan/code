@@ -25,4 +25,12 @@ def hi(name: str, flag: bool) -> str:
         return f'Hi, {name}'
     return f'Hello, {name}'
 
-print(hi('Max', True))
+# print(hi('Max', True))
+
+def arg(*args: int, **kwargs: float) -> None:
+    for i in args:
+        print(i)
+    for k, j in kwargs.items():
+        print(f'{k} : {j}')
+
+print(arg(1,2,3,test=3.4))
