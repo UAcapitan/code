@@ -60,3 +60,21 @@ def str_and_none_only(name: Union[str, None]) -> Union[str, None]:
 
 # print(str_and_none_only('Max'))
 # print(str_and_none_only(None))
+
+def str_optional(name: Optional[str] = None) -> str:
+    if name is None:
+        return 'Anonymous'
+    return name
+
+# print(str_optional('Max'))
+# print(str_optional(None))
+
+def condition_nums(iter_f: Iterable[float], n: int) -> list[float]:
+    return [i for i in iter_f if i >= n]
+
+# print(condition_nums(iter([1,2,3,4,5,6,7,8,9,10]), 5))
+
+my_global_dict: dict[str, float] = {}
+my_global_dict['test'] = 1
+my_global_dict['test2'] = 1.1
+# my_global_dict['test3'] = 'name'
