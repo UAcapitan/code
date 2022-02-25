@@ -1,3 +1,8 @@
+'''
+    MyPy command start:
+        mypy <name of file>
+'''
+
 from typing import *
 from collections.abc import *
 
@@ -78,3 +83,7 @@ my_global_dict: dict[str, float] = {}
 my_global_dict['test'] = 1
 my_global_dict['test2'] = 1.1
 # my_global_dict['test3'] = 'name'
+
+x: str = ''
+x = 5
+x = 'Text'
