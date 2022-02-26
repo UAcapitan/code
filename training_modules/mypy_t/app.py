@@ -105,3 +105,18 @@ dict1: dict[str, int] = {
     '3': 3
 }
 set1: set[int] = {1,2,3}
+
+x = print() #type: ignore
+x3: Any = print()
+
+a2 = [1]
+b2 = cast(list[str], a2)
+c2 = cast(list[int], a2)
+
+b2.append('2')
+# b2.append(2)
+# c2.append('2')
+c2.append(2)
+
+# print(b2)
+# print(c2)
