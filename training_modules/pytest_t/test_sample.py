@@ -1,3 +1,4 @@
+import pytest
 from app import *
 
 class TestsOfApp:
@@ -6,3 +7,7 @@ class TestsOfApp:
 
     def test_inc_type(self):
         assert type(inc(1)) == int
+
+    def test_error(self):
+        with pytest.raises(Exception):
+            error()
