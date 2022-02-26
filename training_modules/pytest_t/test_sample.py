@@ -1,4 +1,8 @@
 from app import *
 
-def test_answer():
-    assert inc(1) == 2
+class TestsOfApp:
+    def test_answer(self):
+        assert inc(1) == 2
+
+    def test_inc_type(self):
+        assert type(inc(1)) == int
