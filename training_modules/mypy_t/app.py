@@ -85,5 +85,23 @@ my_global_dict['test2'] = 1.1
 # my_global_dict['test3'] = 'name'
 
 x: str = ''
-x = 5
+# x = 5
 x = 'Text'
+
+list_of_lists: List[List[int]] = []
+list_of_lists = [[1,2,4]]
+# list_of_lists = [[1,2,'test']]
+
+x2 = chr(4)
+
+a1: int
+b1: float
+c1: str
+
+list1: list[int] = [1,2,3]
+dict1: dict[str, int] = {
+    '1': 1,
+    '2': 2,
+    '3': 3
+}
+set1: set[int] = {1,2,3}
