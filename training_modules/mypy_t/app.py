@@ -120,3 +120,50 @@ c2.append(2)
 
 # print(b2)
 # print(c2)
+
+def mapping(dict1: Mapping[int, str]) -> list[int]:
+    # dict1['3'] = 1
+    return list(dict1.keys())
+
+# mapping({1:'1', 2:'2'})
+
+def mapping2(dict1: MutableMapping[int, str]) -> set[str]:
+    # dict1['3'] = 1
+    return set(dict1.values())
+
+# mapping2({1:'1', 2:'2'})
+
+class MyClass:
+    attr: int
+    n: int = 100
+
+    def __init__(self, n:int = 0) -> None:
+        self.n = n
+
+    def add_n(self) -> int:
+        return self.n + self.n
+
+my_class: MyClass = MyClass()
+
+class Car:
+    wheels: ClassVar[int] = 4
+    model: ClassVar[str] = 'BMW'
+
+class Box:
+    def __init__(self) -> None:
+        self.items: list[str] = []
+
+def optional1(n: str) -> Optional[int]:
+    return int(n) if n.isdigit() else None
+
+# print(optional1('123text'))
+# print(optional1('123'))
+
+def print_text(text: str) -> None:
+    print(text)
+
+# print_text('Hi, world')
+
+t1: Union[int, str] = 1
+t1 = 'text'
+# t1 = 1.1
