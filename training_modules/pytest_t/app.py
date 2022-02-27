@@ -25,7 +25,8 @@ def return_num(n: int) -> Union[int, Exception]:
 
 class Calculator:
     def __init__(self, n: int) -> None:
-        if type(n) != int: raise Exception('This is not needed type')
+        if type(n) != int: 
+            raise Exception('This is not needed type')
         self.__n: int = n
 
     def set_n(self, n: int) -> None:
@@ -36,3 +37,12 @@ class Calculator:
 
     def add(self, n: int) -> None:
         self.set_n(self.get_n() + n)
+
+    def minus(self, n: int) -> None:
+        self.set_n(self.get_n() - n)
+
+    def invert(self) -> None:
+        self.set_n(-self.get_n())
+
+    def sqrt(self) -> None:
+        self.set_n(self.get_n() ** 2)
