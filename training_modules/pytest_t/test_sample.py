@@ -53,3 +53,11 @@ class TestsForCalculator:
         assert calculator.get_n() == 30
         calculator.add(0)
         assert calculator.get_n() == 30
+    
+    def test_for_types(self):
+        with pytest.raises(Exception):
+            Calculator('10')
+            Calculator('abc')
+            Calculator(123.1)
+            Calculator([])
+            Calculator(1,2,3)
