@@ -1,5 +1,8 @@
 def inc(x):
-    return x + 1
+    return int(x + 1)
 
 def error():
     raise Exception()
+
+def cap(text):
+    return text.capitalize()
