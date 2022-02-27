@@ -25,6 +25,7 @@ def return_num(n: int) -> Union[int, Exception]:
 
 class Calculator:
     def __init__(self, n: int) -> None:
+        if type(n) != int: raise Exception('This is not needed type')
         self.__n: int = n
 
     def set_n(self, n: int) -> None:
