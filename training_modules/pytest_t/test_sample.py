@@ -26,3 +26,9 @@ class TestsOfApp:
     def test_error_cap(self):
         with pytest.raises(AttributeError):
             cap(123.0)
+
+    def test_some_errors(self):
+        with pytest.raises(Exception):
+            some_errors(10)
+            some_errors(105.0)
+            some_errors('110')
