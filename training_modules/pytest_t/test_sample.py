@@ -43,3 +43,8 @@ class TestsOfApp:
             return_num(12)
             return_num(15)
             return_num(17)
+
+    def test_for_calculator(self):
+        calculator = Calculator(10)
+        calculator.add(10)
+        assert calculator.get_n() == 20
