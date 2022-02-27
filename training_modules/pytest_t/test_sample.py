@@ -32,3 +32,14 @@ class TestsOfApp:
             some_errors(10)
             some_errors(105.0)
             some_errors('110')
+
+    def test_for_return_num(self):
+        assert return_num(1) == 0
+        assert return_num(5) == 0
+        assert return_num(25) == 25
+
+    def test_for_error_return_num(self):
+        with pytest.raises(Exception):
+            return_num(12)
+            return_num(15)
+            return_num(17)
