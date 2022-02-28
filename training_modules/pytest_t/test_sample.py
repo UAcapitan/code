@@ -78,5 +78,16 @@ class TestsForCalculator:
             Calculator(1,2,3)
 
     def test_for_functions(self):
+        calculator = Calculator(10)
         with pytest.raises(Exception):
-            calculator = Calculator(10)
+            calculator.add('1wb')
+            calculator.minus('1wb')
+            calculator.invert('1wb')
+            calculator.sqrt('1wb')
+
+            calculator.add([])
+            calculator.minus([])
+
+            calculator.add(None)
+            calculator.minus(None)
+            
