@@ -29,11 +29,11 @@ class Calculator:
             raise Exception('This is not needed type')
         self.__n: int = n
 
-    def set_n(self, n: int) -> None:
-        self.__n = n
-
     def get_n(self) -> int:
         return self.__n
+
+    def set_n(self, n: int) -> None:
+        self.__n = n
 
     def add(self, n: int) -> None:
         self.set_n(self.get_n() + n)

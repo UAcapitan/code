@@ -76,3 +76,7 @@ class TestsForCalculator:
             Calculator(123.1)
             Calculator([])
             Calculator(1,2,3)
+
+    def test_for_functions(self):
+        with pytest.raises(Exception):
+            calculator = Calculator(10)
