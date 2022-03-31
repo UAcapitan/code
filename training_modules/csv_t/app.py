@@ -1,6 +1,7 @@
 import csv
 
-with open('file.csv', 'r') as csvfile:
-    csvreader = csv.reader(csvfile)
+with open('file.csv') as csvfile:
+    csvreader = csv.reader(csvfile, delimiter=' ')
     for i in csvreader:
-        print(' '.join(i))
+        if i != []:
+            print(' - '.join(i))
