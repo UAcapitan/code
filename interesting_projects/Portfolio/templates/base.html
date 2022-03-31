@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">
+            <img src="https://lh3.googleusercontent.com/pw/AM-JKLV7oaktOYg6iHWSjCVjM02UriBD_oTJI1lTeh1-iKki4dktvQ65vcN6Ow1m4eWZbGRnGV2kJ4kRGwShMtzPh32eO1dTAs3fAFIUsu-iO4cXGMOgM-rmUwJ-rYCg28Pf9bNLAqbSo4xpxicgjEcbKFIM=w160-h50-no?authuser=0" alt="Avatar" width='90' class="d-inline-block align-text-top">
+            Portfolio
+          </a>
+        </div>
+    </nav>
+    <br>
+    <div class='container'>
+        {% block content %}
+
+        {% endblock %}
+    <br><br><br>
+    <footer class="page-footer font-small blue">
+      <hr>
+      <div class='container'>
+        <div class="row">
+          <div class="col-4">
+            <p class='text-center'><a href="https://t.me/mixeed22">Telegram</a></p>
+          </div>
+          <div class="col-4">
+            <p class='text-center'><a href="https://www.linkedin.com/in/eduard-hryshchenko/">LinkedIn</a></p>
+          </div>
+          <div class="col-4">
+            <p class='text-center'><a href="mailto:ua.capitan@gmail.com">Gmail</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright text-center py-3">© 2021 Copyright: EdMix
+      </div>
+    
+    </footer>
+  </div>
+</body>
+</html>

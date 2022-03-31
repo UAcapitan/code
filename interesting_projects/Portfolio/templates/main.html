@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Main page{% endblock %}
+
+{% block content %}
+    <h3>Projects</h3>
+    <div class="container">
+        <div class="row">
+            {% for a in articles %}
+                <div class='col-12 col-sm-4'>
+                    <a href="/article/{{ a.id }}" class="text-decoration-none">
+                        <div class="card" style="height: 18rem; margin-top: 3vh;">
+                            <img src="{{ a.img_1 }}" class="card-img-top" style="height: 12rem;" alt="Card image">
+                            <div class="card-body">
+                                <h5 class="card-title text-dark">{{ a.title }}</h5>
+                                <p class="card-text text-muted">{{ a.tech }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <br>
+{% endblock %}
