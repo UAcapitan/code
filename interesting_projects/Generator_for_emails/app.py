@@ -15,15 +15,14 @@ data_for_generation = {
 # TODO set up
 # name_of_file = input('Input name of file:\n')
 
-name_of_file = 'test'
-
 # Class for database
 class DB:
     def __init__(self) -> None:
-        self.set_db_file('test')
+        self.set_db_file('main')
 
     def set_db_file(self, name: str) -> None:
-        name = name_of_file + '.db'
+        print('Work set db file test')
+        name = 'main.db'
         open(name, 'w').close()
         self.db = peewee.SqliteDatabase(name)
 
@@ -36,43 +35,36 @@ class EmailModele(peewee.Model):
     user = peewee.CharField()
 
     class Meta:
-        database = DB().db
+        database = app_db.db
 
 # Class for application, all functional of app
 class App:
-    def __init__(self, db: Type[DB]) -> None:
+    def __init__(self) -> None:
         self.root = tk.Tk()
 
         self.root.geometry('300x250')
         self.root.title('Generating of data')
-        self.db = app_db.db
+        self.db = app_db
 
         # Elements
-        self.label_name_of_files = tk.Label(self.root, text='Name for db: ')
-        self.name_of_file = tk.Entry(self.root)
         self.label_count_of_emails = tk.Label(self.root, text='Count of emails: ')
         self.count_of_emails = tk.Entry(self.root)
         self.btn_generate = tk.Button(self.root, text='Generate', command=self.generate_data)
 
         # Places
-        self.label_name_of_files.place(x=10, y=10)
-        self.name_of_file.place(x=110, y=10)
-        self.label_count_of_emails.place(x=10, y=40)
-        self.count_of_emails.place(x=110, y=40)
-        self.btn_generate.place(x=170, y=80)
+        self.label_count_of_emails.place(x=10, y=20)
+        self.count_of_emails.place(x=110, y=20)
+        self.btn_generate.place(x=170, y=50)
 
         self.root.mainloop()
 
     def init_db(self) -> None:
-        self.db.connect()
-        self.db.create_tables([EmailModele], safe=True)
-        self.db.close()
+        self.db.db.connect()
+        self.db.db.create_tables([EmailModele], safe=True)
 
     def set_name(self) -> None:
         if self.name_of_file.get() != '':
-            print(self.name_of_file.get())
-            app_db.set_db_file(self.name_of_file.get())
-            DB.db = self.name_of_file.get()
+            self.db.set_db_file(self.name_of_file.get())
 
     def get_count(self) -> int:
         try:
@@ -96,10 +88,9 @@ class App:
             email += '@' + random.choice(data_for_generation['email_hosts']) + '.'
             email += random.choice(data_for_generation['domains'])
             EmailModele(email=email, user=f'{surname} {name}').save()
+        self.db.db.close()
 
 if __name__ == '__main__':
     print('Start working') # TODO delete
-    app_db: Type[DB] = DB()
-    app: Type[App] = App(app_db.db)
+    app: Type[App] = App()
     print('End working') # TODO delete
-
