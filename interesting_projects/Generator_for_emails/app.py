@@ -3,30 +3,25 @@ import json
 import names
 import random
 import tkinter as tk
-from typing import Type
 
 data_for_generation = {
     'email_hosts': 
         ['gmail', 'email', 'text', 'uamail', 'example', 'newmail', 'mail'],
     'domains': 
-        ['ua', 'ge', 'us', 'fr', 'com', 'net', 'org']
+        ['ua', 'ge', 'us', 'fr', 'com', 'net', 'org'],
+    'cities':
+        ['Washington', 'New-York', 'Los Angeles']
 }
-
-# TODO set up
-# name_of_file = input('Input name of file:\n')
 
 # Class for database
 class DB:
     def __init__(self) -> None:
-        self.set_db_file('main')
-
-    def set_db_file(self, name: str) -> None:
-        print('Work set db file test')
         name = 'main.db'
         open(name, 'w').close()
         self.db = peewee.SqliteDatabase(name)
 
-app_db: Type[DB] = DB()
+# Object of database
+app_db: DB = DB()
 
 # Modele of email
 class EmailModele(peewee.Model):
@@ -49,6 +44,10 @@ class App:
         # Elements
         self.label_count_of_emails = tk.Label(self.root, text='Count of emails: ')
         self.count_of_emails = tk.Entry(self.root)
+
+        # TODO do it later
+
+        # Button for generate data
         self.btn_generate = tk.Button(self.root, text='Generate', command=self.generate_data)
 
         # Places
@@ -62,10 +61,6 @@ class App:
         self.db.db.connect()
         self.db.db.create_tables([EmailModele], safe=True)
 
-    def set_name(self) -> None:
-        if self.name_of_file.get() != '':
-            self.db.set_db_file(self.name_of_file.get())
-
     def get_count(self) -> int:
         try:
             return int(self.count_of_emails.get())
@@ -73,24 +68,63 @@ class App:
             return 0
 
     def generate_data(self) -> None:
-        self.set_name()
         n: int = self.get_count()
         self.init_db()
         name: str
         surname: str
         email: str = ''
+        # --------------
+        # 1. Generate name and surname
+        # 2. Generate name + random year
+        # 3. Generate surname + random year
+        # 4. Generate name + city + some numbers
+        # 5. Generate random letters
+        # 6. Generate random letters + numbers
+        # 7. Generate mixed all
+        self.generate_name_and_surname(n)
+        # --------------
+        self.db.db.close()
+
+    def generate_name_and_surname(self, n:int) -> None:
         for i in range(n):
             name, surname = names.get_full_name().split(' ')
             if random.randint(0,1) == 0:
-                email = f'{name}_{surname}'
+                email = f'{name}.{surname}'
             else:
-                email = f'{surname}_{name}'
-            email += '@' + random.choice(data_for_generation['email_hosts']) + '.'
-            email += random.choice(data_for_generation['domains'])
-            EmailModele(email=email, user=f'{surname} {name}').save()
-        self.db.db.close()
+                email = f'{surname}.{name}'
+            email += self.ending_of_email()
+            self.create_new_mail([email, surname, name])
+
+    def generate_name_and_year(self, n:int) -> None:
+        for i in range(n):
+            name, surname = names.get_full_name().split(' ')
+            if random.randint(0,1) == 0:
+                email = f'{name}.{random.choice(range(1950, 2005))}'
+            else:
+                email = f'{random.choice(range(1950, 2005))}.{name}'
+            email += self.ending_of_email()
+            self.create_new_mail([email, surname, name])
+
+    def generate_surname_and_year(self, n:int) -> None:
+        for i in range(n):
+            name, surname = names.get_full_name().split(' ')
+            if random.randint(0,1) == 0:
+                email = f'{surname}.{random.choice(range(1950, 2005))}'
+            else:
+                email = f'{random.choice(range(1950, 2005))}.{surname}'
+            email += self.ending_of_email()
+            self.create_new_mail([email, surname, name])
+
+    def ending_of_email(self) -> str:
+        ending: str = ''
+        ending += '@' + random.choice(data_for_generation['email_hosts']) + '.'
+        ending += random.choice(data_for_generation['domains'])
+        return ending
+
+    def create_new_mail(self, email: list) -> None:
+        EmailModele(email=email[0], user=f'{email[1]} {email[2]}').save()
 
 if __name__ == '__main__':
     print('Start working') # TODO delete
-    app: Type[App] = App()
+    app: App = App()
     print('End working') # TODO delete
