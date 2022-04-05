@@ -41,11 +41,27 @@ class App:
         self.root.title('Generating of data')
         self.db = app_db
 
+        self.values = {
+            "RadioButton 1" : "1",
+            "RadioButton 2" : "2",
+            "RadioButton 3" : "3",
+            "RadioButton 4" : "4",
+            "RadioButton 5" : "5"
+        }
+
         # Elements
         self.label_count_of_emails = tk.Label(self.root, text='Count of emails: ')
         self.count_of_emails = tk.Entry(self.root)
 
         # TODO do it later
+        self.radio_list = []
+        for (t, v) in self.values.items():
+            self.radio_list.append(tk.Radiobutton(self.root, text = t, variable = v,
+            value = v, indicator = 0))
+
+        x, y = 0, 0
+        for i in self.radio_list:
+            i.place(x=x, y=y)
 
         # Button for generate data
         self.btn_generate = tk.Button(self.root, text='Generate', command=self.generate_data)
@@ -53,7 +69,7 @@ class App:
         # Places
         self.label_count_of_emails.place(x=10, y=20)
         self.count_of_emails.place(x=110, y=20)
-        self.btn_generate.place(x=170, y=50)
+        self.btn_generate.place(x=170, y=350)
 
         self.root.mainloop()
 
@@ -114,6 +130,49 @@ class App:
                 email = f'{random.choice(range(1950, 2005))}.{surname}'
             email += self.ending_of_email()
             self.create_new_mail([email, surname, name])
+
+    def generate_name_city_numbers(self, n:int) -> None:
+        for i in range(n):
+            name, surname = names.get_full_name().split(' ')
+            if random.randint(0,1) == 0:
+                email = f'{surname}.{random.choice(data_for_generation["cities"])}{random.randint(0,10500)}'
+            else:
+                email = f'{random.choice(data_for_generation["cities"])}.{surname}{random.randint(0,10500)}'
+            email += self.ending_of_email()
+            self.create_new_mail([email, surname, name])
+
+    def generate_some_letters(self, n:int) -> None:
+        for i in range(n):
+            name, surname = names.get_full_name().split(' ')
+            email: str = ''
+            for j in range(random.randint(0, 9)):
+                email += chr(random.randint(97, 122))
+            email += self.ending_of_email()
+            self.create_new_mail([email, surname, name])
+
+    def generate_some_letters_and_numbers(self, n:int) -> None:
+        for i in range(n):
+            name, surname = names.get_full_name().split(' ')
+            email: str = ''
+            for j in range(random.randint(0, 10)):
+                if random.randint(0, 3) in [1,2,3]:
+                    email += chr(random.randint(97, 122))
+                else:
+                    email += str(random.randint(0, 9))
+            email += self.ending_of_email()
+            self.create_new_mail([email, surname, name])
+
+    def generate_mixed_emails(self, n: int) -> None:
+        methods_list = [
+            self.generate_name_and_surname,
+            self.generate_name_and_year,
+            self.generate_surname_and_year,
+            self.generate_name_city_numbers,
+            self.generate_some_letters,
+            self.generate_some_letters_and_numbers
+        ]
+        for i in range(n):
+            random.choice(methods_list)(1)
 
     def ending_of_email(self) -> str:
         ending: str = ''
