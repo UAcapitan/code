@@ -37,31 +37,34 @@ class App:
     def __init__(self) -> None:
         self.root = tk.Tk()
 
-        self.root.geometry('300x250')
+        self.root.geometry('300x290')
         self.root.title('Generating of data')
         self.db = app_db
 
+        self.val = tk.StringVar(value='1')
         self.values = {
-            "RadioButton 1" : "1",
-            "RadioButton 2" : "2",
-            "RadioButton 3" : "3",
-            "RadioButton 4" : "4",
-            "RadioButton 5" : "5"
+            "Name and surname" : "1",
+            "Name and year" : "2",
+            "Surname and year" : "3",
+            "Name, city and numbers" : "4",
+            "Letters" : "5",
+            "Letters and numbers": "6",
+            "Mix": "7"
         }
 
         # Elements
         self.label_count_of_emails = tk.Label(self.root, text='Count of emails: ')
         self.count_of_emails = tk.Entry(self.root)
 
-        # TODO do it later
+        # Radiobuttons
         self.radio_list = []
         for (t, v) in self.values.items():
-            self.radio_list.append(tk.Radiobutton(self.root, text = t, variable = v,
-            value = v, indicator = 0))
+            self.radio_list.append(tk.Radiobutton(self.root, text=t, variable=self.val, value=v))
 
-        x, y = 0, 0
+        x, y = 20, 70
         for i in self.radio_list:
             i.place(x=x, y=y)
+            y += 30
 
         # Button for generate data
         self.btn_generate = tk.Button(self.root, text='Generate', command=self.generate_data)
@@ -69,7 +72,7 @@ class App:
         # Places
         self.label_count_of_emails.place(x=10, y=20)
         self.count_of_emails.place(x=110, y=20)
-        self.btn_generate.place(x=170, y=350)
+        self.btn_generate.place(x=170, y=70)
 
         self.root.mainloop()
 
@@ -97,10 +100,27 @@ class App:
         # 5. Generate random letters
         # 6. Generate random letters + numbers
         # 7. Generate mixed all
-        self.generate_name_and_surname(n)
+        print(f"{self.val.get()} - number of val")
+        if self.val.get() == "1":
+            self.generate_name_and_surname(n)
+        elif self.val.get() == "2":
+            self.generate_name_and_year(n)
+        elif self.val.get() == "3":
+            self.generate_surname_and_year(n)
+        elif self.val.get() == "4":
+            self.generate_name_city_numbers(n)
+        elif self.val.get() == "5":
+            self.generate_some_letters(n)
+        elif self.val.get() == "6":
+            self.generate_some_letters_and_numbers(n)
+        elif self.val.get() == "7":
+            self.generate_mixed_emails(n)
+        print("It was working")
         # --------------
         self.db.db.close()
 
+    # Types of generating
+    # ---------------------------
     def generate_name_and_surname(self, n:int) -> None:
         for i in range(n):
             name, surname = names.get_full_name().split(' ')
@@ -174,6 +194,9 @@ class App:
         for i in range(n):
             random.choice(methods_list)(1)
 
+    # ---------------------------
+
+    # Generate ending for email
     def ending_of_email(self) -> str:
         ending: str = ''
         ending += '@' + random.choice(data_for_generation['email_hosts']) + '.'
@@ -184,6 +207,4 @@ class App:
         EmailModele(email=email[0], user=f'{email[1]} {email[2]}').save()
 
 if __name__ == '__main__':
-    print('Start working') # TODO delete
     app: App = App()
-    print('End working') # TODO delete
