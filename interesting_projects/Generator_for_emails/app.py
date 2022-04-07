@@ -4,7 +4,7 @@ import names
 import random
 import tkinter as tk
 
-data_for_generation = {
+data_for_generation: dict = {
     'email_hosts': 
         ['gmail', 'email', 'text', 'uamail', 'example', 'newmail', 'mail'],
     'domains': 
@@ -18,7 +18,7 @@ class DB:
     def __init__(self) -> None:
         name = 'main.db'
         open(name, 'w').close()
-        self.db = peewee.SqliteDatabase(name)
+        self.db: peewee.SqliteDatabase = peewee.SqliteDatabase(name)
 
 # Object of database
 app_db: DB = DB()
@@ -39,10 +39,10 @@ class App:
 
         self.root.geometry('300x290')
         self.root.title('Generating of data')
-        self.db = app_db
+        self.db: DB = app_db
 
-        self.val = tk.StringVar(value='1')
-        self.values = {
+        self.val: tk.StringVar = tk.StringVar(value='7')
+        self.values: dict = {
             "Name and surname" : "1",
             "Name and year" : "2",
             "Surname and year" : "3",
@@ -57,7 +57,7 @@ class App:
         self.count_of_emails = tk.Entry(self.root)
 
         # Radiobuttons
-        self.radio_list = []
+        self.radio_list: list = []
         for (t, v) in self.values.items():
             self.radio_list.append(tk.Radiobutton(self.root, text=t, variable=self.val, value=v))
 
@@ -100,7 +100,7 @@ class App:
         # 5. Generate random letters
         # 6. Generate random letters + numbers
         # 7. Generate mixed all
-        print(f"{self.val.get()} - number of val")
+        print(f"{self.val.get()} - number of val") # TODO delete later
         if self.val.get() == "1":
             self.generate_name_and_surname(n)
         elif self.val.get() == "2":
@@ -115,7 +115,7 @@ class App:
             self.generate_some_letters_and_numbers(n)
         elif self.val.get() == "7":
             self.generate_mixed_emails(n)
-        print("It was working")
+        print("It was working") # TODO delete later
         # --------------
         self.db.db.close()
 
@@ -205,6 +205,16 @@ class App:
 
     def create_new_mail(self, email: list) -> None:
         EmailModele(email=email[0], user=f'{email[1]} {email[2]}').save()
+    
+    # Open window when will be error
+    # Error types:
+    # - Text instead numbers
+    # - Too much data
+    # - Any another problems
+    def error_window(self, text: str, size: tuple) -> None:
+        self.error_window = ''
+        self.text_of_error: str = text
+        self.size: tuple = ()
 
 if __name__ == '__main__':
     app: App = App()
