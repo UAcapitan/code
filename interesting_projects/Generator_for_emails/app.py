@@ -74,6 +74,8 @@ class App:
         self.count_of_emails.place(x=110, y=20)
         self.btn_generate.place(x=170, y=70)
 
+        tk.Button(self.root, text='Test', command=lambda: self.show_error_window('text', (200, 50)),).place(x=170, y=100)
+
         self.root.mainloop()
 
     def init_db(self) -> None:
@@ -84,10 +86,11 @@ class App:
         try:
             return int(self.count_of_emails.get())
         except:
+            self.show_error_window('Wrong type input', (100, 50))
             return 0
 
     def generate_data(self) -> None:
-        n: int = self.get_count()
+        n: int = int(self.get_count())
         self.init_db()
         name: str
         surname: str
@@ -211,10 +214,12 @@ class App:
     # - Text instead numbers
     # - Too much data
     # - Any another problems
-    def error_window(self, text: str, size: tuple) -> None:
-        self.error_window = ''
-        self.text_of_error: str = text
-        self.size: tuple = ()
+    def show_error_window(self, text: str, size: tuple[int]) -> None:
+        self.error_window = tk.Toplevel(self.root)
+        self.error_window.geometry(f"{size[0]}x{size[1]}")
+
+        self.error_label = tk.Label(self.error_window, text=text)
+        self.error_label.place(relx=.5, y=25, anchor="center")
 
 if __name__ == '__main__':
     app: App = App()
