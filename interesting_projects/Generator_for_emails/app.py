@@ -10,7 +10,8 @@ data_for_generation: dict = {
     'domains': 
         ['ua', 'ge', 'us', 'fr', 'com', 'net', 'org'],
     'cities':
-        ['Washington', 'New-York', 'Los Angeles']
+        ['washington', 'new-york', 'los-angeles', 'austin', 'san-francisco',
+        'chicago', 'seattle', 'boston', 'denver', 'miami']
 }
 
 # Class for database
@@ -74,8 +75,6 @@ class App:
         self.count_of_emails.place(x=110, y=20)
         self.btn_generate.place(x=170, y=70)
 
-        tk.Button(self.root, text='Test', command=lambda: self.show_error_window('text', (200, 50)),).place(x=170, y=100)
-
         self.root.mainloop()
 
     def init_db(self) -> None:
@@ -86,11 +85,14 @@ class App:
         try:
             return int(self.count_of_emails.get())
         except:
-            self.show_error_window('Wrong type input', (100, 50))
+            self.show_window('Wrong type input', (100, 50))
             return 0
 
     def generate_data(self) -> None:
         n: int = int(self.get_count())
+        if n > 10000:
+            self.show_window('Too much data', (100, 50))
+            n = 0
         self.init_db()
         name: str
         surname: str
@@ -104,20 +106,23 @@ class App:
         # 6. Generate random letters + numbers
         # 7. Generate mixed all
         print(f"{self.val.get()} - number of val") # TODO delete later
-        if self.val.get() == "1":
-            self.generate_name_and_surname(n)
-        elif self.val.get() == "2":
-            self.generate_name_and_year(n)
-        elif self.val.get() == "3":
-            self.generate_surname_and_year(n)
-        elif self.val.get() == "4":
-            self.generate_name_city_numbers(n)
-        elif self.val.get() == "5":
-            self.generate_some_letters(n)
-        elif self.val.get() == "6":
-            self.generate_some_letters_and_numbers(n)
-        elif self.val.get() == "7":
-            self.generate_mixed_emails(n)
+        try:
+            if self.val.get() == "1":
+                self.generate_name_and_surname(n)
+            elif self.val.get() == "2":
+                self.generate_name_and_year(n)
+            elif self.val.get() == "3":
+                self.generate_surname_and_year(n)
+            elif self.val.get() == "4":
+                self.generate_name_city_numbers(n)
+            elif self.val.get() == "5":
+                self.generate_some_letters(n)
+            elif self.val.get() == "6":
+                self.generate_some_letters_and_numbers(n)
+            elif self.val.get() == "7":
+                self.generate_mixed_emails(n)
+        except:
+            self.show_window('Error, please reopen', (200, 50))
         print("It was working") # TODO delete later
         # --------------
         self.db.db.close()
@@ -209,12 +214,12 @@ class App:
     def create_new_mail(self, email: list) -> None:
         EmailModele(email=email[0], user=f'{email[1]} {email[2]}').save()
     
-    # Open window when will be error
+    # Open second window
     # Error types:
-    # - Text instead numbers
-    # - Too much data
-    # - Any another problems
-    def show_error_window(self, text: str, size: tuple[int]) -> None:
+    # - Text instead numbers - done
+    # - Too much data - done
+    # - Any another problems - done
+    def show_window(self, text: str, size: tuple[int]) -> None:
         self.error_window = tk.Toplevel(self.root)
         self.error_window.geometry(f"{size[0]}x{size[1]}")
 
