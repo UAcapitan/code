@@ -2,11 +2,17 @@ import pygame
 import sys
 import json
 import tkinter as tk
+import time
 
 pygame.init()
 
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
+
+def timer(n):
+    t = time.time()
+    while time.time() - t < n:
+        pass
 
 class PixelFarm:
     def __init__(self) -> None:
@@ -34,8 +40,11 @@ class PixelFarm:
             Main function of game
         '''
 
+        self.show_start_screen()
+
+
         while True:
-            
+
             # Events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -48,6 +57,18 @@ class PixelFarm:
 
             # Updating of screen
             pygame.display.update()
+
+    def show_start_screen(self) -> None:
+        self.screen.fill(BLACK)
+        pygame.display.update()
+        timer(5)
+        brand_name = pygame.image.load('src/brand_name/1.png')
+        self.screen.blit(brand_name, (10, 10))
+        pygame.display.update()
+        timer(5)
+
+
+
 
 
 if __name__ == '__main__':
