@@ -89,9 +89,6 @@ class App:
             return 0
 
     def generate_data(self) -> None:
-        print('Working') # TODO delete
-        self.show_window('Loading... Please wait', (150, 50))
-        print('Showing') # TODO delete
         n: int = int(self.get_count())
         if n > 10000:
             self.show_window('Too much data', (100, 50))
@@ -129,6 +126,7 @@ class App:
         print("It was working") # TODO delete later
         # --------------
         self.db.db.close()
+        self.show_window(f'Success, {n} was added to database', (250, 50))
 
     # Types of generating
     # ---------------------------
