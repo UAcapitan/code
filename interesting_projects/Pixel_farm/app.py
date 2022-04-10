@@ -23,10 +23,9 @@ class ButtonMenu(pygame.sprite.Sprite):
        self.rect = self.image.get_rect(center=(x,y))
 
 class Stone(pygame.sprite.Sprite):
-    def __init__(self, color, width, height, x, y):
+    def __init__(self, image, x, y):
        pygame.sprite.Sprite.__init__(self)
-       self.image = pygame.Surface([width, height])
-       self.image.fill(color)
+       self.image = pygame.image.load(image)
        self.rect = self.image.get_rect(center=(x,y))
 
 class PixelFarm:
@@ -56,6 +55,8 @@ class PixelFarm:
 
         self.menu = False
 
+        self.stones = []
+
     def run(self) -> None:
         '''
             Main function of game
@@ -65,7 +66,6 @@ class PixelFarm:
         self.show_start_screen()
         self.menu = True
         self.show_menu_screen()
-        stone = Stone(BLACK, 20, 30, 50, 60)
         while True:
             # Events
             self.check_events()
@@ -73,7 +73,8 @@ class PixelFarm:
             # Fill screen
             self.screen.fill(GREEN)
 
-            self.screen.blit(stone.image, stone.rect)
+            for stone in self.stones:
+                self.screen.blit(stone.image, stone.rect)
 
             # Updating of screen
             pygame.display.update()
@@ -132,6 +133,9 @@ class PixelFarm:
         self.money = 0
         self.level = 0
         self.experience = 0
+
+        for i in range(5):
+            self.stones.append(Stone('src/stones/1.png', i*50, i+50))
 
 
 if __name__ == '__main__':
