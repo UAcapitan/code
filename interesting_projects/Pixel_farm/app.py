@@ -4,6 +4,7 @@ import sys
 import json
 import tkinter as tk
 import time
+import random
 
 pygame.init()
 pygame.font.init()
@@ -23,6 +24,12 @@ class ButtonMenu(pygame.sprite.Sprite):
        self.rect = self.image.get_rect(center=(x,y))
 
 class Stone(pygame.sprite.Sprite):
+    def __init__(self, image, x, y):
+       pygame.sprite.Sprite.__init__(self)
+       self.image = pygame.image.load(image)
+       self.rect = self.image.get_rect(center=(x,y))
+
+class Bush(pygame.sprite.Sprite):
     def __init__(self, image, x, y):
        pygame.sprite.Sprite.__init__(self)
        self.image = pygame.image.load(image)
@@ -55,7 +62,7 @@ class PixelFarm:
 
         self.menu = False
 
-        self.stones = []
+        self.elements_on_map = []
 
     def run(self) -> None:
         '''
@@ -73,8 +80,8 @@ class PixelFarm:
             # Fill screen
             self.screen.fill(GREEN)
 
-            for stone in self.stones:
-                self.screen.blit(stone.image, stone.rect)
+            for e in self.elements_on_map:
+                self.screen.blit(e.image, e.rect)
 
             # Updating of screen
             pygame.display.update()
@@ -116,6 +123,11 @@ class PixelFarm:
                     sys.exit()
                 if self.menu:
                     self.click_in_menu(event)
+                else:
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if event.button == 1:
+                            if self.menu_btn1.rect.collidepoint(event.pos):
+                                self.menu = True
 
     def click_in_menu(self, event) -> None:
         x, y = pygame.mouse.get_pos()
@@ -134,8 +146,18 @@ class PixelFarm:
         self.level = 0
         self.experience = 0
 
-        for i in range(5):
-            self.stones.append(Stone('src/stones/1.png', i*50, i+50))
+        for i in range(random.randint(0, 10)):
+            self.elements_on_map.append(Stone('src/stones/1.png', random.randint(30, self.screen_size[0]-30), random.randint(30, self.screen_size[1]-30)))
+        for i in range(random.randint(0, 10)):
+            self.elements_on_map.append(Stone('src/stones/2.png', random.randint(30, self.screen_size[0]-30), random.randint(30, self.screen_size[1]-30)))
+        for i in range(random.randint(0, 10)):
+            self.elements_on_map.append(Stone('src/stones/3.png', random.randint(30, self.screen_size[0]-30), random.randint(30, self.screen_size[1]-30)))
+
+        for i in range(random.randint(0, 10)):
+            self.elements_on_map.append(Bush('src/bushes/1.png', random.randint(30, self.screen_size[0]-30), random.randint(30, self.screen_size[1]-30)))
+
+        for i in self.elements_on_map:
+            print(isinstance(i, Bush))
 
 
 if __name__ == '__main__':
