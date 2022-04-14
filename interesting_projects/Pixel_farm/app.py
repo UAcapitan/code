@@ -7,8 +7,15 @@ import random
 import jsonpickle
 from json import JSONEncoder
 
+# Special app modules
+from objects import *
+from tasks import *
+from conversations import generate_conversation
+
 pygame.init()
 pygame.font.init()
+
+FPS = 30
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -69,6 +76,8 @@ class PixelFarm:
 
         root = tk.Tk()
 
+        self.clock = pygame.time.Clock()
+
         # Set up of screen
         if self.settings["fullscreen"]:
             self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
@@ -90,12 +99,14 @@ class PixelFarm:
         self.time_point = 0
 
         self.task = 0
-        self.part_of_conversation = 1
+        self.part_of_conversation = 0
         self.task_num = 0
 
         self.inventory = []
 
         self.special_inventory = ['']
+
+        self.energy = 100
 
     def run(self) -> None:
         '''
@@ -108,22 +119,30 @@ class PixelFarm:
         self.show_menu_screen()
         while True:
 
-            # Fill screen
-            self.screen.fill(GREEN)
+            self.clock.tick(FPS)
 
-            # Events
-            self.check_events()
+            self.draw_all()
 
-            for e in self.elements_on_map:
-                self.screen.blit(e.image, e.rect)
+    def draw_all(self) -> None:
+        # Fill screen
+        self.screen.fill(GREEN)
 
-            # Inventory on bottom of screen
-            self.inventory_botton_screen()
+        # Events
+        self.check_events()
 
-            self.tasks()
+        for e in self.elements_on_map:
+            self.screen.blit(e.image, e.rect)
 
-            # Updating of screen
-            pygame.display.update()
+        self.draw_interface()
+
+        # Updating of screen
+        pygame.display.update()
+
+    def draw_interface(self) -> None:
+        # Inventory on bottom of screen
+        self.inventory_bottom_screen()
+
+        self.tasks()
 
     def show_start_screen(self) -> None:
         self.screen.fill(BLACK)
@@ -164,14 +183,14 @@ class PixelFarm:
                 if self.menu:
                     self.click_in_menu(event)
                 else:
-                    # if event.type == pygame.MOUSEBUTTONDOWN:
-                    #     if event.button == 1:
-                    #         if self.menu_btn1.rect.collidepoint(event.pos):
-                    #             self.menu = True
                     self.click_object(event)
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            self.menu = True
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
                         del self.elements_on_map[0]
+                self.click_when_conversation(event)
 
     def click_in_menu(self, event) -> None:
         x, y = pygame.mouse.get_pos()
@@ -184,6 +203,12 @@ class PixelFarm:
                         self.menu = False
                 if self.menu_btn3.rect.collidepoint(event.pos):
                         sys.exit()
+
+    def click_when_conversation(self, event) -> None:
+        if self.task > 0:
+            if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        self.next_part_of_conversation()
 
     def new_game(self) -> None:
         self.money = 0
@@ -206,7 +231,7 @@ class PixelFarm:
 
         self.elements_on_map.append(House(700, 150))
 
-    def inventory_botton_screen(self) -> None:
+    def inventory_bottom_screen(self) -> None:
         pygame.draw.rect(self.screen, WHITE, 
             pygame.Rect(20, self.screen_size[1] - 70, self.screen_size[0] - 40, self.screen_size[1])
         )
@@ -233,44 +258,42 @@ class PixelFarm:
 
     def tasks(self):
         # Conditions for tasks
-        if self.level == 0 and self.experience == 0 and time.time() - self.time_point > 3:
+        if self.level == 0 and self.experience == 0 and time.time() - self.time_point > 30:
             print('It works')
             self.experience += 10
             self.task = 1
             self.time_point = time.time()
 
-        # Conversations
-        if self.task == 1:
-            pygame.draw.rect(self.screen, WHITE, 
-                pygame.Rect(0, self.screen_size[1] - 70, self.screen_size[0], self.screen_size[1])
-            )
-            font = pygame.font.SysFont('Comic Sans MS', 24)
-            text = font.render('Hi! How are you? Are you a new farmer there?', False, BLACK)
-            self.screen.blit(self.screen, (150, self.screen_size[1] - 55))
-            if self.part_of_conversation == 1:
-                text = font.render('Test', False, BLACK)
-                self.screen.blit(text, (150, self.screen_size[1] - 27))
-                # self.timer_for_conversation(10)
-                pass
-            if self.part_of_conversation == 2:
-                # Show conversation
-                # Show character
-                # self.timer_for_conversation(10)
-                pass
-            if self.part_of_conversation == 3:
-                # Show conversation
-                # self.timer_for_conversation(10)
-                pass
-            character = Character('src/characters/1.png', 55, self.screen_size[1] - 55)
-            self.screen.blit(
-                character.image,
-                character.rect
-            )
-            self.screen.blit(text, (150, 150))
+            self.show_conversation()
 
     # def timer_for_conversation(self, n):
     #     if time.time() - self.time_point >= n:
     #         self.part_of_conversation += 1
+
+    def next_part_of_conversation(self) -> None:
+        self.part_of_conversation += 1
+
+    def show_conversation(self):
+        pygame.draw.rect(self.screen, WHITE, 
+            pygame.Rect(0, self.screen_size[1] - 70, self.screen_size[0], self.screen_size[1])
+        )
+        font = pygame.font.SysFont('Comic Sans MS', 24)
+        
+        conversation_list_Max = generate_conversation('Max', 1)
+
+        # Check lenght of list
+        if self.part_of_conversation + 1 == len(conversation_list_Max):
+            self.task = 0
+            self.part_of_conversation == 0
+        
+        # Show phrase of character
+        text = font.render(conversation_list_Max[self.part_of_conversation], False, BLACK)
+        character = Character('src/characters/1.png', 55, self.screen_size[1] - 55)
+        self.screen.blit(
+            character.image,
+            character.rect
+        )
+        self.screen.blit(text, (155, self.screen_size[1] - 45))
     
 
 if __name__ == '__main__':
