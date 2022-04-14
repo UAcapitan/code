@@ -26,41 +26,6 @@ def timer(n):
     while time.time() - t < n:
         pass
 
-class FarmObject(pygame.sprite.Sprite):
-    def __init__(self, image, x, y):
-       pygame.sprite.Sprite.__init__(self)
-       self.image = pygame.image.load(image)
-       self.rect = self.image.get_rect(center=(x,y))
-       self.hp = 5
-
-    def click_on_it(self) -> bool:
-        self.hp -= 1
-        if self.hp == 0:
-            return True
-        return False
-
-class ButtonMenu(FarmObject):
-    pass
-
-class Stone(FarmObject):
-    pass
-
-class Bush(FarmObject):
-    pass
-
-class Field(FarmObject):
-    pass
-
-class House(FarmObject):
-    def __init__(self, x, y) -> None:
-        super().__init__('src/buildings/house.png', x, y)
-
-    def click_on_it(self) -> None:
-        pass
-
-class Character(FarmObject):
-    pass
-
 class PixelFarm:
     def __init__(self) -> None:
         '''
@@ -108,6 +73,9 @@ class PixelFarm:
 
         self.energy = 100
 
+        self.tool = False
+
+    # Main game logic
     def run(self) -> None:
         '''
             Main function of game
@@ -123,6 +91,7 @@ class PixelFarm:
 
             self.draw_all()
 
+    # Draw
     def draw_all(self) -> None:
         # Fill screen
         self.screen.fill(GREEN)
@@ -132,6 +101,8 @@ class PixelFarm:
 
         for e in self.elements_on_map:
             self.screen.blit(e.image, e.rect)
+
+        self.draw_available_field()
 
         self.draw_interface()
 
@@ -144,6 +115,21 @@ class PixelFarm:
 
         self.tasks()
 
+    def draw_energy(self) -> None:
+        pygame.draw.rect()
+
+    def draw_available_field(self):
+        if self.tool == 1:
+            if self.check_collision():
+                image = pygame.image.load('src/fields/00.png')
+            else:
+                image = pygame.image.load('src/fields/01.png')
+
+            rect = image.get_rect()
+            rect.center = pygame.mouse.get_pos()
+            self.screen.blit(image, rect)
+
+    # Loading screen
     def show_start_screen(self) -> None:
         self.screen.fill(BLACK)
         font = pygame.font.SysFont('Comic Sans MS', 24)
@@ -159,6 +145,7 @@ class PixelFarm:
         pygame.display.update()
         timer(5)
 
+    # Menu
     def show_menu_screen(self) -> None:
         self.m_btn_x = 320
         self.m_btn_y1 = 230
@@ -175,11 +162,13 @@ class PixelFarm:
             pygame.display.update()
             self.check_events()
 
+    # Check
     def check_events(self) -> None:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.save_game()
                     sys.exit()
+
                 if self.menu:
                     self.click_in_menu(event)
                 else:
@@ -187,11 +176,34 @@ class PixelFarm:
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
                             self.menu = True
+
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
                         del self.elements_on_map[0]
+                    elif event.key == pygame.K_1:
+                        self.set_tool(1)
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        self.click_for_make_field()
+
                 self.click_when_conversation(event)
 
+    def check_energy(self, n: int) -> bool:
+        if self.energy > 0:
+            if self.energy > n:
+                return True
+        return False
+    
+    def check_collision(self) -> None:
+        mouse = pygame.mouse.get_pos()
+        rect = pygame.Rect(mouse[0]-32, mouse[1]-32, 64, 64)
+        for i in self.elements_on_map:
+            if i.rect.colliderect(rect):
+                return False
+        return True
+    
+    # All clicks
     def click_in_menu(self, event) -> None:
         x, y = pygame.mouse.get_pos()
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -210,6 +222,27 @@ class PixelFarm:
                     if event.key == pygame.K_RETURN:
                         self.next_part_of_conversation()
 
+    def click_for_make_field(self) -> None:
+        if self.tool == 1:
+            if self.check_collision():
+                x, y = pygame.mouse.get_pos()
+                self.elements_on_map.append(Field('src/fields/1.png', x, y))
+
+    def click_object(self, event) -> None:
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                garbage = []
+                for i in self.elements_on_map:
+                    if i.rect.collidepoint(event.pos):
+                        if self.check_energy(5):
+                            if i.click_on_it():
+                                self.energy -= 5
+                                garbage.append(i)
+
+                if len(garbage) > 0:
+                    del self.elements_on_map[self.elements_on_map.index(garbage[0])]
+
+    # Start game
     def new_game(self) -> None:
         self.money = 0
         self.level = 0
@@ -231,23 +264,19 @@ class PixelFarm:
 
         self.elements_on_map.append(House(700, 150))
 
+    # Inventory
     def inventory_bottom_screen(self) -> None:
         pygame.draw.rect(self.screen, WHITE, 
             pygame.Rect(20, self.screen_size[1] - 70, self.screen_size[0] - 40, self.screen_size[1])
         )
 
-    def click_object(self, event) -> None:
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                garbage = []
-                for i in self.elements_on_map:
-                    if i.rect.collidepoint(event.pos):
-                        if i.click_on_it():
-                            garbage.append(i)
+    def set_tool(self, n:int) -> None:
+        if self.tool != n:
+            self.tool = n
+        elif self.tool == n:
+            self.tool = False
 
-                if len(garbage) > 0:
-                    del self.elements_on_map[self.elements_on_map.index(garbage[0])]
-                            
+    # Saving           
     def save_game(self) -> None:
         with open('player_data.json', 'w') as file:
             json.dump({
@@ -256,6 +285,7 @@ class PixelFarm:
                 "inventory": []
             }, file)
 
+    # Conversations
     def tasks(self):
         # Conditions for tasks
         if self.level == 0 and self.experience == 0 and time.time() - self.time_point > 30:
@@ -265,10 +295,6 @@ class PixelFarm:
             self.time_point = time.time()
 
             self.show_conversation()
-
-    # def timer_for_conversation(self, n):
-    #     if time.time() - self.time_point >= n:
-    #         self.part_of_conversation += 1
 
     def next_part_of_conversation(self) -> None:
         self.part_of_conversation += 1
@@ -294,7 +320,6 @@ class PixelFarm:
             character.rect
         )
         self.screen.blit(text, (155, self.screen_size[1] - 45))
-    
 
 if __name__ == '__main__':
     app = PixelFarm()

@@ -38,3 +38,6 @@ class House(FarmObject):
 
     def click_on_it(self) -> None:
         pass
+
+class Character(FarmObject):
+    pass
