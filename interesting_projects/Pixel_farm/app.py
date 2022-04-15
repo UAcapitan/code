@@ -20,6 +20,8 @@ FPS = 30
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
+YELLOW = (255, 255, 0)
+DARK_YELLOW = (153, 153, 0)
 
 def timer(n):
     t = time.time()
@@ -72,6 +74,7 @@ class PixelFarm:
         self.special_inventory = ['']
 
         self.energy = 100
+        self.energy_time_point = time.time()
 
         self.tool = False
 
@@ -84,11 +87,15 @@ class PixelFarm:
         # Start screen showing
         # self.show_start_screen()
         self.menu = True
-        self.show_menu_screen()
         while True:
 
             self.clock.tick(FPS)
 
+            if self.menu:
+                self.show_menu_screen()
+                continue
+
+            self.regenerate_energy()
             self.draw_all()
 
     # Draw
@@ -103,8 +110,8 @@ class PixelFarm:
             self.screen.blit(e.image, e.rect)
 
         self.draw_available_field()
-
         self.draw_interface()
+        self.draw_energy_line()
 
         # Updating of screen
         pygame.display.update()
@@ -115,12 +122,17 @@ class PixelFarm:
 
         self.tasks()
 
-    def draw_energy(self) -> None:
-        pygame.draw.rect()
+    def draw_energy_line(self) -> None:
+        pygame.draw.rect(self.screen, YELLOW, 
+            pygame.Rect(self.screen_size[0] - 210, 30, self.energy*2, 20)
+        )
+        pygame.draw.rect(self.screen, DARK_YELLOW, 
+            pygame.Rect(self.screen_size[0] - 210 + self.energy*2, 30, 200-self.energy*2, 20)
+        )
 
     def draw_available_field(self):
         if self.tool == 1:
-            if self.check_collision():
+            if self.check_collision() and self.check_energy(20):
                 image = pygame.image.load('src/fields/00.png')
             else:
                 image = pygame.image.load('src/fields/01.png')
@@ -187,14 +199,15 @@ class PixelFarm:
                     if event.button == 1:
                         self.click_for_make_field()
 
-                self.click_when_conversation(event)
+                        self.click_to_plant() # TODO do that later, after inventory
 
-    def check_energy(self, n: int) -> bool:
-        if self.energy > 0:
-            if self.energy > n:
-                return True
-        return False
+                self.click_when_conversation(event)
     
+    def check_energy(self, n:int) -> bool:
+        if self.energy - n >= 0:
+            return True
+        return False
+
     def check_collision(self) -> None:
         mouse = pygame.mouse.get_pos()
         rect = pygame.Rect(mouse[0]-32, mouse[1]-32, 64, 64)
@@ -212,6 +225,7 @@ class PixelFarm:
                     self.new_game()
                     self.menu = False
                 if self.menu_btn2.rect.collidepoint(event.pos):
+                        self.load_game()
                         self.menu = False
                 if self.menu_btn3.rect.collidepoint(event.pos):
                         sys.exit()
@@ -225,8 +239,9 @@ class PixelFarm:
     def click_for_make_field(self) -> None:
         if self.tool == 1:
             if self.check_collision():
-                x, y = pygame.mouse.get_pos()
-                self.elements_on_map.append(Field('src/fields/1.png', x, y))
+                if self.decrease_energy(20):
+                    x, y = pygame.mouse.get_pos()
+                    self.elements_on_map.append(Field('src/fields/1.png', x, y))
 
     def click_object(self, event) -> None:
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -241,6 +256,14 @@ class PixelFarm:
 
                 if len(garbage) > 0:
                     del self.elements_on_map[self.elements_on_map.index(garbage[0])]
+
+    def click_to_plant(self) -> None:
+        mouse = pygame.mouse.get_pos()
+        for i in self.elements_on_map:
+            if isinstance(i, Field):
+                if i.rect.collidepoint(mouse):
+                    if self.decrease_energy(10):
+                        i.set_plant('wheat')
 
     # Start game
     def new_game(self) -> None:
@@ -282,14 +305,40 @@ class PixelFarm:
             json.dump({
                 "player": 1,
                 "elements_on_map": [jsonpickle.encode(i) for i in self.elements_on_map],
-                "inventory": []
+                "money": self.money,
+                "level": self.level,
+                "experience": self.experience,
+                "time_point": self.time_point,
+                "task": self.task,
+                "part_of_conversation": self.part_of_conversation,
+                "task_num": self.task_num,
+                "inventory": self.inventory,
+                "energy": self.energy
             }, file)
 
+    def load_game(self) -> None:
+        with open('player_data.json', 'r') as file:
+            player_data = json.load(file)
+
+        self.elements_on_map = [jsonpickle.decode(i) for i in player_data["elements_on_map"]]
+
+        for i in range(len(self.elements_on_map)):
+            self.elements_on_map[i].image = pygame.image.load(self.elements_on_map[i].image_address)
+
+        self.money = player_data["money"]
+        self.level = player_data["level"]
+        self.experience = player_data["experience"]
+        self.time_point = player_data["time_point"]
+        self.task = player_data["task"]
+        self.part_of_conversation = player_data["part_of_conversation"]
+        self.task_num = player_data["task_num"]
+        self.inventory = player_data["inventory"]
+        self.energy = player_data["energy"]
+
     # Conversations
-    def tasks(self):
+    def tasks(self) -> None:
         # Conditions for tasks
         if self.level == 0 and self.experience == 0 and time.time() - self.time_point > 30:
-            print('It works')
             self.experience += 10
             self.task = 1
             self.time_point = time.time()
@@ -299,7 +348,7 @@ class PixelFarm:
     def next_part_of_conversation(self) -> None:
         self.part_of_conversation += 1
 
-    def show_conversation(self):
+    def show_conversation(self) -> None:
         pygame.draw.rect(self.screen, WHITE, 
             pygame.Rect(0, self.screen_size[1] - 70, self.screen_size[0], self.screen_size[1])
         )
@@ -320,6 +369,22 @@ class PixelFarm:
             character.rect
         )
         self.screen.blit(text, (155, self.screen_size[1] - 45))
+
+    # Decreasing
+    def decrease_energy(self, n:int) -> bool:
+        if self.check_energy(n):
+            self.energy -= n
+            print(self.energy)
+            return True
+        return False
+
+    # Increase
+    def regenerate_energy(self) -> None:
+        if time.time() - self.energy_time_point > 1:
+            if self.energy < 100:
+                self.energy += 1
+                self.energy_time_point = time.time()
+
 
 if __name__ == '__main__':
     app = PixelFarm()
