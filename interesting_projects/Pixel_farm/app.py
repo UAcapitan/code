@@ -6,6 +6,7 @@ import time
 import random
 import jsonpickle
 from json import JSONEncoder
+from typing import Union
 
 # Special app modules
 from objects import *
@@ -22,6 +23,8 @@ BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
 YELLOW = (255, 255, 0)
 DARK_YELLOW = (153, 153, 0)
+BLUE = (0, 0, 255)
+DARK_BLUE = (0, 0, 153)
 
 def timer(n):
     t = time.time()
@@ -69,14 +72,20 @@ class PixelFarm:
         self.part_of_conversation = 0
         self.task_num = 0
 
-        self.inventory = []
+        self.inventory = [
+            'shovel',
+            'loupe',
+            'pickaxe',
+        ]
 
-        self.special_inventory = ['']
+        self.special_inventory = []
 
         self.energy = 100
         self.energy_time_point = time.time()
 
-        self.tool = False
+        self.farm_window = False
+
+        self.item = False
 
     # Main game logic
     def run(self) -> None:
@@ -112,6 +121,11 @@ class PixelFarm:
         self.draw_available_field()
         self.draw_interface()
         self.draw_energy_line()
+        self.draw_experience_line()
+        self.draw_items_in_bottom_inventory()
+
+        if self.farm_window:
+            self.draw_window(20, 20, self.screen_size[0] - 40, self.screen_size[1] - 40)
 
         # Updating of screen
         pygame.display.update()
@@ -130,8 +144,16 @@ class PixelFarm:
             pygame.Rect(self.screen_size[0] - 210 + self.energy*2, 30, 200-self.energy*2, 20)
         )
 
+    def draw_experience_line(self) -> None:
+        pygame.draw.rect(self.screen, BLUE, 
+            pygame.Rect(self.screen_size[0] - 210, 60, self.energy*2, 5)
+        )
+        pygame.draw.rect(self.screen, DARK_BLUE, 
+            pygame.Rect(self.screen_size[0] - 210 + self.energy*2, 60, 200-self.energy*2, 5)
+        )
+
     def draw_available_field(self):
-        if self.tool == 1:
+        if self.item == 1:
             if self.check_collision() and self.check_energy(20):
                 image = pygame.image.load('src/fields/00.png')
             else:
@@ -140,6 +162,26 @@ class PixelFarm:
             rect = image.get_rect()
             rect.center = pygame.mouse.get_pos()
             self.screen.blit(image, rect)
+
+    def draw_window(self, x: int, y: int, w: int, h: int) -> None:
+        if self.menu == False:
+            pygame.draw.rect(self.screen, WHITE, pygame.Rect(x, y, w, h))
+
+    def draw_elements_on_farm_window(self) -> None:
+        pass
+
+    def draw_items_in_bottom_inventory(self) -> None:
+        x = 20
+        w = (self.screen_size[0] - 40) / 10
+        for i in self.inventory:
+            image = pygame.image.load(f"src/items/{i}.png")
+            rect = image.get_rect()
+            rect.center = (x + w / 2, self.screen_size[1] - 30)
+            self.screen.blit(image, rect)
+            x += w
+
+    def draw_choiced_block_of_item(self) -> None:
+        pass
 
     # Loading screen
     def show_start_screen(self) -> None:
@@ -187,19 +229,27 @@ class PixelFarm:
                     self.click_object(event)
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
+                            self.save_game()
                             self.menu = True
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
                         del self.elements_on_map[0]
                     elif event.key == pygame.K_1:
-                        self.set_tool(1)
+                        self.set_item(1)
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         self.click_for_make_field()
+                        
+                        for i in self.elements_on_map:
+                            if isinstance(i, House):
+                                x, y = pygame.mouse.get_pos()
+                                if i.rect.collidepoint(x, y):
+                                    self.farm_window = True
 
-                        self.click_to_plant() # TODO do that later, after inventory
+                        # TODO do that later, after inventory
+                        # self.click_to_plant()
 
                 self.click_when_conversation(event)
     
@@ -208,7 +258,7 @@ class PixelFarm:
             return True
         return False
 
-    def check_collision(self) -> None:
+    def check_collision(self) -> bool:
         mouse = pygame.mouse.get_pos()
         rect = pygame.Rect(mouse[0]-32, mouse[1]-32, 64, 64)
         for i in self.elements_on_map:
@@ -216,6 +266,13 @@ class PixelFarm:
                 return False
         return True
     
+    def check_collision_for_numbers(self, x: int, y: int) -> bool:
+        rect = pygame.Rect(x, y, 64, 64)
+        for i in self.elements_on_map:
+            if i.rect.colliderect(rect):
+                return False
+        return True
+
     # All clicks
     def click_in_menu(self, event) -> None:
         x, y = pygame.mouse.get_pos()
@@ -237,9 +294,10 @@ class PixelFarm:
                         self.next_part_of_conversation()
 
     def click_for_make_field(self) -> None:
-        if self.tool == 1:
+        if self.item == 1:
             if self.check_collision():
                 if self.decrease_energy(20):
+                    self.increase_experience(5)
                     x, y = pygame.mouse.get_pos()
                     self.elements_on_map.append(Field('src/fields/1.png', x, y))
 
@@ -273,19 +331,26 @@ class PixelFarm:
 
         self.time_point = time.time()
 
-        for i in range(random.randint(0, 10)):
-            self.elements_on_map.append(Stone('src/stones/1.png', random.randint(30, self.screen_size[0]-30), random.randint(30, self.screen_size[1]-30)))
-        for i in range(random.randint(0, 10)):
-            self.elements_on_map.append(Stone('src/stones/2.png', random.randint(30, self.screen_size[0]-30), random.randint(30, self.screen_size[1]-30)))
-        for i in range(random.randint(0, 10)):
-            self.elements_on_map.append(Stone('src/stones/3.png', random.randint(30, self.screen_size[0]-30), random.randint(30, self.screen_size[1]-30)))
-
-        for i in range(random.randint(0, 10)):
-            self.elements_on_map.append(Bush('src/bushes/1.png', random.randint(30, self.screen_size[0]-30), random.randint(30, self.screen_size[1]-30)))
-
-        self.elements_on_map.append(Field('src/fields/1.png', 50, 50))
-
         self.elements_on_map.append(House(700, 150))
+
+
+        for i in range(random.randint(0, 10)):
+            coordinates = self.generate_two_coordinates()
+            if coordinates:
+                self.elements_on_map.append(Stone('src/stones/1.png', coordinates[0], coordinates[1]))
+        for i in range(random.randint(0, 10)):
+            coordinates = self.generate_two_coordinates()
+            if coordinates:
+                self.elements_on_map.append(Stone('src/stones/2.png', coordinates[0], coordinates[1]))
+        for i in range(random.randint(0, 10)):
+            coordinates = self.generate_two_coordinates()
+            if coordinates:
+                self.elements_on_map.append(Stone('src/stones/3.png', coordinates[0], coordinates[1]))
+
+        for i in range(random.randint(0, 10)):
+            coordinates = self.generate_two_coordinates()
+            if coordinates:
+                self.elements_on_map.append(Bush('src/bushes/1.png', coordinates[0], coordinates[1]))
 
     # Inventory
     def inventory_bottom_screen(self) -> None:
@@ -293,11 +358,11 @@ class PixelFarm:
             pygame.Rect(20, self.screen_size[1] - 70, self.screen_size[0] - 40, self.screen_size[1])
         )
 
-    def set_tool(self, n:int) -> None:
-        if self.tool != n:
-            self.tool = n
-        elif self.tool == n:
-            self.tool = False
+    def set_item(self, n:int) -> None:
+        if self.item != n:
+            self.item = n
+        elif self.item == n:
+            self.item = False
 
     # Saving           
     def save_game(self) -> None:
@@ -385,6 +450,15 @@ class PixelFarm:
                 self.energy += 1
                 self.energy_time_point = time.time()
 
+    def increase_experience(self, n:int) -> None:
+        self.experience += n
+    
+    # Generate
+    def generate_two_coordinates(self) -> Union[tuple, bool]:
+        x, y = random.randint(30, self.screen_size[0]-30), random.randint(30, self.screen_size[1]-30)
+        if self.check_collision_for_numbers(x, y):
+            return (x, y)
+        return False
 
 if __name__ == '__main__':
     app = PixelFarm()
