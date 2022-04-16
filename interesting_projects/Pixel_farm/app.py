@@ -76,6 +76,16 @@ class PixelFarm:
             'shovel',
             'loupe',
             'pickaxe',
+            'seeds_of_wheat',
+            'seeds_of_carrot',
+        ]
+
+        self.inventory_count = [
+            -1,
+            -1,
+            -1,
+            3,
+            3,
         ]
 
         self.special_inventory = []
@@ -122,6 +132,7 @@ class PixelFarm:
         self.draw_interface()
         self.draw_energy_line()
         self.draw_experience_line()
+        self.draw_choiced_block_of_item()
         self.draw_items_in_bottom_inventory()
 
         if self.farm_window:
@@ -181,7 +192,17 @@ class PixelFarm:
             x += w
 
     def draw_choiced_block_of_item(self) -> None:
-        pass
+        if self.item != False:
+            w = (self.screen_size[0] - 40) / 10
+            x = 20 + w * (self.item - 1)
+            
+            pygame.draw.rect(self.screen, GREEN, 
+                pygame.Rect(x, self.screen_size[1] - 70, w, self.screen_size[1])
+            )
+
+            pygame.draw.rect(self.screen, WHITE, 
+                pygame.Rect(x+3, self.screen_size[1] - 67, w-5, self.screen_size[1])
+            )
 
     # Loading screen
     def show_start_screen(self) -> None:
@@ -237,19 +258,35 @@ class PixelFarm:
                         del self.elements_on_map[0]
                     elif event.key == pygame.K_1:
                         self.set_item(1)
+                    elif event.key == pygame.K_2:
+                        self.set_item(2)
+                    elif event.key == pygame.K_3:
+                        self.set_item(3)
+                    elif event.key == pygame.K_4:
+                        self.set_item(4)
+                    elif event.key == pygame.K_5:
+                        self.set_item(5)
+                    elif event.key == pygame.K_6:
+                        self.set_item(6)
+                    elif event.key == pygame.K_7:
+                        self.set_item(7)
+                    elif event.key == pygame.K_8:
+                        self.set_item(8)
+                    elif event.key == pygame.K_9:
+                        self.set_item(9)
+                    elif event.key == pygame.K_0:
+                        self.set_item(10)
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
-                        self.click_for_make_field()
+                        
+                        self.click_conditions(event)
                         
                         for i in self.elements_on_map:
                             if isinstance(i, House):
                                 x, y = pygame.mouse.get_pos()
                                 if i.rect.collidepoint(x, y):
                                     self.farm_window = True
-
-                        # TODO do that later, after inventory
-                        # self.click_to_plant()
 
                 self.click_when_conversation(event)
     
@@ -272,6 +309,11 @@ class PixelFarm:
             if i.rect.colliderect(rect):
                 return False
         return True
+
+    def check_count_inventory(self) -> None:
+        if self.inventory_count[self.item - 1] == 0:
+            del self.inventory[self.item - 1]
+            del self.inventory_count[self.item - 1]
 
     # All clicks
     def click_in_menu(self, event) -> None:
@@ -304,24 +346,41 @@ class PixelFarm:
     def click_object(self, event) -> None:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                garbage = []
-                for i in self.elements_on_map:
-                    if i.rect.collidepoint(event.pos):
-                        if self.check_energy(5):
-                            if i.click_on_it():
-                                self.energy -= 5
-                                garbage.append(i)
+                pass
 
-                if len(garbage) > 0:
-                    del self.elements_on_map[self.elements_on_map.index(garbage[0])]
-
-    def click_to_plant(self) -> None:
+    def click_to_plant(self, seeds) -> None:
         mouse = pygame.mouse.get_pos()
         for i in self.elements_on_map:
             if isinstance(i, Field):
                 if i.rect.collidepoint(mouse):
                     if self.decrease_energy(10):
-                        i.set_plant('wheat')
+                        i.set_plant(seeds)
+        self.decrease_count_of_item_inventory()
+
+    def click_conditions(self, event) -> None:
+        item = self.inventory[self.item - 1]
+        if item == 'shovel':
+            self.click_for_make_field()
+
+        # TODO loupe
+
+        elif item == 'pickaxe':
+            garbage = []
+            for i in self.elements_on_map:
+                if i.rect.collidepoint(event.pos):
+                    if self.check_energy(5):
+                        if i.click_on_it():
+                            self.energy -= 5
+                            garbage.append(i)
+            
+            if len(garbage) > 0:
+                    del self.elements_on_map[self.elements_on_map.index(garbage[0])]
+
+        elif item == 'seeds_of_wheat':
+            self.click_to_plant('wheat')
+
+        elif item == 'seeds_of_carrot':
+            self.click_to_plant('carrot')
 
     # Start game
     def new_game(self) -> None:
@@ -443,6 +502,11 @@ class PixelFarm:
             return True
         return False
 
+    def decrease_count_of_item_inventory(self) -> None:
+        if self.inventory_count[self.item - 1] > 0:
+            self.inventory_count[self.item - 1] -= 1
+            self.check_count_inventory()
+
     # Increase
     def regenerate_energy(self) -> None:
         if time.time() - self.energy_time_point > 1:
@@ -459,6 +523,10 @@ class PixelFarm:
         if self.check_collision_for_numbers(x, y):
             return (x, y)
         return False
+
+    # Look at something
+    def loupe_use(self) -> None:
+        pass
 
 if __name__ == '__main__':
     app = PixelFarm()

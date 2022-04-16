@@ -1,25 +1,35 @@
 from app import pygame
 
-class FarmObject(pygame.sprite.Sprite):
+
+class BaseFarmObject(pygame.sprite.Sprite):
     def __init__(self, image, x, y):
        pygame.sprite.Sprite.__init__(self)
        self.image = pygame.image.load(image)
        self.rect = self.image.get_rect(center=(x,y))
-       self.hp = 5
        self.image_address = image
+
+class FarmObject(BaseFarmObject):
+    def __init__(self, image, x, y) -> None:
+        super().__init__(image, x, y)
+        self.hp = 5
 
     def click_on_it(self) -> bool:
         self.hp -= 1
-        print(self)
         if self.hp == 0:
             return True
         return False
 
+class FarmItem(BaseFarmObject):
+    def __init__(self, name, x, y) -> None:
+        self.name = name
+        img_address = f"src/items/{self.name}.png"
+        super().__init__(img_address, x, y)
+    
     def __str__(self) -> str:
-        return 'test'
+        return self.name
 
     def __repl__(self) -> str:
-        return 'test'
+        return self.name
 
 class ButtonMenu(FarmObject):
     pass
@@ -49,4 +59,7 @@ class House(FarmObject):
         pass
 
 class Character(FarmObject):
+    pass
+
+class Shovel(FarmItem):
     pass
