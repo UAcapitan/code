@@ -113,8 +113,9 @@ class PixelFarm:
             if self.menu:
                 self.show_menu_screen()
                 continue
-
+            
             self.regenerate_energy()
+            self.grow()
             self.draw_all()
 
     # Draw
@@ -156,11 +157,14 @@ class PixelFarm:
         )
 
     def draw_experience_line(self) -> None:
+        p = ((self.level + 1) * 100) / 100
+        w = self.experience // p
+
         pygame.draw.rect(self.screen, BLUE, 
-            pygame.Rect(self.screen_size[0] - 210, 60, self.energy*2, 5)
+            pygame.Rect(self.screen_size[0] - 210, 60, w, 5)
         )
         pygame.draw.rect(self.screen, DARK_BLUE, 
-            pygame.Rect(self.screen_size[0] - 210 + self.energy*2, 60, 200-self.energy*2, 5)
+            pygame.Rect(self.screen_size[0] - 210 + w, 60, 100-w, 5)
         )
 
     def draw_available_field(self):
@@ -185,6 +189,7 @@ class PixelFarm:
         x = 20
         w = (self.screen_size[0] - 40) / 10
         for i in self.inventory:
+            print(self.inventory)
             image = pygame.image.load(f"src/items/{i}.png")
             rect = image.get_rect()
             rect.center = (x + w / 2, self.screen_size[1] - 30)
@@ -247,7 +252,6 @@ class PixelFarm:
                 if self.menu:
                     self.click_in_menu(event)
                 else:
-                    self.click_object(event)
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
                             self.save_game()
@@ -287,6 +291,8 @@ class PixelFarm:
                                 x, y = pygame.mouse.get_pos()
                                 if i.rect.collidepoint(x, y):
                                     self.farm_window = True
+
+                self.click_at_field(event)
 
                 self.click_when_conversation(event)
     
@@ -343,22 +349,22 @@ class PixelFarm:
                     x, y = pygame.mouse.get_pos()
                     self.elements_on_map.append(Field('src/fields/1.png', x, y))
 
-    def click_object(self, event) -> None:
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                pass
-
-    def click_to_plant(self, seeds) -> None:
+    def click_to_plant(self, seeds, time_grow) -> None:
         mouse = pygame.mouse.get_pos()
         for i in self.elements_on_map:
             if isinstance(i, Field):
                 if i.rect.collidepoint(mouse):
-                    if self.decrease_energy(10):
-                        i.set_plant(seeds)
-        self.decrease_count_of_item_inventory()
+                    if i.plant_stage == 0:
+                        if self.decrease_energy(10):
+                            i.set_plant(seeds, time_grow)
+                            self.increase_experience(10)
+                            self.decrease_count_of_item_inventory()
 
     def click_conditions(self, event) -> None:
-        item = self.inventory[self.item - 1]
+        try:
+            item = self.inventory[self.item - 1]
+        except:
+            item = ''
         if item == 'shovel':
             self.click_for_make_field()
 
@@ -377,10 +383,20 @@ class PixelFarm:
                     del self.elements_on_map[self.elements_on_map.index(garbage[0])]
 
         elif item == 'seeds_of_wheat':
-            self.click_to_plant('wheat')
+            self.click_to_plant('wheat', 60)
 
         elif item == 'seeds_of_carrot':
-            self.click_to_plant('carrot')
+            self.click_to_plant('carrot', 180)
+
+    def click_at_field(self, event) -> None:
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                mouse = pygame.mouse.get_pos()
+                for i in self.elements_on_map:
+                    if isinstance(i, Field):
+                        if i.rect.collidepoint(mouse):
+                            if i.plant_stage >= 3:
+                                self.inventory.append(i.get_harvest())
 
     # Start game
     def new_game(self) -> None:
@@ -527,6 +543,13 @@ class PixelFarm:
     # Look at something
     def loupe_use(self) -> None:
         pass
+
+    # Growing of plant
+    def grow(self) -> None:
+        for i in self.elements_on_map:
+            if isinstance(i, Field):
+                if i.plant_stage > 0:
+                    i.grow()
 
 if __name__ == '__main__':
     app = PixelFarm()

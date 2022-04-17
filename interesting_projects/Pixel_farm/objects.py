@@ -1,4 +1,6 @@
+from matplotlib import image
 from app import pygame
+from app import time
 
 
 class BaseFarmObject(pygame.sprite.Sprite):
@@ -45,11 +47,33 @@ class Field(FarmObject):
         super().__init__(image, x, y)
         self.plant = None
         self.plant_stage = 0
+        self.time_point = time.time()
+        self.time_for_growing = 0
 
-    def set_plant(self, plant: str) -> None:
+    def set_plant(self, plant: str, time_grow: int) -> None:
         self.plant = plant
-        self.image = pygame.image.load(f"src/planted_fields/{plant}.png")
+        self.image = pygame.image.load(f"src/planted_fields/{plant}_1.png")
         self.plant_stage = 1
+        self.time_point = time.time()
+        self.image_address = f"src/planted_fields/{plant}_1.png"
+        self.time_for_growing = 1 # TODO change it later
+
+    def grow(self) -> None:
+        if self.plant_stage > 0 or self.plant_stage < 3:
+            if time.time() - self.time_point > self.time_for_growing:
+                if self.plant_stage == 1:
+                    self.image = pygame.image.load(f"src/planted_fields/{self.plant}_2.png")
+                elif self.plant_stage == 2:
+                    self.image = pygame.image.load(f"src/planted_fields/{self.plant}_3.png")
+                
+                self.plant_stage += 1
+                self.time_point = time.time()
+
+    def get_harvest(self) -> str:
+        if self.plant_stage == 3:
+            self.image = pygame.image.load(f"src/fields/1.png")
+            self.plant_stage = 0
+            return self.plant
 
 class House(FarmObject):
     def __init__(self, x, y) -> None:
@@ -59,7 +83,4 @@ class House(FarmObject):
         pass
 
 class Character(FarmObject):
-    pass
-
-class Shovel(FarmItem):
     pass
