@@ -78,14 +78,16 @@ class PixelFarm:
             'pickaxe',
             'seeds_of_wheat',
             'seeds_of_carrot',
+            'seeds_of_potato',
         ]
 
         self.inventory_count = [
             -1,
             -1,
             -1,
-            3,
-            3,
+            10,
+            10,
+            3
         ]
 
         self.special_inventory = []
@@ -96,6 +98,8 @@ class PixelFarm:
         self.farm_window = False
 
         self.item = False
+
+        self.harvest = False
 
     # Main game logic
     def run(self) -> None:
@@ -135,6 +139,8 @@ class PixelFarm:
         self.draw_experience_line()
         self.draw_choiced_block_of_item()
         self.draw_items_in_bottom_inventory()
+        self.draw_inventory_count()
+        self.draw_level()
 
         if self.farm_window:
             self.draw_window(20, 20, self.screen_size[0] - 40, self.screen_size[1] - 40)
@@ -189,7 +195,6 @@ class PixelFarm:
         x = 20
         w = (self.screen_size[0] - 40) / 10
         for i in self.inventory:
-            print(self.inventory)
             image = pygame.image.load(f"src/items/{i}.png")
             rect = image.get_rect()
             rect.center = (x + w / 2, self.screen_size[1] - 30)
@@ -208,6 +213,22 @@ class PixelFarm:
             pygame.draw.rect(self.screen, WHITE, 
                 pygame.Rect(x+3, self.screen_size[1] - 67, w-5, self.screen_size[1])
             )
+
+    def draw_inventory_count(self) -> None:
+        font = pygame.font.SysFont('Comic Sans MS', 24)
+        x = 110
+        w = (self.screen_size[0] - 40) / 10
+        for i in self.inventory:
+            if self.inventory_count[self.inventory.index(i)] == -1:
+                text = font.render('', False, BLACK)
+            else:
+                text = font.render(str(self.inventory_count[self.inventory.index(i)]), False, BLACK)
+            self.screen.blit(text, (x, self.screen_size[1] - 30))
+            x += w
+
+    def draw_level(self) -> None:
+        pygame.draw.circle(self.screen, WHITE, (self.screen_size[0] - 250, 50), 25, 3)
+
 
     # Loading screen
     def show_start_screen(self) -> None:
@@ -281,20 +302,20 @@ class PixelFarm:
                     elif event.key == pygame.K_0:
                         self.set_item(10)
 
+                    self.check_moving_map(event)
+
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
-                        
                         self.click_conditions(event)
+                        self.click_at_field(event)
                         
-                        for i in self.elements_on_map:
-                            if isinstance(i, House):
-                                x, y = pygame.mouse.get_pos()
-                                if i.rect.collidepoint(x, y):
-                                    self.farm_window = True
+                        # for i in self.elements_on_map:
+                        #     if isinstance(i, House):
+                        #         x, y = pygame.mouse.get_pos()
+                        #         if i.rect.collidepoint(x, y):
+                        #             self.farm_window = True
 
-                self.click_at_field(event)
-
-                self.click_when_conversation(event)
+                # self.click_when_conversation(event)
     
     def check_energy(self, n:int) -> bool:
         if self.energy - n >= 0:
@@ -321,9 +342,18 @@ class PixelFarm:
             del self.inventory[self.item - 1]
             del self.inventory_count[self.item - 1]
 
+    def check_moving_map(self, event) -> None:
+        if event.key == pygame.K_w:
+            self.move_map([0, 10])
+        elif event.key == pygame.K_a:
+            self.move_map([10, 0])
+        if event.key == pygame.K_s:
+            self.move_map([0, -10])
+        if event.key == pygame.K_d:
+            self.move_map([-10, 0])
+
     # All clicks
     def click_in_menu(self, event) -> None:
-        x, y = pygame.mouse.get_pos()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 if self.menu_btn1.rect.collidepoint(event.pos):
@@ -345,7 +375,7 @@ class PixelFarm:
         if self.item == 1:
             if self.check_collision():
                 if self.decrease_energy(20):
-                    self.increase_experience(5)
+                    self.increase_experience(25)
                     x, y = pygame.mouse.get_pos()
                     self.elements_on_map.append(Field('src/fields/1.png', x, y))
 
@@ -365,10 +395,12 @@ class PixelFarm:
             item = self.inventory[self.item - 1]
         except:
             item = ''
+        self.harvest = False
         if item == 'shovel':
             self.click_for_make_field()
 
-        # TODO loupe
+        if item == 'loupe':
+            self.harvest = True
 
         elif item == 'pickaxe':
             garbage = []
@@ -377,6 +409,7 @@ class PixelFarm:
                     if self.check_energy(5):
                         if i.click_on_it():
                             self.energy -= 5
+                            self.increase_experience(10)
                             garbage.append(i)
             
             if len(garbage) > 0:
@@ -386,43 +419,51 @@ class PixelFarm:
             self.click_to_plant('wheat', 60)
 
         elif item == 'seeds_of_carrot':
-            self.click_to_plant('carrot', 180)
+            self.click_to_plant('carrot', 80)
+
+        elif item == 'seeds_of_potato':
+            self.click_to_plant('potato', 100)
 
     def click_at_field(self, event) -> None:
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                mouse = pygame.mouse.get_pos()
-                for i in self.elements_on_map:
-                    if isinstance(i, Field):
-                        if i.rect.collidepoint(mouse):
-                            if i.plant_stage >= 3:
-                                self.inventory.append(i.get_harvest())
+                    for i in self.elements_on_map:
+                        if isinstance(i, Field):
+                            if i.rect.collidepoint(event.pos):
+                                if i.plant_stage == 3:
+                                    harvest = i.get_harvest()
+                                    if harvest:
+                                        if harvest in self.inventory:
+                                            self.inventory_count[self.inventory.index(harvest)] += 1
+                                        else:
+                                            self.inventory.append(harvest)
+                                            self.inventory_count.append(1)
+                                    self.increase_experience(25)
 
     # Start game
     def new_game(self) -> None:
         self.money = 0
         self.level = 0
         self.experience = 0
+        self.elements_on_map = []
 
         self.time_point = time.time()
 
         self.elements_on_map.append(House(700, 150))
 
 
-        for i in range(random.randint(0, 10)):
+        for i in range(random.randint(0, 100)):
             coordinates = self.generate_two_coordinates()
             if coordinates:
                 self.elements_on_map.append(Stone('src/stones/1.png', coordinates[0], coordinates[1]))
-        for i in range(random.randint(0, 10)):
+        for i in range(random.randint(0, 100)):
             coordinates = self.generate_two_coordinates()
             if coordinates:
                 self.elements_on_map.append(Stone('src/stones/2.png', coordinates[0], coordinates[1]))
-        for i in range(random.randint(0, 10)):
+        for i in range(random.randint(0, 100)):
             coordinates = self.generate_two_coordinates()
             if coordinates:
                 self.elements_on_map.append(Stone('src/stones/3.png', coordinates[0], coordinates[1]))
 
-        for i in range(random.randint(0, 10)):
+        for i in range(random.randint(0, 100)):
             coordinates = self.generate_two_coordinates()
             if coordinates:
                 self.elements_on_map.append(Bush('src/bushes/1.png', coordinates[0], coordinates[1]))
@@ -532,10 +573,16 @@ class PixelFarm:
 
     def increase_experience(self, n:int) -> None:
         self.experience += n
+        if self.experience > ((self.level + 1) * 100):
+            self.experience -= ((self.level + 1) * 100)
+            self.increase_level()
+
+    def increase_level(self) -> None:
+        self.level += 1
     
     # Generate
     def generate_two_coordinates(self) -> Union[tuple, bool]:
-        x, y = random.randint(30, self.screen_size[0]-30), random.randint(30, self.screen_size[1]-30)
+        x, y = random.randint(-300, self.screen_size[0]+300), random.randint(-300, self.screen_size[1]+300)
         if self.check_collision_for_numbers(x, y):
             return (x, y)
         return False
@@ -550,6 +597,14 @@ class PixelFarm:
             if isinstance(i, Field):
                 if i.plant_stage > 0:
                     i.grow()
+
+    # Moving
+    def move_map(self, n: list) -> None:
+        for i in self.elements_on_map:
+            rect = i.rect
+            rect[0] += n[0]
+            rect[1] += n[1]
+            i.rect = rect
 
 if __name__ == '__main__':
     app = PixelFarm()
