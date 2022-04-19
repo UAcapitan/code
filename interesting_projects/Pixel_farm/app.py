@@ -10,7 +10,7 @@ from typing import Union
 
 # Special app modules
 from objects import *
-from tasks import *
+from tasks import generate_task
 from conversations import generate_conversation
 
 pygame.init()
@@ -72,23 +72,9 @@ class PixelFarm:
         self.part_of_conversation = 0
         self.task_num = 0
 
-        self.inventory = [
-            'shovel',
-            'loupe',
-            'pickaxe',
-            'seeds_of_wheat',
-            'seeds_of_carrot',
-            'seeds_of_potato',
-        ]
+        self.inventory = []
 
-        self.inventory_count = [
-            -1,
-            -1,
-            -1,
-            10,
-            10,
-            3
-        ]
+        self.inventory_count = []
 
         self.special_inventory = []
 
@@ -100,6 +86,8 @@ class PixelFarm:
         self.item = False
 
         self.harvest = False
+
+        self.tasks_list = []
 
     # Main game logic
     def run(self) -> None:
@@ -134,16 +122,12 @@ class PixelFarm:
             self.screen.blit(e.image, e.rect)
 
         self.draw_available_field()
-        self.draw_interface()
-        self.draw_energy_line()
-        self.draw_experience_line()
-        self.draw_choiced_block_of_item()
-        self.draw_items_in_bottom_inventory()
-        self.draw_inventory_count()
-        self.draw_level()
 
         if self.farm_window:
             self.draw_window(20, 20, self.screen_size[0] - 40, self.screen_size[1] - 40)
+        else:
+            self.draw_inventory()
+            self.draw_status_player()
 
         # Updating of screen
         pygame.display.update()
@@ -188,6 +172,16 @@ class PixelFarm:
         if self.menu == False:
             pygame.draw.rect(self.screen, WHITE, pygame.Rect(x, y, w, h))
 
+    def draw_task_window(self, x: int, y: int, w: int, h: int) -> None:
+        for i in self.tasks_list:
+            task = pygame.draw.rect(self.screen, GREEN, pygame.Rect(x + 20, y + 20, w - 20, h/4))
+
+    def draw_inventory(self) -> None:
+        self.draw_interface()
+        self.draw_choiced_block_of_item()
+        self.draw_items_in_bottom_inventory()
+        self.draw_inventory_count()
+
     def draw_elements_on_farm_window(self) -> None:
         pass
 
@@ -228,7 +222,24 @@ class PixelFarm:
 
     def draw_level(self) -> None:
         pygame.draw.circle(self.screen, WHITE, (self.screen_size[0] - 250, 50), 25, 3)
+        font = pygame.font.SysFont('Comic Sans MS', 22)
+        text = font.render(str(self.level), False, WHITE)
+        self.screen.blit(text, (self.screen_size[0] - 257, 35))
 
+    def draw_status_player(self) -> None:
+        self.draw_energy_line()
+        self.draw_experience_line()
+        self.draw_level()
+        self.draw_money()
+
+    def draw_money(self) -> None:
+        font = pygame.font.SysFont('Comic Sans MS', 18)
+        text = font.render(str(self.money), False, YELLOW)
+        self.screen.blit(text, (self.screen_size[0] - 195, 72))
+        image = pygame.image.load('src/money/1.png')
+        rect = image.get_rect()
+        rect.center = (self.screen_size[0] - 205, 85)
+        self.screen.blit(image, rect)
 
     # Loading screen
     def show_start_screen(self) -> None:
@@ -309,11 +320,16 @@ class PixelFarm:
                         self.click_conditions(event)
                         self.click_at_field(event)
                         
-                        # for i in self.elements_on_map:
-                        #     if isinstance(i, House):
-                        #         x, y = pygame.mouse.get_pos()
-                        #         if i.rect.collidepoint(x, y):
-                        #             self.farm_window = True
+                        if not self.farm_window:
+                            for i in self.elements_on_map:
+                                if isinstance(i, House):
+                                    if i.rect.collidepoint(event.pos):
+                                        self.farm_window = True
+                        else:
+                            if pygame.Rect(20 + self.screen_size[0] - 90, 20, 50, 50).collidepoint(event.pos):
+                                self.farm_window = False
+
+                        
 
                 # self.click_when_conversation(event)
     
@@ -411,6 +427,8 @@ class PixelFarm:
                             self.energy -= 5
                             self.increase_experience(10)
                             garbage.append(i)
+                            if isinstance(i, Stone):
+                                self.add_to_inventory('stone')
             
             if len(garbage) > 0:
                     del self.elements_on_map[self.elements_on_map.index(garbage[0])]
@@ -424,18 +442,16 @@ class PixelFarm:
         elif item == 'seeds_of_potato':
             self.click_to_plant('potato', 100)
 
+        elif item == 'seeds_of_grass':
+            self.click_to_plant('grass', 30)
+
     def click_at_field(self, event) -> None:
                     for i in self.elements_on_map:
                         if isinstance(i, Field):
                             if i.rect.collidepoint(event.pos):
                                 if i.plant_stage == 3:
                                     harvest = i.get_harvest()
-                                    if harvest:
-                                        if harvest in self.inventory:
-                                            self.inventory_count[self.inventory.index(harvest)] += 1
-                                        else:
-                                            self.inventory.append(harvest)
-                                            self.inventory_count.append(1)
+                                    self.add_to_inventory(harvest)
                                     self.increase_experience(25)
 
     # Start game
@@ -449,6 +465,29 @@ class PixelFarm:
 
         self.elements_on_map.append(House(700, 150))
 
+        self.inventory = [
+            'shovel',
+            'loupe',
+            'pickaxe',
+            'seeds_of_wheat',
+            'seeds_of_carrot',
+            'seeds_of_potato',
+            'seeds_of_grass',
+            'seeds_of_onion',
+            'seeds_of_cucumber',
+        ]
+
+        self.inventory_count = [
+            -1,
+            -1,
+            -1,
+            10,
+            10,
+            3,
+            3,
+            3,
+            3
+        ]
 
         for i in range(random.randint(0, 100)):
             coordinates = self.generate_two_coordinates()
@@ -480,6 +519,14 @@ class PixelFarm:
         elif self.item == n:
             self.item = False
 
+    def add_to_inventory(self, item: str) -> None:
+        if item:
+            if item in self.inventory:
+                self.inventory_count[self.inventory.index(item)] += 1
+            else:
+                self.inventory.append(item)
+                self.inventory_count.append(1)
+
     # Saving           
     def save_game(self) -> None:
         with open('player_data.json', 'w') as file:
@@ -494,6 +541,7 @@ class PixelFarm:
                 "part_of_conversation": self.part_of_conversation,
                 "task_num": self.task_num,
                 "inventory": self.inventory,
+                'inventory_count': self.inventory_count,
                 "energy": self.energy
             }, file)
 
@@ -515,6 +563,7 @@ class PixelFarm:
         self.task_num = player_data["task_num"]
         self.inventory = player_data["inventory"]
         self.energy = player_data["energy"]
+        self.inventory_count = player_data["inventory_count"]
 
     # Conversations
     def tasks(self) -> None:
@@ -605,6 +654,11 @@ class PixelFarm:
             rect[0] += n[0]
             rect[1] += n[1]
             i.rect = rect
+
+    # Tasks
+    def add_task(self) -> None:
+        if len(self.tasks_list) < 10:
+            self.tasks_list.append(generate_task())
 
 if __name__ == '__main__':
     app = PixelFarm()

@@ -64,9 +64,11 @@ class Field(FarmObject):
                 if self.plant_stage == 1:
                     self.image = pygame.image.load(f"src/planted_fields/{self.plant}_2.png")
                     self.plant_stage += 1
+                    self.image_address = f"src/planted_fields/{self.plant}_2.png"
                 elif self.plant_stage == 2:
                     self.image = pygame.image.load(f"src/planted_fields/{self.plant}_3.png")
                     self.plant_stage += 1
+                    self.image_address = f"src/planted_fields/{self.plant}_3.png"
                 
                 self.time_point = time.time()
 
@@ -77,6 +79,7 @@ class Field(FarmObject):
         self.plant_stage = 0
         self.time_point = time.time()
         self.time_for_growing = 0
+        self.image_address = f"src/fields/1.png"
         return plant
 
 class House(FarmObject):
