@@ -87,7 +87,13 @@ class PixelFarm:
 
         self.harvest = False
 
-        self.tasks_list = []
+        self.tasks_list = [
+            [],
+            [],
+            []
+        ]
+
+        self.center_of_map = [0, 0]
 
     # Main game logic
     def run(self) -> None:
@@ -171,10 +177,27 @@ class PixelFarm:
     def draw_window(self, x: int, y: int, w: int, h: int) -> None:
         if self.menu == False:
             pygame.draw.rect(self.screen, WHITE, pygame.Rect(x, y, w, h))
+            image = pygame.image.load("src/buttons/exit.png")
+            rect = image.get_rect()
+            rect.center = (x + w - 10, y + 10)
+            self.screen.blit(image, rect)
+            self.draw_task_window(x, y, w, h)
+            self.draw_left_menu_in_farm_window(h)
 
     def draw_task_window(self, x: int, y: int, w: int, h: int) -> None:
+        y1 = 70
         for i in self.tasks_list:
-            task = pygame.draw.rect(self.screen, GREEN, pygame.Rect(x + 20, y + 20, w - 20, h/4))
+            pygame.draw.rect(self.screen, GREEN, pygame.Rect(x + 70, y + y1 , w - 90, h/4))
+            image = pygame.image.load("src/characters/1.png}")
+            rect = image.get_rect()
+            self.screen.blit(image, rect)
+            font = pygame.font.SysFont('Comic Sanc MS', 24)
+            text = font.render('Name', False, BLACK)
+            self.screen.blit(text, (x + 250, y + y1 + 20))
+            y1 += h/4 + 10
+
+    def draw_left_menu_in_farm_window(self, h: int) -> None:
+        pygame.draw.rect(self.screen, BLUE, pygame.Rect(20, 20, 64, h))
 
     def draw_inventory(self) -> None:
         self.draw_interface()
@@ -313,7 +336,7 @@ class PixelFarm:
                     elif event.key == pygame.K_0:
                         self.set_item(10)
 
-                    self.check_moving_map(event)
+                self.check_moving_map()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
@@ -358,14 +381,15 @@ class PixelFarm:
             del self.inventory[self.item - 1]
             del self.inventory_count[self.item - 1]
 
-    def check_moving_map(self, event) -> None:
-        if event.key == pygame.K_w:
+    def check_moving_map(self) -> None:
+        keys=pygame.key.get_pressed()
+        if keys[pygame.K_w]:
             self.move_map([0, 10])
-        elif event.key == pygame.K_a:
+        if keys[pygame.K_a]:
             self.move_map([10, 0])
-        if event.key == pygame.K_s:
+        if keys[pygame.K_s]:
             self.move_map([0, -10])
-        if event.key == pygame.K_d:
+        if keys[pygame.K_d]:
             self.move_map([-10, 0])
 
     # All clicks
@@ -422,13 +446,14 @@ class PixelFarm:
             garbage = []
             for i in self.elements_on_map:
                 if i.rect.collidepoint(event.pos):
-                    if self.check_energy(5):
-                        if i.click_on_it():
-                            self.energy -= 5
-                            self.increase_experience(10)
-                            garbage.append(i)
-                            if isinstance(i, Stone):
-                                self.add_to_inventory('stone')
+                    if self.check_inventory():
+                        if self.check_energy(5):
+                            if i.click_on_it():
+                                self.energy -= 5
+                                self.increase_experience(10)
+                                garbage.append(i)
+                                if isinstance(i, Stone):
+                                    self.add_to_inventory('stone')
             
             if len(garbage) > 0:
                     del self.elements_on_map[self.elements_on_map.index(garbage[0])]
@@ -444,6 +469,12 @@ class PixelFarm:
 
         elif item == 'seeds_of_grass':
             self.click_to_plant('grass', 30)
+
+        elif item == 'seeds_of_onion':
+            self.click_to_plant('onion', 120)
+
+        elif item == 'seeds_of_cucumber':
+            self.click_to_plant('cucumber', 130)
 
     def click_at_field(self, event) -> None:
                     for i in self.elements_on_map:
@@ -526,6 +557,10 @@ class PixelFarm:
             else:
                 self.inventory.append(item)
                 self.inventory_count.append(1)
+
+    def check_inventory(self) -> bool:
+        if len(self.inventory) <= 10:
+            return True
 
     # Saving           
     def save_game(self) -> None:
@@ -649,11 +684,24 @@ class PixelFarm:
 
     # Moving
     def move_map(self, n: list) -> None:
-        for i in self.elements_on_map:
-            rect = i.rect
-            rect[0] += n[0]
-            rect[1] += n[1]
-            i.rect = rect
+        flag = True
+        if n[0] < 0 and self.center_of_map[0] <= -300:
+            flag = False
+        if n[0] > 0 and self.center_of_map[0] >= 300:
+            flag = False
+        if n[1] < 0 and self.center_of_map[1] <= -300:
+            flag = False
+        if n[1] > 0 and self.center_of_map[1] >= 300:
+            flag = False
+
+        if flag:
+            for i in self.elements_on_map:
+                rect = i.rect
+                rect[0] += n[0]
+                rect[1] += n[1]
+                self.center_of_map[0] += n[0]
+                self.center_of_map[1] += n[1]
+                i.rect = rect
 
     # Tasks
     def add_task(self) -> None:
