@@ -87,11 +87,10 @@ class PixelFarm:
 
         self.harvest = False
 
-        self.tasks_list = [
-            ['Max',],
-            ['Leo',],
-            ['Donald',],
-        ]
+        self.tasks_list = []
+
+        for i in range(3):
+            self.add_task()
 
         self.shop_items_dict = {
             'seeds_of_wheat': [1,2],
@@ -196,11 +195,11 @@ class PixelFarm:
         y1 = 70
         for i in self.pagination_of_tasks(1):
             pygame.draw.rect(self.screen, GREEN, pygame.Rect(x + 70, y + y1 , w - 90, h/4))
-            image = pygame.image.load("src/characters/Max.png")
+            image = pygame.image.load(f"src/characters/{i[0]}.png")
             rect = pygame.Rect(x + 70, y + y1, 128, 128)
             self.screen.blit(image, rect)
             font = pygame.font.SysFont('Comic Sanc MS', 24)
-            text = font.render(f"{i[0][0]}", False, BLACK)
+            text = font.render(f"{i[0]}", False, BLACK)
             self.screen.blit(text, (x + 250, y + y1 + 20))
             y1 += h/4 + 10
 
@@ -720,12 +719,16 @@ class PixelFarm:
 
     # Tasks
     def add_task(self) -> None:
-        if len(self.tasks_list) < 10:
-            self.tasks_list.append(generate_task())
+        if len(self.tasks_list) < 3:
+            self.tasks_list.append(generate_task(self.level))
 
     def pagination_of_tasks(self, n: int) -> list:
         n1 = n * 3
         return self.tasks_list[n1 - 3:n1 - 1]
+
+    def timer_for_adding_task(self) -> None:
+        if time.time() - 3 > 300:
+            self.add_task()
 
 if __name__ == '__main__':
     app = PixelFarm()
