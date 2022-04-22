@@ -1,4 +1,5 @@
 from app import pygame
+import random
 
 
 task_names = [
@@ -15,6 +16,10 @@ task_names = [
     'Teodor',
 ]
 
+texts = []
+
 
 def generate_task(self) -> list:
-    return []
+    return [
+        random.choice(task_names),
+    ]

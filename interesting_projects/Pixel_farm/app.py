@@ -88,10 +88,18 @@ class PixelFarm:
         self.harvest = False
 
         self.tasks_list = [
-            [],
-            [],
-            []
+            ['Max',],
+            ['Leo',],
+            ['Donald',],
         ]
+
+        self.shop_items_dict = {
+            'seeds_of_wheat': [1,2],
+            'seeds_of_carrot': [2,3],
+            'seeds_of_potato': [5,10],
+            'seeds_of_grass': [1,3],
+            'seeds_of_onion': [3,10],
+        }
 
         self.center_of_map = [0, 0]
 
@@ -186,13 +194,13 @@ class PixelFarm:
 
     def draw_task_window(self, x: int, y: int, w: int, h: int) -> None:
         y1 = 70
-        for i in self.tasks_list:
+        for i in self.pagination_of_tasks(1):
             pygame.draw.rect(self.screen, GREEN, pygame.Rect(x + 70, y + y1 , w - 90, h/4))
-            image = pygame.image.load("src/characters/1.png}")
-            rect = image.get_rect()
+            image = pygame.image.load("src/characters/Max.png")
+            rect = pygame.Rect(x + 70, y + y1, 128, 128)
             self.screen.blit(image, rect)
             font = pygame.font.SysFont('Comic Sanc MS', 24)
-            text = font.render('Name', False, BLACK)
+            text = font.render(f"{i[0][0]}", False, BLACK)
             self.screen.blit(text, (x + 250, y + y1 + 20))
             y1 += h/4 + 10
 
@@ -338,21 +346,7 @@ class PixelFarm:
 
                 self.check_moving_map()
 
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        self.click_conditions(event)
-                        self.click_at_field(event)
-                        
-                        if not self.farm_window:
-                            for i in self.elements_on_map:
-                                if isinstance(i, House):
-                                    if i.rect.collidepoint(event.pos):
-                                        self.farm_window = True
-                        else:
-                            if pygame.Rect(20 + self.screen_size[0] - 90, 20, 50, 50).collidepoint(event.pos):
-                                self.farm_window = False
-
-                        
+                self.click_with_mouse(event)
 
                 # self.click_when_conversation(event)
     
@@ -477,13 +471,28 @@ class PixelFarm:
             self.click_to_plant('cucumber', 130)
 
     def click_at_field(self, event) -> None:
+        for i in self.elements_on_map:
+            if isinstance(i, Field):
+                if i.rect.collidepoint(event.pos):
+                    if i.plant_stage == 3:
+                        harvest = i.get_harvest()
+                        self.add_to_inventory(harvest)
+                        self.increase_experience(25)
+
+    def click_with_mouse(self, event) -> None:
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                self.click_conditions(event)
+                self.click_at_field(event)
+                
+                if not self.farm_window:
                     for i in self.elements_on_map:
-                        if isinstance(i, Field):
+                        if isinstance(i, House):
                             if i.rect.collidepoint(event.pos):
-                                if i.plant_stage == 3:
-                                    harvest = i.get_harvest()
-                                    self.add_to_inventory(harvest)
-                                    self.increase_experience(25)
+                                self.farm_window = True
+                else:
+                    if pygame.Rect(20 + self.screen_size[0] - 90, 20, 50, 50).collidepoint(event.pos):
+                        self.farm_window = False
 
     # Start game
     def new_game(self) -> None:
@@ -577,7 +586,8 @@ class PixelFarm:
                 "task_num": self.task_num,
                 "inventory": self.inventory,
                 'inventory_count': self.inventory_count,
-                "energy": self.energy
+                "energy": self.energy,
+                "center_of_map": self.center_of_map,
             }, file)
 
     def load_game(self) -> None:
@@ -599,6 +609,7 @@ class PixelFarm:
         self.inventory = player_data["inventory"]
         self.energy = player_data["energy"]
         self.inventory_count = player_data["inventory_count"]
+        self.center_of_map = player_data["center_of_map"]
 
     # Conversations
     def tasks(self) -> None:
@@ -663,6 +674,10 @@ class PixelFarm:
 
     def increase_level(self) -> None:
         self.level += 1
+
+    def increase_money(self, n: int) -> None:
+        self.increase_experience(10)
+        self.money += n
     
     # Generate
     def generate_two_coordinates(self) -> Union[tuple, bool]:
@@ -673,7 +688,7 @@ class PixelFarm:
 
     # Look at something
     def loupe_use(self) -> None:
-        pass
+        self.draw_window(20, 20, 20, 20)
 
     # Growing of plant
     def grow(self) -> None:
@@ -695,18 +710,22 @@ class PixelFarm:
             flag = False
 
         if flag:
+            self.center_of_map[0] += n[0]
+            self.center_of_map[1] += n[1]
             for i in self.elements_on_map:
                 rect = i.rect
                 rect[0] += n[0]
                 rect[1] += n[1]
-                self.center_of_map[0] += n[0]
-                self.center_of_map[1] += n[1]
                 i.rect = rect
 
     # Tasks
     def add_task(self) -> None:
         if len(self.tasks_list) < 10:
             self.tasks_list.append(generate_task())
+
+    def pagination_of_tasks(self, n: int) -> list:
+        n1 = n * 3
+        return self.tasks_list[n1 - 3:n1 - 1]
 
 if __name__ == '__main__':
     app = PixelFarm()
