@@ -89,9 +89,6 @@ class PixelFarm:
 
         self.tasks_list = []
 
-        for i in range(3):
-            self.add_task()
-
         self.shop_items_dict = {
             'seeds_of_wheat': [1,2],
             'seeds_of_carrot': [2,3],
@@ -101,6 +98,8 @@ class PixelFarm:
         }
 
         self.center_of_map = [0, 0]
+
+        self.timer_task = 0
 
     # Main game logic
     def run(self) -> None:
@@ -122,6 +121,7 @@ class PixelFarm:
             self.regenerate_energy()
             self.grow()
             self.draw_all()
+            self.timer_for_adding_task()
 
     # Draw
     def draw_all(self) -> None:
@@ -195,12 +195,12 @@ class PixelFarm:
         y1 = 70
         for i in self.pagination_of_tasks(1):
             pygame.draw.rect(self.screen, GREEN, pygame.Rect(x + 70, y + y1 , w - 90, h/4))
-            image = pygame.image.load(f"src/characters/{i[0]}.png")
+            image = pygame.image.load(f"src/characters/Max.png")
             rect = pygame.Rect(x + 70, y + y1, 128, 128)
             self.screen.blit(image, rect)
             font = pygame.font.SysFont('Comic Sanc MS', 24)
-            text = font.render(f"{i[0]}", False, BLACK)
-            self.screen.blit(text, (x + 250, y + y1 + 20))
+            self.screen.blit(font.render(f"Name", False, BLACK), (x + 250, y + y1 + 20))
+            self.screen.blit(font.render(f"Text", False, BLACK), (x + 250, y + y1 + 40))
             y1 += h/4 + 10
 
     def draw_left_menu_in_farm_window(self, h: int) -> None:
@@ -375,15 +375,16 @@ class PixelFarm:
             del self.inventory_count[self.item - 1]
 
     def check_moving_map(self) -> None:
-        keys=pygame.key.get_pressed()
-        if keys[pygame.K_w]:
-            self.move_map([0, 10])
-        if keys[pygame.K_a]:
-            self.move_map([10, 0])
-        if keys[pygame.K_s]:
-            self.move_map([0, -10])
-        if keys[pygame.K_d]:
-            self.move_map([-10, 0])
+        if not self.farm_window:
+            keys=pygame.key.get_pressed()
+            if keys[pygame.K_w]:
+                self.move_map([0, 10])
+            if keys[pygame.K_a]:
+                self.move_map([10, 0])
+            if keys[pygame.K_s]:
+                self.move_map([0, -10])
+            if keys[pygame.K_d]:
+                self.move_map([-10, 0])
 
     # All clicks
     def click_in_menu(self, event) -> None:
@@ -439,14 +440,14 @@ class PixelFarm:
             garbage = []
             for i in self.elements_on_map:
                 if i.rect.collidepoint(event.pos):
-                    if self.check_inventory():
                         if self.check_energy(5):
-                            if i.click_on_it():
-                                self.energy -= 5
-                                self.increase_experience(10)
-                                garbage.append(i)
-                                if isinstance(i, Stone):
-                                    self.add_to_inventory('stone')
+                            if isinstance(i, Stone):
+                                if self.check_inventory('stone'):
+                                    if i.click_on_it():
+                                        self.add_to_inventory('stone')
+                            self.energy -= 5
+                            self.increase_experience(10)
+                            garbage.append(i)
             
             if len(garbage) > 0:
                     del self.elements_on_map[self.elements_on_map.index(garbage[0])]
@@ -471,12 +472,13 @@ class PixelFarm:
 
     def click_at_field(self, event) -> None:
         for i in self.elements_on_map:
-            if isinstance(i, Field):
-                if i.rect.collidepoint(event.pos):
-                    if i.plant_stage == 3:
-                        harvest = i.get_harvest()
-                        self.add_to_inventory(harvest)
-                        self.increase_experience(25)
+                if isinstance(i, Field):
+                    if i.rect.collidepoint(event.pos):
+                        if self.check_inventory(i.plant):
+                            if i.plant_stage == 3:
+                                harvest = i.get_harvest()
+                                self.add_to_inventory(harvest)
+                                self.increase_experience(25)
 
     def click_with_mouse(self, event) -> None:
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -546,6 +548,8 @@ class PixelFarm:
             if coordinates:
                 self.elements_on_map.append(Bush('src/bushes/1.png', coordinates[0], coordinates[1]))
 
+        self.timer_task = time.time()
+
     # Inventory
     def inventory_bottom_screen(self) -> None:
         pygame.draw.rect(self.screen, WHITE, 
@@ -566,9 +570,10 @@ class PixelFarm:
                 self.inventory.append(item)
                 self.inventory_count.append(1)
 
-    def check_inventory(self) -> bool:
-        if len(self.inventory) <= 10:
+    def check_inventory(self, item: str) -> bool:
+        if len(self.inventory) <= 10 or item in self.inventory:
             return True
+        return False
 
     # Saving           
     def save_game(self) -> None:
@@ -587,6 +592,8 @@ class PixelFarm:
                 'inventory_count': self.inventory_count,
                 "energy": self.energy,
                 "center_of_map": self.center_of_map,
+                "tasks_list": self.tasks_list,
+                "timer_task": self.timer_task
             }, file)
 
     def load_game(self) -> None:
@@ -609,6 +616,8 @@ class PixelFarm:
         self.energy = player_data["energy"]
         self.inventory_count = player_data["inventory_count"]
         self.center_of_map = player_data["center_of_map"]
+        self.tasks_list = player_data["tasks_list"]
+        self.timer_task = player_data["timer_task"]
 
     # Conversations
     def tasks(self) -> None:
@@ -719,16 +728,17 @@ class PixelFarm:
 
     # Tasks
     def add_task(self) -> None:
-        if len(self.tasks_list) < 3:
+        if len(self.tasks_list) < 4:
             self.tasks_list.append(generate_task(self.level))
 
     def pagination_of_tasks(self, n: int) -> list:
         n1 = n * 3
-        return self.tasks_list[n1 - 3:n1 - 1]
+        return self.tasks_list[n1 - 3:n1]
 
     def timer_for_adding_task(self) -> None:
-        if time.time() - 3 > 300:
+        if time.time() - self.timer_task > 3:
             self.add_task()
+            self.timer_task = time.time()
 
 if __name__ == '__main__':
     app = PixelFarm()

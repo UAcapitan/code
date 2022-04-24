@@ -1,4 +1,3 @@
-from matplotlib import image
 from app import pygame
 from app import time
 

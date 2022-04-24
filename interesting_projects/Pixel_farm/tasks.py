@@ -32,7 +32,7 @@ items = [
 ]
 
 
-def generate_task(level) -> list:
+def generate_task(level) -> dict:
     n = random.randint(1, 10)
     bonus = random.randint(0, 10)
 
