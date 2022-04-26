@@ -25,6 +25,7 @@ YELLOW = (255, 255, 0)
 DARK_YELLOW = (153, 153, 0)
 BLUE = (0, 0, 255)
 DARK_BLUE = (0, 0, 153)
+GRAY = (230, 230, 230)
 
 def timer(n):
     t = time.time()
@@ -62,7 +63,7 @@ class PixelFarm:
 
         self.elements_on_map = []
 
-        self.money = 0
+        self.money = 50
         self.level = 0
         self.experience = 0
 
@@ -100,6 +101,12 @@ class PixelFarm:
         self.center_of_map = [0, 0]
 
         self.timer_task = 0
+
+        self.buttons_tasks = []
+
+        self.main_screen = True
+
+        self.button_in_farm_window = 1
 
     # Main game logic
     def run(self) -> None:
@@ -188,32 +195,61 @@ class PixelFarm:
             rect = image.get_rect()
             rect.center = (x + w - 10, y + 10)
             self.screen.blit(image, rect)
-            self.draw_task_window(x, y, w, h)
-            self.draw_left_menu_in_farm_window(h)
+            self.draw_farm_window_menu(h)
+            if self.button_in_farm_window == 1:
+                self.draw_task_window(x, y, w, h)
+            elif self.button_in_farm_window == 2:
+                self.draw_farm_shop(x, y, w, h)
+            elif self.button_in_farm_window == 3:
+                self.draw_farm_creative(x, y, w, h)
 
     def draw_task_window(self, x: int, y: int, w: int, h: int) -> None:
+        self.buttons_tasks = []
         y1 = 70
         for i in self.pagination_of_tasks(1):
-            pygame.draw.rect(self.screen, GREEN, pygame.Rect(x + 70, y + y1 , w - 90, h/4))
-            image = pygame.image.load(f"src/characters/Max.png")
+            rect = pygame.Rect(x + 70, y + y1 , w - 90, h/4)
+            if len(self.buttons_tasks) < 4:
+                self.buttons_tasks.append(rect)
+
+            flag = True
+            for j in i["items"]:
+                if not j in self.inventory:
+                    flag = False
+
+            if flag:      
+                pygame.draw.rect(self.screen, GREEN, rect)
+            else:
+                pygame.draw.rect(self.screen, GRAY, rect)
+
+            image = pygame.image.load(f"src/characters/{i['name']}.png")
             rect = pygame.Rect(x + 70, y + y1, 128, 128)
             self.screen.blit(image, rect)
             font = pygame.font.SysFont('Comic Sanc MS', 24)
-            self.screen.blit(font.render(f"Name", False, BLACK), (x + 250, y + y1 + 20))
-            self.screen.blit(font.render(f"Text", False, BLACK), (x + 250, y + y1 + 40))
-            y1 += h/4 + 10
+            self.screen.blit(font.render(f"{i['name']}", False, BLACK), (x + 250, y + y1 + 10))
+            self.screen.blit(font.render(f"{i['text']}", False, BLACK), (x + 250, y + y1 + 50))
 
-    def draw_left_menu_in_farm_window(self, h: int) -> None:
-        pygame.draw.rect(self.screen, BLUE, pygame.Rect(20, 20, 64, h))
+            image = pygame.image.load('src/money/1.png')
+            rect = image.get_rect()
+            rect.center = (x + 884, y + y1 + 60)
+            self.screen.blit(image, rect)
+
+            self.screen.blit(font.render(f"{i['price']}", False, YELLOW), (x + 900, y + y1 + 53))
+
+            x1 = 0
+            for j in i['items']:
+                image = pygame.image.load(f'src/items/{j}.png')
+                rect = image.get_rect()
+                rect.center = (x + 250 + x1, y + y1 + 120)
+                self.screen.blit(image, rect)
+                x1 += 64
+
+            y1 += h/4 + 10
 
     def draw_inventory(self) -> None:
         self.draw_interface()
         self.draw_choiced_block_of_item()
         self.draw_items_in_bottom_inventory()
         self.draw_inventory_count()
-
-    def draw_elements_on_farm_window(self) -> None:
-        pass
 
     def draw_items_in_bottom_inventory(self) -> None:
         x = 20
@@ -271,6 +307,39 @@ class PixelFarm:
         rect.center = (self.screen_size[0] - 205, 85)
         self.screen.blit(image, rect)
 
+    def draw_farm_window_menu(self, h: int) -> None:
+        pygame.draw.rect(self.screen, BLUE, pygame.Rect(20, 20, 64, h))
+        menu = [
+            'tasks',
+            'shop',
+            'creative'
+        ]
+        n = 64 * (self.button_in_farm_window - 1)
+        pygame.draw.rect(self.screen, YELLOW, pygame.Rect(20, 20 + n, 64, 64)) # TODO Select orange color
+        y1 = 0
+        for i in menu:
+            image = pygame.image.load(f"src/farm_menu/{i}.png")
+            rect = image.get_rect()
+            rect.center = (52, 52 + y1)
+            self.screen.blit(image, rect)
+            y1 += 64
+        
+    def draw_farm_shop(self) -> None:
+        for i in self.shop_items_dict:
+            image = pygame.image.load(f"src/characters/{i}.png")
+            rect = pygame.Rect(x + 70, y + y1, 128, 128)
+            self.screen.blit(image, rect)
+            font = pygame.font.SysFont('Comic Sanc MS', 24)
+            self.screen.blit(font.render(f"{i['name']}", False, BLACK), (x + 250, y + y1 + 10))
+
+    def draw_farm_creative(self, x: int, y: int, w: int, h: int) -> None:
+        for i in self.shop_items_dict:
+            image = pygame.image.load(f"src/characters/{i}.png")
+            rect = pygame.Rect(x + 70, y + y1, 128, 128)
+            self.screen.blit(image, rect)
+            font = pygame.font.SysFont('Comic Sanc MS', 24)
+            self.screen.blit(font.render(f"{i['name']}", False, BLACK), (x + 250, y + y1 + 10))
+
     # Loading screen
     def show_start_screen(self) -> None:
         self.screen.fill(BLACK)
@@ -319,32 +388,39 @@ class PixelFarm:
                             self.save_game()
                             self.menu = True
 
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_q:
-                        del self.elements_on_map[0]
-                    elif event.key == pygame.K_1:
-                        self.set_item(1)
-                    elif event.key == pygame.K_2:
-                        self.set_item(2)
-                    elif event.key == pygame.K_3:
-                        self.set_item(3)
-                    elif event.key == pygame.K_4:
-                        self.set_item(4)
-                    elif event.key == pygame.K_5:
-                        self.set_item(5)
-                    elif event.key == pygame.K_6:
-                        self.set_item(6)
-                    elif event.key == pygame.K_7:
-                        self.set_item(7)
-                    elif event.key == pygame.K_8:
-                        self.set_item(8)
-                    elif event.key == pygame.K_9:
-                        self.set_item(9)
-                    elif event.key == pygame.K_0:
-                        self.set_item(10)
+                if self.main_screen:
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_1:
+                            self.set_item(1)
+                        elif event.key == pygame.K_2:
+                            self.set_item(2)
+                        elif event.key == pygame.K_3:
+                            self.set_item(3)
+                        elif event.key == pygame.K_4:
+                            self.set_item(4)
+                        elif event.key == pygame.K_5:
+                            self.set_item(5)
+                        elif event.key == pygame.K_6:
+                            self.set_item(6)
+                        elif event.key == pygame.K_7:
+                            self.set_item(7)
+                        elif event.key == pygame.K_8:
+                            self.set_item(8)
+                        elif event.key == pygame.K_9:
+                            self.set_item(9)
+                        elif event.key == pygame.K_0:
+                            self.set_item(10)
+                else:
+                    if self.farm_window:
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_1:
+                                self.change_button_in_farm_window(1)
+                            elif event.key == pygame.K_2:
+                                self.change_button_in_farm_window(2)
+                            elif event.key == pygame.K_3:
+                                self.change_button_in_farm_window(3)
 
                 self.check_moving_map()
-
                 self.click_with_mouse(event)
 
                 # self.click_when_conversation(event)
@@ -445,9 +521,9 @@ class PixelFarm:
                                 if self.check_inventory('stone'):
                                     if i.click_on_it():
                                         self.add_to_inventory('stone')
-                            self.energy -= 5
-                            self.increase_experience(10)
-                            garbage.append(i)
+                                        self.energy -= 5
+                                        self.increase_experience(10)
+                                        garbage.append(i)
             
             if len(garbage) > 0:
                     del self.elements_on_map[self.elements_on_map.index(garbage[0])]
@@ -491,13 +567,35 @@ class PixelFarm:
                         if isinstance(i, House):
                             if i.rect.collidepoint(event.pos):
                                 self.farm_window = True
+                                self.main_screen = False
                 else:
                     if pygame.Rect(20 + self.screen_size[0] - 90, 20, 50, 50).collidepoint(event.pos):
                         self.farm_window = False
+                        self.main_screen = True
+
+        self.click_on_tasks(event)
+
+    def click_on_tasks(self, event) -> None:
+        if self.farm_window and self.button_in_farm_window == 1:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if self.farm_window:
+                        for i in self.buttons_tasks:
+                            if i.collidepoint(event.pos):
+                                item = self.tasks_list[self.buttons_tasks.index(i)]
+                                if self.check_needed_item_in_inventory(item["items"]):
+                                    self.increase_experience(50)
+                                    self.money += item["price"]
+                                    del self.tasks_list[self.buttons_tasks.index(i)]
+                if event.button == 3:
+                    if self.farm_window:
+                        for i in self.buttons_tasks:
+                            if i.collidepoint(event.pos):
+                                del self.tasks_list[self.buttons_tasks.index(i)]
 
     # Start game
     def new_game(self) -> None:
-        self.money = 0
+        self.money = 50
         self.level = 0
         self.experience = 0
         self.elements_on_map = []
@@ -550,6 +648,8 @@ class PixelFarm:
 
         self.timer_task = time.time()
 
+        self.buttons_tasks = []
+
     # Inventory
     def inventory_bottom_screen(self) -> None:
         pygame.draw.rect(self.screen, WHITE, 
@@ -571,7 +671,19 @@ class PixelFarm:
                 self.inventory_count.append(1)
 
     def check_inventory(self, item: str) -> bool:
-        if len(self.inventory) <= 10 or item in self.inventory:
+        if len(self.inventory) <= 9 or item in self.inventory:
+            return True
+        return False
+
+    def check_needed_item_in_inventory(self, products: list) -> bool:
+        flag = True
+        for i in products:
+            if not i in self.inventory:
+                flag = False
+
+        if flag:
+            for i in products:
+                self.inventory_count[self.inventory.index(i)] -= 1
             return True
         return False
 
@@ -593,7 +705,8 @@ class PixelFarm:
                 "energy": self.energy,
                 "center_of_map": self.center_of_map,
                 "tasks_list": self.tasks_list,
-                "timer_task": self.timer_task
+                "timer_task": self.timer_task,
+                "item": self.item,
             }, file)
 
     def load_game(self) -> None:
@@ -618,6 +731,7 @@ class PixelFarm:
         self.center_of_map = player_data["center_of_map"]
         self.tasks_list = player_data["tasks_list"]
         self.timer_task = player_data["timer_task"]
+        self.item = player_data["item"]
 
     # Conversations
     def tasks(self) -> None:
@@ -627,7 +741,7 @@ class PixelFarm:
             self.task = 1
             self.time_point = time.time()
 
-            self.show_conversation()
+            # self.show_conversation()
 
     def next_part_of_conversation(self) -> None:
         self.part_of_conversation += 1
@@ -658,7 +772,6 @@ class PixelFarm:
     def decrease_energy(self, n:int) -> bool:
         if self.check_energy(n):
             self.energy -= n
-            print(self.energy)
             return True
         return False
 
@@ -739,6 +852,10 @@ class PixelFarm:
         if time.time() - self.timer_task > 3:
             self.add_task()
             self.timer_task = time.time()
+
+    def change_button_in_farm_window(self, n: int) -> None:
+        self.button_in_farm_window = n
+        print(self.button_in_farm_window)
 
 if __name__ == '__main__':
     app = PixelFarm()
