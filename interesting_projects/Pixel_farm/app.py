@@ -91,11 +91,11 @@ class PixelFarm:
         self.tasks_list = []
 
         self.shop_items_dict = {
-            'seeds_of_wheat': [1,2],
-            'seeds_of_carrot': [2,3],
-            'seeds_of_potato': [5,10],
-            'seeds_of_grass': [1,3],
-            'seeds_of_onion': [3,10],
+            'seeds_of_wheat': 1,
+            'seeds_of_carrot': 2,
+            'seeds_of_potato': 3,
+            'seeds_of_grass': 3,
+            'seeds_of_onion': 5,
         }
 
         self.center_of_map = [0, 0]
@@ -107,6 +107,16 @@ class PixelFarm:
         self.main_screen = True
 
         self.button_in_farm_window = 1
+
+        self.creative_recepies = {
+            'chest': {
+                "wood": 3,
+                "stone": 2,
+                "energy": 25
+            }
+        }
+
+        self.buttons_in_shop = []
 
     # Main game logic
     def run(self) -> None:
@@ -324,21 +334,37 @@ class PixelFarm:
             self.screen.blit(image, rect)
             y1 += 64
         
-    def draw_farm_shop(self) -> None:
+    def draw_farm_shop(self, x: int, y: int, w: int, h: int) -> None:
+        x1 = 0
+        y1 = 0
+        n = 0
+        flag = False
+        if len(self.buttons_in_shop) < len(self.shop_items_dict):
+            flag = True
+            self.buttons_in_shop = []
         for i in self.shop_items_dict:
-            image = pygame.image.load(f"src/characters/{i}.png")
-            rect = pygame.Rect(x + 70, y + y1, 128, 128)
+            image = pygame.image.load(f"src/items/{i}.png")
+            rect = pygame.Rect(x + 80 + x1, y + 20 + y1, 64, 64)
+            if flag:
+                self.buttons_in_shop.append(rect)
             self.screen.blit(image, rect)
             font = pygame.font.SysFont('Comic Sanc MS', 24)
-            self.screen.blit(font.render(f"{i['name']}", False, BLACK), (x + 250, y + y1 + 10))
+            self.screen.blit(font.render(f"{self.shop_items_dict[i]}", False, YELLOW), (x + 90 + x1, y + y1 + 30))
+            x1 += 64
+            n += 1
+            if n == 9:
+                x1 = 0
+                n = 0
+                y += 64
 
     def draw_farm_creative(self, x: int, y: int, w: int, h: int) -> None:
-        for i in self.shop_items_dict:
+        for i in self.creative_recipes:
             image = pygame.image.load(f"src/characters/{i}.png")
             rect = pygame.Rect(x + 70, y + y1, 128, 128)
             self.screen.blit(image, rect)
             font = pygame.font.SysFont('Comic Sanc MS', 24)
             self.screen.blit(font.render(f"{i['name']}", False, BLACK), (x + 250, y + y1 + 10))
+            y1 += 10
 
     # Loading screen
     def show_start_screen(self) -> None:
@@ -855,7 +881,6 @@ class PixelFarm:
 
     def change_button_in_farm_window(self, n: int) -> None:
         self.button_in_farm_window = n
-        print(self.button_in_farm_window)
 
 if __name__ == '__main__':
     app = PixelFarm()
