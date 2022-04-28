@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create campaign{% endblock %}
+
+{% block body %}
+    <h3>Create campaign</h3>
+    {{ form_start(form) }}
+        {{ form_row(form.name) }}
+        <br>
+        {{ form_row(form.description) }}
+        <br>
+        {{ form_row(form.money) }}
+        <br>
+        {{ form_row(form.date) }}
+        <br>
+        {{ form_row(form.subject) }}
+        <br>
+        {{ form_row(form.video) }}
+
+        <br>
+        <button type="submit" class="btn btn-lg btn-success">Create</button>
+    {{ form_end(form) }}
+{% endblock %}

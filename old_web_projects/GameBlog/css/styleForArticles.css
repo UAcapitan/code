@@ -1,0 +1,271 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url(../img/bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* Прелоадер */
+#preloader {
+    background: linear-gradient(45deg, #3c4669, #9ba0d7);
+    position: fixed;
+    z-index: 999;
+    visibility: visible;
+    width: 100%;
+    height: 100%;
+}
+#preloader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Header */
+header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    height: 90px;
+}
+header > div:nth-child(2) {
+    margin: auto auto;
+}
+header > div > h1 {
+    font-family: "Mistral";
+    color: #00e4ff;
+    padding: 10px 0 0 10px;
+    font-size: 40px;
+}
+header > div > h2 {
+    font-family: "Mistral";
+    color: #ffffff;
+    padding-left: 10px;
+    font-size: 22px;
+    text-transform: uppercase;
+}
+
+/* Main */
+.main {
+    width: 90%;
+    height: 1450px;
+    background: rgba(255, 255, 255, 0.9);
+    margin: 0 auto;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.main_up {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+.main_up > div:nth-child(1) > img {
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-left: 30px;
+    width: 200px;
+}
+.main_up > div:nth-child(2) > h1 {
+    font-family: "Mistral";
+    padding-left: 30px;
+    color: black;
+    font-size: 30px;
+    text-transform: uppercase;
+    margin-top: 15px;
+}
+.main_up > div:nth-child(2) > p {
+    font-family: "Mistral";
+    padding-left: 40px;
+    color: gray;
+    font-size: 20px;
+    text-transform: uppercase;
+    margin-top: 20px;
+}
+.main_up > div:nth-child(2) > p > span {
+    color: #494949; 
+    font-size: 22px;
+}
+
+/* Images */
+.images {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.images > div > img {
+    width: 100%;
+}
+
+/* Video */
+.video {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    margin-top: 30px;
+}
+
+/* Text */
+.text > p {
+    font-family: "Mistral";
+    margin-left: 7%;
+    color: black;
+    font-size: 20px;
+    text-transform: uppercase;
+    line-height: 20px;
+    line-height: 40px;
+}
+.text {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+/* Лінія відступ */
+hr {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    border: none;
+    color: gray;
+    background-color: gray;
+    height: 2px;
+}
+
+/* Рекомендації */
+.system {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 30px;
+}
+.system > div > h5 {
+    text-align: center;
+    color: black;
+    font-family: "Mistral";
+    text-transform: uppercase;
+    font-size: 30px;
+}
+.system > div > p {
+    font-family: "Mistral";
+    padding-left: 40px;
+    color: gray;
+    font-size: 20px;
+    text-transform: uppercase;
+    margin-left: 15%;
+    line-height: 40px;
+}
+.system > div > p > span {
+    color: #494949; 
+    font-size: 22px;
+}
+
+/* Footer */
+footer {
+    background: rgba(37, 37, 37, 0.589);
+    width: 90%;
+    border-radius: 10px;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+footer > p {
+    font-size: 25px;
+    color: white;
+    font-variant: small-caps;
+    text-align: center;
+    font-family: "Mistral";
+    margin: 0;
+    padding: 0;
+}
+footer > div {
+    width: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+
+
+/* Адаптивність */
+@media screen and (max-width: 992px) {
+    .main {
+        height: 1500px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    iframe {
+        width: 450px;
+    }
+    .main {
+        height: 1600px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    iframe {
+        width: 370px;
+        height: 215px;
+    }
+    .main {
+        height: 1370px;
+    }
+    header > h2 {
+        font-size: 15px;
+    }
+    .system {
+        grid-template-columns: 1fr;
+    }
+    .system > div > p {
+        font-size: 25px;
+        line-height: 20px;
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .main_up {
+        grid-template-columns: 1fr;
+    }
+    .main_up > div:nth-child(1) {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .main_up > div:nth-child(1) > img {
+        margin-left: 0;
+    }
+    .main_up > div:nth-child(2) > h1, .main_up > div:nth-child(2) > p {
+        padding-left: 0;
+        text-align: center;
+    }
+    .images {
+        grid-template-columns: 1fr;
+    }
+    iframe {
+        width: 285px;
+        height: 160px;
+    }
+    .main {
+        height: 2000px;
+    }
+    .system > div > p {
+        font-size: 15px;
+        line-height: 18px;
+        margin-left: -20px;
+    }
+    header > div > h2 {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    iframe {
+        width: 210px;
+        height: 120px;
+    }
+    header > h1 {
+        font-size: 30px;
+    }
+    header > div > h2 {
+        font-size: 15px;
+    }
+}
+

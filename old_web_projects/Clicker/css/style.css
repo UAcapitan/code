@@ -1,0 +1,323 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    -webkit-user-select: none;
+}
+
+.main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.right {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#money {
+    color: #ff9100;
+    font-size: 26px;
+    font-family: 'Bebas Neue', cursive;
+    text-align: center;
+}
+
+#moneyInSec {
+    color: #ff9100;
+    font-size: 26px;
+    font-family: 'Bebas Neue', cursive;
+    text-align: center;
+}
+
+.personal {
+    border: 1px solid black;
+    width: 300px;
+    height: 500px;
+    margin: 25px auto;
+    background-image: url(../src/lvl1.png);
+}
+
+button {
+    width: 300px;
+    height: 50px;
+    border-radius: 15px;
+    outline: none;
+    margin-top: 5px;
+}
+
+#win {
+    width: 300px;
+    height: 150px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background: green;
+    position: fixed;
+    z-index: 999;
+    left: calc(50% - 150px);
+    top: calc(50% - 75px);
+    text-align: center;
+    color: white;
+    font-size: 25px;
+    display: none;
+}
+
+#win > p:nth-child(1) {
+    margin-top: 1.7em;
+}
+
+#win > p:nth-child(2) {
+    font-size: 20px;
+}
+
+#restart_btn {
+    display: none;
+    background: #f32c2c;
+    color: white;
+    font-weight: bold;
+}
+
+#restartCheck {
+    width: 300px;
+    height: 150px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background: green;
+    position: fixed;
+    z-index: 999;
+    left: calc(50% - 150px);
+    top: calc(50% - 75px);
+    text-align: center;
+    color: white;
+    font-size: 25px;
+    display: none;
+}
+
+#restartCheck > p {
+    margin-top: 0.1em;
+}
+
+#restartCheck > button {
+    width: 95%;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+#statistics{
+    width: 100%;
+    height: 100%;
+    background: white;
+    position: fixed;
+    z-index: 999;
+    display: none;
+}
+
+#statistics > p {
+    font-size: 1em;
+}
+
+#shop{
+    width: 100%;
+    background: white;
+    position: absolute;
+    z-index: 999;
+    display: none;
+}
+#bank{
+    width: 100%;
+    height: 100%;
+    background: white;
+    position: fixed;
+    z-index: 999;
+    display: none;
+}
+#information{
+    width: 100%;
+    height: 100%;
+    background: white;
+    position: fixed;
+    z-index: 999;
+    display: none;
+}
+#information > p {
+    font-size: 1em;
+}
+
+.input > input {
+    width: 200px;
+    height: 30px;
+    border-radius: 10px;
+    outline: none;
+}
+.input {
+    width: 200px;
+    margin-left: calc(50% - 100px);
+    margin-top: 3em;
+    margin-bottom: 1em;
+    text-align: center;
+}
+.bank_btn {
+    width: 100%;
+    margin: 0 auto;
+}
+.bank_btn > button {
+    width: 70%;
+    margin: 1em 15%;
+}
+
+#exit {
+    float: right;
+    font-size: 20px;
+    margin-right: 4px;
+}
+
+#information > p:nth-child(2), #information > p:nth-child(3) {
+    text-align: center;
+    font-size: 42px;
+}
+#information > p:nth-child(2) {
+    margin-top: 17rem;
+}
+
+.shop_btn {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    margin-top: 2em;
+}
+.shop_btn > div > button {
+    width: 94%;
+    margin-left: 1.5em;
+}
+
+.statistics_p {
+    font-size: 42px;
+    text-align: center;
+}
+
+.situation {
+    width: 100%;
+    height: 100%;
+    background: rgba(204, 204, 204, 0.5);
+    position: fixed;
+    display: none;
+    z-index: 999;
+}
+.situation > div{
+    width: 90%;
+    height: 80%;
+    position: absolute;
+    left: 5%;
+    top: 4rem;
+    background: #bdbdbd;
+    text-align: center;
+    font-size: 150%;
+}
+.situation > p {
+    text-align: center;
+    font-size: 2em;
+}
+#situation1 {
+    margin-top: 15rem;
+}
+
+.shop_btn > div > p {
+    text-align: center;
+}
+
+#achievements {
+    width: 100%;
+    height: 100%;
+    background: white;
+    position: fixed;
+    z-index: 999;
+    display: none;
+}
+#achievements > p {
+    position: absolute;
+    left: 96%;
+}
+.achievements {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+#achievements > div > div > div {
+    border-top: 1px solid black;
+}
+
+#achievements > div > div > div > p {
+    margin: 0.1em 0;
+}
+
+#statistics > button {
+    margin-left: calc(50% - 150px);
+    margin-top: 50px;
+}
+
+#training {
+    width: 100%;
+    height: 100%;
+    background: white;
+    position: fixed;
+    z-index: 2;
+    display: block;
+    text-align: center;
+}
+#training > p {
+    font-size: 1.5rem;
+}
+#training > h2 {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 3rem;
+}
+
+.menu {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    z-index: 10;
+    background: white;
+}
+
+.menu > h1 {
+    text-align: center;
+    margin: 1em 0;
+}
+
+.menu > button {
+    width: 70%;
+    margin: 1em 15%;
+}
+
+.new_game {
+    display: none;
+}
+
+@media screen and (max-width: 1080px) {
+    .main {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .right {
+        display: flex;
+        flex-wrap: wrap-reverse;
+    }
+
+    .right > div > button {
+        width: 80%;
+        margin: 0.5em 10%;
+    }
+
+    .shop_btn {
+        grid-template-columns: 1fr;
+    }
+
+}

@@ -1,0 +1,199 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url(../../img/bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* Прелоадер */
+#preloader {
+    background: linear-gradient(45deg, #3c4669, #9ba0d7);
+    position: fixed;
+    z-index: 999;
+    visibility: visible;
+    width: 100%;
+    height: 100%;
+}
+#preloader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Header */
+header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    height: 90px;
+}
+header > div:nth-child(2) {
+    margin: auto auto;
+}
+header > div > h1 {
+    font-family: "Mistral";
+    color: #00e4ff;
+    padding: 10px 0 0 10px;
+    font-size: 40px;
+}
+header > div > h2 {
+    font-family: "Mistral";
+    color: #ffffff;
+    padding-left: 10px;
+    font-size: 22px;
+    text-transform: uppercase;
+}
+
+/* Настройки для h3 */
+h3 {
+    font-size: 30px;
+    color: white;
+    text-align: center;
+    font-family: "Mistral";
+    text-transform: uppercase;
+    padding-top: 30px;
+}
+
+/* Div */
+
+main > div {
+    width: 90%;
+    height: 250px;
+    margin: 10px auto;
+    border-radius: 10px;
+}
+
+main > div > a > div {
+    width: 100%;
+    height: 100%;
+}
+
+/* Footer */
+footer {
+    background: rgba(37, 37, 37, 0.589);
+}
+footer > p {
+    font-size: 25px;
+    color: white;
+    font-variant: small-caps;
+    text-align: center;
+    font-family: "Mistral";
+}
+footer > div {
+    width: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Backgrounds */
+
+.astroneer {
+    background-image: url(../../img/astroneer.jpg);
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.civilization {
+    background-image: url(../../img/civilization.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.fortnite {
+    background-image: url(../../img/fortnite.jpg);
+    background-position:  top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.lma {
+    background-image: url(../../img/LegoMarvels.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.minecraft {
+    background-image: url(../img/minecraft.jpg);
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.naruto {
+    background-image: url(../../img/Naruto.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.nms {
+    background-image: url(../../img/noMansSky.jpg);
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.oceanhorn {
+    background-image: url(../../img/oceanhorn.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.rust {
+    background-image: url(../../img/rust.jpg);
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.spore {
+    background-image: url(../img/spore.png);
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.starbound {
+    background-image: url(../img/starbound.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.terraria {
+    background-image: url(../img/terraria.png);
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.wt {
+    background-image: url(../../img/warThunder.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Media */
+@media screen and (max-width: 992px) {
+    .menu__icon {
+        margin-right: -150px;
+    }
+}
+@media screen and (max-width: 768px) {
+    .menu__icon {
+        margin-right: -120px;
+    }
+}
+@media screen and (max-width: 576px) {
+    .menu__icon {
+        margin-right: -100px;
+    }
+}
+@media screen and (max-width: 480px) {
+    .menu__icon {
+        margin-right: -60px;
+    }
+}
+@media screen and (max-width: 320px) {
+    .menu__icon {
+        margin-right: -20px;
+    }
+}

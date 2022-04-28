@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Virtual World</title>
+    <!-- Сброс стилей -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
+    <!-- Основные стили -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="css/animate.css">
+    
+    <!-- Preloader -->
+    <script src="js/preloader.js"></script>
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <!-- WowJS -->
+    <script src="js/wow.min.js"></script>
+    <script>
+        new WOW().init();
+    </script>
+    
+</head>
+<body>
+    
+    <div class="preloader" id="preloader">
+        <div class="spinner-border text-light" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <a href="#main" class="scrollup">Наверх</a>
+
+    <div class="site">
+        <div class="nav">
+            <div class="logo">
+                <pre>
+Virtual
+   World
+                </pre>
+            </div>
+            <nav>
+                <p><a href="#main">Main</a></p>
+                <p><a href="#block2">Info</a></p>
+                <p><a href="#types">Types</a></p>
+                <p><a href="#virtualReality">VR</a></p>
+                <p><a href="#footer">Footer</a></p>
+            </nav>
+        </div>
+
+        <div class="main" id="main">
+            <div class="main__left">
+                <h1 class="wow zoomIn" data-wow-duration="2s">Virtual World</h1>
+                <p class="wow slideInRight" data-wow-duration="2s">Artificially created world, <br> 
+                    built through programming, based on computer technology.</p>
+                <a href="#block2">READ MORE</a>
+            </div>
+            <div class="main__right">
+                <img src="src/ellipsePink.png" alt="ellipsePink" class="ellipsePink wow slideInRight" data-wow-duration="2s">
+                <img src="src/ellipseBlue.png" alt="ellipseBlue" class="ellipseBlue wow slideInRight" data-wow-duration="3s">
+                <img src="src/ellipseOrange.png" alt="ellipseOrange" class="ellipseOrange wow slideInLeft" data-wow-duration="3s">
+                <img src="src/vr.png" alt="vr" class="vrRightBlock wow slideInDown" data-wow-duration="2s">
+            </div>
+        </div>
+
+        <div class="block2" id="block2">
+            <div class="block2__black">
+                <div class="block2__blockBlack">
+                    <div class="block2__text1 wow zoomIn">
+                        <div>
+                            <p>The virtual world is an artificially created world that has been programmed</p>
+                        </div>
+                        <div>
+                            <p>Created for hanging out by the user</p>
+                        </div>
+                        <div>
+                            <p>Users log in using their name, nickname, photo or avatar</p>
+                        </div>
+                    </div>
+
+                    <div class="block2__text2 wow slideInRight">
+                        <p>There are different types of virtual worlds:</p>
+                        <p>- multiplayer online games</p>
+                        <p>- virtual business worlds</p>
+                        <p>- single player games</p>
+                        <p>- social networks</p>
+                    </div>
+
+                    <a href="#types"><div class="block2__arrow wow slideInDown">
+                        <img src="src/arrow.png" alt="arrow">
+                    </div></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="types" id="types">
+            <div class="types__black">
+                <div class="types__title">
+                    <br>
+                    <p class="wow slideIn">Types of virtual worlds</p>
+                </div>
+                <div class="types__smartBlock">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="virtualReality" id="virtualReality">
+            <div class="virtualReality__black">
+                <br>
+                <h2>Virtual Reality</h2>
+                <p>The world created by technical means, transmitted to man through his sensations</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <footer id="footer"><br><p>Website Developer - Eduard Grishchenko</p></footer>
+        </div>
+    </div>
+
+    <script src="js/buttonForScroll.js"></script>
+    <script src="js/scroll.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

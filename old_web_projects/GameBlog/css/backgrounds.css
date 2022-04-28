@@ -1,0 +1,140 @@
+/* Новинки світу ігр */
+.newsGames__Right_block {
+    background-image: url(../img/cyberpunk.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.newsGames__Left_block {
+    background-image: url(../img/watchDogs.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.newsGames__Right_block:hover {
+    box-shadow: 0 0 10px rgba(255,255,255,0.5); 
+}
+.newsGames__Left_block:hover {
+    box-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+
+
+
+/* Старі ігри */
+.oldGames > div:nth-child(1) > div{
+    background-image: url(../img/spore.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.oldGames > div:nth-child(2) > div{
+    background-image: url(../img/starbound.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.oldGames > div:nth-child(3) > div{
+    background-image: url(../img/minecraft.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.oldGames > div:nth-child(4) > div{
+    background-image: url(../img/terraria.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.oldGames > div > div:hover {
+    box-shadow: 0 0 10px rgba(255,255,255,0.5); 
+}
+
+
+
+/* Ігри на Android */
+.AndroidGames > div:nth-child(1) {
+    background-image: url(../img/RealCarParking.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.AndroidGames > div:nth-child(2) {
+    background-image: url(../img/TheSimsMobile.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.AndroidGames > div:nth-child(3) {
+    background-image: url(../img/wot.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.AndroidGames > div:nth-child(4) {
+    background-image: url(../img/angryBirds.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.AndroidGames > div:hover {
+    box-shadow: 0 0 10px rgba(255,255,255,0.5); 
+}
+
+/* PC Games */
+.PCgames > .row1 > div:nth-child(1) {
+    background-image: url(../img/fortnite.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.PCgames > .row1 > div:nth-child(2) {
+    background-image: url(../img/rust.jpg);
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.PCgames > .row2 > div:nth-child(1) {
+    background-image: url(../img/civilization.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.PCgames > .row2 > div:nth-child(2) {
+    background-image: url(../img/warThunder.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.PCgames > .row3 > div:nth-child(1) {
+    background-image: url(../img/noMansSky.jpg);
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.PCgames > .row3 > div:nth-child(2) {
+    background-image: url(../img/astroneer.jpg);
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.PCgames > div > div:hover {
+    box-shadow: 0 0 10px rgba(255,255,255,0.5); 
+}
+.NotPopularGame > div:hover {
+    box-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

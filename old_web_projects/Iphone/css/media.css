@@ -1,0 +1,158 @@
+@media screen and (max-width: 1200px) {
+    .reviews {
+        grid-template-columns: 1fr 1fr;
+    }
+    .reviews__photo img {
+        width: 500px;
+        padding-top: 100px;
+        padding-left: 0;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .reviews {
+        grid-template-columns: 1fr 1fr;
+    }
+    .reviews__photo img {
+        width: 350px;
+        padding-top: 100px;
+        padding-left: 0;
+    }
+    .reviews__text h1 {
+        padding-top: 85px;
+    }
+    .main__text__plus {
+        grid-template-columns: 1fr 1fr;
+    }
+    nav a {
+        padding-left: 1em;
+    }
+    footer {
+        height: 100px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .reviews {
+        grid-template-columns: 2fr 1fr;
+    }
+    nav a {
+        padding-left: 0.3em;
+        font-size: 20px;
+    }
+    .reviews__photo img {
+        width: 230px;
+        padding-top: 100px;
+        padding-left: 0px;
+    }
+    .reviews__text a {
+        font-size: 20px;
+    }
+
+    .main {
+        grid-template-columns: 1fr;
+    }
+    .join {
+        width: 80%;
+        margin-left: 10%;
+        height: 220px;
+    }
+    .join h2 {
+        padding-top: 40px;
+    }
+    .form {
+        width: 80%;
+        margin-left: 10%;
+        height: 350px;
+    }
+    .form__text {
+        width: 300px;
+        height: 30px;
+        margin-top: 5px;
+    }
+    .form__button {
+        width: 250px;
+        height: 45px;
+        border-radius: 10px;
+        font-size: 20px;
+        margin-top: 5px;
+    }
+    .form > p {
+        font-size: 20px;
+    }
+    .form > h2 {
+        padding-top: 30px;
+    }
+    footer {
+        height: 125px;
+    }
+    .ads img {
+        width: 80%;
+        padding-left: 30px;
+    }
+    .ads {
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+    .brand h1 {
+        font-size: 25px;
+    }
+    .brand > h1 > .circle {
+        height: 20px;
+        width: 20px;
+    }
+    nav {
+        padding-right: 15px;
+        padding-top: 30px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .reviews {
+        display: grid;
+        grid-template-columns: 1fr;
+        margin: 100px;
+    }
+    .main__text__plus {
+        grid-template-columns: 1fr;
+    }
+    .main__text__main {
+        grid-template-columns: 1fr;
+    }
+    .form__text {
+        width: 200px;
+        height: 20px;
+    }
+    .form__button {
+        width: 150px;
+        height: 40px;
+    }
+    .reviews {
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+    .social {
+        padding-left: 70px;
+        padding-top: 10px;
+    }
+    .reviews__photo {
+       padding-left: 10%; 
+       padding-right: 10%;
+    }
+    header {
+        height: 5em;
+    }
+    .brand {
+        padding: 0;
+    }
+    nav a {
+        font-size: 21.5px;
+    }
+
+}
+
+@media screen and (max-width: 499px) {
+    header {
+        height: 7em;
+    }
+}

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Clicker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet"> -->
+</head>
+<body>
+
+    <div class="menu" id="menu">
+        <h1>Click for success</h1>
+        <button onclick='close_menu(), restart()'>Новая игра</button>
+        <br>
+        <button onclick='load_game()' id='load_game'>Загрузить игру</button>
+        <br>
+        <button onclick='information()'>Разработчики</button>
+    </div>
+
+    <div class="new_game" id='new_game'>
+        <p>Начать игру сначала?</p>
+        <button onclick="close_menu(), close_new_game()">Да</button>
+        <button onclick="close_new_game()">Нет</button>
+    </div>
+
+    <div id="training">
+        <p onclick="exit('training'), restart()" id="exit">X</p>
+        <h2>Обучение</h2>
+        <p>Приветсвуем в игру Clicker!<p>
+        <br>
+        <p>Кликайте в любом месте на экране для того чтобы зарабатывать!</p>
+        <br>
+        <p>Тратьте деньги для прокачки!</p>
+        <br>
+        <p>Выбирайте в магазине что хотите!</p>
+        <br>
+        <p>Вкладывайте деньги в банк на хранение, ибо в любой момент деньги могут пропасть!</p>
+        <br>
+        <p>Получайте достижения!</p>
+        <br>
+        <p>Создайте корпорацию для победы!</p>
+    </div>
+
+    <div id="win">
+        <p>Поздравляем!</p>
+        <p>Ты создал свою корпорацию!</p>
+    </div>
+
+    <div class="situation" id="situation" onclick="timerForHideSituation()">
+        <div>
+            <p id="situation1"></p>
+            <p id="situation2"></p>
+        </div>
+    </div>
+
+    <div id="restartCheck">
+        <p>Начать игру сначала?</p>
+        <button onclick="restart()">Да</button>
+        <button onclick="restartHide()">Нет</button>
+    </div>
+
+    <div id="statistics">
+        <p onclick="exit('statistics')" id="exit">X</p>
+        <p class="statistics_p">Деньги: <span id="statisticsMoney"></span></p>
+        <br>
+        <p class="statistics_p">Заработанно денег за всё время: <span id="allMoneyLvl"></span></p>
+        <p class="statistics_p">Потрачено денег: <span id="allMoneyInStatistics"></span></p>
+        <br>
+        <p class="statistics_p">Недвижимость: <span id="allMoneyForFlats"></span></p>
+        <p class="statistics_p">Машины: <span id="allMoneyForCars"></span></p>
+        <p class="statistics_p">Техника: <span id="allMoneyForTech"></span></p>
+        <p class="statistics_p">Разное: <span id="allMoneyForObjects"></span></p>
+        <button onclick="open_achievements()">Достижения</button>
+    </div>
+
+    <div id="achievements">
+        <p onclick="exit('achievements')" id="exit">X</p>
+        <br>
+        <br>
+        <br>
+        <div class="achievements">
+            <div>
+                <div id="achievements1">
+                    <h3>Первый зароботок</h3>
+                    <p>Заработай первые 100$</p>
+                </div>
+                <div id="achievements2">
+                    <h3>Первый успех</h3>
+                    <p>Заработай первую тысячу</p>
+                </div>
+                <div id="achievements3">
+                    <h3>Миллионер</h3>
+                    <p>Заработай первый миллион</p>
+                </div>
+                <div id="achievements4">
+                    <h3>Миллиардер</h3>
+                    <p>Заработай первый миллиард</p>
+                </div>
+                <div id="achievements5">
+                    <h3>Самый богатый человек</h3>
+                    <p>Заработать 100 миллиардов</p>
+                </div>
+            </div>
+            <div>
+                <div id="achievements6">
+                    <h3>Владелец недвижимости</h3>
+                    <p>Общая стоимость недвижимости: 100000000$</p>
+                </div>
+                <div id="achievements7">
+                    <h3>Авто колекционер</h3>
+                    <p>Общая стоимость транспорта: 10000000$</p>
+                </div>
+                <div id="achievements8">
+                    <h3>Коллекционер техники</h3>
+                    <p>Общая стоимость техники: 1000000$</p>
+                </div>
+                <div id="achievements9">
+                    <h3>Как же много разного</h3>
+                    <p>Общая стоимость разного: 10000000000$</p>
+                </div>
+                <div id="achievements10">
+                    <h3>Как же много всего</h3>
+                    <p>Общее количество всего: 1000шт. на стоимость: 100000000$</p>
+                </div>
+            </div>
+            <div>
+                <div id="achievements11">
+                    <h3>Первый пассивный доход</h3>
+                    <p>Зарабатывай 100$/sec</p>
+                </div>
+                <div id="achievements12">
+                    <h3>Трудяга</h3>
+                    <p>Зарабатывай 100000$/click</p>
+                </div>
+                <div id="achievements13">
+                    <h3>Миллион/sec</h3>
+                    <p>Зарабатывай миллион/sec</p>
+                </div>
+                <div id="achievements14">
+                    <h3>Миллиард/sec</h3>
+                    <p>Зарабатывай миллиард/sec</p>
+                </div>
+                <div id="achievements15">
+                    <h3>Достиг всего</h3>
+                    <p>Получи все достижения</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="shop">
+        <p onclick="exit('shop')" id="exit">X</p>
+        <div class="shop_btn">
+            <div class="left_up">
+                <p>Недвижимость</p>
+                <button onclick="flat(10000)">Дом где-то в глуши<br>10000$</button>
+                <button onclick="flat(50000)">Дом в селе<br>50000</button>
+                <button onclick="flat(100000)">Однокомнатная квартира за городом<br>100000$</button>
+                <button onclick="flat(200000)">Двухкомнатная квартира за городом<br>200000$</button>
+                <button onclick="flat(250000)">Трёхкомнатная квартира за городом<br>250000$</button>
+                <button onclick="flat(1000000)">Однокомнатная квартира на краю города<br>1000000$</button>
+                <button onclick="flat(2000000)">Двухкомнатная квартира на краю города<br>2000000$</button>
+                <button onclick="flat(2500000)">Трёхкомнатная квартира на краю города<br>2500000$</button>
+                <button onclick="flat(20000000)">Однокомнатная квартира в центре города<br>20000000$</button>
+                <button onclick="flat(25000000)">Двухкомнатная квартира в центре города<br>25000000$</button>
+                <button onclick="flat(50000000)">Трёхкомнатная квартира в центре города<br>50000000$</button>
+                <button onclick="flat(500000000)">Квартира бизнес класса в центре города<br>500000000$</button>
+            </div>
+            <div class="right_up">
+                <p>Машины</p>
+                <button onclick="car(5000)">Жигули<br>5000$</button>
+                <button onclick="car(25000)">Renault<br>25000$</button>
+                <button onclick="car(50000)">Toyota<br>50000$</button>
+                <button onclick="car(250000)">KIA<br>250000$</button>
+                <button onclick="car(1000000)">Skoda<br>1000000$</button>
+                <button onclick="car(10000000)">Mazda<br>10000000$</button>
+                <button onclick="car(100000000)">Tesla<br>100000000$</button>
+                <button onclick="car(1000000000)">BMW<br>1000000000$</button>
+                <button onclick="car(100000000000)">Mercedes<br>100000000000$</button>
+                <button onclick="car(500000000000)">Ferrari<br>500000000000$</button>
+                <button onclick="car(1000000000000)">Lamborgini<br>1000000000000$</button>
+                <button onclick="car(10000000000000)">Bugati<br>10000000000000$</button>
+            </div>
+            <div class="left_down">
+                <p>Техника</p>
+                <button onclick="tech_Func(1000)">Siemens<br>1000$</button>
+                <button onclick="tech_Func(10000)">LG<br>10000$</button>
+                <button onclick="tech_Func(50000)">Motorola<br>50000$</button>
+                <button onclick="tech_Func(100000)">Бюджетный Nokia<br>100000$</button>
+                <button onclick="tech_Func(500000)">Бюджетный Samsung<br>500000$</button>
+                <button onclick="tech_Func(1000000)">Бюджетный Lenovo<br>1000000$</button>
+                <button onclick="tech_Func(5000000)">Бюджетный Xiaomi<br>5000000$</button>
+                <button onclick="tech_Func(10000000)">Nokia<br>10000000$</button>
+                <button onclick="tech_Func(50000000)">Sony<br>50000000$</button>
+                <button onclick="tech_Func(100000000)">Lenovo<br>100000000$</button>
+                <button onclick="tech_Func(500000000)">Xiaomi<br>500000000$</button>
+                <button onclick="tech_Func(1000000000)">Apple<br>1000000000$</button>
+            </div>
+            <div class="right_down">
+                <p>Разное</p>
+                <button onclick="object(1000000)">Золотой слиток<br>1000000$</button>
+                <button onclick="object(2500000)">Алмаз<br>2500000$</button>
+                <button onclick="object(100000000)">Бункер<br>100000000$</button>
+                <button onclick="object(1000000000)">1000 ha територии<br>1000000000$</button>
+                <button onclick="object(5000000000)">5000 ha територии<br>5000000000$</button>
+                <button onclick="object(10000000000)">10000 ha територии<br>10000000000$</button>
+                <button onclick="object(50000000000)">50000 ha територии<br>50000000000$</button>
+                <button onclick="object(100000000000)">100000 ha територии<br>100000000000$</button>
+                <button onclick="object(100000000)">Вертолёт<br>100000000$</button>
+                <button onclick="object(1000000000)">Самолёт<br>1000000000$</button>
+                <button onclick="object(500000000000)">Яхта<br>500000000000$</button>
+                <button onclick="object(5000000000000)">Личный небоскрёб<br>5000000000000$</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="bank">
+        <p onclick="exit('bank')" id="exit">X</p>
+        <div class="input">
+            <h2>Банк</h2>
+            <p id="percent_in_bank">Процент банка 1$/минута</p>
+            <input type="number" id="inputMoney">
+            <p id="moneyMain"></p>
+            <p id="moneyInBank">Счёт в банке: 0 $</p>
+        </div>
+        <div class="bank_btn">
+            <button onclick="putMoney()">Положить</button>
+            <br>
+            <button onclick="putAllMoney()">Положить всё</button>
+            <br>
+            <button onclick="withdrawMoney()">Снять</button>
+            <br>
+            <button onclick="withdrawAllMoney()">Снять всё</button>
+        </div>
+
+    </div>
+
+    <div id="information">
+        <p onclick="exit('information')" id="exit">X</p>
+        <p>Разработчик: EdMix</p>
+        <p>2019</p>
+    </div>
+
+    <div class="main">
+        <div class="left">
+            <div class="personal" id="personal"></div>
+                <div class="money">
+                    <p id="money">0 $</p>
+                    <p id="moneyInSec">0 $/Sec</p>
+                </div>
+        </div>
+        <div class="right">
+            <div class="left_block">
+
+                <button onclick="Num2(500, 5)">Создать канал на YouTube<br>500 $</button>
+                <button onclick="Num2(1000, 10)">Создать свой блог<br>1000 $</button>
+                <button onclick="Num2(10000, 100)">Создать маленький интернет магазин<br>10000 $</button>
+                <button onclick="Num2(20000, 200)">Открыть маленькое кафе<br>20000 $</button>
+                <button onclick="Num2(50000, 1000)">Открыть интернет магазин<br>50000 $</button>
+                <button onclick="Num2(100000, 2000)">Открыть офис<br>1000000 $</button>
+                <button onclick="Num2(250000, 5000)">Открыть ресторан<br>250000 $</button>
+                <button onclick="Num2(500000, 10000)">Открыть большой офис<br>500000 $</button>
+                <button onclick="Num2(1000000, 20000)">Открыть отель<br>1000000 $</button>
+                <button onclick="Num2(10000000, 200000)">Открыть фабрику<br>10000000 $</button>
+                <button onclick="Num2(50000000, 1000000)">Открыть завод<br>50000000 $</button>
+                <button id="win_btn" onclick="win()">Создать корпорацию<br>100000000 $</button>
+                <button id="restart_btn" onclick="restartCheck()">Начать сначала</button>
+
+                <button class="hide"></button>
+
+                <button onclick="save_game()">Сохранить игру</button>
+
+                <button onclick="statistics(), statisticsUpdate()">Статистика</button>
+                <button onclick="shop()">Магазин</button>
+                <button onclick="bank()">Банк</button>
+                <button onclick="open_menu()">Меню</button>
+            </div>
+            <div class="right_block">
+                <button onclick="Num1(250, 1)">Прочитать газету<br>250 $</button>
+                <button onclick="Num1(500, 2)">Прочитать книгу<br>500 $</button>
+                <button onclick="Num1(1000, 4)">Прочитать школьный учебник<br>1000 $</button>
+                <button onclick="Num1(5000, 40)">Пройти курс колледжа<br>5000 $</button>
+                <button onclick="Num1(25000, 100)">Пройти легкий курс<br>25000 $</button>
+                <button onclick="Num1(50000, 200)">Пройти професиональный курс<br>50000 $</button>
+                <button onclick="Num1(1500000, 500)">Пройти курс ВУЗа<br>1500000 $</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+.site {
+    background: rgb(0,0,0);
+    background: linear-gradient(153deg, rgba(0,0,0,1) 0%, rgba(6,37,49,1) 100%);
+}
+
+/* Preloader */
+.preloader {
+    height: 100vh;
+    width: 100%;
+    background: rgb(28,46,70);
+    background: linear-gradient(120deg, rgba(28,46,70,1) 0%, rgba(11,31,55,1) 100%);
+    position: fixed;
+    z-index: 999;
+    display: block;
+}
+.preloader > div {
+    width: 7vh;
+    height: 7vh;
+    margin-left: calc(50% - 3.5vh);
+    margin-top: 25%;
+}
+
+
+/* Navigation */
+.nav {
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 7vh;
+    padding-top: 1.9vh;
+    padding-bottom: 2vh;
+    width: 90%;
+    background: rgba(255,255,255,0.01);
+}
+
+.nav > .logo {
+    color: white;
+    margin-left: 2vh;
+}
+.nav > .logo > pre {
+    font-size: 2.5vh;
+    margin-top: 1vh;
+    margin-left: 0.5vh;
+}
+nav {
+    display: flex;
+    margin-left: 10vh;
+}
+nav > p > a {
+    text-decoration: none;
+    color: white;
+    margin-right: 1.5vh;
+    font-size: 2.7vh;
+}
+nav > p > a:hover, nav > p > a:active {
+    color: blue;
+}
+nav > p > a:nth-child(1) {
+    margin-left: 2vh;
+}
+@media (min-width: 1920px) {
+    nav {
+        margin-top: 1vh;
+    }
+}
+
+/* Main */
+.main {
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 92vh;
+    width: 90%;
+}
+
+/* Left Main Block */
+.main__left {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+.main__left > a {
+    text-decoration: none;
+    color: white;
+    border: 0.4vh solid #0000ff;
+    border-radius: 5vh;
+    padding: 1vh 2vh;
+    font-size: 3vh;
+    margin-left: 15%;
+    font-family: 'ZCOOL QingKe HuangYou', cursive;
+    margin-top: 3vh;
+}
+.main__left > a:hover, .main__left > a:active {
+    border: 0.3vh solid #0000ff;
+    margin-left: 15.01%;
+}
+.main__left > h1 {
+    font-size: 10vh;
+    margin-left: 5%;
+    margin-top: 35%;
+    font-family: 'Bangers', cursive;
+    letter-spacing: 10%;
+}
+.main__left > p {
+    font-size: 2vh;
+    margin-left: 15%;
+    margin-top: -5%;
+    font-family: 'ZCOOL QingKe HuangYou', cursive;
+}
+
+/* Right Main Block */
+.main__right {
+    background: rgba(255, 255, 255, 0.01);
+}
+.ellipsePink {
+    position: absolute;
+    width: 37%;
+    right: 7%;
+    top: 12%;
+}
+.ellipseBlue {
+    position: absolute;
+    width: 18%;
+    right: 9%;
+    top: 33%;
+}
+.ellipseOrange {
+    position: absolute;
+    width: 18%;
+    right: 30%;
+    top: 60%;
+}
+.vrRightBlock {
+    position: absolute;
+    width: 35%;
+    right: 10%;
+    top: 47%;
+}
+
+/* Block2 */
+.block2 {
+    background-image: url(../src/4kBG.jpeg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+.block2__black {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+.block2__blockBlack {
+    width: 90%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    margin: 0 auto;
+}
+
+/* Block2 Text1 */
+.block2__text1 {
+    width: 43%;
+    margin: 0 auto;
+    padding-top: 10%;
+    font-size: 2.5vh;
+    font-family: 'Josefin Sans', sans-serif;
+}
+.block2__text1 > div > p {
+    color: white;
+}
+.block2__text1 > div:nth-child(1) {
+    border-left: 1vh solid #0000ff;
+    padding-left: 0.5vh;
+}
+.block2__text1 > div:nth-child(2) {
+    border-left: 1vh solid #ff00b4;
+    padding-left: 0.5vh;
+}
+.block2__text1 > div:nth-child(3) {
+    border-left: 1vh solid #ff4e00;
+    padding-left: 0.5vh;
+}
+
+/* Block2 Text2 */
+.block2__text2 {
+    width: 40%;
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+    font-size: 2.5vh;
+    font-family: 'Josefin Sans', sans-serif;
+}
+.block2__text2 > p:nth-child(1) {
+    padding-bottom: 2vh;
+    padding-top: 15vh;
+}
+
+/* Block2 Arrow */
+.block2__arrow {
+    width: 3%;
+    margin: 0 auto;
+    margin-top: 10vh;
+}
+.block2__arrow > img {
+    width: 100%;
+}
+
+/* Types */
+.types {
+    height: 100vh;
+    background: rgb(0,8,21);
+    background: linear-gradient(160deg, rgba(0,8,21,1) 0%, rgba(4,14,26,1) 100%);
+}
+.types__black {
+    background: rgba(0,0,0,0.3);
+    width: 90%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+/* Types Title */
+.types__title {
+    color: white;
+    font-size: 4vh;
+    text-align: center;
+    font-family: 'ZCOOL QingKe HuangYou', cursive;
+}
+
+/* Types Smart Block */
+.types__smartBlock {
+    height: 80vh;
+    width: 100%;
+    display: flex;
+}
+.types__smartBlock > div {
+    height: 100%;
+    width: 25%;
+    transition: all 1s;
+}
+.types__smartBlock > div:nth-child(1) {
+    background-image: url(../src/multiplayerOnlineGames.jpg);
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: cover;
+}
+.types__smartBlock > div:nth-child(2) {
+    background-image: url(../src/virtualBusinessWorlds.jpg);
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: cover;
+}
+.types__smartBlock > div:nth-child(3) {
+    background-image: url(../src/SinglePlayer.jpg);
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: cover;
+}
+.types__smartBlock > div:nth-child(4) {
+    background-image: url(../src/socialNetwork.jpg);
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: cover;
+}
+
+.types__smartBlock > div:hover {
+    width: 180%;
+    background-position: center;
+}
+
+.types__smartBlock > div > div > h1 {
+    text-align: center;
+    padding-top: 2vh;
+    font-size: 150%;
+}
+.types__smartBlock > div > div > p {
+    text-align: center;
+    font-size: 80%;
+}
+
+/* Virtual Reality */
+.virtualReality {
+    background-image: url(../src/vrBg.jpg);
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.virtualReality__black {
+    background: rgba(0,0,0,0.5);
+    width: 90%;
+    margin: 0 auto;
+    height: 100%;
+}
+.virtualReality__black > h2 {
+    color: white;
+    text-align: center;
+    font-family: 'Josefin Sans', sans-serif;
+}
+.virtualReality__black > p {
+    color: white;
+    text-align: center;
+    font-family: 'ZCOOL QingKe HuangYou', cursive;
+}
+
+/* Footer */
+footer {
+     height: 10vh;
+     background: rgb(24, 22, 44);
+}
+footer > p {
+    color: white;
+    text-align: center;
+    font-size: 2vh;
+    font-family: 'ZCOOL QingKe HuangYou', cursive;
+}
+
+
+
+
+
+
+
+
+@media (max-width: 1200px) {
+    .nav {
+        display: none;
+    }
+    .main {
+        grid-template-columns: 1fr;
+    }
+    .main__right {
+       display: none;
+    }
+    .site > div {
+        height: 70vh;
+    }
+    .main, .block2__blockBlack, .virtualReality__black {
+        width: 100%;
+        margin: 0;
+    }
+    .block2__text1 {
+        font-size: 2vh;
+    }
+    .block2__text2 {
+        font-size: 2vh;
+    }
+    .block2__text2 > p:nth-child(1) {
+        padding-top: 4vh;
+    }
+    .block2__arrow {
+        display: none;
+    }
+    .types {
+        display: none;
+    }
+    .virtualReality__black > h2{
+        font-size: 3vh;
+    }
+    .virtualReality__black > p {
+        font-size: 1.5vh;
+    }
+}
+
+.scrollup{
+    width:40px;
+    height:40px;
+    opacity:0.3;
+    position:fixed;
+    bottom:50px;
+    right:10px;
+    display:none;
+    text-indent:-9999px;
+    background: url(../src/icon-top.png) no-repeat;
+}

@@ -1,0 +1,279 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    border-bottom: 1px solid #d8d7d7;
+    height: 5em;
+}
+
+/*Brand text*/
+.brand {
+    float: left;
+    padding: 1.5em 0 0 5em;
+}
+.brand h1 {
+    font-family: 'Chilanka';
+    font-size: 35px;
+    color: gray;
+}
+.brand > h1 > .circle {
+    height: 25px;
+    width: 25px;
+    background-color: #00c40a;
+    border-radius: 50%;
+    display: inline-block;;
+}
+.brand > h1 > .brand__black {
+    color: black;
+}
+
+
+
+/*Navigation*/
+nav {
+    float: right;
+    padding: 1.6em 5em 0 0;
+}
+
+nav a {
+    font-size: 25px;
+    text-decoration: none;
+    padding-left: 3em;
+    font-weight: 300;
+    color: black;
+    font-family: 'Manjari';
+}
+
+nav a:nth-child(1) {
+    border-radius: 25px;
+    padding: 7px 10px 1px 10px;
+    color: white;
+    background: pink;
+}
+
+nav a:nth-child(1):hover {
+    background: rgb(255, 200, 209);
+    font-weight: bold;
+}
+
+nav a:hover {
+    font-weight: bold;
+}
+
+/*Reviews*/
+.reviews {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 100px;
+}
+
+.reviews__text {
+    text-align: center;
+    line-height: 50px;
+    font-family: 'Manjari';
+}
+
+.reviews__text h1 {
+    padding-top: 150px;
+}
+
+.reviews__text a {
+    text-decoration: none;
+    font-size: 25px;
+    border-radius: 25px;
+    padding: 7px 10px 1px 10px;
+    color: white;
+    background: pink;
+}
+
+.reviews__text a:hover {
+    background: rgb(255, 200, 209);
+    font-weight: bold;
+}
+
+.reviews__photo img {
+    width: 550px;
+    padding-top: 100px;
+    padding-left: 0;
+}
+
+
+/*Main*/
+.main {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+
+/*Main text main*/
+.mtm__img img {
+    width: 170px;
+    height: 200px;
+}
+
+.mtm__img {
+    display: flex;
+    justify-content: center;
+}
+
+.main__text__main {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.mtm__text p {
+    padding-top: 70px;
+    font-family: 'Chilanka';
+    font-size: 22px;
+}
+
+.main__text__plus > div > h3, .main__text__plus > div > h5 {
+    font-family: 'Manjari';
+    padding-left: 25px;
+}
+
+.main__text__plus > div > p {
+    font-family: 'Chilanka';
+    padding-left: 15px;
+}
+
+.main__text__plus {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.main__text__plus > div {
+    padding-top: 50px;
+}
+
+
+/*Main plus*/
+
+
+
+/*Join*/
+.join {
+    text-align: center;
+    background: #86e7f0;
+    margin-right: 10px;
+    margin-left: 10px;
+    border-radius: 15px;
+    line-height: 50px;
+}
+
+.join h2 {
+    color: white;
+    font-size: 35px;
+    font-family: 'Chilanka';
+    padding-top: 10px;
+}
+
+.join h4 {
+    color: white;
+    font-size: 25px;
+    font-family: 'Chilanka';
+}
+
+.join a {
+    color: white;
+    font-size: 25px;
+    font-family: 'Manjari';
+    text-decoration: none;
+    border-radius: 15px;
+    background: #58d1dc;
+    padding: 5px 15px 0 15px;
+}
+
+.join a:hover {
+    font-weight: bold;
+    background: #5cd7e2;
+}
+
+/*Main__plus ads*/
+.ads img {
+    width: 450px;
+}
+
+/*Form*/
+.form {
+    background: #393a39;
+    color: white;
+    text-align: center;
+    line-height: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 15px;
+    margin-top: 20px;
+    border-bottom: 5px solid #bb4465;
+    padding-top: 10px;
+}
+
+.form__text {
+    padding: 5px;
+    outline: none;
+}
+
+.form__button {
+    border-radius: 5px;
+    width: 150px;
+    height: 30px;
+    background: #58d1dc;
+    color: white;
+    margin-top: 2px;
+    margin-bottom: 5px;
+    border: 1px solid #58d1dc;
+    font-family: 'Manjari';
+    font-size: 15px;
+}
+
+.form > p {
+    line-height: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-family: 'Chilanka';
+}
+
+.form__button:hover {
+    font-weight: bold;
+    background: #5cd7e2;
+    cursor: pointer;
+}
+
+.form > h2 {
+    font-family: 'Manjari';
+}
+
+
+/*Footer*/
+footer {
+    height: 70px;
+    background: #393a39;
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 5fr 4fr;
+}
+
+footer > div > p {
+    text-align: right;
+    color: white;
+    font-family: 'Manjari';
+}
+
+.social {
+    padding-left: 250px;
+    padding-top: 25px;
+}
+
+.social a img {
+    padding-left: 15px;
+}
+
+.social > a > img:hover {
+    width: 35px;
+}
+
+footer > div > p:nth-child(1) {
+    padding-top: 30px;
+}

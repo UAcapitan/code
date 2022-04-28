@@ -1,0 +1,211 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Campaign {% endblock %}
+
+{% block body %}
+    <div>
+
+        <h3>{{ campaign.name }} - campaign</h3>
+        <p>Need money: {{ campaign.money }}$</p>
+        <p>Collected money: {{ campaign.NowMoney }}$ - {{ campaign.NowMoney / (campaign.money / 100) }}%</p>
+        <p>End date: {{ campaign.date|date("m/d/Y") }}</p>
+        <p>Description:</p>
+        <div class='container'>
+            <p>{{ campaign.description }}</p>
+        </div>
+        <p>Author: <a href="{{ path('user_info', {'id': user.id }) }}">{{ campaign.user }}</a></p>
+        <hr>
+
+        <h3>Rating</h3>
+        <p>Rating: {{ rating }}</p>
+
+        {% if (ratings|length == 0) %}
+            {{ form_start(form_rating) }}
+                {{ form_row(form_rating.mark) }}
+
+                <br>
+                <button type="submit" class="btn btn-lg btn-primary">Estimate</button>
+            {{ form_end(form_rating) }}
+        {% endif %}
+        <hr>
+
+        <h3>Bonuses</h3>
+        <div class='container'>
+            {% if bonuses %}
+            <div class="row">
+                {% for b in bonuses %}
+                    <div class="col-sm-3 container">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ b.name }}</h5>
+                                <p class="card-text">{{ b.money }}$</p>
+                                <p class="card-text">{{ b.description }}</p>
+                                <a href="{{ path('support_money', {'id': b.id })}}" class="btn btn-primary">To support</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>None</p>
+            {% endif %}
+        </div>
+        <hr>
+
+        <h3>Images</h3>
+        <div class="container">
+            {% if images %}
+            <div class="row">
+                {% for i in images %}
+                    <div class="col-sm-4 container">
+                        <img src="{{ i.link }}" alt="image" class='w-100'>
+                    </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>None</p>
+            {% endif %}
+        </div>
+        <hr>
+
+        <h3>Video</h3>
+        <div class='container d-flex justify-content-center'>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ campaign.video }}" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+            </iframe>
+        </div>
+        <hr>
+
+        <h3>Tags</h3>
+        <div class='container'>
+            {% if (tags) %}
+                <p> 
+                {% for tag in tags %}
+                    <span class="badge badge-secondary">{{ tag.name }}</span>
+                {% endfor %}
+                {% if (check_user) %}
+                <a href="{{ path('campaign_delete_tags', {'id': campaign.id })}}"><span class='badge badge-danger'>X</span></a>
+                {% endif %}
+                </p>
+            {% else %}
+            <p>None</p>
+            {% endif %}
+        </div>
+    </div>
+    <hr>
+
+    <h3>News</h3>
+    <div class='container'>
+        {% if news %}
+            {% for n in news %}
+                <div class='container bg-light rounded border'>
+                    <br>
+                    <p>{{ n.text }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>None</p>
+        {% endif %}
+    </div>
+    <hr>
+
+    {% if (is_granted('ROLE_ADMIN')) or (check_user) %}
+        <h4>Add news</h4>
+        <div class='container'>
+            {{ form_start(form_news) }}
+                {{ form_row(form_news.text) }}
+
+                <br>
+                <button type="submit" class="btn btn-lg btn-primary">Add</button>
+            {{ form_end(form_news) }}
+        </div>
+        <hr>
+
+        <h3>Campaign management</h3>
+        <div class='container'>
+            <div class='container'>
+                {{ form_start(form_redact) }}
+                    {{ form_row(form_redact.name) }}
+                    <br>
+                    {{ form_row(form_redact.description) }}
+                    <br>
+                    {{ form_row(form_redact.money) }}
+                    <br>
+                    {{ form_row(form_redact.subject) }}
+                    <br>
+                    {{ form_row(form_redact.video) }}
+
+                    <br>
+                    <button type="submit" class="btn btn-lg btn-success">Redact</button>
+                {{ form_end(form_redact) }}
+            </div>
+            <hr>
+
+            <div class='container'>
+                <h4>Add bonuse</h4>
+                {{ form_start(form_bonuses) }}
+                    {{ form_row(form_bonuses.name) }}
+                    <br>
+                    {{ form_row(form_bonuses.money) }}
+                    <br>
+                    {{ form_row(form_bonuses.description) }}
+
+                    <br>
+                    <button type="submit" class="btn btn-lg btn-success">Add</button>
+                {{ form_end(form_bonuses) }}
+            </div>
+            <hr>
+
+            <div class='container'>
+                <h4>Add tag</h4>
+                {{ form_start(form) }}
+                    {{ form_row(form.name) }}
+
+                    <br>
+                    <button type="submit" class="btn btn-lg btn-success">Add</button>
+                {{ form_end(form) }}
+            </div>
+            <hr>
+
+            <div class='container'>
+                <h4>Add image</h4>
+                {{ form_start(form_image) }}
+                    {{ form_row(form_image.link) }}
+
+                    <br>
+                    <button type="submit" class="btn btn-lg btn-success">Add</button>
+                {{ form_end(form_image) }}
+            </div>
+
+            <div class='container'>
+                <br>
+                <a href="{{ path('campaign_delete', {'id': campaign.id }) }}" class="btn btn-danger">Delete campaign</a>
+            </div>
+            <br>
+        </div>
+        <hr>
+    {% endif %}
+
+    <h3>Comments</h3>
+    <h4>Add comment</h4>
+    {{ form_start(form_comments) }}
+        {{ form_row(form_comments.text) }}
+
+        <br>
+        <button type="submit" class="btn btn-lg btn-primary">Add</button>
+    {{ form_end(form_comments) }}
+    <br>
+    <div class='container'>
+        {% for comment in comments %}
+            <div class='container bg-light rounded'>
+                <br>
+                <p class='h5'>{{ comment.text }}</p>
+                <p>User: {{ comment.user }}</p>
+                <p>Likes: {{ comment.likes|length }} Dislikes: {{ comment.dislikes|length }}</p>
+                <p><a href='{{ path('like', {'id': comment.id }) }}'>Like</a> <a href='{{ path('dislike', {'id': comment.id }) }}'>Dislike</a></p>
+                <br>
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+
+{% endblock %}
