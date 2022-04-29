@@ -41,6 +41,9 @@ class Stone(FarmObject):
 class Bush(FarmObject):
     pass
 
+class Tree(FarmObject):
+    pass
+
 class Field(FarmObject):
     def __init__(self, image, x, y):
         super().__init__(image, x, y)

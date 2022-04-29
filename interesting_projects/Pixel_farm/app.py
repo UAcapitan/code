@@ -1,3 +1,4 @@
+from django.conf import settings
 import pygame
 import sys
 import json
@@ -6,6 +7,7 @@ import time
 import random
 import jsonpickle
 import collections
+import os
 from json import JSONEncoder
 from typing import Union
 
@@ -27,7 +29,7 @@ DARK_YELLOW = (153, 153, 0)
 BLUE = (0, 0, 255)
 DARK_BLUE = (0, 0, 153)
 GRAY = (230, 230, 230)
-ORANGE = () # TODO add new color
+ORANGE = (255, 165, 0)
 
 # Just a timer for loading
 def timer(n):
@@ -43,6 +45,8 @@ class PixelFarm:
         
         # Set up title
         pygame.display.set_caption('Pixel Farm')
+
+        self.check_needed_files()
 
         # Load settings
         with open('settings.json', 'r') as file:
@@ -330,7 +334,7 @@ class PixelFarm:
             'creative'
         ]
         n = 64 * (self.button_in_farm_window - 1)
-        pygame.draw.rect(self.screen, YELLOW, pygame.Rect(20, 20 + n, 64, 64)) # TODO Select orange color
+        pygame.draw.rect(self.screen, ORANGE, pygame.Rect(20, 20 + n, 64, 64))
         y1 = 0
         for i in menu:
             image = pygame.image.load(f"src/farm_menu/{i}.png")
@@ -350,11 +354,15 @@ class PixelFarm:
         for i in self.shop_items_dict:
             image = pygame.image.load(f"src/items/{i}.png")
             rect = pygame.Rect(x + 80 + x1, y + 20 + y1, 64, 64)
+            if self.money >= self.shop_items_dict[i]:
+                pygame.draw.rect(self.screen, GREEN, rect)
+            else:
+                pygame.draw.rect(self.screen, GRAY, rect)
             if flag:
                 self.buttons_in_shop.append(rect)
             self.screen.blit(image, rect)
             font = pygame.font.SysFont('Comic Sanc MS', 24)
-            self.screen.blit(font.render(f"{self.shop_items_dict[i]}", False, YELLOW), (x + 90 + x1, y + y1 + 30))
+            self.screen.blit(font.render(f"{self.shop_items_dict[i]}", False, YELLOW), (x + 125 + x1, y + y1 + 70))
             x1 += 64
             n += 1
             if n == 9:
@@ -703,10 +711,11 @@ class PixelFarm:
             if coordinates:
                 self.elements_on_map.append(Bush('src/bushes/1.png', coordinates[0], coordinates[1]))
 
-        # TODO add tree objects
-        for i in range(random.random(0, 10)):
-            coordinates = self.generate_two_coordinates()
-            # self.elements_on_map.append(Tree('src/trees/1.png', coordinates[0], coordinates[1]))
+        # TODO do it later
+
+        # for i in range(random.randint(0, 10)):
+        #     coordinates = self.generate_two_coordinates()
+        #     self.elements_on_map.append(Tree('src/trees/1.png', coordinates[0], coordinates[1]))
 
         self.timer_task = time.time()
 
@@ -738,7 +747,6 @@ class PixelFarm:
         return False
 
     def check_needed_item_in_inventory(self, products: list) -> bool:
-        # TODO fix bug with count and deleting
         flag = True
 
         dict_products = dict(collections.Counter(products))
@@ -754,13 +762,25 @@ class PixelFarm:
             for i in products:
                 self.inventory_count[self.inventory.index(i)] -= 1
 
-            inv = self.inventory
+            inv = []
+            inv_count = []
+            ind = 0
 
             for i in self.inventory:
-                inv.append(i)
+                if self.inventory_count[ind] == 0:
+                    inv.append(i)
+                    inv_count.append(ind)
+                ind += 1
 
+            
+            for i in reversed(inv_count):
+                del self.inventory_count[i]
+
+            for i in inv:
+                n = self.inventory.index(i)
+                del self.inventory[n]
+            
             return True
-        print(flag)
         return False
 
     # Saving           
@@ -937,6 +957,20 @@ class PixelFarm:
 
     def change_button_in_farm_window(self, n: int) -> None:
         self.button_in_farm_window = n
+
+    # Work with files
+    def check_needed_files(self) -> bool:
+        if not os.path.exists("settings.json"):
+            with open("settings.json", "w") as file:
+                settings_default = {
+                    "fullscreen": 1,
+                }
+                json.dump(settings_default, file)
+
+        if not os.path.exists("player_data.json"):
+            with open("player_data.json", "w") as file:
+                data = {}
+                json.dump(data, file)
 
 if __name__ == '__main__':
     app = PixelFarm()
