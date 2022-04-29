@@ -5,6 +5,7 @@ import tkinter as tk
 import time
 import random
 import jsonpickle
+import collections
 from json import JSONEncoder
 from typing import Union
 
@@ -26,7 +27,9 @@ DARK_YELLOW = (153, 153, 0)
 BLUE = (0, 0, 255)
 DARK_BLUE = (0, 0, 153)
 GRAY = (230, 230, 230)
+ORANGE = () # TODO add new color
 
+# Just a timer for loading
 def timer(n):
     t = time.time()
     while time.time() - t < n:
@@ -97,6 +100,8 @@ class PixelFarm:
             'seeds_of_grass': 3,
             'seeds_of_onion': 5,
         }
+
+        self.shop_items_list = [i for i in self.shop_items_dict]
 
         self.center_of_map = [0, 0]
 
@@ -416,6 +421,8 @@ class PixelFarm:
 
                 if self.main_screen:
                     if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_q:
+                            self.increase_money(10)
                         if event.key == pygame.K_1:
                             self.set_item(1)
                         elif event.key == pygame.K_2:
@@ -600,10 +607,13 @@ class PixelFarm:
                         self.main_screen = True
 
         self.click_on_tasks(event)
+        self.click_on_item_in_shop(event)
 
     def click_on_tasks(self, event) -> None:
         if self.farm_window and self.button_in_farm_window == 1:
             if event.type == pygame.MOUSEBUTTONDOWN:
+
+                # Done task
                 if event.button == 1:
                     if self.farm_window:
                         for i in self.buttons_tasks:
@@ -613,11 +623,26 @@ class PixelFarm:
                                     self.increase_experience(50)
                                     self.money += item["price"]
                                     del self.tasks_list[self.buttons_tasks.index(i)]
+
+                # Delete task
                 if event.button == 3:
                     if self.farm_window:
                         for i in self.buttons_tasks:
                             if i.collidepoint(event.pos):
                                 del self.tasks_list[self.buttons_tasks.index(i)]
+
+    def click_on_item_in_shop(self, event) -> None:
+        if self.farm_window and self.button_in_farm_window == 2:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    for i in self.buttons_in_shop:
+                        if i.collidepoint(event.pos):
+                            ind = self.buttons_in_shop.index(i)
+                            item = self.shop_items_list[ind]
+                            price = self.shop_items_dict[item]
+                            if self.decrease_money(price):
+                                if self.check_inventory(item):
+                                    self.add_to_inventory(item)                          
 
     # Start game
     def new_game(self) -> None:
@@ -634,12 +659,18 @@ class PixelFarm:
             'shovel',
             'loupe',
             'pickaxe',
-            'seeds_of_wheat',
-            'seeds_of_carrot',
-            'seeds_of_potato',
-            'seeds_of_grass',
-            'seeds_of_onion',
-            'seeds_of_cucumber',
+            # 'seeds_of_wheat',
+            # 'seeds_of_carrot',
+            # 'seeds_of_potato',
+            # 'seeds_of_grass',
+            # 'seeds_of_onion',
+            # 'seeds_of_cucumber',
+            'wheat',
+            'carrot',
+            'potato',
+            'grass',
+            'onion',
+            'cucumber',
         ]
 
         self.inventory_count = [
@@ -672,6 +703,11 @@ class PixelFarm:
             if coordinates:
                 self.elements_on_map.append(Bush('src/bushes/1.png', coordinates[0], coordinates[1]))
 
+        # TODO add tree objects
+        for i in range(random.random(0, 10)):
+            coordinates = self.generate_two_coordinates()
+            # self.elements_on_map.append(Tree('src/trees/1.png', coordinates[0], coordinates[1]))
+
         self.timer_task = time.time()
 
         self.buttons_tasks = []
@@ -702,15 +738,29 @@ class PixelFarm:
         return False
 
     def check_needed_item_in_inventory(self, products: list) -> bool:
+        # TODO fix bug with count and deleting
         flag = True
-        for i in products:
+
+        dict_products = dict(collections.Counter(products))
+        
+        for i, j in dict_products.items():
             if not i in self.inventory:
                 flag = False
+            else:
+                if self.inventory_count[self.inventory.index(i)] < j:
+                    flag = False
 
         if flag:
             for i in products:
                 self.inventory_count[self.inventory.index(i)] -= 1
+
+            inv = self.inventory
+
+            for i in self.inventory:
+                inv.append(i)
+
             return True
+        print(flag)
         return False
 
     # Saving           
@@ -805,6 +855,12 @@ class PixelFarm:
         if self.inventory_count[self.item - 1] > 0:
             self.inventory_count[self.item - 1] -= 1
             self.check_count_inventory()
+
+    def decrease_money(self, n: int) -> bool:
+        if self.money - n >= 0:
+            self.money -= n
+            return True
+        return False
 
     # Increase
     def regenerate_energy(self) -> None:
