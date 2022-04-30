@@ -127,6 +127,8 @@ class PixelFarm:
 
         self.buttons_in_shop = []
 
+        self.information_window = False
+
     # Main game logic
     def run(self) -> None:
         '''
@@ -165,8 +167,11 @@ class PixelFarm:
         if self.farm_window:
             self.draw_window(20, 20, self.screen_size[0] - 40, self.screen_size[1] - 40)
         else:
-            self.draw_inventory()
-            self.draw_status_player()
+            if self.information_window:
+                pass
+            else:
+                self.draw_inventory()
+                self.draw_status_player()
 
         # Updating of screen
         pygame.display.update()
@@ -523,12 +528,11 @@ class PixelFarm:
                         self.next_part_of_conversation()
 
     def click_for_make_field(self) -> None:
-        if self.item == 1:
-            if self.check_collision():
-                if self.decrease_energy(20):
-                    self.increase_experience(25)
-                    x, y = pygame.mouse.get_pos()
-                    self.elements_on_map.append(Field('src/fields/1.png', x, y))
+        if self.check_collision():
+            if self.decrease_energy(20):
+                self.increase_experience(25)
+                x, y = pygame.mouse.get_pos()
+                self.elements_on_map.append(Field('src/fields/1.png', x, y))
 
     def click_to_plant(self, seeds, time_grow) -> None:
         mouse = pygame.mouse.get_pos()
@@ -546,28 +550,15 @@ class PixelFarm:
             item = self.inventory[self.item - 1]
         except:
             item = ''
-        self.harvest = False
+
         if item == 'shovel':
             self.click_for_make_field()
 
         if item == 'loupe':
-            self.harvest = True
+            self.use_loupe(event)
 
         elif item == 'pickaxe':
-            garbage = []
-            for i in self.elements_on_map:
-                if i.rect.collidepoint(event.pos):
-                        if self.check_energy(5):
-                            if isinstance(i, Stone):
-                                if self.check_inventory('stone'):
-                                    if i.click_on_it():
-                                        self.add_to_inventory('stone')
-                                        self.energy -= 5
-                                        self.increase_experience(10)
-                                        garbage.append(i)
-            
-            if len(garbage) > 0:
-                    del self.elements_on_map[self.elements_on_map.index(garbage[0])]
+            self.use_pickaxe(event)
 
         elif item == 'seeds_of_wheat':
             self.click_to_plant('wheat', 60)
@@ -971,6 +962,34 @@ class PixelFarm:
             with open("player_data.json", "w") as file:
                 data = {}
                 json.dump(data, file)
+
+    # Loupe
+    def use__loupe(self, event):
+        print('Used loupe')
+        if self.check_collision():
+            for i in self.elements_on_map:
+                if i.collidepoint(event.pos):
+                    self.element_for_information = i.info()
+            
+    def open_information_window(self):
+        self.information_window = True
+
+    # Pickaxe
+    def use_pickaxe(self, event):
+        garbage = []
+        for i in self.elements_on_map:
+            if i.rect.collidepoint(event.pos):
+                    if self.check_energy(5):
+                        if isinstance(i, Stone):
+                            if self.check_inventory('stone'):
+                                if i.click_on_it():
+                                    self.add_to_inventory('stone')
+                                    self.energy -= 5
+                                    self.increase_experience(10)
+                                    garbage.append(i)
+        
+        if len(garbage) > 0:
+                del self.elements_on_map[self.elements_on_map.index(garbage[0])]
 
 if __name__ == '__main__':
     app = PixelFarm()
