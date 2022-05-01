@@ -9,6 +9,9 @@ class BaseFarmObject(pygame.sprite.Sprite):
        self.rect = self.image.get_rect(center=(x,y))
        self.image_address = image
 
+    def info(self) -> dict:
+        return {}
+
 class FarmObject(BaseFarmObject):
     def __init__(self, image, x, y) -> None:
         super().__init__(image, x, y)
@@ -36,13 +39,43 @@ class ButtonMenu(FarmObject):
     pass
 
 class Stone(FarmObject):
-    pass
+    def info(self) -> dict:
+        return {
+            'name': 'Stone',
+            'image': self.image,
+            'hp': self.hp,
+            'text': [
+                'This is just a stone.',
+                '',
+                ''
+            ]
+        }
 
 class Bush(FarmObject):
-    pass
+    def info(self) -> dict:
+        return {
+            'name': 'Bush',
+            'image': self.image,
+            'hp': self.hp,
+            'text': [
+                'Not big green bush.',
+                'You can harvest sometimes.',
+                ''
+            ]
+        }
 
 class Tree(FarmObject):
-    pass
+    def info(self) -> dict:
+        return {
+            'name': 'Three',
+            'image': self.image,
+            'hp': self.hp,
+            'text': [
+                'Big handsome tree.',
+                '',
+                ''
+            ]
+        }
 
 class Field(FarmObject):
     def __init__(self, image, x, y):
@@ -83,6 +116,37 @@ class Field(FarmObject):
         self.time_for_growing = 0
         self.image_address = f"src/fields/1.png"
         return plant
+
+    def info(self) -> dict:
+        if self.plant == None:
+            return {
+                'name': 'Field',
+                'image': self.image,
+                'hp': self.hp,
+                'text': [
+                    'Just empty field.',
+                    '',
+                    ''
+                ]
+            }
+        else:
+            stage = self.plant_stage
+            if stage == 1:
+                stage = 'Newly planted.'
+            elif stage == 2:
+                stage = 'Growing.'
+            else:
+                stage = 'You can harvest.'
+            return {
+                'name': f"Field - {self.plant}",
+                'image': self.image,
+                'hp': self.hp,
+                'text': [
+                    'Just planted field.',
+                    'Wait for harvest.',
+                    f"Stage right now: {stage}"
+                ]
+            }
 
 class House(FarmObject):
     def __init__(self, x, y) -> None:

@@ -129,6 +129,8 @@ class PixelFarm:
 
         self.information_window = False
 
+        self.element_for_information = {}
+
     # Main game logic
     def run(self) -> None:
         '''
@@ -168,7 +170,7 @@ class PixelFarm:
             self.draw_window(20, 20, self.screen_size[0] - 40, self.screen_size[1] - 40)
         else:
             if self.information_window:
-                pass
+                self.draw_information_window()
             else:
                 self.draw_inventory()
                 self.draw_status_player()
@@ -215,10 +217,7 @@ class PixelFarm:
     def draw_window(self, x: int, y: int, w: int, h: int) -> None:
         if self.menu == False:
             pygame.draw.rect(self.screen, WHITE, pygame.Rect(x, y, w, h))
-            image = pygame.image.load("src/buttons/exit.png")
-            rect = image.get_rect()
-            rect.center = (x + w - 10, y + 10)
-            self.screen.blit(image, rect)
+            self.draw_exit_button(x + w - 10, y + 10)
             self.draw_farm_window_menu(h)
             if self.button_in_farm_window == 1:
                 self.draw_task_window(x, y, w, h)
@@ -383,6 +382,23 @@ class PixelFarm:
             font = pygame.font.SysFont('Comic Sanc MS', 24)
             self.screen.blit(font.render(f"{i['name']}", False, BLACK), (x + 250, y + y1 + 10))
             y1 += 10
+
+    def draw_information_window(self) -> None:
+        pygame.draw.rect(self.screen, WHITE, 
+            pygame.Rect(20, 20, self.screen_size[0] - 40, self.screen_size[1] - 40)
+        )
+        item = self.element_for_information
+        self.draw_exit_button(self.screen_size[0] - 28, 28)
+        font = pygame.font.SysFont('Comic Sanc MS', 24)
+        text = font.render(item['name'], False, BLACK)
+        self.screen.blit(text, (90, 50))
+
+    def draw_exit_button(self, x: int, y: int) -> None:
+        image = pygame.image.load("src/buttons/exit.png")
+        rect = image.get_rect()
+        rect.center = (x, y)
+        self.screen.blit(image, rect)
+
 
     # Loading screen
     def show_start_screen(self) -> None:
@@ -964,29 +980,25 @@ class PixelFarm:
                 json.dump(data, file)
 
     # Loupe
-    def use__loupe(self, event):
-        print('Used loupe')
-        if self.check_collision():
-            for i in self.elements_on_map:
-                if i.collidepoint(event.pos):
-                    self.element_for_information = i.info()
-            
-    def open_information_window(self):
-        self.information_window = True
+    def use_loupe(self, event):
+        for i in self.elements_on_map:
+            if i.rect.collidepoint(event.pos):
+                self.information_window = True
+                self.element_for_information = i.info()
 
     # Pickaxe
     def use_pickaxe(self, event):
         garbage = []
         for i in self.elements_on_map:
             if i.rect.collidepoint(event.pos):
-                    if self.check_energy(5):
-                        if isinstance(i, Stone):
-                            if self.check_inventory('stone'):
-                                if i.click_on_it():
-                                    self.add_to_inventory('stone')
-                                    self.energy -= 5
-                                    self.increase_experience(10)
-                                    garbage.append(i)
+                if self.check_energy(5):
+                    if isinstance(i, Stone):
+                        if self.check_inventory('stone'):
+                            if i.click_on_it():
+                                self.add_to_inventory('stone')
+                                self.energy -= 5
+                                self.increase_experience(10)
+                                garbage.append(i)
         
         if len(garbage) > 0:
                 del self.elements_on_map[self.elements_on_map.index(garbage[0])]
