@@ -626,9 +626,9 @@ class PixelFarm:
                                 self.farm_window = True
                                 self.main_screen = False
                 else:
-                    if pygame.Rect(20 + self.screen_size[0] - 90, 20, 50, 50).collidepoint(event.pos):
-                        self.farm_window = False
-                        self.main_screen = True
+                    self.click_exit_from_farm_window(event)
+
+                self.click_exit_from_information_window(event)
 
         self.click_on_tasks(event)
         self.click_on_item_in_shop(event)
@@ -668,10 +668,15 @@ class PixelFarm:
                                 if self.check_inventory(item):
                                     self.add_to_inventory(item)   
 
+    def click_exit_from_farm_window(self, event) -> None:
+        if pygame.Rect(20 + self.screen_size[0] - 90, 20, 50, 50).collidepoint(event.pos):
+            self.farm_window = False
+            self.main_screen = True                
+
     def click_exit_from_information_window(self, event) -> None:
         if self.information_window:
             if pygame.Rect(20 + self.screen_size[0] - 90, 20, 50, 50).collidepoint(event.pos):
-                self.information_window = False                       
+                self.information_window = False
 
     # Start game
     def new_game(self) -> None:
