@@ -13,9 +13,10 @@ class BaseFarmObject(pygame.sprite.Sprite):
         return {}
 
 class FarmObject(BaseFarmObject):
-    def __init__(self, image, x, y) -> None:
+    def __init__(self, image, x: int, y: int, hp: int) -> None:
         super().__init__(image, x, y)
-        self.hp = 5
+        self.hp = hp
+        self.full_hp = hp
 
     def click_on_it(self) -> bool:
         self.hp -= 1
@@ -35,7 +36,7 @@ class FarmItem(BaseFarmObject):
     def __repl__(self) -> str:
         return self.name
 
-class ButtonMenu(FarmObject):
+class ButtonMenu(BaseFarmObject):
     pass
 
 class Stone(FarmObject):
@@ -44,6 +45,7 @@ class Stone(FarmObject):
             'name': 'Stone',
             'image': self.image,
             'hp': self.hp,
+            'full_hp': self.full_hp,
             'text': [
                 'This is just a stone.',
                 '',
@@ -57,6 +59,7 @@ class Bush(FarmObject):
             'name': 'Bush',
             'image': self.image,
             'hp': self.hp,
+            'full_hp': self.full_hp,
             'text': [
                 'Not big green bush.',
                 'You can harvest sometimes.',
@@ -70,6 +73,7 @@ class Tree(FarmObject):
             'name': 'Three',
             'image': self.image,
             'hp': self.hp,
+            'full_hp': self.full_hp,
             'text': [
                 'Big handsome tree.',
                 '',
@@ -78,8 +82,8 @@ class Tree(FarmObject):
         }
 
 class Field(FarmObject):
-    def __init__(self, image, x, y):
-        super().__init__(image, x, y)
+    def __init__(self, image, x, y, hp):
+        super().__init__(image, x, y, hp)
         self.plant = None
         self.plant_stage = 0
         self.time_point = time.time()
@@ -123,6 +127,7 @@ class Field(FarmObject):
                 'name': 'Field',
                 'image': self.image,
                 'hp': self.hp,
+                'full_hp': self.full_hp,
                 'text': [
                     'Just empty field.',
                     '',
@@ -141,6 +146,7 @@ class Field(FarmObject):
                 'name': f"Field - {self.plant}",
                 'image': self.image,
                 'hp': self.hp,
+                'full_hp': self.full_hp,
                 'text': [
                     'Just planted field.',
                     'Wait for harvest.',
@@ -150,10 +156,23 @@ class Field(FarmObject):
 
 class House(FarmObject):
     def __init__(self, x, y) -> None:
-        super().__init__('src/buildings/house.png', x, y)
+        super().__init__('src/buildings/house.png', x, y, 0)
 
     def click_on_it(self) -> None:
         pass
+
+    def info(self) -> dict:
+        return {
+            'name': 'House',
+            'image': self.image,
+            'hp': '-',
+            'full_hp': '-',
+            'text': [
+                'Your house ',
+                '',
+                ''
+            ]
+        }
 
 class Character(FarmObject):
     pass

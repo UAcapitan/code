@@ -215,7 +215,7 @@ class PixelFarm:
             self.screen.blit(image, rect)
 
     def draw_window(self, x: int, y: int, w: int, h: int) -> None:
-        if self.menu == False:
+        if self.menu == False and self.inventory[self.item] != 'loupe': #TODO do something with it
             pygame.draw.rect(self.screen, WHITE, pygame.Rect(x, y, w, h))
             self.draw_exit_button(x + w - 10, y + 10)
             self.draw_farm_window_menu(h)
@@ -392,6 +392,15 @@ class PixelFarm:
         font = pygame.font.SysFont('Comic Sanc MS', 24)
         text = font.render(item['name'], False, BLACK)
         self.screen.blit(text, (90, 50))
+        text = font.render(f"{item['hp']}/{item['full_hp']}", False, BLACK)
+        self.screen.blit(text, (300, 80))
+        image = item["image"]
+        rect = image.get_rect()
+        rect.center = (75, 75)
+        self.screen.blit(image, rect)
+        for i in item['text']:
+            text = font.render(i, False, BLACK)
+            self.screen.blit(text, (300, 180))
 
     def draw_exit_button(self, x: int, y: int) -> None:
         image = pygame.image.load("src/buttons/exit.png")
@@ -548,7 +557,7 @@ class PixelFarm:
             if self.decrease_energy(20):
                 self.increase_experience(25)
                 x, y = pygame.mouse.get_pos()
-                self.elements_on_map.append(Field('src/fields/1.png', x, y))
+                self.elements_on_map.append(Field('src/fields/1.png', x, y, 5))
 
     def click_to_plant(self, seeds, time_grow) -> None:
         mouse = pygame.mouse.get_pos()
@@ -657,7 +666,12 @@ class PixelFarm:
                             price = self.shop_items_dict[item]
                             if self.decrease_money(price):
                                 if self.check_inventory(item):
-                                    self.add_to_inventory(item)                          
+                                    self.add_to_inventory(item)   
+
+    def click_exit_from_information_window(self, event) -> None:
+        if self.information_window:
+            if pygame.Rect(20 + self.screen_size[0] - 90, 20, 50, 50).collidepoint(event.pos):
+                self.information_window = False                       
 
     # Start game
     def new_game(self) -> None:
@@ -703,20 +717,20 @@ class PixelFarm:
         for i in range(random.randint(0, 100)):
             coordinates = self.generate_two_coordinates()
             if coordinates:
-                self.elements_on_map.append(Stone('src/stones/1.png', coordinates[0], coordinates[1]))
+                self.elements_on_map.append(Stone('src/stones/1.png', coordinates[0], coordinates[1], 7))
         for i in range(random.randint(0, 100)):
             coordinates = self.generate_two_coordinates()
             if coordinates:
-                self.elements_on_map.append(Stone('src/stones/2.png', coordinates[0], coordinates[1]))
+                self.elements_on_map.append(Stone('src/stones/2.png', coordinates[0], coordinates[1], 7))
         for i in range(random.randint(0, 100)):
             coordinates = self.generate_two_coordinates()
             if coordinates:
-                self.elements_on_map.append(Stone('src/stones/3.png', coordinates[0], coordinates[1]))
+                self.elements_on_map.append(Stone('src/stones/3.png', coordinates[0], coordinates[1], 5))
 
         for i in range(random.randint(0, 100)):
             coordinates = self.generate_two_coordinates()
             if coordinates:
-                self.elements_on_map.append(Bush('src/bushes/1.png', coordinates[0], coordinates[1]))
+                self.elements_on_map.append(Bush('src/bushes/1.png', coordinates[0], coordinates[1], 5))
 
         # TODO do it later
 
