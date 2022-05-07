@@ -103,6 +103,7 @@ class PixelFarm:
             'seeds_of_potato': 3,
             'seeds_of_grass': 3,
             'seeds_of_onion': 5,
+            'seeds_of_tomato': 5,
         }
 
         self.shop_items_list = [i for i in self.shop_items_dict]
@@ -398,9 +399,12 @@ class PixelFarm:
         rect = image.get_rect()
         rect.center = (75, 75)
         self.screen.blit(image, rect)
+        pygame.draw.line(self.screen, BLACK, (100,90),(100,390))
+        y1 = 0
         for i in item['text']:
             text = font.render(i, False, BLACK)
-            self.screen.blit(text, (300, 180))
+            self.screen.blit(text, (300, 180 + y1))
+            y1 += 30
 
     def draw_exit_button(self, x: int, y: int) -> None:
         image = pygame.image.load("src/buttons/exit.png")
@@ -602,6 +606,9 @@ class PixelFarm:
 
         elif item == 'seeds_of_cucumber':
             self.click_to_plant('cucumber', 130)
+
+        elif item == 'seeds_of_tomato':
+            self.click_to_plant('tomato', 140)
 
     def click_at_field(self, event) -> None:
         for i in self.elements_on_map:
