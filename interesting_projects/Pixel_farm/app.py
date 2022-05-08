@@ -706,24 +706,20 @@ class PixelFarm:
             # 'seeds_of_grass',
             # 'seeds_of_onion',
             # 'seeds_of_cucumber',
-            'wheat',
-            'carrot',
-            'potato',
-            'grass',
-            'onion',
-            'cucumber',
+            # 'wheat',
+            # 'carrot',
+            # 'potato',
+            # 'grass',
+            # 'onion',
+            # 'cucumber',
+            'seeds_of_potato',
         ]
 
         self.inventory_count = [
             -1,
             -1,
             -1,
-            10,
-            10,
-            3,
-            3,
-            3,
-            3
+            1,
         ]
 
         for i in range(random.randint(0, 100)):
@@ -1025,6 +1021,8 @@ class PixelFarm:
                                 self.energy -= 5
                                 self.increase_experience(10)
                                 garbage.append(i)
+
+                            self.add_to_inventory('wood')
         
         if len(garbage) > 0:
                 del self.elements_on_map[self.elements_on_map.index(garbage[0])]
