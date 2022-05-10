@@ -1023,6 +1023,8 @@ class PixelFarm:
                                 garbage.append(i)
 
                             self.add_to_inventory('wood')
+
+                            self.add_to_inventory('wood')
         
         if len(garbage) > 0:
                 del self.elements_on_map[self.elements_on_map.index(garbage[0])]
