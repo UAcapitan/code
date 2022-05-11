@@ -1,6 +1,6 @@
 import sqlite3
 import random
-from termcolor import colored
+from colorama import Fore
 
 print('App is working')
 
@@ -12,9 +12,9 @@ while True:
     cur.execute("SELECT * FROM words;")
     words = cur.fetchall()
     word_eng = random.choice(words)
-    word = input(f"{word_eng[0]} - ")
+    word = input(Fore.WHITE + f"{word_eng[0]} - ")
     if word == word_eng[1]:
-        print(colored(f"{word_eng[0]} - {word}", "green"))
+        print(Fore.GREEN + f"{word_eng[0]} - {word}")
     else:
-        print(colored(f"{word_eng[0]} - {word_eng[1]}", "red"))
+        print(Fore.RED + f"{word_eng[0]} - {word_eng[1]}")
     
