@@ -1021,10 +1021,22 @@ class PixelFarm:
                                 self.energy -= 5
                                 self.increase_experience(10)
                                 garbage.append(i)
+                        
+                    if isinstance(i, Tree):
+                        if self.check_inventory('wood'):
+                            if i.click_on_it():
+                                self.add_to_inventory('wood')
+                                self.energy -= 5
+                                self.increase_experience(10)
+                                garbage.append(i)
 
-                            self.add_to_inventory('wood')
-
-                            self.add_to_inventory('wood')
+                    if isinstance(i, Bush):
+                        if self.check_inventory('wood'):
+                            if i.click_on_it():
+                                self.add_to_inventory('wood')
+                                self.energy -= 5
+                                self.increase_experience(10)
+                                garbage.append(i)
         
         if len(garbage) > 0:
                 del self.elements_on_map[self.elements_on_map.index(garbage[0])]
