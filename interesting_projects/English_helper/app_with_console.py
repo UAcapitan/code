@@ -14,16 +14,22 @@ def gap():
 
 stage = int(input(
 "1. Translate from English\n\
-2. Translate to English\n\
-3. Limit 30 words\n\n"
+2. Translate to English\n\n"
 ))
 
 gap()
 
-if stage == 1:
+limit = int(input(
+"1. Without limit\n\
+2. Limit 30 words\n\n"
+))
+
+gap()
+
+if stage == 1 and limit == 1:
+    cur.execute("SELECT * FROM words;")
+    words = cur.fetchall()
     while True:
-        cur.execute("SELECT * FROM words;")
-        words = cur.fetchall()
         word_eng = random.choice(words)
         word = input(Fore.WHITE + f"{word_eng[0]} - ")
         if word == word_eng[1]:
@@ -32,10 +38,10 @@ if stage == 1:
             print(Fore.RED + f"{word_eng[0]} - {word_eng[1]}")
         gap()
 
-if stage == 2:
+if stage == 2 and limit == 1:
+    cur.execute("SELECT * FROM words;")
+    words = cur.fetchall()
     while True:
-        cur.execute("SELECT * FROM words;")
-        words = cur.fetchall()
         word_eng = random.choice(words)
         word = input(Fore.WHITE + f"{word_eng[1]} - ")
         if word == word_eng[0]:
@@ -44,14 +50,26 @@ if stage == 2:
             print(Fore.RED + f"{word_eng[1]} - {word_eng[0]}")
         gap()
 
-if stage == 3:
+if stage == 1 and limit == 2:
+    cur.execute("SELECT * FROM words;")
+    words = cur.fetchall()[:30]
     while True:
-        cur.execute("SELECT * FROM words;")
-        words = cur.fetchall()[:30]
         word_eng = random.choice(words)
         word = input(Fore.WHITE + f"{word_eng[0]} - ")
         if word == word_eng[1]:
             print(Fore.GREEN + f"{word_eng[0]} - {word}")
         else:
             print(Fore.RED + f"{word_eng[0]} - {word_eng[1]}")
+        gap()
+
+if stage == 2 and limit == 2:
+    cur.execute("SELECT * FROM words;")
+    words = cur.fetchall()[:30]
+    while True:
+        word_eng = random.choice(words)
+        word = input(Fore.WHITE + f"{word_eng[1]} - ")
+        if word == word_eng[0]:
+            print(Fore.GREEN + f"{word_eng[1]} - {word}")
+        else:
+            print(Fore.RED + f"{word_eng[1]} - {word_eng[0]}")
         gap()
