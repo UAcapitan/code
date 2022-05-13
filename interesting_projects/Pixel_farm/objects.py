@@ -70,7 +70,7 @@ class Bush(FarmObject):
 class Tree(FarmObject):
     def info(self) -> dict:
         return {
-            'name': 'Three',
+            'name': 'Tree',
             'image': self.image,
             'hp': self.hp,
             'full_hp': self.full_hp,
@@ -176,3 +176,23 @@ class House(FarmObject):
 
 class Character(FarmObject):
     pass
+
+class ChickenHouse(FarmObject):
+    def __init__(self, x, y) -> None:
+        super().__init__('src/buildings/chicken_house.png', x, y, 15)
+
+    def click_on_it(self) -> None:
+        pass
+
+    def info(self) -> dict:
+        return {
+            'name': 'Chicken house',
+            'image': self.image,
+            'hp': self.hp,
+            'full_hp': self.full_hp,
+            'text': [
+                'House for chicken',
+                '',
+                ''
+            ]
+        }
