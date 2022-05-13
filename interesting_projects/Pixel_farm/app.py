@@ -713,6 +713,9 @@ class PixelFarm:
             # 'onion',
             # 'cucumber',
             'seeds_of_potato',
+            'seeds_of_tomato',
+            'seeds_of_beet',
+            'seeds_of_peas',
         ]
 
         self.inventory_count = [
@@ -742,9 +745,7 @@ class PixelFarm:
 
         # TODO do it later
 
-        # for i in range(random.randint(0, 10)):
-        #     coordinates = self.generate_two_coordinates()
-        #     self.elements_on_map.append(Tree('src/trees/1.png', coordinates[0], coordinates[1]))
+        # Later
 
         self.timer_task = time.time()
 
