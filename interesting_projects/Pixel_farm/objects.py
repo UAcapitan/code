@@ -180,9 +180,11 @@ class Character(FarmObject):
 class ChickenHouse(FarmObject):
     def __init__(self, x, y) -> None:
         super().__init__('src/buildings/chicken_house.png', x, y, 15)
+        self.food = 0
 
-    def click_on_it(self) -> None:
-        pass
+    def click_on_it(self, item: str) -> str:
+        if item == 'wheat':
+            self.food += 1
 
     def info(self) -> dict:
         return {
