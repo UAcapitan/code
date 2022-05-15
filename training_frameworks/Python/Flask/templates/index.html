@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Main page{% endblock %}
+
+{% block content %}
+    <div>
+        <h3>Main page</h3>
+        <p>Hello, world!</p>
+        <ul>
+            {% for task in tasks %}
+                <li>{{task.title}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
