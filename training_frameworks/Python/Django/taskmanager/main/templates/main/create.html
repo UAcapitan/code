@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Create{% endblock %}
+
+{% block content %}
+    <h3>Create</h3>
+    <div class="container">
+        <p>Create your task</p>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <br>
+            <input type="submit" value="New" class="btn btn-success">
+        </form>
+        <br>
+    </div>
+{% endblock %}
