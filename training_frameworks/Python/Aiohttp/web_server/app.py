@@ -1,7 +1,4 @@
-import aiohttp
 from aiohttp import web
-import fcntl
-import ffilib
 
 
 async def index(request):
@@ -14,15 +11,11 @@ async def create(request):
     return web.Response(text='This is form')
 
 
-def create_app():
-    app = web.Application()
-    app.router.add_get("/", index)
-    app.router.add_get("/page", page)
-    app.router.add_get("/create", create)
-    return app
-
-app = create_app()
+app = web.Application()
+app.router.add_get("/", index)
+app.router.add_get("/page", page)
+app.router.add_get("/create", create)
 
 
 if __name__ == '__main__':
-    web.run_app(app)
+    web.run_app(app, host='127.0.0.1', port=3000)
