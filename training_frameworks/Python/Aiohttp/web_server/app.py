@@ -4,8 +4,14 @@ import jinja2
 from aiohttp_jinja2 import template
 import sqlite3
 import sqlalchemy
+from sqlalchemy.orm import declarative_base
 
 db_engine = sqlalchemy.create_engine('sqlite:///tasks.db')
+Base = declarative_base()
+
+class Task(Base):
+    def __repr__(self):
+        return
 
 @template('index.html')
 async def index(request):
@@ -26,7 +32,8 @@ async def create_post(request):
     text = data['text']
     mark = data['mark']
     print(f"{title} {text} {mark}")
-    return {text: 'text'}
+    raise web.HTTPFound('/')
+    # return {text: 'text'}
 
 @template('success.html')
 async def success(request):
