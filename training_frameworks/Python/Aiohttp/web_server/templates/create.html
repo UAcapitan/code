@@ -4,4 +4,15 @@
 
 {% block content %}
     <h3>Create a form</h3>
+    <form method="POST">
+        <input type="text" name="title" class="form-input" placeholder="Title">
+        <br><br>
+        <input type="text" name="text" class="form-input" placeholder="Text">
+        <br><br>
+        <input type="number" name="mark" class="form-input" placeholder="Mark">
+        <br><br>
+        <input type="submit" value="New" class="btn btn-success">
+    </form>
+    <br>
+    {{ text }}
 {% endblock %}

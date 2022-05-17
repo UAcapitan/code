@@ -2,6 +2,10 @@ from aiohttp import web
 import aiohttp_jinja2
 import jinja2
 from aiohttp_jinja2 import template
+import sqlite3
+import sqlalchemy
+
+db_engine = sqlalchemy.create_engine('sqlite:///tasks.db')
 
 @template('index.html')
 async def index(request):
@@ -17,7 +21,12 @@ async def create(request):
 
 @template('create.html')
 async def create_post(request):
-    return {}
+    data = await request.post()
+    title = data['title']
+    text = data['text']
+    mark = data['mark']
+    print(f"{title} {text} {mark}")
+    return {text: 'text'}
 
 @template('success.html')
 async def success(request):
@@ -26,11 +35,8 @@ async def success(request):
 
 def app_launch():
     app = web.Application()
-
     add_jinja(app)
-
     all_routes(app)
-
     return app
 
 def add_jinja(app):
