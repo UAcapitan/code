@@ -1,4 +1,3 @@
-from asyncio import tasks
 from aiohttp import web
 import aiohttp_jinja2
 import jinja2
@@ -22,21 +21,27 @@ class Task(Base):
     def __repr__(self):
         return self.title
 
+routes = web.RouteTableDef()
+
+@routes.get('/')
 @template('index.html')
 async def index(request):
     with Session(db_engine) as session:
-        query = session.query(Task)
-        all_tasks = query.all()
+        all_tasks = session.query(Task).all()
     return {"tasks": all_tasks}
 
+@routes.get('/page')
 @template('page.html')
 async def page(request):
-    return {}
+    id = request.rel_url.query['id']
+    return {"id": id}
 
+@routes.get('/create')
 @template('create.html')
 async def create(request):
     return {}
 
+@routes.post('/create')
 @template('create.html')
 async def create_post(request):
     data = await request.post()
@@ -48,17 +53,20 @@ async def create_post(request):
         task = Task(title=title, text=text, mark=mark)
         session.add(task)
         session.commit()
-    raise web.HTTPFound('/')
+    raise web.HTTPFound('/success')
 
+@routes.get('/success')
 @template('success.html')
 async def success(request):
+    text = 'Task added successfully'
     return {}
 
 
 def app_launch():
     app = web.Application()
     add_jinja(app)
-    all_routes(app)
+    # all_routes(app)
+    app.router.add_routes(routes)
     return app
 
 def add_jinja(app):

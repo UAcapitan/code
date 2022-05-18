@@ -8,7 +8,13 @@
     <div class="container">
         <ul>
             {% for task in tasks %}
-                <li>{{ task.title }}</li>
+                <li>
+                    <div class="bg-light">
+                        <h5>{{ task.title }}</h5>
+                        <p>{{ task.text }}</p>
+                        <p>{{ task.mark }}</p>
+                    </div>
+                </li>
             {% endfor %}
         </ul>
     </div>
