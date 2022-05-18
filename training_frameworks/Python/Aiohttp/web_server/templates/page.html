@@ -4,5 +4,9 @@
 
 {% block content %}
     <h3>Just a page</h3>
-    <p>This is page {{ id }}</p>
+    {% if id %}
+        <p>This is page {{ id }}</p>
+    {% else %}
+        <p>This is page haven't id</p>
+    {% endif %}
 {% endblock %}

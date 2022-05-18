@@ -33,8 +33,11 @@ async def index(request):
 @routes.get('/page')
 @template('page.html')
 async def page(request):
-    id = request.rel_url.query['id']
-    return {"id": id}
+    try:
+        id = request.rel_url.query['id']
+        return {"id": id}
+    except:
+        return {"id": None}
 
 @routes.get('/create')
 @template('create.html')
@@ -59,7 +62,7 @@ async def create_post(request):
 @template('success.html')
 async def success(request):
     text = 'Task added successfully'
-    return {}
+    return {"text":text}
 
 
 def app_launch():
