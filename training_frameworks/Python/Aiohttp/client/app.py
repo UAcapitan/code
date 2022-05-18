@@ -13,8 +13,14 @@ async def main():
             data = await resp.text()
             print(data)
 
-        async with session.get('https://httpbin.org/get', params=params) as resp:
+        url = 'https://httpbin.org/get'
+        url_post = 'https://httpbin.org/post'
+
+        async with session.get(url, params=params) as resp:
             print(resp.url) 
+
+        async with session.get(url_post, json={"text": "text"}) as resp:
+            print(await resp.json())
 
 
 if __name__ == "__main__":
