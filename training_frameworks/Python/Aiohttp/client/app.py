@@ -19,7 +19,7 @@ async def main():
         async with session.get(url, params=params) as resp:
             print(resp.url) 
 
-        async with session.get(url_post, json={"text": "text"}) as resp:
+        async with session.post(url_post, json={"text": "text"}) as resp:
             print(await resp.json())
 
 
