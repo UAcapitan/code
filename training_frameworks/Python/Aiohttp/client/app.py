@@ -22,6 +22,9 @@ async def main():
         async with session.post(url_post, json={"text": "text"}) as resp:
             print(await resp.json())
 
+        async with session.get(url) as resp:
+            print(await resp.content.read(10))
+
 
 if __name__ == "__main__":
     asyncio.run(main())
