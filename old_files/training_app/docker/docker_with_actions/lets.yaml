@@ -1,0 +1,13 @@
+shell: bash
+
+commands:
+  build:
+    cmd: docker-compose build app
+
+  app:
+    depends: [build]
+    cmd: docker-compose run --rm app
+
+  test:
+    description: Run all tests
+    cmd: docker-compose run --rm test

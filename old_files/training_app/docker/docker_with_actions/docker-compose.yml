@@ -1,0 +1,17 @@
+services:
+  base: &base
+    image: app
+    build:
+      dockerfile: Dockerfile
+      context: .
+    working_dir: /work
+    volumes:
+      - .:/work
+
+  app:
+    <<: *base
+    command: python -m app
+
+  test:
+    <<: *base
+    command: python -m pytest
