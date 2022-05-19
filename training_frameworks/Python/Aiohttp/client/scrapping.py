@@ -29,8 +29,14 @@ def parse_books(results):
     list_ = []
     for html in results:
         soup = BeautifulSoup(html)
-        list_.append(soup.find('article', {'class': 'product_pod'}).find('h3').text.strip())
+        names = soup.find_all('article', {'class': 'product_pod'})
+        for div in names:
+            list_.append([div.find('h3').text.strip(), div.find('p', {'class': 'price_color'}).text.strip()])
     return list_
+
+def print_names(names):
+    for name in names:
+        print(f"{name[0]} - {name[1]}")
 
 
 if __name__ == "__main__":
@@ -43,4 +49,4 @@ if __name__ == "__main__":
     results = asyncio.run(main(urls))
     print(len(results))
     print(parse(results))
-    print(parse_books(results))
+    print_names(parse_books(results))
