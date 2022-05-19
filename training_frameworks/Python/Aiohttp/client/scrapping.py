@@ -25,6 +25,13 @@ def parse(results):
         print(soup.find('form', {'class': 'form-horizontal'}).text.strip())
     return "Done"
 
+def parse_books(results):
+    list_ = []
+    for html in results:
+        soup = BeautifulSoup(html)
+        list_.append(soup.find('article', {'class': 'product_pod'}).find('h3').text.strip())
+    return list_
+
 
 if __name__ == "__main__":
     urls = [
@@ -36,3 +43,4 @@ if __name__ == "__main__":
     results = asyncio.run(main(urls))
     print(len(results))
     print(parse(results))
+    print(parse_books(results))
