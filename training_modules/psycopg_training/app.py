@@ -17,5 +17,8 @@ def query_to_db(query):
     print_results(command(query))
 
 if __name__ == "__main__":
-    # query_to_db("SELECT * FROM users;")
-    query_to_db("SELECT u.name, count(c) from users u left join comments c on u.id=c.author group by u.name;")
+    queries = [
+        "SELECT * FROM users;",
+        "SELECT u.name, count(c) from users u left join comments c on u.id=c.author group by u.name;"
+    ]
+    query_to_db(queries[-1])
