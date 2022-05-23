@@ -3,35 +3,71 @@ import psycopg2
 import keys
 import random
 
+def generate_users():
+    for i in range(8):
+        doc = {
+            'id':i,
+            'name':f'Name_{i}',
+            'password':'1234567',
+            'age':random.randint(16,70),
+            'rate':random.randint(0,10)
+        }
+        resp = es.index(index="test", id=i, document=doc)
+        print(resp['result'])
 
-conn = psycopg2.connect(dbname="blog", user="app", password="thisispassword")
-curs = conn.cursor()
+def generate_text():
+    list_for_title = [
+        'Love',
+        'Story',
+        'Science',
+        'Music',
+        'Guitar',
+        'Weather',
+        'Kids',
+        'Piano',
+        'Girl',
+        'Kiss',
+        'Dance'
+    ]
 
-host = ''
-port = 0
-dbname = ''
-user = ''
-password = ''
+    list_for_text = [
+        "I love ice cream.",
+        "This is so big.",
+        "This is my homeland.",
+        "New history of this city",
+        "I wanna it this piece of the cake",
+        "This is not big ship, I have seen bigger.",
+        "Interesting information about us.",
+        "I guess we didn't eat it.",
+        "You know this rule.",
+        "This is enough information for this task."
+    ]
 
-es = Elasticsearch(hosts=f"http://{keys.username}:{keys.password}@localhost:9200/")
-
-for i in range(8):
-
-    doc = {
-        'id':i,
-        'name':f'Name_{i}',
-        'password':'1234567',
-        'age':random.randint(16,70),
-        'rate':random.randint(0,10)
+    return {
+        'title':random.choice(list_for_title),
+        'text': " ".join([random.choice(list_for_text) for i in range(random.randint(2, 4))])
     }
 
-    resp = es.index(index="post", id=i, document=doc)
-    print(resp['result'])
+def generate_post():
+    for i in range(100):
+        text = generate_text()
+        doc = {
+            'id': i,
+            'title': text["title"],
+            'article': text["text"],
+            'author': random.randint(1, 99),
+            'published': random.choice([True, False])
+        }
+        resp = es.index(index="test", id=i, document=doc)
+        print(resp['result'])
 
-es.indices.refresh(index="post")
-
-resp = es.search(index="post", query={"match_all": {}})
-
-print(resp["hits"]["hits"])
-
-# es.info()
+if __name__ == "__main__":
+    conn = psycopg2.connect(dbname="blog", user="app", password="thisispassword")
+    curs = conn.cursor()
+    es = Elasticsearch(hosts=f"http://{keys.username}:{keys.password}@localhost:9200/")
+    generate_post()
+    # generate_users()
+    es.indices.refresh(index="test")
+    resp = es.search(index="test", query={"match_all": {}})
+    print(resp["hits"]["hits"])
+    # es.info()
