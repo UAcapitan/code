@@ -65,9 +65,20 @@ if __name__ == "__main__":
     conn = psycopg2.connect(dbname="blog", user="app", password="thisispassword")
     curs = conn.cursor()
     es = Elasticsearch(hosts=f"http://{keys.username}:{keys.password}@localhost:9200/")
-    generate_post()
+    # generate_post()
     # generate_users()
-    es.indices.refresh(index="test")
-    resp = es.search(index="test", query={"match_all": {}})
-    print(resp["hits"]["hits"])
+    # es.indices.refresh(index="test")
+    query_body = {
+        "query": {
+            "match": {
+                "article": "love"
+            }
+        }
+    }
+    resp = es.search(index="test", body=query_body)
+    
+    for i in resp["hits"]["hits"]:
+        i = i["_source"]
+        print(f"{i['id']}. {i['title']}")
+
     # es.info()
