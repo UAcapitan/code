@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Main page{% endblock %}
+
+{% block content %}
+    <h1>Choose an option</h1>
+    
+    <a href="/to-eng/set">
+        <div class="card">
+            <div class="card-body">
+                Words to English
+            </div>
+        </div>
+    </a>
+
+    <br>
+
+    <a href="/from-eng/set">
+        <div class="card">
+            <div class="card-body">
+                Words from English
+            </div>
+        </div>
+    </a>
+
+    <br>
+
+    <a href="/add-words">
+        <div class="card">
+            <div class="card-body">
+                Add new words
+            </div>
+        </div>
+    </a>
+{% endblock %}

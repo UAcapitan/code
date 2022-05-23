@@ -9,3 +9,7 @@ def hello():
 @app.task
 def text():
     return "Just a text"
+
+@app.task
+def for_test():
+    return "For test app"
