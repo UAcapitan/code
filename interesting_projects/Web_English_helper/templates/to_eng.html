@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Words to Eng{% endblock %}
+
+{% block content %}
+    
+    <form method="POST">
+        <p>{{ rus }}</p>
+        <input type="text" name="answer">
+        <input type="hidden" name="eng" value="{{ eng }}">
+        <input type="hidden" name="rus" value="{{ rus }}">
+        <input type="submit" value="Check" class="btn btn-success">
+    </form>
+
+    {% if exist %}
+        <div>
+            {% if post %}
+                <p class="text-success">{{ right[0] }} - {{ right[1] }}</p>
+            {% else %}
+                <p class="text-success">{{ right[0] }} - {{ right[1] }}</p>
+                <p class="text-danger">{{ wrong[0] }} - {{ wrong[1] }}</p>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}
