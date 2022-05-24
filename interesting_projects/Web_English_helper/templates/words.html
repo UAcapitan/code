@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Words{% endblock %}
+
+{% block content %}
+    <div id="top_x_div" style="width: 800px; height: 500px;"></div>
+
+    <h3>Last words</h3>
+
+    {% for word in words %}
+        <p>{{ word[0] }} - {{ word[1] }}</p>
+    {% endfor %}
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['bar']});
+        google.charts.setOnLoadCallback(drawStuff);
+  
+        function drawStuff() {
+          var data = new google.visualization.arrayToDataTable([
+            ['Move', 'Percentage'],
+            ["05/24/22", 44],
+            ["05/24/22", 44],
+            ["05/24/22", 44],
+            ["05/24/22", 44],
+            ["05/24/22", 44]
+          ]);
+  
+          var options = {
+            width: 800,
+            legend: { position: 'none' },
+            chart: {
+              title: 'Learning English words',
+              subtitle: 'Per a week' },
+            axes: {
+              x: {
+                0: { side: 'top', label: ''}
+              }
+            },
+            bar: { groupWidth: "90%" }
+          };
+  
+          var chart = new google.charts.Bar(document.getElementById('top_x_div'));
+          chart.draw(data, google.charts.Bar.convertOptions(options));
+        };
+  
+    </script>
+
+    
+{% endblock %}

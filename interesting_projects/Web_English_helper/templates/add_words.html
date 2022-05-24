@@ -13,5 +13,10 @@
         <br><br>
         <input type="submit" value="Add new words" class="btn btn-success">
     </form>
-    {{ text }}
+
+    {% if success %}
+        <p class="text-success">{{ text }}</p>
+    {% else %}
+        <p class="text-danger">{{ text }}</p>
+    {% endif %}
 {% endblock %}

@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, session
-import random
 from datetime import date
-import sqlite3
+import random
 from key import KEY
+import sqlite3
 
 app = Flask(__name__)
 app.secret_key = 'web'
@@ -158,22 +158,41 @@ def add_words():
         'text': ''
     }
     if request.method == 'POST':
-        if request.form['password'] == KEY:
-            eng = [i.strip() for i in request.form["english"].split(',')]
-            rus = [i.strip() for i in request.form["russian"].split(',')]
-            if len(eng) == len(rus):
-                new = zip(eng, rus)
-                with sqlite3.connect('english.db') as con:
-                    cur = con.cursor()
-                    for i in new:
-                        cur.execute(f"INSERT INTO words (english, russian) values ('{i[0]}','{i[1]}')")
-                    con.commit()
-                context['text'] = 'Success'
+        try:
+            if request.form['password'] == KEY:
+                eng = [i.strip() for i in request.form["english"].split(',')]
+                rus = [i.strip() for i in request.form["russian"].split(',')]
+                if len(eng) == len(rus):
+                    new = zip(eng, rus)
+                    with sqlite3.connect('english.db') as con:
+                        cur = con.cursor()
+                        for i in new:
+                            cur.execute(f"INSERT INTO words VALUES ('{i[0]}','{i[1]}')")
+                        con.commit()
+                    context['success'] = True
+                    context['text'] = f"Success. Was added {str(len(eng))} words"
+                else:
+                    context['success'] = False
+                    context['text'] = 'Error'
             else:
-                context['text'] = 'Error'
-        else:
-            context['text'] = 'Incorrect password'
+                context['success'] = False
+                context['text'] = 'Incorrect password'
+        except:
+            context['success'] = False
+            context['text'] = 'Error'
     return render_template('add_words.html', **context)
 
+@app.route('/words')
+def words():
+    with sqlite3.connect('english.db') as con:
+        cur = con.cursor()
+        cur.execute("SELECT * FROM words")
+        words = cur.fetchall()
+        words.reverse()
+    context = {
+        'words': words[:50],
+    }
+    return render_template('words.html', **context)
+
 if __name__ == "__main__":
-    app.run(debug=True, port=5012)
+    app.run(debug=True, port=5001)
