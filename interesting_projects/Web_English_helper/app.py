@@ -23,6 +23,27 @@ def to_eng_set():
 def from_eng_set():
     return render_template('from_eng_set.html')
 
+def set_points():
+    today = date.today()
+    t = today.strftime("%m/%d/%y")
+
+    try:
+        points = session['points']
+    except:
+        points = 0
+
+    if 'history' not in session:
+        session['history'] = [[t, points]]
+    else:
+        if session['history'][-1][0] != t:
+            session['history'].append([t, points])
+            print(len(session['history']))
+            if len(session['history']) > 7:
+                del session['history'][0]
+        else:
+            if session['history'][-1][1] != points:
+                session['history'][-1][1] = points
+
 @app.route('/to-eng', methods=['GET', 'POST'])
 def to_eng(limit=0):
     today = date.today()
@@ -47,6 +68,7 @@ def to_eng(limit=0):
                     session["date"] = t
                 else:
                     session["points"] += 1
+            set_points()
 
         else:
             post['right'] = [rus, eng]
@@ -111,6 +133,7 @@ def from_eng(limit=0):
                     session["date"] = t
                 else:
                     session["points"] += 1
+            set_points()
 
         else:
             post['right'] = [eng, rus]
@@ -184,15 +207,22 @@ def add_words():
 
 @app.route('/words')
 def words():
+    set_points()
+    
+    history = session['history']
+    print(history)
+
     with sqlite3.connect('english.db') as con:
         cur = con.cursor()
         cur.execute("SELECT * FROM words")
         words = cur.fetchall()
         words.reverse()
+
     context = {
         'words': words[:50],
+        'history': history
     }
     return render_template('words.html', **context)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5000)
