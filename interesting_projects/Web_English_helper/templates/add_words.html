@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Add words{% endblock %}
+
+{% block content %}
+    <br>
+    <form method="POST">
+        <input type="text" name="english" placeholder="English">
+        <br><br>
+        <input type="text" name="russian" placeholder="Russian">
+        <br><br>
+        <input type="password" name="password" placeholder="Password">
+        <br><br>
+        <input type="submit" value="Add new words" class="btn btn-success">
+    </form>
+    {{ text }}
+{% endblock %}
