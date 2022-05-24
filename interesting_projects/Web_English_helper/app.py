@@ -20,8 +20,7 @@ class Words(db.Model):
         return 'word'
 
 class Date(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.String(50), nullable=False)
+    date = db.Column(db.String(50), primary_key=True)
     points = db.Column(db.Integer, default=1)
 
     def __str__(self):
@@ -41,6 +40,9 @@ def to_eng_set():
 @app.route('/to-eng', methods=['GET', 'POST'])
 def to_eng():
 
+    today = date.today()
+    t = today.strftime("%m/%d/%y")
+
     if request.method == 'POST':
         answer = request.form['answer']
         eng = request.form['eng']
@@ -51,33 +53,54 @@ def to_eng():
         }
         if answer == eng:
             post['right'] = [rus, answer]
-            today = date.today()
-            t = today.strftime("%m/%d/%y")
-            exists = db.session.query(Date.id).filter_by(date=t).first() is not None
+            exists = Date.query.filter_by(date=t).first() is not None
             if not exists:
-                db.session.add(Date(date=t, points=1))
+                db.session.add(Date(date=t))
             else:
                 day = Date.query.filter_by(date=t).first()
                 day.points += 1
+                db.session.add(day)
             db.session.commit()
         else:
             post['right'] = [rus, eng]
             post['wrong'] = [rus, answer]
 
-    
+    # if id == 0:
     word = random.choice(Words.query.all())
+    # else:
+    #     word = random.choice(Words.query.all()[:id])
+
+    try:
+        points = Date.query.filter_by(date=t).first()
+        points = points.points
+    except:
+        points = 0
+    
+    if points < 50:
+        goal = 50
+    elif points >= 50 and points < 150:
+        goal = 150
+    elif points >= 150 and points < 250:
+        goal = 250
+
     context = {
         'eng': word.english,
-        'rus': word.russian
+        'rus': word.russian,
+        'points': points,
+        'goal': goal
     }
 
     if request.method == 'POST':
         return render_template('to_eng.html', **context, **post)
     return render_template('to_eng.html', **context)
 
+@app.route('/from-eng', methods=['GET', 'POST'])
+def from_eng():
+    pass
+
 if __name__ == "__main__":
     # db.session.add(Words(english='try', russian='TRY'))
     # db.session.add(Words(english='video', russian='VIDEO'))
     # db.session.add(Words(english='task', russian='TASK'))
     # db.session.commit()
-    app.run(debug=True, port=5002)
+    app.run(debug=True, port=5007)
