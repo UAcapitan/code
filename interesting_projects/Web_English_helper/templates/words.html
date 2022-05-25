@@ -16,7 +16,7 @@
     <h3>Last 50 words</h3>
 
     {% for word in words %}
-        <p>{{ word[0] }} - {{ word[1] }} <a href="/edit/{{ word[0] }}/{{ word[1] }}">E</a></p>
+        <p><a href="/word/{{ word[0] }}/{{ word[1] }}" class="text-dark text-decoration-none">{{ word[0] }} - {{ word[1] }}</a></p>
     {% endfor %}
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, make_response
+from flask import Flask, redirect, render_template, request, session, make_response
 from datetime import date
 import random
 from key import KEY
@@ -220,18 +220,66 @@ def words():
         words.reverse()
 
     context = {
-        'words': words[:50],
+        'words': words[:300],
         'history': history
     }
     return render_template('words.html', **context)
 
-@app.route('/delete/<string:eng>/<string:rus>')
-def delete(eng, rus):
-    return render_template('delete.html')
+@app.route('/word/<string:eng>/<string:rus>')
+def word(eng, rus):
 
-@app.route('/edit/<string:eng>/<string:rus>')
+    context = {
+        'eng': eng,
+        'rus': rus
+    }
+
+    return render_template('word.html', **context)
+
+@app.route('/edit/<string:eng>/<string:rus>', methods=['GET', 'POST'])
 def edit(eng, rus):
-    return render_template('edit.html')
+
+    context = {
+        'eng': eng,
+        'rus': rus
+    }
+
+    if request.method == 'POST':
+        if request.form['password'] == KEY:
+            english = request.form['english']
+            russian = request.form['russian']
+
+            try:
+                with sqlite3.connect('english.db') as con:
+                    cur = con.cursor()
+
+                    cur.execute(f'''UPDATE words SET english = "{english}", russian = "{russian}"
+                                WHERE english = "{eng}" AND russian = "{rus}"''')
+                return redirect(f"/word/{english}/{russian}")
+            except:
+                context['error'] = 'Error'
+                return render_template('edit.html', **context)
+
+    return render_template('edit.html', **context)
+
+@app.route('/delete/<string:eng>/<string:rus>', methods=['GET', 'POST'])
+def delete(eng, rus):
+
+    context = {
+        'eng': eng,
+        'rus': rus
+    }
+
+    if request.method == 'POST':
+        if request.form['password'] == KEY:
+            try:
+                with sqlite3.connect('english.db') as con:
+                    cur = con.cursor()
+                    cur.execute(f"DELETE FROM words WHERE english = '{eng}' AND russian = '{rus}'")
+                context['success'] = 'Success'
+            except:
+                context['error'] = 'Error'
+
+    return render_template('delete.html', **context)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
