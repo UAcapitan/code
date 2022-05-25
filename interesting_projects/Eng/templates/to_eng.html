@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Words to Eng{% endblock %}
+
+{% block content %}
+    
+    <div class="d-flex justify-content-center">
+        <div>
+            <form method="POST">
+                <p>{{ rus }}</p>
+                <input type="text" name="answer" autofocus="autofocus">
+                <input type="hidden" name="eng" value="{{ eng }}">
+                <input type="hidden" name="rus" value="{{ rus }}">
+                <input type="submit" value="Check" class="btn btn-success">
+            </form>
+
+            <br>
+
+            {% if exist %}
+                <div>
+                    {% if post %}
+                        <p class="text-success">{{ right[0] }} - {{ right[1] }}</p>
+                    {% else %}
+                        <p class="text-success">{{ right[0] }} - {{ right[1] }}</p>
+                        <p class="text-danger">{{ wrong[0] }} - {{ wrong[1] }}</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block points %}
+    <p class="text-center fixed-bottom mt-5 p-5">{{ points }} / {{ goal }}</p>
+{% endblock %}
