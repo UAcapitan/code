@@ -1,11 +1,12 @@
 from flask import Flask, redirect, render_template, request, session
 from datetime import date
 import random
-from key import KEY
 import sqlite3
 
 app = Flask(__name__)
 app.secret_key = 'web'
+
+KEY = 'password'
 
 with sqlite3.connect('english.db') as con:
     cur = con.cursor()
@@ -33,7 +34,8 @@ def set_points():
         points = 0
 
     if 'history' not in session:
-        session['history'] = [[t, points]]
+        session['history'] = [['test', i] for i in range(8)]
+        session['history'].append([t, points])
     else:
         if session['history'][-1][0] != t:
             session['history'].append([t, points])
@@ -208,10 +210,14 @@ def add_words():
 
 @app.route('/words')
 def words():
+    print('Worked')
     set_points()
+
+    print('Test')
     
+    # if sess
     history = session['history']
-    # print(history)
+    print(history)
 
     with sqlite3.connect('english.db') as con:
         cur = con.cursor()
@@ -282,4 +288,4 @@ def delete(eng, rus):
     return render_template('delete.html', **context)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=False)
