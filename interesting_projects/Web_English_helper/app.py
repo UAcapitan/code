@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request, session, make_response
+from flask import Flask, redirect, render_template, request, session
 from datetime import date
 import random
 from key import KEY
