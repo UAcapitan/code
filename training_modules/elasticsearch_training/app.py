@@ -81,4 +81,10 @@ if __name__ == "__main__":
         i = i["_source"]
         print(f"{i['id']}. {i['title']}")
 
+    query_body = {
+        "query": {
+            "match": {}
+        }
+    }
+
     # es.info()
