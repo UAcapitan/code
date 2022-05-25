@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, make_response
 from datetime import date
 import random
 from key import KEY
@@ -38,7 +38,7 @@ def set_points():
         if session['history'][-1][0] != t:
             session['history'].append([t, points])
             print(len(session['history']))
-            if len(session['history']) > 7:
+            if len(session['history']) > 6:
                 del session['history'][0]
         else:
             if session['history'][-1][1] != points:
@@ -67,7 +67,8 @@ def to_eng(limit=0):
                     session["points"] = 1
                     session["date"] = t
                 else:
-                    session["points"] += 1
+                    if session["points"] < 250:
+                        session["points"] += 1
             set_points()
 
         else:
@@ -210,7 +211,7 @@ def words():
     set_points()
     
     history = session['history']
-    print(history)
+    # print(history)
 
     with sqlite3.connect('english.db') as con:
         cur = con.cursor()
@@ -223,6 +224,14 @@ def words():
         'history': history
     }
     return render_template('words.html', **context)
+
+@app.route('/delete/<string:eng>/<string:rus>')
+def delete(eng, rus):
+    return render_template('delete.html')
+
+@app.route('/edit/<string:eng>/<string:rus>')
+def edit(eng, rus):
+    return render_template('edit.html')
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

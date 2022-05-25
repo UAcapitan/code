@@ -3,46 +3,64 @@
 {% block title %}Words{% endblock %}
 
 {% block content %}
-    <div id="top_x_div" style="width: 800px; height: 500px;"></div>
+    <h3>Learning English words</h3>
 
-    <h3>Last words</h3>
+    <div id="top_x_div" style="width: 300px; height: 200px;"></div>
+
+    <p class="d-none" id="history">
+      {% for i in history %}
+        {{ i[0] }} {{ i[1] }},
+      {% endfor %}
+    </p>
+
+    <h3>Last 50 words</h3>
 
     {% for word in words %}
-        <p>{{ word[0] }} - {{ word[1] }}</p>
+        <p>{{ word[0] }} - {{ word[1] }} <a href="/edit/{{ word[0] }}/{{ word[1] }}">E</a></p>
     {% endfor %}
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        google.charts.load('current', {'packages':['bar']});
-        google.charts.setOnLoadCallback(drawStuff);
-  
-        function drawStuff() {
-          var data = new google.visualization.arrayToDataTable([
-            ['Move', 'Percentage'],
-            ["05/24/22", 44],
-            ["05/24/22", 44],
-            ["05/24/22", 44],
-            ["05/24/22", 44],
-            ["05/24/22", 44]
-          ]);
-  
-          var options = {
-            width: 800,
-            legend: { position: 'none' },
-            chart: {
-              title: 'Learning English words',
-              subtitle: 'Last 7 days' },
-            axes: {
-              x: {
-                0: { side: 'top', label: ''}
-              }
-            },
-            bar: { groupWidth: "90%" }
-          };
-  
-          var chart = new google.charts.Bar(document.getElementById('top_x_div'));
-          chart.draw(data, google.charts.Bar.convertOptions(options));
+
+      const history = document.getElementById('history').textContent;
+      var list = history.split(',')
+      var new_list = []
+      for (i in list) {
+        if (i != 0) {
+          new_list.push(list[i].trim())
+        }
+      }
+      new_list.pop()
+
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawStuff);
+
+      var list = []
+
+      list.push(['Word', 'Word', {role: "style"}])
+
+      for (i in new_list) {
+        arr = new_list[i].split(' ')
+        arr[1] = parseInt(arr[1])
+        arr.push('green')
+        list.push(arr)
+      }
+
+      console.log(list)
+
+      function drawStuff() {
+        var data = new google.visualization.arrayToDataTable(list);
+
+        var options = {
+          width: 350,
+          height: 150,
+          legend: { position: 'none' },
+          bar: { groupWidth: "90%" }
         };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('top_x_div'));
+        chart.draw(data, options);
+      };
   
     </script>
 
