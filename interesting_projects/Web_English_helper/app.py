@@ -88,7 +88,11 @@ def to_eng(limit=0):
         else:
             word = random.choice(words[:limit])
 
-    points = session["points"]
+    try:
+        points = session["points"]
+    except:
+        session["points"]
+        points = session["points"]
     
     if points < 50:
         goal = 50
@@ -153,7 +157,11 @@ def from_eng(limit=0):
         else:
             word = random.choice(words[:limit])
 
-    points = session["points"]
+    try:
+        points = session["points"]
+    except:
+        session["points"] = 0
+        points = session["points"]
     
     if points < 50:
         goal = 50
