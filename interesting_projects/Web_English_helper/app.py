@@ -10,9 +10,6 @@ KEY = 'password'
 with sqlite3.connect('english.db') as con:
     cur = con.cursor()
     cur.execute("CREATE TABLE if not exists words (english text, russian text)")
-
-with sqlite3.connect('english.db') as con:
-    cur = con.cursor()
     cur.execute("CREATE TABLE if not exists date (id integer, date text, points integer)")
 
 @app.route('/')
@@ -249,6 +246,9 @@ def edit(eng, rus):
         if request.form['password'] == KEY:
             english = request.form['english']
             russian = request.form['russian']
+
+            if "'" in english:
+                english = english.replace("'", "`")
 
             try:
                 with sqlite3.connect('english.db') as con:
