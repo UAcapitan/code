@@ -91,7 +91,7 @@ def to_eng(limit=0):
     try:
         points = session["points"]
     except:
-        session["points"]
+        session["points"] = 0
         points = session["points"]
     
     if points < 50:
