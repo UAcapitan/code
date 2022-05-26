@@ -60,7 +60,7 @@ def to_eng(limit=0):
             'post': answer.lower() == eng.lower(),
         }
         if answer.lower() == eng.lower():
-            post['right'] = [rus, answer]
+            post['right'] = [rus, answer if eng == answer else answer.lower()]
             if 'points' not in session or 'date' not in session:
                 session["points"] = 1
                 session["date"] = t
@@ -75,7 +75,7 @@ def to_eng(limit=0):
 
         else:
             post['right'] = [rus, eng]
-            post['wrong'] = [rus, answer]
+            post['wrong'] = [rus, answer if eng == answer else answer.lower()]
 
     with sqlite3.connect('english.db') as con:
         cur = con.cursor()
@@ -130,7 +130,7 @@ def from_eng(limit=0):
             'post': answer.lower() == rus.lower(),
         }
         if answer.lower() == rus.lower():
-            post['right'] = [eng, answer]
+            post['right'] = [eng, answer if rus == answer else answer.lower()]
             if 'points' not in session or 'date' not in session:
                 session["points"] = 1
                 session["date"] = t
@@ -144,7 +144,7 @@ def from_eng(limit=0):
 
         else:
             post['right'] = [eng, rus]
-            post['wrong'] = [eng, answer]
+            post['wrong'] = [eng, answer if rus == answer else answer.lower()]
 
     with sqlite3.connect('english.db') as con:
         cur = con.cursor()
@@ -222,8 +222,7 @@ def words():
     set_points()
 
     print('Test')
-    
-    # if sess
+
     history = session['history']
     print(history)
 
