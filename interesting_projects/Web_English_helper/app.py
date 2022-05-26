@@ -12,6 +12,10 @@ with sqlite3.connect('english.db') as con:
     cur = con.cursor()
     cur.execute("CREATE TABLE if not exists words (english text, russian text)")
 
+with sqlite3.connect('english.db') as con:
+    cur = con.cursor()
+    cur.execute("CREATE TABLE if not exists date (id integer, date text, points integer)")
+
 @app.route('/')
 def main():
     return render_template('main.html')
@@ -28,31 +32,57 @@ def set_points():
     today = date.today()
     t = today.strftime("%m/%d/%y")
 
-    try:
-        points = session['points']
-    except:
-        points = 0
+    with sqlite3.connect('english.db') as con:
+        cur = con.cursor()
+        cur.execute(f"SELECT date, points FROM date WHERE date='{t}'")
+        points = 1
+        for i in cur.fetchall():
+            points = i[1] + 1
 
-    if 'history' not in session:
-        session['history'] = [['test', i] for i in range(8)]
-        session['history'].append([t, points])
-    else:
-        if session['history'][-1][0] != t:
-            session['history'].append([t, points])
-            print(len(session['history']))
-            if len(session['history']) > 6:
-                del session['history'][0]
+        if points == 1:
+            cur.execute("SELECT * FROM date")
+            list_ = cur.fetchall()
+            list_.pop(0)
+            cur.execute("DELETE FROM date")
+            for i in range(len(list_)):
+                cur.execute(f"INSERT INTO date (id, date, points) VALUES ({str(i)}, '{list_[i][1]}', 1)")
+            cur.execute(f"INSERT INTO date (id, date, points) VALUES (7, '{t}', 1)")
+            con.commit()
         else:
-            if session['history'][-1][1] != points:
-                session['history'][-1][1] = points
+            if points <= 250:
+                cur.execute(f"UPDATE date SET points={str(points)} WHERE date = '{t}'")
 
+def get_points():
+    today = date.today()
+    t = today.strftime("%m/%d/%y")
+
+    with sqlite3.connect('english.db') as con:
+        cur = con.cursor()
+        cur.execute(f"SELECT date, points FROM date WHERE date='{t}'")
+        points = 0
+        for i in cur.fetchall():
+            points = i[1]
+    return points
+
+def get_goal():
+    points = get_points()
+
+    if points < 50:
+        goal = 50
+    elif points >= 50 and points < 150:
+        goal = 150
+    elif points >= 150 and points <= 250:
+        goal = 250
+    return goal
+        
+        
 @app.route('/to-eng', methods=['GET', 'POST'])
 def to_eng(limit=0):
     today = date.today()
     t = today.strftime("%m/%d/%y")
 
     if request.method == 'POST':
-        answer = request.form['answer']
+        answer = request.form['answer'].strip()
         eng = request.form['eng']
         rus = request.form['rus']
         post = {
@@ -61,18 +91,7 @@ def to_eng(limit=0):
         }
         if answer.lower() == eng.lower():
             post['right'] = [rus, answer if eng == answer else answer.lower()]
-            if 'points' not in session or 'date' not in session:
-                session["points"] = 1
-                session["date"] = t
-            else:
-                if session["date"] != t:
-                    session["points"] = 1
-                    session["date"] = t
-                else:
-                    if session["points"] < 250:
-                        session["points"] += 1
             set_points()
-
         else:
             post['right'] = [rus, eng]
             post['wrong'] = [rus, answer if eng == answer else answer.lower()]
@@ -88,18 +107,8 @@ def to_eng(limit=0):
         else:
             word = random.choice(words[:limit])
 
-    try:
-        points = session["points"]
-    except:
-        session["points"] = 0
-        points = session["points"]
-    
-    if points < 50:
-        goal = 50
-    elif points >= 50 and points < 150:
-        goal = 150
-    elif points >= 150 and points < 250:
-        goal = 250
+    points = get_points()
+    goal = get_goal()
 
     context = {
         'eng': word[0],
@@ -122,7 +131,7 @@ def from_eng(limit=0):
     t = today.strftime("%m/%d/%y")
 
     if request.method == 'POST':
-        answer = request.form['answer']
+        answer = request.form['answer'].strip()
         eng = request.form['eng']
         rus = request.form['rus']
         post = {
@@ -131,17 +140,7 @@ def from_eng(limit=0):
         }
         if answer.lower() == rus.lower():
             post['right'] = [eng, answer if rus == answer else answer.lower()]
-            if 'points' not in session or 'date' not in session:
-                session["points"] = 1
-                session["date"] = t
-            else:
-                if session["date"] != t:
-                    session["points"] = 1
-                    session["date"] = t
-                else:
-                    session["points"] += 1
             set_points()
-
         else:
             post['right'] = [eng, rus]
             post['wrong'] = [eng, answer if rus == answer else answer.lower()]
@@ -157,18 +156,8 @@ def from_eng(limit=0):
         else:
             word = random.choice(words[:limit])
 
-    try:
-        points = session["points"]
-    except:
-        session["points"] = 0
-        points = session["points"]
-    
-    if points < 50:
-        goal = 50
-    elif points >= 50 and points < 150:
-        goal = 150
-    elif points >= 150 and points < 250:
-        goal = 250
+    points = get_points()
+    goal = get_goal()
 
     context = {
         'eng': word[0],
@@ -218,12 +207,9 @@ def add_words():
 
 @app.route('/words')
 def words():
-    set_points()
-
-    history = session['history']
-
     with sqlite3.connect('english.db') as con:
         cur = con.cursor()
+        history = [[i[0], i[1]] for i in cur.execute("SELECT date, points FROM date")]
         cur.execute("SELECT * FROM words")
         words = cur.fetchall()
         words.reverse()
@@ -291,4 +277,4 @@ def delete(eng, rus):
     return render_template('delete.html', **context)
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
