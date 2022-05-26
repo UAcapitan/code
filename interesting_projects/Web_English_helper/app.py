@@ -4,7 +4,6 @@ import random
 import sqlite3
 
 app = Flask(__name__)
-app.secret_key = 'web'
 
 KEY = 'password'
 
