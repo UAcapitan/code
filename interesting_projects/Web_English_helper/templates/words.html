@@ -23,15 +23,13 @@
 
     <br>
 
-      {% for word in words %}
-        <a href="/word/{{ word[0] }}/{{ word[1] }}" class="text-dark text-decoration-none">
-          <div class="d-flex justify-content-center">
-            <div>{{ word[0] }}</div>
-            <div><span>&nbsp;-&nbsp;</span></div>
-            <div>{{ word[1] }}</div>
-          </div>
-        </a>
-      {% endfor %}
+    {% for word in words %}
+      <div class="text-center">
+        <p>
+          <a href="/word/{{ word[0] }}/{{ word[1] }}" class="text-dark text-decoration-none">{{ word[0] }} - {{ word[1] }}</a>
+        </p>
+      </div>
+    {% endfor %}
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
