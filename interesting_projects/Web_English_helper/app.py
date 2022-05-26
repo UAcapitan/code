@@ -218,13 +218,9 @@ def add_words():
 
 @app.route('/words')
 def words():
-    print('Worked')
     set_points()
 
-    print('Test')
-
     history = session['history']
-    print(history)
 
     with sqlite3.connect('english.db') as con:
         cur = con.cursor()
