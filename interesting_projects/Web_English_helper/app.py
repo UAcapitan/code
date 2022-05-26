@@ -57,9 +57,9 @@ def to_eng(limit=0):
         rus = request.form['rus']
         post = {
             'exist': True,
-            'post': answer == eng,
+            'post': answer.lower() == eng.lower(),
         }
-        if answer == eng:
+        if answer.lower() == eng.lower():
             post['right'] = [rus, answer]
             if 'points' not in session or 'date' not in session:
                 session["points"] = 1
@@ -127,9 +127,9 @@ def from_eng(limit=0):
         rus = request.form['rus']
         post = {
             'exist': True,
-            'post': answer == rus,
+            'post': answer.lower() == rus.lower(),
         }
-        if answer == rus:
+        if answer.lower() == rus.lower():
             post['right'] = [eng, answer]
             if 'points' not in session or 'date' not in session:
                 session["points"] = 1
