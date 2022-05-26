@@ -106,6 +106,9 @@ def to_eng(limit=0):
         else:
             word = random.choice(words[:limit])
 
+    if '`' in word[0]:
+        word[0] = word[0].replace("`", "'")
+
     points = get_points()
     goal = get_goal()
 
@@ -155,6 +158,9 @@ def from_eng(limit=0):
         else:
             word = random.choice(words[:limit])
 
+    if '`' in word[0]:
+        word[0] = word[0].replace("`", "'")
+
     points = get_points()
     goal = get_goal()
 
@@ -189,6 +195,8 @@ def add_words():
                     with sqlite3.connect('english.db') as con:
                         cur = con.cursor()
                         for i in new:
+                            if "'" in i[0]:
+                                i[0] = i[0].replace("'", "`")
                             cur.execute(f"INSERT INTO words VALUES ('{i[0]}','{i[1]}')")
                         con.commit()
                     context['success'] = True
