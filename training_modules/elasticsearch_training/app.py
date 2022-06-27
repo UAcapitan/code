@@ -81,10 +81,20 @@ if __name__ == "__main__":
         i = i["_source"]
         print(f"{i['id']}. {i['title']}")
 
-    query_body = {
+    new_query_body = {
         "query": {
-            "match": {}
+            "match": {
+                "article": "this"
+            }
         }
     }
+    
+    new_resp = es.search(index="test", body=new_query_body)
+
+    list_ = resp["hits"]["hits"]
+
+    for i in list_:
+        i = i["_source"]
+        print(f"{i['id']}. {i['title']}")
 
     # es.info()
