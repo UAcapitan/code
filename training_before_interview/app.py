@@ -20,8 +20,8 @@ def coroutine():
         if not n:
             print('Worked')
 
-cor = coroutine()
-next(cor)
-cor.send(True)
-cor.send(True)
-cor.send(False)
+# cor = coroutine()
+# next(cor)
+# cor.send(True)
+# cor.send(True)
+# cor.send(False)
