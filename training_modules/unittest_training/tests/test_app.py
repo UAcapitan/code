@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 import unittest
 from unittest import TestCase
 import sys
@@ -28,7 +29,22 @@ class CalculatorTest(TestCase):
     def test_no_signs(self):
         with self.assertRaises(ValueError) as e:
             calculator('just a test')
-        self.assertEqual('Incorrect data', e.exception.args[0])
+            self.assertEqual('Incorrect data', e.exception.args[0])
+
+        with self.assertRaises(TypeError) as e:
+            calculator('just a test', '')
+            error = 'TypeError: calculator() takes 1 positional argument but 2 were given'
+            self.assertEqual(error, e.exception.args[0])
+
+        with self.assertRaises(TypeError) as e:
+            calculator([[], '+', 30])
+            error = "TypeError: int() argument must be a string, a bytes-like object or a real number, not 'list'"
+            self.assertEqual(error, e.exception.args[0])
+
+        with self.assertRaises(ValueError) as e:
+            calculator([20, '%', 30])
+            error = "Incorrect symbol"
+            self.assertEqual(error, e.exception.args[0])
 
 if __name__ == '__main__':
     unittest.main()

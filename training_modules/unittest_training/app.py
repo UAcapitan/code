@@ -7,9 +7,11 @@ def calculator(e):
         raise ValueError('Incorrect type of data')
     if sym == '+':
         return a + b
-    if sym == '-':
+    elif sym == '-':
         return a - b
-    if sym == '*':
+    elif sym == '*':
         return a * b
-    if sym == '/':
+    elif sym == '/':
         return a / b
+    else:
+        raise ValueError('Incorrect symbol')
