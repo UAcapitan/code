@@ -67,3 +67,21 @@ class Test:
 
 # test = Test({'a':'a', 'b':'b', 'c':'c'})
 # print(test['a'])
+
+import os
+
+# os.system('echo Hello world;')
+# os.system('echo Test;')
+
+def test(f):
+    def wrapTest():
+        print('This is work')
+        f()
+        print("This is end")
+    return wrapTest
+
+@test
+def new_test():
+    print('I am working')
+
+new_test()
