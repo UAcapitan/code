@@ -120,3 +120,8 @@ task2 = multiprocessing.Process(target=task)
 
 # task1.start()
 # task2.start()
+
+import threading
+
+task1 = threading.Thread(target=task)
+task2 = threading.Thread(target=task)
