@@ -102,5 +102,6 @@ list_ = [
     itertools.zip_longest('ABCD', 'xy', fillvalue='-')
 ]
 
-for i in list_:
-    print(list(i))
+# for i in list_:
+#     print(list(i))
+
