@@ -11,5 +11,5 @@ def task():
 task1 = multiprocessing.Process(target=task)
 task2 = multiprocessing.Process(target=task)
 
-# task1.start()
-# task2.start()
+task1.start()
+task2.start()

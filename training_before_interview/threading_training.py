@@ -10,7 +10,6 @@ def task():
 
 task1 = threading.Thread(target=task)
 task2 = threading.Thread(target=task)
-# task3 = threading.Thread()
 
-# task1.start()
-# task2.start()
+task1.start()
+task2.start()
