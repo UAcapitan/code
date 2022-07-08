@@ -1,4 +1,3 @@
-from cgi import test
 import unittest
 from parameterized import parameterized
 
@@ -41,7 +40,6 @@ class Tests(unittest.TestCase):
     ])
     def test4(self, a, b):
         self.assertEqual(tested_function(a), b)
-    
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main(exit=False)
