@@ -1,4 +1,6 @@
+from cgi import test
 import unittest
+from parameterized import parameterized
 
 def tested_function(string=''):
     if string:
@@ -31,6 +33,15 @@ class Tests(unittest.TestCase):
 
         with self.assertRaises(Exception):
             tested_function({'1': 'test'})
+
+    @parameterized.expand([
+        ['My work', 'Work my'],
+        ['Story love', 'Love story'],
+        ['New history line', 'Line history new']
+    ])
+    def test4(self, a, b):
+        self.assertEqual(tested_function(a), b)
+    
 
 if __name__ == "__main__":
     unittest.main()
