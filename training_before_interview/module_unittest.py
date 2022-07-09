@@ -1,5 +1,6 @@
 import unittest
 from parameterized import parameterized
+import mock
 
 def tested_function(string=''):
     if string:
@@ -7,7 +8,18 @@ def tested_function(string=''):
     else:
         raise Exception('Empty field error')
 
+def test_function():
+    raise Exception('Empty field error')
+
 class Tests(unittest.TestCase):
+
+    n = None
+
+    @classmethod
+    def setUpClass(cls):
+        cls.n = 5
+        print('Started\n')
+
     def test1(self):
         self.assertEqual(tested_function('Hello world'), 'World hello')
         self.assertEqual(tested_function('I love you'), 'You love i')
@@ -40,6 +52,17 @@ class Tests(unittest.TestCase):
     ])
     def test4(self, a, b):
         self.assertEqual(tested_function(a), b)
+
+    @mock.patch('module_unittest.test_function')
+    def test5(self, mock_test):
+        tested_function('Hi friend')
+        pass
+
+
+    @classmethod
+    def tearDownClass(cls):
+        del cls.n
+        print('\n\nFinished')
 
 if __name__ == "__main__":
     unittest.main(exit=False)
