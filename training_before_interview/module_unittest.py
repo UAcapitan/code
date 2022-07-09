@@ -7,10 +7,10 @@ def test_function():
     return 'String'
 
 def tested_function(string=''):
-    if string:
-        return ' '.join(string.lower().split()[::-1]).capitalize()
-    elif string == 'string':
+    if string == 'string':
         return test_function()
+    elif string:
+        return ' '.join(string.lower().split()[::-1]).capitalize()
     else:
         raise Exception('Empty field error')
 
