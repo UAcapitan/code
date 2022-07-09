@@ -15,11 +15,8 @@ def tested_function(string=''):
 
 class Tests(unittest.TestCase):
 
-    n = None
-
     @classmethod
     def setUpClass(cls):
-        cls.n = 5
         print('Started\n')
 
     def test1(self):
@@ -62,7 +59,6 @@ class Tests(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        del cls.n
         print('\n\nFinished')
 
 if __name__ == "__main__":
