@@ -1,7 +1,6 @@
-from importlib.resources import path
 import unittest
-from unittest.mock import patch
 from parameterized import parameterized
+import mock
 
 def test_function():
     return 'String'
@@ -56,11 +55,10 @@ class Tests(unittest.TestCase):
     def test4(self, a, b):
         self.assertEqual(tested_function(a), b)
 
-    def test5(self):
-        with patch("module_unittest.test_function") as context:
-            context.return_value = 'Text'
-
-            self.assertEqual(tested_function('string'), 'Text')
+    @mock.patch("module_unittest.test_function")
+    def test5(self, context):
+        context.return_value = 'Text'
+        self.assertEqual(tested_function('string'), 'Text')
 
     @classmethod
     def tearDownClass(cls):
