@@ -1,15 +1,18 @@
+from importlib.resources import path
 import unittest
+from unittest.mock import patch
 from parameterized import parameterized
-import mock
+
+def test_function():
+    return 'String'
 
 def tested_function(string=''):
     if string:
         return ' '.join(string.lower().split()[::-1]).capitalize()
+    elif string == 'string':
+        return test_function()
     else:
         raise Exception('Empty field error')
-
-def test_function():
-    raise Exception('Empty field error')
 
 class Tests(unittest.TestCase):
 
@@ -53,11 +56,11 @@ class Tests(unittest.TestCase):
     def test4(self, a, b):
         self.assertEqual(tested_function(a), b)
 
-    @mock.patch('module_unittest.test_function')
-    def test5(self, mock_test):
-        tested_function('Hi friend')
-        pass
+    def test5(self):
+        with patch("module_unittest.test_function") as context:
+            context.return_value = 'Text'
 
+            self.assertEqual(tested_function('string'), 'Text')
 
     @classmethod
     def tearDownClass(cls):
