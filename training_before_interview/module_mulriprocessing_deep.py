@@ -21,3 +21,5 @@ if __name__ == "__main__":
 
     for i in p:
         i.start()
+
+    print(q.get())
