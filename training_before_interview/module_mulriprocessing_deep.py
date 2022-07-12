@@ -1,3 +1,4 @@
+from audioop import mul
 import multiprocessing
 import time
 import random
@@ -11,6 +12,7 @@ def calculate(a,b):
         print("-"*7)
 
 if __name__ == "__main__":
+    q = multiprocessing.Queue()
     p = [
         multiprocessing.Process(target=calculate, args=(2,1)),
         multiprocessing.Process(target=calculate, args=(3,4)),
