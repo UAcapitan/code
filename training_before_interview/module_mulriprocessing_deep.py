@@ -5,11 +5,11 @@ import random
 
 def calculate(a,b):
     n = random.randint(1,11)
-    while True:
-        time.sleep(n)
-        print(f"Time sleep: {str(n)}")
-        print(f"{str(a)} + {str(b)} = {str(a+b)}")
-        print("-"*7)
+    # while True:
+    time.sleep(n)
+    print(f"Time sleep: {str(n)}")
+    print(f"{str(a)} + {str(b)} = {str(a+b)}")
+    print("-"*7)
 
 if __name__ == "__main__":
     q = multiprocessing.Queue()
@@ -21,5 +21,6 @@ if __name__ == "__main__":
 
     for i in p:
         i.start()
+        i.join()
 
     print(q.get())
