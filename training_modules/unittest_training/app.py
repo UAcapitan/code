@@ -1,3 +1,6 @@
+import unittest
+from parameterized import parameterized
+
 def calculator(e):
     if len(e) != 3:
         raise ValueError('Incorrect data')
@@ -15,3 +18,16 @@ def calculator(e):
         return a / b
     else:
         raise ValueError('Incorrect symbol')
+
+class Tests(unittest.TestCase):
+    @parameterized.expand([
+        [[1, "+", 2], 3],
+        [[1, "*", 10], 10],
+        [[7, "-", 4], 3],
+        [[9, "/", 3], 3.0]
+    ])
+    def test_calculator(self, a, b):
+        self.assertEqual(calculator(a), b)
+
+if __name__ == "__main__":
+    unittest.main()
