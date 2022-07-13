@@ -29,5 +29,13 @@ class Tests(unittest.TestCase):
     def test_calculator(self, a, b):
         self.assertEqual(calculator(a), b)
 
+    def test_raise_value(self):
+        with self.assertRaises(ValueError) as e:
+            calculator('text')
+    
+    def test_raise_type(self):
+        with self.assertRaises(TypeError) as e:
+            calculator('text', '')
+
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main() #pragma: no cover
