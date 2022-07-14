@@ -8,12 +8,6 @@ task_names = [
     'Donald',
     'John',
     'Ira',
-    # 'John Jr.',
-    # 'Nikita',
-    # 'Anna',
-    # 'Angela',
-    # 'Jack',
-    # 'Teodor',
 ]
 
 texts = [
@@ -30,7 +24,7 @@ items = [
     'wheat',
     'carrot',
     'potato',
-    # 'grass',
+    'grass',
     'onion',
     'cucumber',
 ]

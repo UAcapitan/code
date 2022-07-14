@@ -102,7 +102,6 @@ class PixelFarm:
             'seeds_of_potato': 3,
             'seeds_of_grass': 3,
             'seeds_of_onion': 5,
-            'seeds_of_tomato': 5,
         }
 
         self.shop_items_list = [i for i in self.shop_items_dict]
@@ -375,13 +374,14 @@ class PixelFarm:
                 y += 64
 
     def draw_farm_creative(self, x: int, y: int, w: int, h: int) -> None:
-        for i in self.creative_recipes:
-            image = pygame.image.load(f"src/characters/{i}.png")
-            rect = pygame.Rect(x + 70, y + y1, 128, 128)
-            self.screen.blit(image, rect)
-            font = pygame.font.SysFont('Comic Sanc MS', 24)
-            self.screen.blit(font.render(f"{i['name']}", False, BLACK), (x + 250, y + y1 + 10))
-            y1 += 10
+        pass
+        # for i in self.creative_recepies:
+        #     image = pygame.image.load(f"src/characters/{i}.png")
+        #     rect = pygame.Rect(x + 70, y + y1, 128, 128)
+        #     self.screen.blit(image, rect)
+        #     font = pygame.font.SysFont('Comic Sanc MS', 24)
+        #     self.screen.blit(font.render(f"{i['name']}", False, BLACK), (x + 250, y + y1 + 10))
+        #     y1 += 10
 
     def draw_information_window(self) -> None:
         pygame.draw.rect(self.screen, WHITE, 
@@ -606,9 +606,6 @@ class PixelFarm:
         elif item == 'seeds_of_cucumber':
             self.click_to_plant('cucumber', 130)
 
-        elif item == 'seeds_of_tomato':
-            self.click_to_plant('tomato', 140)
-
     def click_at_field(self, event) -> None:
         for i in self.elements_on_map:
                 if isinstance(i, Field):
@@ -699,28 +696,23 @@ class PixelFarm:
             'shovel',
             'loupe',
             'pickaxe',
-            # 'seeds_of_wheat',
-            # 'seeds_of_carrot',
-            # 'seeds_of_potato',
-            # 'seeds_of_grass',
-            # 'seeds_of_onion',
-            # 'seeds_of_cucumber',
-            # 'wheat',
-            # 'carrot',
-            # 'potato',
-            # 'grass',
-            # 'onion',
-            # 'cucumber',
+            'seeds_of_wheat',
+            'seeds_of_carrot',
             'seeds_of_potato',
-            'seeds_of_tomato',
-            'seeds_of_beet',
-            'seeds_of_peas',
+            'seeds_of_grass',
+            'seeds_of_onion',
+            'seeds_of_cucumber',
         ]
 
         self.inventory_count = [
             -1,
             -1,
             -1,
+            1,
+            1,
+            1,
+            1,
+            1,
             1,
         ]
 
