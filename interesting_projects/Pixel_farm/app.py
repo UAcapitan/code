@@ -7,7 +7,6 @@ import random
 import jsonpickle
 import collections
 import os
-from json import JSONEncoder
 from typing import Union
 
 # Special app modules
@@ -102,6 +101,7 @@ class PixelFarm:
             'seeds_of_potato': 3,
             'seeds_of_grass': 3,
             'seeds_of_onion': 5,
+            'stone': 0
         }
 
         self.shop_items_list = [i for i in self.shop_items_dict]
@@ -121,6 +121,16 @@ class PixelFarm:
                 "wood": 3,
                 "stone": 2,
                 "energy": 25
+            },
+            "bakery": {
+                "stone": 25,
+                "wood": 5,
+                "energy": 40
+            },
+            "bazar": {
+                "wood": 15,
+                "stone": 15,
+                "energy": 50
             }
         }
 
