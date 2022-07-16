@@ -744,9 +744,10 @@ class PixelFarm:
             if coordinates:
                 self.elements_on_map.append(Bush('src/bushes/1.png', coordinates[0], coordinates[1], 5))
 
-        # TODO do it later
-
-        # Later
+        for i in range(random.randint(3, 25)):
+            coordinates = self.generate_two_coordinates()
+            if coordinates:
+                self.elements_on_map.append(Tree('src/trees/1.png', coordinates[0], coordinates[1], 5))
 
         self.timer_task = time.time()
 
