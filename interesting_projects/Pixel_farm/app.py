@@ -467,8 +467,16 @@ class PixelFarm:
                 else:
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
-                            self.save_game()
-                            self.menu = True
+                            if True in [
+                                self.farm_window,
+                                self.information_window
+                            ]:
+                                self.farm_window = False
+                                self.information_window = False
+                                self.main_screen = True
+                            else:
+                                self.save_game()
+                                self.menu = True
 
                 if self.main_screen:
                     if event.type == pygame.KEYDOWN:
