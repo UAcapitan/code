@@ -140,6 +140,8 @@ class PixelFarm:
 
         self.element_for_information = {}
 
+        self.inventory_window = False
+
     # Main game logic
     def run(self) -> None:
         '''
@@ -183,6 +185,9 @@ class PixelFarm:
             else:
                 self.draw_inventory()
                 self.draw_status_player()
+
+        if self.inventory_window:
+            self.draw_inventory_window()
 
         # Updating of screen
         pygame.display.update()
@@ -415,6 +420,22 @@ class PixelFarm:
             self.screen.blit(text, (300, 180 + y1))
             y1 += 30
 
+    def draw_inventory_window(self) -> None:
+        pygame.draw.rect(self.screen, WHITE, 
+            pygame.Rect(0, 0, self.screen_size[0], self.screen_size[1])
+        )
+        inventory = []
+        inventory.extend(self.inventory)
+        inventory.extend(self.special_inventory)
+        x = 20
+        w = (self.screen_size[0] - 40) / 10
+        for i in inventory:
+            image = pygame.image.load(f"src/items/{i}.png")
+            rect = image.get_rect()
+            rect.center = (x + w / 2, 70)
+            self.screen.blit(image, rect)
+            x += w
+
     def draw_exit_button(self, x: int, y: int) -> None:
         image = pygame.image.load("src/buttons/exit.png")
         rect = image.get_rect()
@@ -511,6 +532,15 @@ class PixelFarm:
                                 self.change_button_in_farm_window(2)
                             elif event.key == pygame.K_3:
                                 self.change_button_in_farm_window(3)
+                            
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_i:
+                        if self.inventory_window:
+                            self.inventory_window = False
+                            self.main_screen = True
+                        else:
+                            self.inventory_window = True
+                            self.main_screen = False
 
                 self.check_moving_map()
                 self.click_with_mouse(event)
