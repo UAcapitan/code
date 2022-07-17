@@ -431,7 +431,7 @@ class PixelFarm:
         inventory.extend(self.special_inventory)
         inventory_count.extend(self.inventory_count)
         inventory_count.extend(self.special_inventory_count)
-        x = 20
+        x = 35
         w = (self.screen_size[0] - 40) / 10
         y = 70
         counter = 0
@@ -444,9 +444,8 @@ class PixelFarm:
             counter += 1
             if counter == 10:
                 y += 110
-                x = 20
+                x = 35
                 counter = 0
-        
 
     def draw_exit_button(self, x: int, y: int) -> None:
         image = pygame.image.load("src/buttons/exit.png")
@@ -773,6 +772,14 @@ class PixelFarm:
             1,
             1,
             1,
+            1,
+        ]
+
+        self.special_inventory = [
+            "cucumber"
+        ]
+
+        self.special_inventory_count = [
             1,
         ]
 
