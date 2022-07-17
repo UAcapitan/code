@@ -84,6 +84,8 @@ class PixelFarm:
 
         self.special_inventory = []
 
+        self.special_inventory_count = []
+
         self.energy = 100
         self.energy_time_point = time.time()
 
@@ -424,17 +426,27 @@ class PixelFarm:
         pygame.draw.rect(self.screen, WHITE, 
             pygame.Rect(0, 0, self.screen_size[0], self.screen_size[1])
         )
-        inventory = []
+        inventory, inventory_count = [], []
         inventory.extend(self.inventory)
         inventory.extend(self.special_inventory)
+        inventory_count.extend(self.inventory_count)
+        inventory_count.extend(self.special_inventory_count)
         x = 20
         w = (self.screen_size[0] - 40) / 10
+        y = 70
+        counter = 0
         for i in inventory:
             image = pygame.image.load(f"src/items/{i}.png")
             rect = image.get_rect()
-            rect.center = (x + w / 2, 70)
+            rect.center = (x + w / 2, y)
             self.screen.blit(image, rect)
             x += w
+            counter += 1
+            if counter == 10:
+                y += 110
+                x = 20
+                counter = 0
+        
 
     def draw_exit_button(self, x: int, y: int) -> None:
         image = pygame.image.load("src/buttons/exit.png")
