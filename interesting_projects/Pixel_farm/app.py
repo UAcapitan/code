@@ -146,6 +146,8 @@ class PixelFarm:
 
         self.inventory_item = -1
 
+        self.inventory_list = None
+
     # Main game logic
     def run(self) -> None:
         '''
@@ -441,17 +443,22 @@ class PixelFarm:
         if self.inventory_item != -1:
             pygame.draw.rect(self.screen, GREEN, 
                 pygame.Rect(
-                    (x + self.inventory_item * 64) + 7,
+                    (x + (self.inventory_item * w)),
                     y - 25,
                     w - 7,
                     78
                 )
             )
+
+        if not self.inventory_list:
+            list_ = []
         
         for i in inventory:
             image = pygame.image.load(f"src/items/{i}.png")
             rect = image.get_rect()
             rect.center = (x + w / 2, y)
+            if not self.inventory_list:
+                list_.append(rect)
             self.screen.blit(image, rect)
             x += w
             counter += 1
@@ -459,6 +466,9 @@ class PixelFarm:
                 y += 110
                 x = 35
                 counter = 0
+        
+        if not self.inventory_list:
+            self.inventory_list = list_
 
     def draw_exit_button(self, x: int, y: int) -> None:
         image = pygame.image.load("src/buttons/exit.png")
@@ -566,7 +576,6 @@ class PixelFarm:
                         else:
                             self.inventory_window = True
                             self.main_screen = False
-                            self.inventory_item = 0
 
                 self.check_moving_map()
                 self.click_with_mouse(event)
@@ -707,6 +716,9 @@ class PixelFarm:
 
                 self.click_exit_from_information_window(event)
 
+                if self.inventory_window:
+                    self.click_in_inventory(event)
+
         self.click_on_tasks(event)
         self.click_on_item_in_shop(event)
 
@@ -755,6 +767,12 @@ class PixelFarm:
             if pygame.Rect(20 + self.screen_size[0] - 90, 20, 50, 50).collidepoint(event.pos):
                 self.information_window = False
 
+    def click_in_inventory(self, event) -> None:
+        if self.inventory_list:
+            for i in range(len(self.inventory_list)):
+                if self.inventory_list[i].collidepoint(pygame.mouse.get_pos()):
+                    self.inventory_item = i
+
     # Start game
     def new_game(self) -> None:
         self.money = 50
@@ -776,12 +794,14 @@ class PixelFarm:
             'seeds_of_grass',
             'seeds_of_onion',
             'seeds_of_cucumber',
+            'stone'
         ]
 
         self.inventory_count = [
             -1,
             -1,
             -1,
+            1,
             1,
             1,
             1,
