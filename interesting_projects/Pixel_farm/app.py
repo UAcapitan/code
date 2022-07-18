@@ -144,6 +144,8 @@ class PixelFarm:
 
         self.inventory_window = False
 
+        self.inventory_item = -1
+
     # Main game logic
     def run(self) -> None:
         '''
@@ -431,10 +433,21 @@ class PixelFarm:
         inventory.extend(self.special_inventory)
         inventory_count.extend(self.inventory_count)
         inventory_count.extend(self.special_inventory_count)
-        x = 35
+        x = 20
         w = (self.screen_size[0] - 40) / 10
         y = 70
         counter = 0
+        
+        if self.inventory_item != -1:
+            pygame.draw.rect(self.screen, GREEN, 
+                pygame.Rect(
+                    (x + self.inventory_item * 64) + 7,
+                    y - 25,
+                    w - 7,
+                    78
+                )
+            )
+        
         for i in inventory:
             image = pygame.image.load(f"src/items/{i}.png")
             rect = image.get_rect()
@@ -549,9 +562,11 @@ class PixelFarm:
                         if self.inventory_window:
                             self.inventory_window = False
                             self.main_screen = True
+                            self.inventory_item = -1
                         else:
                             self.inventory_window = True
                             self.main_screen = False
+                            self.inventory_item = 0
 
                 self.check_moving_map()
                 self.click_with_mouse(event)
