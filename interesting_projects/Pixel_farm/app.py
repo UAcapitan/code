@@ -470,6 +470,9 @@ class PixelFarm:
         if not self.inventory_list:
             self.inventory_list = list_
 
+        self.inventory_all = inventory
+        self.inventory_count_all = inventory_count
+
     def draw_exit_button(self, x: int, y: int) -> None:
         image = pygame.image.load("src/buttons/exit.png")
         rect = image.get_rect()
@@ -770,8 +773,25 @@ class PixelFarm:
     def click_in_inventory(self, event) -> None:
         if self.inventory_list:
             for i in range(len(self.inventory_list)):
-                if self.inventory_list[i].collidepoint(pygame.mouse.get_pos()):
-                    self.inventory_item = i
+                if self.inventory_list[i].collidepoint(event.pos):
+                    if not self.exchange_items(i):
+                        self.inventory_item = i
+                    else:
+                        self.inventory_item = -1
+
+
+    # Exchange places of items
+    def exchange_items(self, n: int) -> None:
+        if self.inventory_item != -1:
+            self.inventory_all[self.inventory_item], self.inventory_all[n] = self.inventory_all[n], self.inventory_all[self.inventory_item]
+            self.inventory = self.inventory_all[0:9]
+            self.special_inventory = self.inventory_all[9:]
+
+            self.inventory_count_all[self.inventory_item], self.inventory_count_all[n] = self.inventory_count_all[n], self.inventory_count_all[self.inventory_item]
+            self.inventory_count = self.inventory_count_all[0:9]
+            self.special_inventory_count = self.inventory_count_all[9:]
+            return True
+        return False
 
     # Start game
     def new_game(self) -> None:
