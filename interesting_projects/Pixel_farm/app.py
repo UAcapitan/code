@@ -181,7 +181,7 @@ class PixelFarm:
         for e in self.elements_on_map:
             self.screen.blit(e.image, e.rect)
 
-        self.draw_available_field()
+        self.draw_available_field() #TODO do it later
 
         if self.farm_window:
             self.draw_window(20, 20, self.screen_size[0] - 40, self.screen_size[1] - 40)
@@ -224,7 +224,7 @@ class PixelFarm:
         )
 
     def draw_available_field(self):
-        if self.item == 1:
+        if self.inventory[self.item] == "shovel": #TODO do it later
             if self.check_collision() and self.check_energy(20):
                 image = pygame.image.load('src/fields/00.png')
             else:
@@ -441,14 +441,17 @@ class PixelFarm:
         counter = 0
         
         if self.inventory_item != -1:
+            x_e = self.inventory_item % 9
+            y_e = self.inventory_item // 9
+
             pygame.draw.rect(self.screen, GREEN, 
                 pygame.Rect(
-                    (x + (self.inventory_item * w)),
+                    (x + x_e * (self.inventory_item * w)),
                     y - 25,
-                    w - 7,
+                    y_e * w - 7,
                     78
                 )
-            )
+            ) #TODO do it later
 
         if not self.inventory_list:
             list_ = []
@@ -814,7 +817,8 @@ class PixelFarm:
             'seeds_of_grass',
             'seeds_of_onion',
             'seeds_of_cucumber',
-            'stone'
+            'stone',
+            'potato',
         ]
 
         self.inventory_count = [
@@ -828,10 +832,11 @@ class PixelFarm:
             1,
             1,
             1,
+            1,
         ]
 
         self.special_inventory = [
-            "cucumber"
+            "cucumber",
         ]
 
         self.special_inventory_count = [
