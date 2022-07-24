@@ -11,7 +11,7 @@ bot = telebot.TeleBot(TOKEN)
 def start_bot(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     button1 = types.KeyboardButton('Djinni')
-    button2 = types.KeyboardButton('')
+    button2 = types.KeyboardButton('DOU')
     button3 = types.KeyboardButton('')
     markup.add(button1)
     markup.add(button2)
@@ -71,10 +71,22 @@ def djinni(message):
     markup.add(button3)
     bot.send_message(message.chat.id, 'Keyboard', reply_markup=markup)
 
+def dou(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    button1 = types.KeyboardButton('DOU Junior Python')
+    button2 = types.KeyboardButton('DOU Trainee Python')
+    button3 = types.KeyboardButton('/back')
+    markup.add(button1)
+    markup.add(button2)
+    markup.add(button3)
+    bot.send_message(message.chat.id, 'Keyboard', reply_markup=markup)
+
 @bot.message_handler(content_types=['text'])
 def main(message):
     if message.text == 'Djinni':
         djinni(message)
+    elif message.text == 'DOU':
+        dou(message)
     elif message.text == 'Djinni Junior Python':
         bot.send_message(message.chat.id, parse_djinni("https://djinni.co/jobs/?keywords=Junior+Python", 10))
     elif message.text == 'Djinni Trainee Python':
