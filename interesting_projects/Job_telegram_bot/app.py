@@ -105,6 +105,26 @@ def parse_jooble(url, n=0):
 
     return "\n\n".join(["\n".join(i) for i in vacancies])
 
+def parse_rabota(url, n=0):
+    soup = BeautifulSoup(get_page(url), "html.parser")
+    results = soup.find_all("article", {"data-test-name": "_jobCard"})
+
+    if not results:
+        return 'No vacancies'
+
+    vacancies = []
+
+    if n > 0:
+        results = results[:n]
+
+    for i in results:
+        vacancies.append([
+            
+        ])
+
+    return ''
+    # return "\n\n".join(["\n".join(i) for i in vacancies])
+
 def djinni(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     button1 = types.KeyboardButton('Djinni Junior Python')
@@ -135,6 +155,16 @@ def jooble(message):
     markup.add(button3)
     bot.send_message(message.chat.id, 'Keyboard', reply_markup=markup)
 
+def robota(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    button1 = types.KeyboardButton('Robota Junior Python')
+    button2 = types.KeyboardButton('Robota Trainee Python')
+    button3 = types.KeyboardButton('/back')
+    markup.add(button1)
+    markup.add(button2)
+    markup.add(button3)
+    bot.send_message(message.chat.id, 'Keyboard', reply_markup=markup)
+
 @bot.message_handler(content_types=['text'])
 def main(message):
     if message.text == 'Djinni':
@@ -143,6 +173,9 @@ def main(message):
         dou(message)
     elif message.text == 'Jooble':
         jooble(message)
+    elif message.text == 'Robota':
+        robota(message)
+
     elif message.text == 'Djinni Junior Python':
         bot.send_message(message.chat.id, parse_djinni("https://djinni.co/jobs/?keywords=Junior+Python", 10))
     elif message.text == 'Djinni Trainee Python':
@@ -155,5 +188,11 @@ def main(message):
         bot.send_message(message.chat.id, parse_jooble("https://ua.jooble.org/SearchResult?p=2&rgns=%D0%9A%D0%B8%D1%97%D0%B2&ukw=junior%20python", 10)),
     elif message.text == 'Jooble Trainee Python':
         bot.send_message(message.chat.id, parse_jooble("https://ua.jooble.org/SearchResult?p=2&rgns=%D0%9A%D0%B8%D1%97%D0%B2&ukw=trainee%20python", 10))
+    elif message.text == 'Rabota Junior Python':
+        bot.send_message(message.chat.id, parse_rabota("https://rabota.ua/ua/zapros/junior-python/%D0%BA%D0%B8%D0%B5%D0%B2", 10)),
+    elif message.text == 'Rabota Trainee Python':
+        bot.send_message(message.chat.id, parse_rabota("https://ua.jooble.org/SearchResult?p=2&rgns=%D0%9A%D0%B8%D1%97%D0%B2&ukw=trainee%20python", 10))
 
-bot.polling(none_stop=True)
+print(parse_rabota('https://rabota.ua/ua/zapros/junior-python/%D0%BA%D0%B8%D0%B5%D0%B2'))
+
+# bot.polling(none_stop=True)
