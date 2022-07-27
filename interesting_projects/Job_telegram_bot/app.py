@@ -1,4 +1,3 @@
-from unittest import result
 import telebot
 import requests
 from bs4 import BeautifulSoup
@@ -11,7 +10,16 @@ bot = telebot.TeleBot(TOKEN)
 buttons = {
     'Djinni': ['Djinni Junior Python', 'Djinni Trainee Python'],
     'DOU': ['DOU Junior Python', 'DOU Trainee Python'],
-    'Jooble': ['Jooble Junior Python', 'Jooble Junior Python']
+    'Jooble': ['Jooble Junior Python', 'Jooble Trainee Python']
+}
+
+urls = {
+    "Djinni Junior Python": "https://djinni.co/jobs/?keywords=Junior+Python",
+    "Djinni Trainee Python": "https://djinni.co/jobs/?keywords=Trainee+Python",
+    "DOU Junior Python": "https://jobs.dou.ua/vacancies/?search=junior+python",
+    "DOU Trainee Python": "https://jobs.dou.ua/vacancies/?search=trainee+python",
+    "Jooble Junior Python": "https://ua.jooble.org/SearchResult?p=2&rgns=%D0%9A%D0%B8%D1%97%D0%B2&ukw=junior%20python",
+    "Jooble Trainee Python": "https://ua.jooble.org/SearchResult?p=2&rgns=%D0%9A%D0%B8%D1%97%D0%B2&ukw=trainee%20python"
 }
 
 @bot.message_handler(commands=['start', 'back'])
@@ -23,7 +31,7 @@ def start_bot(message):
     markup.add(button1)
     markup.add(button2)
     markup.add(button3)
-    bot.send_message(message.chat.id, 'Keyboard', reply_markup=markup)
+    bot.send_message(message.chat.id, 'Main keyboard', reply_markup=markup)
 
 def get_page(url, headers):
     return requests.get(url, headers=headers).text
@@ -41,31 +49,29 @@ def get_buttons(message, site, buttons):
 
     bot.send_message(message.chat.id, f"{site} buttons", reply_markup=markup)
 
-def parse(message, site, url, n=0):
+def parse(message, site, url):
     headers = {"User-Agent":"Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion"}
     soup = BeautifulSoup(get_page(url, headers), "html.parser")
 
     match site:
         case 'Djinni':
-            list_ = parse_djinni(soup, n)
+            list_ = parse_djinni(soup)
         case 'DOU':
-            list_ = parse_dou(soup, n)
+            list_ = parse_dou(soup)
         case 'Jooble':
-            list_ = parse_jooble(soup, n)
-        case 'Rabota':
-            list_ = parse_rabota(soup, n)
+            list_ = parse_jooble(soup)
 
-    text = "\n\n".join(["\n".join(i) for i in list_])
-    bot.send_message(message.chat.id, text)
+    if not list_:
+        bot.send_message(message.chat.id, 'No vacancies')
+    else:
+        text = "\n\n".join(["\n".join(i) for i in list_])
+        bot.send_message(message.chat.id, text)
 
-def parse_djinni(soup, n):
+def parse_djinni(soup):
     vacancies = []
     results = soup.find_all("li", class_="list-jobs__item")
 
-    if n > 0:
-        results = results[:n]
-
-    for i in results:
+    for i in results[:10]:
         vacancies.append([
             i.find("div", class_="list-jobs__title")
             .find("a", class_="profile").find("span").text,
@@ -82,17 +88,11 @@ def parse_djinni(soup, n):
 
     return vacancies
 
-def parse_dou(soup, n):
+def parse_dou(soup):
     vacancies = []
     results = soup.find_all("div", class_="vacancy")
 
-    if not results:
-        return ['No vacancies']
-
-    if n > 0:
-        results = results[:n]
-
-    for i in results:
+    for i in results[:10]:
         vacancies.append([
             i.find("div", class_="title").find("a").text.replace("\xa0", " "),
             i.find("div", class_="title").find("a")["href"],
@@ -102,41 +102,21 @@ def parse_dou(soup, n):
 
     return vacancies
 
-def parse_jooble(soup, n):
+def parse_jooble(soup):
     vacancies = []
     results = soup.find_all("article", {"data-test-name": "_jobCard"})
 
-    if n > 0:
-        results = results[:n]
-
-    for i in results:
+    for i in results[:10]:
         vacancies.append([
             i.find("header").find("div").find("h2").find("a").text,
 
             i.find("header").find("div").find("h2").find("a")["href"],
 
-            i.find("section").find("div", class_="_15xYk4")
-            .find("div").find("div").find("div").find("p").text,
+            # i.find("section").find("div", class_="_15xYk4")
+            # .find("div").find("div").find("div").find("p").text,
 
-            i.find("section").find("div", class_="_15xYk4")
-            .find("div").find_all("div")[2].find("div").text
-        ])
-
-    return vacancies
-
-def parse_rabota(soup, n):
-    vacancies = []
-    results = soup.find_all("article", {"data-test-name": "_jobCard"})
-
-    if not results:
-        return 'No vacancies'
-
-    if n > 0:
-        results = results[:n]
-
-    for i in results:
-        vacancies.append([
-            
+            # i.find("section").find("div", class_="_15xYk4")
+            # .find("div").find_all("div")[2].find("div").text
         ])
 
     return vacancies
@@ -146,29 +126,7 @@ def main(message):
     if message.text in buttons:
         get_buttons(message, message.text, buttons[message.text])
 
-    match message.text:
-        case 'Djinni Junior Python':
-            parse(message, 'Djinni', "https://djinni.co/jobs/?keywords=Junior+Python", 10)
-
-    if message.text == 'Djinni Junior Python':
-        bot.send_message(message.chat.id, parse_djinni("https://djinni.co/jobs/?keywords=Junior+Python", 10))
-    elif message.text == 'Djinni Trainee Python':
-        bot.send_message(message.chat.id, parse_djinni("https://djinni.co/jobs/?keywords=Trainee+Python"))
-    elif message.text == 'DOU Junior Python':
-        bot.send_message(message.chat.id, parse_dou("https://jobs.dou.ua/vacancies/?search=junior+python"))
-    elif message.text == 'DOU Trainee Python':
-        bot.send_message(message.chat.id, parse_dou("https://jobs.dou.ua/vacancies/?search=trainee+python"))
-    elif message.text == 'Jooble Junior Python':
-        bot.send_message(message.chat.id, 
-        parse_jooble("https://ua.jooble.org/SearchResult?p=2&rgns=%D0%9A%D0%B8%D1%97%D0%B2&ukw=junior%20python", 10))
-    elif message.text == 'Jooble Trainee Python':
-        bot.send_message(message.chat.id, 
-        parse_jooble("https://ua.jooble.org/SearchResult?p=2&rgns=%D0%9A%D0%B8%D1%97%D0%B2&ukw=trainee%20python", 10))
-    elif message.text == 'Rabota Junior Python':
-        bot.send_message(message.chat.id, 
-        parse_rabota("https://rabota.ua/ua/zapros/junior-python/%D0%BA%D0%B8%D0%B5%D0%B2", 10))
-    elif message.text == 'Rabota Trainee Python':
-        bot.send_message(message.chat.id, 
-        parse_rabota("https://rabota.ua/ua/zapros/trainee-python/%D0%BA%D0%B8%D0%B5%D0%B2", 10))
+    if message.text in urls:
+        parse(message, message.text.split()[0], urls[message.text])
 
 bot.polling(none_stop=True)
