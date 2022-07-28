@@ -2,15 +2,17 @@ import telebot
 import requests
 from bs4 import BeautifulSoup
 from telebot import types
+import keys
 
-TOKEN = '5572890027:AAHql6X6xfFayP7aOIjE-2KtGmERBGrI__k'
+TOKEN = keys.TOKEN
 
 bot = telebot.TeleBot(TOKEN)
 
 buttons = {
     'Djinni': ['Djinni Junior Python', 'Djinni Trainee Python'],
     'DOU': ['DOU Junior Python', 'DOU Trainee Python'],
-    'Jooble': ['Jooble Junior Python', 'Jooble Trainee Python']
+    'LinkedIn': ['LinkedIn Junior Python', 'LinkedIn Trainee Python']
+    # 'Jooble': ['Jooble Junior Python', 'Jooble Trainee Python']
 }
 
 urls = {
@@ -18,6 +20,8 @@ urls = {
     "Djinni Trainee Python": "https://djinni.co/jobs/?keywords=Trainee+Python",
     "DOU Junior Python": "https://jobs.dou.ua/vacancies/?search=junior+python",
     "DOU Trainee Python": "https://jobs.dou.ua/vacancies/?search=trainee+python",
+    "LinkedIn Junior Python": "https://www.linkedin.com/jobs/search/?geoId=90010216&keywords=junior%20python&location=Kyiv%20Metropolitan%20Area",
+    "LinkedIn Trainee Python": "https://www.linkedin.com/jobs/search/?geoId=90010216&keywords=trainee%20python&location=Kyiv%20Metropolitan%20Area",
     "Jooble Junior Python": "https://ua.jooble.org/SearchResult?p=2&rgns=%D0%9A%D0%B8%D1%97%D0%B2&ukw=junior%20python",
     "Jooble Trainee Python": "https://ua.jooble.org/SearchResult?p=2&rgns=%D0%9A%D0%B8%D1%97%D0%B2&ukw=trainee%20python"
 }
@@ -58,6 +62,8 @@ def parse(message, site, url):
             list_ = parse_djinni(soup)
         case 'DOU':
             list_ = parse_dou(soup)
+        case 'LinkedIn':
+            list_ = parse_linkedin(soup)
         case 'Jooble':
             list_ = parse_jooble(soup)
 
@@ -98,6 +104,18 @@ def parse_dou(soup):
             i.find("div", class_="title").find("a")["href"],
             i.find("div", class_="title").find("strong").find("a").text.encode("ascii", "ignore").decode(),
             i.find("div", class_="title").find("span").text
+        ])
+
+    return vacancies
+
+def parse_linkedin(soup):
+    vacancies = []
+    results = soup.find_all("li", {"class": "ember-view jobs-search-results__list-item occludable-update p0 relative"})
+    print(results)
+
+    for i in results[:10]:
+        vacancies.append([
+            # i.find
         ])
 
     return vacancies
