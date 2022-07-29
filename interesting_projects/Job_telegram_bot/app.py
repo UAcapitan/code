@@ -32,7 +32,9 @@ urls = {
     "GRC Junior Python": "https://grc.ua/search/vacancy?text=junior+python&from=suggest_post&fromSearchLine=true&area=115",
     "GRC Trainee Python": "https://grc.ua/search/vacancy?text=trainee+python&from=suggest_post&fromSearchLine=true&area=115",
     "Work Junior Python": "https://www.work.ua/jobs-kyiv-junior+python/",
-    "Work Trainee Python": "https://www.work.ua/jobs-kyiv-trainee+python/"
+    "Work Trainee Python": "https://www.work.ua/jobs-kyiv-trainee+python/",
+    "Jobs Junior Python": "https://jobs.ua/vacancy/kiev/rabota-junior-python",
+    "Jobs Trainee Python": "https://jobs.ua/vacancy/kiev/rabota-trainee-python"
 }
 
 
@@ -78,6 +80,8 @@ def parse(message, site, url):
             list_ = parce_grc(soup)
         case 'Work':
             list_ = parce_work(soup)
+        case 'Jobs':
+            list_ = parce_jobs(soup)
 
     if not list_:
         bot.send_message(message.chat.id, 'No vacancies')
@@ -131,7 +135,7 @@ def parse_linkedin(soup):
 
     for i in results[:10]:
         vacancies.append([
-            # i.find
+            
         ])
 
     return vacancies
@@ -175,7 +179,6 @@ def parce_grc(soup):
 def parce_work(soup):
     vacancies = []
     results = soup.find_all("div", {"class": "job-link"})
-    print(results)
 
     for i in results[:10]:
         vacancies.append([
@@ -185,18 +188,21 @@ def parce_work(soup):
             i.find("div", {"class": "add-top-xs"}).find_all("span")[-1].text
         ])
 
-    # TODO this is jobs.ua, not for work.ua
-    # i.find("a", {"class": "b-vacancy__top__title js-item_title"}).text,
-    # i.find("a", {"class": "b-vacancy__top__title js-item_title"})["href"],
-    # i.find("span", {"class": "b-vacancy__tech__item"}).text.strip(),
-    # i.find("span", {"class": "b-vacancy__tech__item b-vacancy__tech__item-city"}).text.strip()
-
     return vacancies
 
-# page = requests.get("https://jobs.ua/vacancy/kiev/rabota-python").text
-# soup = BeautifulSoup(page, "html.parser")
-# results = soup.find_all("li", {"class": "b-vacancy__item js-item_list"})
-# print(results)
+def parce_jobs(soup):
+    vacancies = []
+    results = soup.find_all("li", {"class": "b-vacancy__item js-item_list"})
+
+    for i in results[:10]:
+        vacancies.append([
+            i.find("a", {"class": "b-vacancy__top__title js-item_title"}).text,
+            i.find("a", {"class": "b-vacancy__top__title js-item_title"})["href"],
+            i.find("span", {"class": "b-vacancy__tech__item"}).text.strip(),
+            i.find("span", {"class": "b-vacancy__tech__item b-vacancy__tech__item-city"}).text.strip()
+        ])
+
+    return vacancies
 
 
 
