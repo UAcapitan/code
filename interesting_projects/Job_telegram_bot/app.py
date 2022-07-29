@@ -16,7 +16,8 @@ buttons = {
     'LinkedIn': ['LinkedIn Junior Python', 'LinkedIn Trainee Python'],
     'Jooble': ['Jooble Junior Python', 'Jooble Trainee Python'],
     'GRC': ['GRC Junior Python', 'GRC Trainee Python'],
-    'Work': ['Work Junior Python', 'Work Trainee Python']
+    'Work': ['Work Junior Python', 'Work Trainee Python'],
+    'Jobs': ['Jobs Junior Python', 'Jobs Trainee Python']
 }
 
 urls = {
@@ -173,18 +174,31 @@ def parce_grc(soup):
 
 def parce_work(soup):
     vacancies = []
-    results = soup.find_all("li", {"class": "b-vacancy__item js-item_list"})
+    results = soup.find_all("div", {"class": "job-link"})
     print(results)
 
     for i in results[:10]:
         vacancies.append([
-            i.find("a", {"class": "b-vacancy__top__title js-item_title"}).text,
-            i.find("a", {"class": "b-vacancy__top__title js-item_title"})["href"],
-            i.find("span", {"class": "b-vacancy__tech__item"}).text.strip(),
-            i.find("span", {"class": "b-vacancy__tech__item b-vacancy__tech__item-city"}).text.strip()
+            i.find("h2").text.strip(),
+            "https://www.work.ua" + i.find("h2").find("a")["href"],
+            i.find("div", {"class": "add-top-xs"}).find_all("span")[0].text,
+            i.find("div", {"class": "add-top-xs"}).find_all("span")[-1].text
         ])
 
+    # TODO this is jobs.ua, not for work.ua
+    # i.find("a", {"class": "b-vacancy__top__title js-item_title"}).text,
+    # i.find("a", {"class": "b-vacancy__top__title js-item_title"})["href"],
+    # i.find("span", {"class": "b-vacancy__tech__item"}).text.strip(),
+    # i.find("span", {"class": "b-vacancy__tech__item b-vacancy__tech__item-city"}).text.strip()
+
     return vacancies
+
+# page = requests.get("https://jobs.ua/vacancy/kiev/rabota-python").text
+# soup = BeautifulSoup(page, "html.parser")
+# results = soup.find_all("li", {"class": "b-vacancy__item js-item_list"})
+# print(results)
+
+
 
 
 # Main bot's function
