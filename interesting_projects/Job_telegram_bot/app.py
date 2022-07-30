@@ -135,7 +135,8 @@ def parse_linkedin(soup):
 
     for i in results[:10]:
         vacancies.append([
-            
+            # TODO will do it later
+            # Parse from linekdin with selenium
         ])
 
     return vacancies
@@ -150,12 +151,12 @@ def parse_jooble(soup):
             i.find("header").find("div").find("h2").find("a").text,
 
             i.find("header").find("div").find("h2").find("a")["href"],
+            
+            i.find("section").find("div", class_="_15xYk4")
+            .find("div").find("div").find("div").find("p").text,
 
-            # i.find("section").find("div", class_="_15xYk4")
-            # .find("div").find("div").find("div").find("p").text,
-
-            # i.find("section").find("div", class_="_15xYk4")
-            # .find("div").find_all("div")[2].find("div").text
+            i.find("section").find("div", class_="_15xYk4")
+            .find("div").find_all("div")[2].find("div").text
         ])
 
     return vacancies
