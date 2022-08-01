@@ -12,7 +12,6 @@ from typing import Union
 # Special app modules
 from objects import *
 from tasks import generate_task
-from conversations import generate_conversation
 
 pygame.init()
 pygame.font.init()
@@ -40,6 +39,8 @@ class PixelFarm:
         '''
             Constructor for setting up game
         '''
+
+        #TODO make init with self.new_game
         
         # Set up title
         pygame.display.set_caption('Pixel Farm')
@@ -118,24 +119,6 @@ class PixelFarm:
 
         self.button_in_farm_window = 1
 
-        self.creative_recepies = {
-            'chest': {
-                "wood": 3,
-                "stone": 2,
-                "energy": 25
-            },
-            "bakery": {
-                "stone": 25,
-                "wood": 5,
-                "energy": 40
-            },
-            "bazar": {
-                "wood": 15,
-                "stone": 15,
-                "energy": 50
-            }
-        }
-
         self.buttons_in_shop = []
 
         self.information_window = False
@@ -154,7 +137,7 @@ class PixelFarm:
             Main function of game
         '''
 
-        # Start screen showing
+        #TODO Start screen showing
         # self.show_start_screen()
         self.menu = True
         while True:
@@ -181,7 +164,7 @@ class PixelFarm:
         for e in self.elements_on_map:
             self.screen.blit(e.image, e.rect)
 
-        self.draw_available_field() #TODO do it later
+        self.draw_available_field()
 
         if self.farm_window:
             self.draw_window(20, 20, self.screen_size[0] - 40, self.screen_size[1] - 40)
@@ -199,10 +182,7 @@ class PixelFarm:
         pygame.display.update()
 
     def draw_interface(self) -> None:
-        # Inventory on bottom of screen
         self.inventory_bottom_screen()
-
-        self.tasks()
 
     def draw_energy_line(self) -> None:
         pygame.draw.rect(self.screen, YELLOW, 
@@ -224,7 +204,7 @@ class PixelFarm:
         )
 
     def draw_available_field(self):
-        if self.inventory[self.item] == "shovel": #TODO do it later
+        if self.inventory[self.item-1] == "shovel":
             if self.check_collision() and self.check_energy(20):
                 image = pygame.image.load('src/fields/00.png')
             else:
@@ -235,7 +215,7 @@ class PixelFarm:
             self.screen.blit(image, rect)
 
     def draw_window(self, x: int, y: int, w: int, h: int) -> None:
-        if self.menu == False and self.inventory[self.item] != 'loupe': #TODO do something with it
+        if self.menu == False and self.inventory[self.item] != 'loupe':
             pygame.draw.rect(self.screen, WHITE, pygame.Rect(x, y, w, h))
             self.draw_exit_button(x + w - 10, y + 10)
             self.draw_farm_window_menu(h)
@@ -243,8 +223,6 @@ class PixelFarm:
                 self.draw_task_window(x, y, w, h)
             elif self.button_in_farm_window == 2:
                 self.draw_farm_shop(x, y, w, h)
-            elif self.button_in_farm_window == 3:
-                self.draw_farm_creative(x, y, w, h)
 
     def draw_task_window(self, x: int, y: int, w: int, h: int) -> None:
         self.buttons_tasks = []
@@ -355,7 +333,6 @@ class PixelFarm:
         menu = [
             'tasks',
             'shop',
-            'creative'
         ]
         n = 64 * (self.button_in_farm_window - 1)
         pygame.draw.rect(self.screen, ORANGE, pygame.Rect(20, 20 + n, 64, 64))
@@ -612,6 +589,9 @@ class PixelFarm:
         if self.inventory_count[self.item - 1] == 0:
             del self.inventory[self.item - 1]
             del self.inventory_count[self.item - 1]
+            if len(self.inventory) < 9 and len(self.special_inventory) > 0:
+                self.inventory.append(self.special_inventory[0])
+                del self.special_inventory[0]
 
     def check_moving_map(self) -> None:
         if not self.farm_window:
@@ -759,8 +739,8 @@ class PixelFarm:
                             ind = self.buttons_in_shop.index(i)
                             item = self.shop_items_list[ind]
                             price = self.shop_items_dict[item]
-                            if self.decrease_money(price):
-                                if self.check_inventory(item):
+                            if self.check_inventory(item):
+                                if self.decrease_money(price):
                                     self.add_to_inventory(item)   
 
     def click_exit_from_farm_window(self, event) -> None:
@@ -843,20 +823,20 @@ class PixelFarm:
             1,
         ]
 
-        for i in range(random.randint(0, 100)):
+        for i in range(random.randint(25, 100)):
             coordinates = self.generate_two_coordinates()
             if coordinates:
                 self.elements_on_map.append(Stone('src/stones/1.png', coordinates[0], coordinates[1], 7))
-        for i in range(random.randint(0, 100)):
+        for i in range(random.randint(25, 100)):
             coordinates = self.generate_two_coordinates()
             if coordinates:
                 self.elements_on_map.append(Stone('src/stones/2.png', coordinates[0], coordinates[1], 7))
-        for i in range(random.randint(0, 100)):
+        for i in range(random.randint(25, 100)):
             coordinates = self.generate_two_coordinates()
             if coordinates:
                 self.elements_on_map.append(Stone('src/stones/3.png', coordinates[0], coordinates[1], 5))
 
-        for i in range(random.randint(0, 100)):
+        for i in range(random.randint(15, 100)):
             coordinates = self.generate_two_coordinates()
             if coordinates:
                 self.elements_on_map.append(Bush('src/bushes/1.png', coordinates[0], coordinates[1], 5))
@@ -977,41 +957,6 @@ class PixelFarm:
         self.tasks_list = player_data["tasks_list"]
         self.timer_task = player_data["timer_task"]
         self.item = player_data["item"]
-
-    # Conversations
-    def tasks(self) -> None:
-        # Conditions for tasks
-        if self.level == 0 and self.experience == 0 and time.time() - self.time_point > 30:
-            self.experience += 10
-            self.task = 1
-            self.time_point = time.time()
-
-            # self.show_conversation()
-
-    def next_part_of_conversation(self) -> None:
-        self.part_of_conversation += 1
-
-    def show_conversation(self) -> None:
-        pygame.draw.rect(self.screen, WHITE, 
-            pygame.Rect(0, self.screen_size[1] - 70, self.screen_size[0], self.screen_size[1])
-        )
-        font = pygame.font.SysFont('Comic Sans MS', 24)
-        
-        conversation_list_Max = generate_conversation('Max', 1)
-
-        # Check lenght of list
-        if self.part_of_conversation + 1 == len(conversation_list_Max):
-            self.task = 0
-            self.part_of_conversation == 0
-        
-        # Show phrase of character
-        text = font.render(conversation_list_Max[self.part_of_conversation], False, BLACK)
-        character = Character('src/characters/1.png', 55, self.screen_size[1] - 55)
-        self.screen.blit(
-            character.image,
-            character.rect
-        )
-        self.screen.blit(text, (155, self.screen_size[1] - 45))
 
     # Decreasing
     def decrease_energy(self, n:int) -> bool:

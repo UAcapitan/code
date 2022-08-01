@@ -1,7 +1,6 @@
 from app import pygame
 import random
 
-
 task_names = [
     'Max',
     'Leo',
