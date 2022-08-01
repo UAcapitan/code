@@ -371,16 +371,6 @@ class PixelFarm:
                 n = 0
                 y += 64
 
-    def draw_farm_creative(self, x: int, y: int, w: int, h: int) -> None:
-        pass
-        # for i in self.creative_recepies:
-        #     image = pygame.image.load(f"src/characters/{i}.png")
-        #     rect = pygame.Rect(x + 70, y + y1, 128, 128)
-        #     self.screen.blit(image, rect)
-        #     font = pygame.font.SysFont('Comic Sanc MS', 24)
-        #     self.screen.blit(font.render(f"{i['name']}", False, BLACK), (x + 250, y + y1 + 10))
-        #     y1 += 10
-
     def draw_information_window(self) -> None:
         pygame.draw.rect(self.screen, WHITE, 
             pygame.Rect(20, 20, self.screen_size[0] - 40, self.screen_size[1] - 40)
@@ -562,8 +552,6 @@ class PixelFarm:
 
                 self.check_moving_map()
                 self.click_with_mouse(event)
-
-                # self.click_when_conversation(event)
     
     def check_energy(self, n:int) -> bool:
         if self.energy - n >= 0:
@@ -617,12 +605,6 @@ class PixelFarm:
                         self.menu = False
                 if self.menu_btn3.rect.collidepoint(event.pos):
                         sys.exit()
-
-    def click_when_conversation(self, event) -> None:
-        if self.task > 0:
-            if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        self.next_part_of_conversation()
 
     def click_for_make_field(self) -> None:
         if self.check_collision():
