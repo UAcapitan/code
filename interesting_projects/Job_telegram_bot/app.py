@@ -11,7 +11,8 @@ TOKEN = keys.TOKEN
 bot = telebot.TeleBot(TOKEN)
 
 buttons = {
-    'Djinni': ['Djinni Junior Python', 'Djinni Trainee Python'],
+    "New": "",
+    'Djinni': ['Djinni Python', 'Djinni Junior Python', 'Djinni Trainee Python'],
     'DOU': ['DOU Junior Python', 'DOU Trainee Python'],
     'Work': ['Work Junior Python', 'Work Trainee Python'],
 }
@@ -52,32 +53,30 @@ def get_buttons(message, site, buttons):
     bot.send_message(message.chat.id, f"{site} buttons", reply_markup=markup)
 
 
-def parse(message, site, url, many=False):
+def parse(message, site, url, many=False, n=10):
     headers = {"User-Agent":"Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion"}
-    soup = BeautifulSoup(get_page(url, headers), "html.parser")
+    if not many:
+        soup = BeautifulSoup(get_page(url, headers), "html.parser")
 
     match site:
         case 'Djinni':
-            list_ = parse_djinni(soup)
+            list_ = parse_djinni(soup, n)
         case 'DOU':
-            list_ = parse_dou(soup)
+            list_ = parse_dou(soup, n)
         case 'Work':
-            list_ = parce_work(soup)
+            list_ = parce_work(soup, n)
 
-        case 'Popular':
-            list_ = []
-
+        case 'New':
             for url in [
+                "Djinni Python",
                 "Djinni Junior Python",
                 "Djinni Trainee Python",
                 "DOU Junior Python",
                 "DOU Trainee Python",
-                "GRC Junior Python",
-                "GRC Trainee Python",
-                "Jobs Junior Python"
+                "Work Junior Python",
+                "Work Trainee Python"
             ]:
-                list_.append(parse(message, url.split()[0], urls[url]))
-            print(list_)
+                parse(message, url.split()[0], urls[url], n=3)
     
     if not many:
         if not list_:
@@ -88,7 +87,7 @@ def parse(message, site, url, many=False):
 
 
 # Parsers
-def parse_djinni(soup, n=10):
+def parse_djinni(soup, n):
     vacancies = []
     results = soup.find_all("li", class_="list-jobs__item")
 
@@ -110,7 +109,7 @@ def parse_djinni(soup, n=10):
     return vacancies
 
 
-def parse_dou(soup, n=10):
+def parse_dou(soup, n):
     vacancies = []
     results = soup.find_all("div", class_="vacancy")
 
@@ -125,7 +124,7 @@ def parse_dou(soup, n=10):
     return vacancies
 
 
-def parce_work(soup, n=10):
+def parce_work(soup, n):
     vacancies = []
     results = soup.find_all("div", {"class": "job-link"})
 
@@ -149,8 +148,8 @@ def main(message):
     if message.text in urls:
         parse(message, message.text.split()[0], urls[message.text])
 
-    if message.text == 'From popular sites':
-        parse(message, 'Popular', urls, many=True)
+    if message.text == 'New':
+        parse(message, 'New', urls, many=True)
 
 
 bot.polling(none_stop=True)
