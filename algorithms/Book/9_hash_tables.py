@@ -6,3 +6,5 @@ books = {
 
 print(hash(books["New life story"]))
 print(hash("Test"))
+print(hash("1"))
+print(hash(""))
