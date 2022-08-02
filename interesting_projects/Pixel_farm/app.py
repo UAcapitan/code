@@ -67,69 +67,9 @@ class PixelFarm:
 
         self.menu = False
 
-        self.elements_on_map = []
+        self.new_game()
 
-        self.money = 50
-        self.level = 0
-        self.experience = 0
-
-        self.time_point = 0
-
-        self.task = 0
-        self.part_of_conversation = 0
-        self.task_num = 0
-
-        self.inventory = []
-
-        self.inventory_count = []
-
-        self.special_inventory = []
-
-        self.special_inventory_count = []
-
-        self.energy = 100
-        self.energy_time_point = time.time()
-
-        self.farm_window = False
-
-        self.item = False
-
-        self.harvest = False
-
-        self.tasks_list = []
-
-        self.shop_items_dict = {
-            'seeds_of_wheat': 1,
-            'seeds_of_carrot': 2,
-            'seeds_of_potato': 3,
-            'seeds_of_grass': 3,
-            'seeds_of_onion': 5,
-            'stone': 0
-        }
-
-        self.shop_items_list = [i for i in self.shop_items_dict]
-
-        self.center_of_map = [0, 0]
-
-        self.timer_task = 0
-
-        self.buttons_tasks = []
-
-        self.main_screen = True
-
-        self.button_in_farm_window = 1
-
-        self.buttons_in_shop = []
-
-        self.information_window = False
-
-        self.element_for_information = {}
-
-        self.inventory_window = False
-
-        self.inventory_item = -1
-
-        self.inventory_list = None
+        
 
     # Main game logic
     def run(self) -> None:
@@ -760,6 +700,71 @@ class PixelFarm:
 
     # Start game
     def new_game(self) -> None:
+
+        self.elements_on_map = []
+
+        self.money = 50
+        self.level = 0
+        self.experience = 0
+
+        self.time_point = 0
+
+        self.task = 0
+        self.part_of_conversation = 0
+        self.task_num = 0
+
+        self.inventory = []
+
+        self.inventory_count = []
+
+        self.special_inventory = []
+
+        self.special_inventory_count = []
+
+        self.energy = 100
+        self.energy_time_point = time.time()
+
+        self.farm_window = False
+
+        self.item = False
+
+        self.harvest = False
+
+        self.tasks_list = []
+
+        self.shop_items_dict = {
+            'seeds_of_wheat': 1,
+            'seeds_of_carrot': 2,
+            'seeds_of_potato': 3,
+            'seeds_of_grass': 3,
+            'seeds_of_onion': 5,
+            'stone': 0
+        }
+
+        self.shop_items_list = [i for i in self.shop_items_dict]
+
+        self.center_of_map = [0, 0]
+
+        self.timer_task = 0
+
+        self.buttons_tasks = []
+
+        self.main_screen = True
+
+        self.button_in_farm_window = 1
+
+        self.buttons_in_shop = []
+
+        self.information_window = False
+
+        self.element_for_information = {}
+
+        self.inventory_window = False
+
+        self.inventory_item = -1
+
+        self.inventory_list = None
+
         self.money = 50
         self.level = 0
         self.experience = 0

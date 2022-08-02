@@ -1,4 +1,3 @@
-from app import pygame
 import random
 
 task_names = [
@@ -17,6 +16,13 @@ texts = [
     "Hi. I think about making a party. Also invite you.",
     f"Good day. Do you have something for my friend {random.choice(task_names)}.",
     "Good afternoon. I need to feed my family.",
+    "I don't have enough time for speaking. Just give me things from this list.",
+    "Excuse me. Could you give me these products?",
+    "Mr. Farmer, hello! I am not sure what I want to eat today. So, give me something",
+    f"Hi, hi! I am heaving the lunch with {random.choice(task_names)} tomorrow.",
+    f"Hi! {random.choice(task_names)} is sick right now. {random.choice(task_names)} said to me that these products\
+can help",
+    "Hello, my friend. Did someone tell you that you are so lovely?",
 ]
 
 items = [
