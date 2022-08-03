@@ -170,6 +170,7 @@ class PixelFarm:
             self.draw_window(20, 20, self.screen_size[0] - 40, self.screen_size[1] - 40)
         else:
             if self.information_window:
+                self.draw_inventory()
                 self.draw_information_window()
             else:
                 self.draw_inventory()
@@ -373,20 +374,20 @@ class PixelFarm:
 
     def draw_information_window(self) -> None:
         pygame.draw.rect(self.screen, WHITE, 
-            pygame.Rect(20, 20, self.screen_size[0] - 40, self.screen_size[1] - 40)
+            pygame.Rect(20, 20, self.screen_size[0] - 40, self.screen_size[1] - 450)
         )
         item = self.element_for_information
         self.draw_exit_button(self.screen_size[0] - 28, 28)
-        font = pygame.font.SysFont('Comic Sanc MS', 24)
+        font = pygame.font.SysFont('Comic Sanc MS', 36)
         text = font.render(item['name'], False, BLACK)
-        self.screen.blit(text, (90, 50))
+        self.screen.blit(text, (90, 70))
         text = font.render(f"{item['hp']}/{item['full_hp']}", False, BLACK)
         self.screen.blit(text, (300, 80))
         image = item["image"]
         rect = image.get_rect()
-        rect.center = (75, 75)
+        rect.center = (120, 180)
         self.screen.blit(image, rect)
-        pygame.draw.line(self.screen, BLACK, (100,90),(100,390))
+        pygame.draw.line(self.screen, BLACK, (250,90),(250,500))
         y1 = 0
         for i in item['text']:
             text = font.render(i, False, BLACK)
@@ -657,6 +658,9 @@ class PixelFarm:
         elif item == 'seeds_of_cucumber':
             self.click_to_plant('cucumber', 130)
 
+        elif item == 'seeds_of_tomato':
+            self.click_to_plant('tomato', 140)
+
     def click_at_field(self, event) -> None:
         for i in self.elements_on_map:
                 if isinstance(i, Field):
@@ -766,8 +770,6 @@ class PixelFarm:
         self.level = 0
         self.experience = 0
 
-        self.time_point = 0
-
         self.task = 0
         self.part_of_conversation = 0
         self.task_num = 0
@@ -791,17 +793,6 @@ class PixelFarm:
 
         self.tasks_list = []
 
-        self.shop_items_dict = {
-            'seeds_of_wheat': 1,
-            'seeds_of_carrot': 2,
-            'seeds_of_potato': 3,
-            'seeds_of_grass': 3,
-            'seeds_of_onion': 5,
-            'stone': 0
-        }
-
-        self.shop_items_list = [i for i in self.shop_items_dict]
-
         self.center_of_map = [0, 0]
 
         self.timer_task = 0
@@ -824,11 +815,6 @@ class PixelFarm:
 
         self.inventory_list = None
 
-        self.money = 50
-        self.level = 0
-        self.experience = 0
-        self.elements_on_map = []
-
         self.time_point = time.time()
 
         self.elements_on_map.append(House(700, 150))
@@ -837,14 +823,6 @@ class PixelFarm:
             'shovel',
             'loupe',
             'pickaxe',
-            'seeds_of_wheat',
-            'seeds_of_carrot',
-            'seeds_of_potato',
-            'seeds_of_grass',
-            'seeds_of_onion',
-            'seeds_of_cucumber',
-            'stone',
-            'potato',
         ]
 
         self.inventory_count = [
@@ -1091,7 +1069,7 @@ class PixelFarm:
         return self.tasks_list[n1 - 3:n1]
 
     def timer_for_adding_task(self) -> None:
-        if time.time() - self.timer_task > 3:
+        if time.time() - self.timer_task > 10:
             self.add_task()
             self.timer_task = time.time()
 
@@ -1151,6 +1129,11 @@ class PixelFarm:
         
         if len(garbage) > 0:
                 del self.elements_on_map[self.elements_on_map.index(garbage[0])]
+
+    # Energy bonus
+    def energy_drink(self, n=50) -> None:
+        if self.energy + n > 100:
+            self.energy = 100
 
 if __name__ == '__main__':
     app = PixelFarm()
