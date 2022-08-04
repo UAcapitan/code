@@ -164,7 +164,10 @@ class PixelFarm:
         for e in self.elements_on_map:
             self.screen.blit(e.image, e.rect)
 
-        self.draw_available_field()
+        try:
+            self.draw_available_field()
+        except:
+            pass
 
         if self.farm_window:
             self.draw_window(20, 20, self.screen_size[0] - 40, self.screen_size[1] - 40)
@@ -888,11 +891,18 @@ class PixelFarm:
 
     def add_to_inventory(self, item: str) -> None:
         if item:
-            if item in self.inventory:
-                self.inventory_count[self.inventory.index(item)] += 1
+            if len(self.inventory) < 10:
+                if item in self.inventory:
+                    self.inventory_count[self.inventory.index(item)] += 1
+                else:
+                    self.inventory.append(item)
+                    self.inventory_count.append(1)
             else:
-                self.inventory.append(item)
-                self.inventory_count.append(1)
+                if item in self.special_inventory:
+                    self.special_inventory_count[self.special_inventory.index(item)] += 1
+                else:
+                    self.special_inventory.append(item)
+                    self.special_inventory_count.append(1)
 
     def check_inventory(self, item: str) -> bool:
         if len(self.inventory) <= 9 or item in self.inventory:
