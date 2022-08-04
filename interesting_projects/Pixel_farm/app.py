@@ -313,9 +313,15 @@ class PixelFarm:
 
     def draw_level(self) -> None:
         pygame.draw.circle(self.screen, WHITE, (self.screen_size[0] - 250, 50), 25, 3)
-        font = pygame.font.SysFont('Comic Sans MS', 22)
+        font = pygame.font.SysFont('Comic Sans MS', 30)
         text = font.render(str(self.level), False, WHITE)
-        self.screen.blit(text, (self.screen_size[0] - 257, 35))
+        if self.level < 10:
+            self.screen.blit(text, (self.screen_size[0] - 254, 40))
+        elif self.level < 100:
+            self.screen.blit(text, (self.screen_size[0] - 260, 40))
+        else:
+            font = pygame.font.SysFont('Comic Sans MS', 25)
+            self.screen.blit(text, (self.screen_size[0] - 267, 40))
 
     def draw_status_player(self) -> None:
         self.draw_energy_line()
