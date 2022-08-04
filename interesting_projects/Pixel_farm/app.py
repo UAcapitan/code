@@ -324,12 +324,12 @@ class PixelFarm:
         self.draw_money()
 
     def draw_money(self) -> None:
-        font = pygame.font.SysFont('Comic Sans MS', 18)
+        font = pygame.font.SysFont('Comic Sans MS', 36)
         text = font.render(str(self.money), False, YELLOW)
-        self.screen.blit(text, (self.screen_size[0] - 195, 72))
+        self.screen.blit(text, (self.screen_size[0] - 190, 75))
         image = pygame.image.load('src/money/1.png')
         rect = image.get_rect()
-        rect.center = (self.screen_size[0] - 205, 85)
+        rect.center = (self.screen_size[0] - 204, 85)
         self.screen.blit(image, rect)
 
     def draw_farm_window_menu(self, h: int) -> None:
