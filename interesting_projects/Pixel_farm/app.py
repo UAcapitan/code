@@ -232,7 +232,7 @@ class PixelFarm:
         self.buttons_tasks = []
         y1 = 70
         for i in self.pagination_of_tasks(1):
-            rect = pygame.Rect(x + 70, y + y1 , w - 90, h/4)
+            rect = pygame.Rect(x + 70, y + y1 , w - 90, h/5)
             if len(self.buttons_tasks) < 4:
                 self.buttons_tasks.append(rect)
 
@@ -247,7 +247,7 @@ class PixelFarm:
                 pygame.draw.rect(self.screen, GRAY, rect)
 
             image = pygame.image.load(f"src/characters/{i['name']}.png")
-            rect = pygame.Rect(x + 70, y + y1, 128, 128)
+            rect = pygame.Rect(x + 70, y + y1 + 60, 128, 128)
             self.screen.blit(image, rect)
             font = pygame.font.SysFont('Comic Sanc MS', 24)
             self.screen.blit(font.render(f"{i['name']}", False, BLACK), (x + 250, y + y1 + 10))
@@ -594,7 +594,7 @@ class PixelFarm:
         if self.inventory_count[self.item - 1] == 0:
             del self.inventory[self.item - 1]
             del self.inventory_count[self.item - 1]
-            if len(self.inventory) < 9 and len(self.special_inventory) > 0:
+            if len(self.special_inventory) > 0:
                 self.inventory.append(self.special_inventory[0])
                 del self.special_inventory[0]
 
