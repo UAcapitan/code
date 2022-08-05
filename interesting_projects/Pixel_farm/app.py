@@ -420,15 +420,22 @@ class PixelFarm:
         if self.inventory_item != -1:
             x_e = self.inventory_item % 9
             y_e = self.inventory_item // 9
+            print(x_e, y_e)
+            
+
+            if y_e == 0:
+                pass
+            else:
+                x_e -= 1
 
             pygame.draw.rect(self.screen, GREEN, 
                 pygame.Rect(
-                    (x + x_e * (self.inventory_item * w)),
-                    y - 25,
-                    y_e * w - 7,
+                    (x + (x_e * w)),
+                    35 + y_e * 110,
+                    w,
                     78
                 )
-            ) #TODO do it later
+            )
 
         if not self.inventory_list:
             list_ = []
@@ -444,7 +451,7 @@ class PixelFarm:
             counter += 1
             if counter == 10:
                 y += 110
-                x = 35
+                x = 20
                 counter = 0
         
         if not self.inventory_list:
@@ -832,6 +839,13 @@ class PixelFarm:
             'shovel',
             'loupe',
             'pickaxe',
+            'cucumber',
+            'cucumber',
+            'cucumber',
+            'cucumber',
+            'cucumber',
+            'cucumber',
+            'cucumber',
         ]
 
         self.inventory_count = [
@@ -845,7 +859,7 @@ class PixelFarm:
             1,
             1,
             1,
-            1,
+
         ]
 
         self.special_inventory = [
@@ -1045,7 +1059,10 @@ class PixelFarm:
 
     # Look at something
     def loupe_use(self) -> None:
-        self.draw_window(20, 20, 20, 20)
+        try:
+            self.draw_window(20, 20, 20, 20)
+        except:
+            pass
 
     # Growing of plant
     def grow(self) -> None:
