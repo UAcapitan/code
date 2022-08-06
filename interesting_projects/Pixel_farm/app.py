@@ -418,8 +418,8 @@ class PixelFarm:
         counter = 0
         
         if self.inventory_item != -1:
-            x_e = self.inventory_item % 9
-            y_e = self.inventory_item // 9
+            x_e = self.inventory_item % 10
+            y_e = self.inventory_item // 10
             print(x_e, y_e)
             
 
@@ -595,8 +595,16 @@ class PixelFarm:
             del self.inventory[self.item - 1]
             del self.inventory_count[self.item - 1]
             if len(self.special_inventory) > 0:
-                self.inventory.append(self.special_inventory[0])
-                del self.special_inventory[0]
+                if self.special_inventory[0] in self.inventory:
+                    ind = self.inventory.index(self.special_inventory[0])
+                    self.inventory_count[ind] += self.special_inventory_count[0]
+                    del self.special_inventory[0]
+                    del self.special_inventory_count[0]
+                else:
+                    self.inventory.append(self.special_inventory[0])
+                    self.inventory_count.append(self.special_inventory_count[0])
+                    del self.special_inventory[0]
+                    del self.special_inventory_count[0]
 
     def check_moving_map(self) -> None:
         if not self.farm_window:
