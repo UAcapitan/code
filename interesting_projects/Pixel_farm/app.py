@@ -420,7 +420,6 @@ class PixelFarm:
         if self.inventory_item != -1:
             x_e = self.inventory_item % 10
             y_e = self.inventory_item // 10
-            print(x_e, y_e)
             
 
             if y_e == 0:
@@ -847,27 +846,12 @@ class PixelFarm:
             'shovel',
             'loupe',
             'pickaxe',
-            'cucumber',
-            'cucumber',
-            'cucumber',
-            'cucumber',
-            'cucumber',
-            'cucumber',
-            'cucumber',
         ]
 
         self.inventory_count = [
             -1,
             -1,
             -1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-
         ]
 
         self.special_inventory = [
