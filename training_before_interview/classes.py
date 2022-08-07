@@ -30,3 +30,8 @@ class Test:
 
 # test = Test({'a':'a', 'b':'b', 'c':'c'})
 # print(test['a'])
+
+class Test3(Test2, Test):
+    pass
+
+ttt = Test3({'a':'a', 'b':'b', 'c':'c'})
