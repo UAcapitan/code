@@ -34,4 +34,7 @@ class Test:
 class Test3(Test2, Test):
     pass
 
-ttt = Test3({'a':'a', 'b':'b', 'c':'c'})
+ttt = Test3(**{'a':1, 'b':2, 'c':3})
+print(ttt)
+print(ttt.sum_all())
+print(ttt.a, ttt.b, ttt.c)
