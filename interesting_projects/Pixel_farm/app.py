@@ -919,6 +919,9 @@ class PixelFarm:
     def check_inventory(self, item: str) -> bool:
         if len(self.inventory) <= 9 or item in self.inventory:
             return True
+        else:
+            if len(self.special_inventory) <= 9 or item in self.special_inventory:
+                return True
         return False
 
     def check_needed_item_in_inventory(self, products: list) -> bool:
