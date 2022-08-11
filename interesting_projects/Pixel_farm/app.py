@@ -171,16 +171,19 @@ class PixelFarm:
 
         if self.farm_window:
             self.draw_window(20, 20, self.screen_size[0] - 40, self.screen_size[1] - 40)
+            self.generate_elements_on_map()
         else:
             if self.information_window:
                 self.draw_inventory()
                 self.draw_information_window()
+                self.generate_elements_on_map()
             else:
                 self.draw_inventory()
                 self.draw_status_player()
 
         if self.inventory_window:
             self.draw_inventory_window()
+            self.generate_elements_on_map()
 
         # Updating of screen
         pygame.display.update()
@@ -920,7 +923,7 @@ class PixelFarm:
         if len(self.inventory) <= 9 or item in self.inventory:
             return True
         else:
-            if len(self.special_inventory) <= 9 or item in self.special_inventory:
+            if len(self.special_inventory) <= 50 or item in self.special_inventory:
                 return True
         return False
 
@@ -1162,6 +1165,22 @@ class PixelFarm:
     def energy_drink(self, n=50) -> None:
         if self.energy + n > 100:
             self.energy = 100
+
+    # Generator of elements
+    def generate_elements_on_map(self) -> None:
+        rn = random.randint(0, 100)
+        if rn == 42:
+            coordinates = self.generate_two_coordinates()
+            if coordinates:
+                self.elements_on_map.append(Stone('src/stones/1.png', coordinates[0], coordinates[1], 7))
+        elif rn == 70:
+            coordinates = self.generate_two_coordinates()
+            if coordinates:
+                self.elements_on_map.append(Bush('src/bushes/1.png', coordinates[0], coordinates[1], 7))
+        elif rn == 77:
+            coordinates = self.generate_two_coordinates()
+            if coordinates:
+                self.elements_on_map.append(Tree('src/trees/1.png', coordinates[0], coordinates[1], 7))
 
 if __name__ == '__main__':
     app = PixelFarm()
