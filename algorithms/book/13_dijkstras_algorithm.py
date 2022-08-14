@@ -16,3 +16,8 @@ graph = {
 		"b":3
 	}
 }
+
+def algorithm(graph):
+	return
+
+algorithm(graph)
