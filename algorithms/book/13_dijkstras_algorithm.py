@@ -1,3 +1,5 @@
+from datetime import date, datetime
+
 graph = {
 	"a": {
 		"b":7,
@@ -122,6 +124,13 @@ def algorithm_from_web(graph, start, finish):
 	return visited[finish]
 
 # algorithm(graph, "a", "f", "distance")
-# algorithm(graph_hard, "a", "f", "distance")
+
+t = datetime.now()
+algorithm(graph_hard, "a", "f", "distance")
+print(datetime.now() - t)
+
 # algorithm_from_web(graph, "a", "f")
-# algorithm_from_web(graph_hard, "a", "f")
+
+t = datetime.now()
+algorithm_from_web(graph_hard, "a", "f")
+print(datetime.now() - t)
