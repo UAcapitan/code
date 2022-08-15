@@ -17,11 +17,60 @@ graph = {
 	}
 }
 
+graph_hard = {
+	"a": {
+		"b":2,
+		"c":4
+	},
+	"b": {
+		"a":2,
+		"m":4,
+		"c":3,
+		"d":7
+	},
+	"c": {
+		"a":4,
+		"b":3,
+		"k":4
+	},
+	"d": {
+		"b":7,
+		"k":1,
+		"t":7
+	},
+	"k": {
+		"c":4,
+		"d":1,
+		"l":8
+	},
+	"l": {
+		"k":8,
+		"t":9
+	},
+	"m": {
+		"b":4,
+		"t":7,
+		"n":1
+	},
+	"n": {
+		"m":1,
+		"f":15
+	},
+	"f": {
+		"n":15,
+		"t":3
+	},
+	"t": {
+		"d":7,
+		"m":7,
+		"l":9,
+		"f":3
+	}
+}
 
+# My try to make Dijkstra's algorithm
 def algorithm(graph, start, finish, type_return='distance'):
 	list_ = [['', start, 0]]
-
-	n = 0
 
 	for i in list_:
 		for j in graph[i[1]]:
@@ -35,18 +84,24 @@ def algorithm(graph, start, finish, type_return='distance'):
 
 	match type_return:
 		case 'distance':
-			return [i for i in list_ if i[1] == finish][0][2]
+			return sorted([i for i in list_ if i[1] == finish], key=lambda i: i[2])[0][2]
 		case 'way':
 			way = [[i for i in list_ if i[1] == finish][0][1]]
 			while way[-1] != start:
 				way.append(sorted([i for i in list_ if i[1] == way[-1]], key=lambda i: i[2])[0][0])
-			return way
+			return list(reversed(way))
 		case 'all':
 			way = [[i for i in list_ if i[1] == finish][0][1]]
 			while way[-1] != start:
 				way.append(sorted([i for i in list_ if i[1] == way[-1]], key=lambda i: i[2])[0][0])
-			return [way, [i for i in list_ if i[1] == finish][0][2]]
+			return [list(reversed(way)), sorted([i for i in list_ if i[1] == finish], key=lambda i: i[2])[0][2]]
 
 print(algorithm(graph, "a", "f", "distance"))
 print(algorithm(graph, "a", "f", "way"))
 print(algorithm(graph, "a", "f", "all"))
+
+print()
+
+print(algorithm(graph_hard, "a", "f", "distance"))
+print(algorithm(graph_hard, "a", "f", "way"))
+print(algorithm(graph_hard, "a", "f", "all"))
