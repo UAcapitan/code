@@ -96,12 +96,32 @@ def algorithm(graph, start, finish, type_return='distance'):
 				way.append(sorted([i for i in list_ if i[1] == way[-1]], key=lambda i: i[2])[0][0])
 			return [list(reversed(way)), sorted([i for i in list_ if i[1] == finish], key=lambda i: i[2])[0][2]]
 
-print(algorithm(graph, "a", "f", "distance"))
-print(algorithm(graph, "a", "f", "way"))
-print(algorithm(graph, "a", "f", "all"))
+# Dijkstra's algorithm from web
+def algorithm_from_web(graph, start, finish):
+	nodes = graph.keys()
+	distances = graph
 
-print()
+	unvisited = {node: None for node in nodes}
+	visited = {}
+	current = start
+	currentDistance = 0
+	unvisited[current] = currentDistance
 
-print(algorithm(graph_hard, "a", "f", "distance"))
-print(algorithm(graph_hard, "a", "f", "way"))
-print(algorithm(graph_hard, "a", "f", "all"))
+	while True:
+		for neighbour, distance in distances[current].items():
+			if neighbour not in unvisited: continue
+			newDistance = currentDistance + distance
+			if unvisited[neighbour] is None or unvisited[neighbour] > newDistance:
+				unvisited[neighbour] = newDistance
+		visited[current] = currentDistance
+		del unvisited[current]
+		if not unvisited: break
+		candidates = [node for node in unvisited.items() if node[1]]
+		current, currentDistance = sorted(candidates, key = lambda x: x[1])[0]
+
+	return visited[finish]
+
+# algorithm(graph, "a", "f", "distance")
+# algorithm(graph_hard, "a", "f", "distance")
+# algorithm_from_web(graph, "a", "f")
+# algorithm_from_web(graph_hard, "a", "f")
