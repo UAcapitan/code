@@ -70,13 +70,28 @@ graph_hard = {
 	}
 }
 
+# Timer decorator for rate of speed of algorithm
+def timer(func):
+	def wrap(*args):
+		t1 = datetime.now()
+		func(*args)
+		print(datetime.now() - t1)
+	return wrap
+
 # My try to make Dijkstra's algorithm
+@timer
 def algorithm(graph, start, finish, type_return='distance'):
 	list_ = [['', start, 0]]
 
 	for i in list_:
 		for j in graph[i[1]]:
-			k = [k for k in list_ if (k[0] == i[1] and k[1] == j) or (k[0] == j and k[1] == i[1])]
+			# k = list(filter(lambda k: (k[0] == i[1] and k[1] == j) or (k[0] == j and k[1] == i[1]), list_))
+			k = []
+			for k1 in list_:
+				if (k1[0] == i[1] and k1[1] == j) or (k1[0] == j and k1[1] == i[1]):
+					k.append(k1)
+					break
+			# k = [k for k in list_ if (k[0] == i[1] and k[1] == j) or (k[0] == j and k[1] == i[1])]
 			list_.append([i[1], j, i[2] + graph[i[1]][j]])
 			if k:
 				if k[0][2] >= i[2] + graph[i[1]][j]:
@@ -99,6 +114,7 @@ def algorithm(graph, start, finish, type_return='distance'):
 			return [list(reversed(way)), sorted([i for i in list_ if i[1] == finish], key=lambda i: i[2])[0][2]]
 
 # Dijkstra's algorithm from web
+@timer
 def algorithm_from_web(graph, start, finish):
 	nodes = graph.keys()
 	distances = graph
@@ -125,12 +141,8 @@ def algorithm_from_web(graph, start, finish):
 
 # algorithm(graph, "a", "f", "distance")
 
-t = datetime.now()
 algorithm(graph_hard, "a", "f", "distance")
-print(datetime.now() - t)
 
 # algorithm_from_web(graph, "a", "f")
 
-t = datetime.now()
 algorithm_from_web(graph_hard, "a", "f")
-print(datetime.now() - t)
