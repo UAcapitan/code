@@ -556,8 +556,6 @@ class PixelFarm:
                                 self.change_button_in_farm_window(1)
                             elif event.key == pygame.K_2:
                                 self.change_button_in_farm_window(2)
-                            elif event.key == pygame.K_3:
-                                self.change_button_in_farm_window(3)
                             
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_i:
@@ -1165,9 +1163,16 @@ class PixelFarm:
     def energy_drink(self, n=50) -> None:
         if self.energy + n > 100:
             self.energy = 100
+        else:
+            self.energy += n
+
+    def energy_random(self):
+        if random.randint(0, 100) == 42:
+            self.energy_drink(random.randint(1,100))
 
     # Generator of elements
     def generate_elements_on_map(self) -> None:
+        self.energy_random()
         rn = random.randint(0, 100)
         if rn == 42:
             coordinates = self.generate_two_coordinates()
