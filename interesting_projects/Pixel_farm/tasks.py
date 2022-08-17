@@ -23,6 +23,9 @@ texts = [
     f"Hi! {random.choice(task_names)} is sick right now. {random.choice(task_names)} said to me that these products\
 can help",
     "Hello, my friend. Did someone tell you that you are so lovely?",
+    "Hi, my little friend. So...",
+    f"Hello, {random.choice(task_names)}. Oh, ops, sorry. I think you are {random.choice(task_names)}. Oh, ops, again.",
+    "Hi!",
 ]
 
 items = [
