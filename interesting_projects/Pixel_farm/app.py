@@ -685,6 +685,12 @@ class PixelFarm:
         elif item == 'seeds_of_tomato':
             self.click_to_plant('tomato', 140)
 
+        elif item == 'seeds_of_beet':
+            self.click_to_plant('beet', 190)
+
+        elif item == 'seeds_of_rice':
+            self.click_to_plant('rice', 230)
+
     def click_at_field(self, event) -> None:
         for i in self.elements_on_map:
                 if isinstance(i, Field):
