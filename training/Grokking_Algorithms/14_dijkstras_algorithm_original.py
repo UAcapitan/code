@@ -23,7 +23,16 @@ def algorithm(graph, start):
     for i in graph[start].keys():
         costs[i] = graph[start][i]
 
-    return costs
+    parents = {
+        i:None for i in graph.keys() if i != start
+    }
+
+    for i in graph[start].keys():
+        parents[i] = start
+
+    processed = []
+
+    return
 
 if __name__ == "__main__":
     print(algorithm(graph, "start"))
