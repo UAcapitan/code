@@ -15,6 +15,31 @@ graph = {
     }
 }
 
+graph_hard = {
+	"a": {
+		"b":2,
+        "l":3
+	},
+	"b": {
+		"c":3,
+		"f":7
+	},
+	"c": {
+		"a":4,
+	},
+	"f": {
+	},
+    "n": {
+        "m":4,
+    },
+    "m": {
+        "l":3
+    },
+    "l": {
+
+    }
+}
+
 def algorithm(graph, start):
     # Costs
     infinity = float("inf")
@@ -62,4 +87,9 @@ def algorithm(graph, start):
 
 if __name__ == "__main__":
     for i in algorithm(graph, "start"):
+        print(i)
+
+    print()
+
+    for i in algorithm(graph_hard, "a"):
         print(i)
