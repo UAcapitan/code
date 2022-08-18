@@ -36,15 +36,36 @@ items = [
     'wheat',
     'carrot',
     'potato',
-    'grass',
-    'onion',
-    'cucumber',
+    # 'grass',
+    # 'onion',
+    # 'cucumber',
 ]
 
+def new_items_to_task(level):
+    item_list = ['grass', 'onion', 'stone', 'wood', 'cucumber', 'tomato', 'beet', 'rice']
+    if level > 3 and item_list[0] not in items:
+        items.append(item_list[0])
+    if level > 5 and item_list[1] not in items:
+        items.append(item_list[1])
+    if level > 10 and item_list[2] not in items:
+        items.append(item_list[2])
+    if level > 20 and item_list[3] not in items:
+        items.append(item_list[3])
+    if level > 25 and item_list[4] not in items:
+        items.append(item_list[4])
+    if level > 50 and item_list[5] not in items:
+        items.append(item_list[5])
+    if level > 55 and item_list[6] not in items:
+        items.append(item_list[6])
+    if level > 70 and item_list[7] not in items:
+        items.append(item_list[7])
+    if level > 120 and item_list[8] not in items:
+        items.append(item_list[8])
 
 def generate_task(level) -> dict:
     n = random.randint(1, 5)
     bonus = random.randint(0, 10)
+    new_items_to_task(level)
 
     return {
         'name': random.choice(task_names),

@@ -1,3 +1,4 @@
+from asyncio import tasks
 import pygame
 import sys
 import json
@@ -102,12 +103,12 @@ class PixelFarm:
             'seeds_of_wheat': 1,
             'seeds_of_carrot': 2,
             'seeds_of_potato': 3,
-            'seeds_of_grass': 3,
-            'seeds_of_onion': 5,
-            'seeds_of_cucumber': 7,
-            'seeds_of_tomato': 9,
-            'seeds_of_beet': 12,
-            'seeds_of_rice': 15,
+            'seeds_of_grass': 5,
+            'seeds_of_onion': 7,
+            'seeds_of_cucumber': 15,
+            'seeds_of_tomato': 25,
+            'seeds_of_beet': 35,
+            'seeds_of_rice': 50,
             'stone': 0
         }
 
