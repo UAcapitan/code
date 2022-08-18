@@ -223,7 +223,7 @@ class PixelFarm:
             self.screen.blit(image, rect)
 
     def draw_window(self, x: int, y: int, w: int, h: int) -> None:
-        if self.menu == False and self.inventory[self.item] != 'loupe':
+        if self.menu == False:
             pygame.draw.rect(self.screen, WHITE, pygame.Rect(x, y, w, h))
             self.draw_exit_button(x + w - 10, y + 10)
             self.draw_farm_window_menu(h)
@@ -393,18 +393,18 @@ class PixelFarm:
         self.draw_exit_button(self.screen_size[0] - 28, 28)
         font = pygame.font.SysFont('Comic Sanc MS', 36)
         text = font.render(item['name'], False, BLACK)
-        self.screen.blit(text, (90, 70))
+        self.screen.blit(text, (90, 90))
         text = font.render(f"{item['hp']}/{item['full_hp']}", False, BLACK)
-        self.screen.blit(text, (300, 80))
+        self.screen.blit(text, (340, 90))
         image = item["image"]
         rect = image.get_rect()
         rect.center = (120, 180)
         self.screen.blit(image, rect)
-        pygame.draw.line(self.screen, BLACK, (250,90),(250,500))
+        pygame.draw.line(self.screen, BLACK, (290,90),(290,500))
         y1 = 0
         for i in item['text']:
             text = font.render(i, False, BLACK)
-            self.screen.blit(text, (300, 180 + y1))
+            self.screen.blit(text, (340, 180 + y1))
             y1 += 30
 
     def draw_inventory_window(self) -> None:
@@ -477,23 +477,25 @@ class PixelFarm:
         text = font.render('Loading...', False, WHITE)
         self.screen.blit(text, (20,10))
         pygame.display.update()
-        timer(5)
+        timer(2)
         self.screen.fill(BLACK)
         brand_name = pygame.image.load('src/brand_name/1.png')
         rect = brand_name.get_rect()
         rect.center = self.screen_center
         self.screen.blit(brand_name, rect)
         pygame.display.update()
-        timer(5)
+        timer(2)
 
     # Menu
     def show_menu_screen(self) -> None:
+        self.image_menu = pygame.image.load('src/bg/menu.png')
+        self.screen.blit(self.image_menu, (-900,-590))
         self.m_btn_x = 320
         self.m_btn_y1 = 230
         self.m_btn_y2 = 160
         self.m_btn_y3 = 90
         while self.menu:
-            self.screen.fill(BLACK)
+            # self.screen.fill(BLACK)
             self.menu_btn1 = ButtonMenu('src/buttons_menu/1.png', self.screen_size[0] - 150, self.screen_size[1] - 190)
             self.screen.blit(self.menu_btn1.image, self.menu_btn1.rect)
             self.menu_btn2 = ButtonMenu('src/buttons_menu/2.png', self.screen_size[0] - 150, self.screen_size[1] - 120)
@@ -998,6 +1000,8 @@ class PixelFarm:
                 "tasks_list": self.tasks_list,
                 "timer_task": self.timer_task,
                 "item": self.item,
+                "special_inventory":self.special_inventory,
+                "special_inventory_count":self.special_inventory_count
             }, file)
 
     def load_game(self) -> None:
@@ -1023,6 +1027,8 @@ class PixelFarm:
         self.tasks_list = player_data["tasks_list"]
         self.timer_task = player_data["timer_task"]
         self.item = player_data["item"]
+        self.special_inventory = player_data["special_inventory"]
+        self.special_inventory_count = player_data["special_inventory_count"]
 
     # Decreasing
     def decrease_energy(self, n:int) -> bool:
@@ -1068,13 +1074,6 @@ class PixelFarm:
         if self.check_collision_for_numbers(x, y):
             return (x, y)
         return False
-
-    # Look at something
-    def loupe_use(self) -> None:
-        try:
-            self.draw_window(20, 20, 20, 20)
-        except:
-            pass
 
     # Growing of plant
     def grow(self) -> None:
