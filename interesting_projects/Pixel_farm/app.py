@@ -104,6 +104,10 @@ class PixelFarm:
             'seeds_of_potato': 3,
             'seeds_of_grass': 3,
             'seeds_of_onion': 5,
+            'seeds_of_cucumber': 7,
+            'seeds_of_tomato': 9,
+            'seeds_of_beet': 12,
+            'seeds_of_rice': 15,
             'stone': 0
         }
 
