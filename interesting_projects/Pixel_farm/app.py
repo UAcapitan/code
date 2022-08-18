@@ -40,8 +40,6 @@ class PixelFarm:
         '''
             Constructor for setting up game
         '''
-
-        #TODO make init with self.new_game
         
         # Set up title
         pygame.display.set_caption('Pixel Farm')
@@ -141,8 +139,7 @@ class PixelFarm:
             Main function of game
         '''
 
-        #TODO Start screen showing
-        # self.show_start_screen()
+        self.show_start_screen()
         self.menu = True
         while True:
 
@@ -705,11 +702,22 @@ class PixelFarm:
                                 self.add_to_inventory(harvest)
                                 self.increase_experience(25)
 
+    def click_at_bush(self, event) -> None:
+        for i in self.elements_on_map:
+                if isinstance(i, Bush):
+                    if i.rect.collidepoint(event.pos):
+                        if self.check_inventory("wildberries"):
+                                harvest = i.harvest()
+                                if harvest:
+                                    self.add_to_inventory(harvest)
+                                    self.increase_experience(50)
+
     def click_with_mouse(self, event) -> None:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 self.click_conditions(event)
                 self.click_at_field(event)
+                self.click_at_bush(event)
                 
                 if not self.farm_window:
                     for i in self.elements_on_map:
@@ -866,11 +874,9 @@ class PixelFarm:
         ]
 
         self.special_inventory = [
-            "cucumber",
         ]
 
         self.special_inventory_count = [
-            1,
         ]
 
         for i in range(random.randint(25, 100)):
@@ -1077,7 +1083,6 @@ class PixelFarm:
                 if i.plant_stage > 0:
                     i.grow()
             if isinstance(i, Bush):
-                print('Worked')
                 i.check_harvest()
 
     # Moving

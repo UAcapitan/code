@@ -75,14 +75,19 @@ class Bush(FarmObject):
 
     def check_harvest(self):
         if not self.harvest_flag:
-            if self.time - time.time() > 3:
-                self.image = pygame.image.load('src/bushes/1.png')
-                self.image_address = 'src/bushes/1.png'
+            if time.time() - self.time > 900:
+                self.image = pygame.image.load('src/bushes/2.png')
+                self.image_address = 'src/bushes/2.png'
                 self.harvest_flag = True
 
     def harvest(self):
-        if True:
-            pass
+        if self.harvest_flag:
+            self.image = pygame.image.load('src/bushes/1.png')
+            self.image_address = 'src/bushes/1.png'
+            self.harvest_flag = False
+            self.time = time.time()
+            return "wildberries"
+        return None
 
 class Tree(FarmObject):
     def info(self) -> dict:

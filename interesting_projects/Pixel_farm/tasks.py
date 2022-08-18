@@ -36,13 +36,10 @@ items = [
     'wheat',
     'carrot',
     'potato',
-    # 'grass',
-    # 'onion',
-    # 'cucumber',
 ]
 
 def new_items_to_task(level):
-    item_list = ['grass', 'onion', 'stone', 'wood', 'cucumber', 'tomato', 'beet', 'rice']
+    item_list = ['grass', 'onion', 'stone', 'wood', 'cucumber', 'tomato', 'beet', 'rice', 'wildberries']
     if level > 3 and item_list[0] not in items:
         items.append(item_list[0])
     if level > 5 and item_list[1] not in items:
