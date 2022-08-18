@@ -54,6 +54,12 @@ class Stone(FarmObject):
         }
 
 class Bush(FarmObject):
+
+    def __init__(self, image, x, y, hp):
+        super().__init__(image, x, y, hp)
+        self.time = time.time()
+        self.harvest_flag = False
+
     def info(self) -> dict:
         return {
             'name': 'Bush',
@@ -66,6 +72,17 @@ class Bush(FarmObject):
                 ''
             ]
         }
+
+    def check_harvest(self):
+        if not self.harvest_flag:
+            if self.time - time.time() > 3:
+                self.image = pygame.image.load('src/bushes/1.png')
+                self.image_address = 'src/bushes/1.png'
+                self.harvest_flag = True
+
+    def harvest(self):
+        if True:
+            pass
 
 class Tree(FarmObject):
     def info(self) -> dict:

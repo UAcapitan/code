@@ -109,7 +109,6 @@ class PixelFarm:
             'seeds_of_tomato': 25,
             'seeds_of_beet': 35,
             'seeds_of_rice': 50,
-            'stone': 0
         }
 
         self.shop_items_list = [i for i in self.shop_items_dict]
@@ -1077,6 +1076,9 @@ class PixelFarm:
             if isinstance(i, Field):
                 if i.plant_stage > 0:
                     i.grow()
+            if isinstance(i, Bush):
+                print('Worked')
+                i.check_harvest()
 
     # Moving
     def move_map(self, n: list) -> None:
