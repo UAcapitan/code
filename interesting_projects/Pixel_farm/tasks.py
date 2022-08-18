@@ -6,6 +6,10 @@ task_names = [
     'Donald',
     'John',
     'Ira',
+    'Mark',
+    'Frank',
+    'Mike',
+    'Mia'
 ]
 
 texts = [
