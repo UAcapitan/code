@@ -2,6 +2,10 @@ items = {
     "guitar": [1500, 1],
     "music-player": [3000, 4],
     "laptop": [2000, 3],
+    "iphone": [2000, 1],
+    "hdd": [1000, 1],
+    "cooker": [5000, 20],
+    "table": [1000, 10]
 }
 
 size = 4
