@@ -12,7 +12,7 @@ size = 4
 
 def algorithm(items, size):
     cell = []
-    for item, data in items.items():
+    for data in items.values():
         list_ = []
         for i in range(1, size + 1):
             if data[1] <= i:
