@@ -1,16 +1,17 @@
-# Experiment was unsuccessful
+# Experiment was successful
 
 training = [
-    [[0,10,0,0], 0],
-    [[10,10,10,10], 1],
-    [[10,0,0,0], 0],
-    [[10,0,10,10], 1],
-    [[10,0,0,10], 1],
-    [[10,10,0,10], 1],
-    [[0,10,10,0], 0]
+    [[5,10,5,5], 5],
+    [[10,10,10,10], 10],
+    [[10,5,5,5], 5],
+    [[10,5,10,10], 10],
+    [[10,5,5,10], 10],
+    [[10,10,5,10], 10],
+    [[5,5,5,5], 5]
 ]
 
-data = [0,1,1,1]
+data1 = [5,10,10,10]
+data2 = [5,10,5,5]
 
 def algorithm(training, data):
     all = []
@@ -27,4 +28,5 @@ def algorithm(training, data):
     return max(set(results), key=results.count)
 
 if __name__ == "__main__":
-    print(algorithm(training, data))
+    print(algorithm(training, data1))
+    print(algorithm(training, data2))
