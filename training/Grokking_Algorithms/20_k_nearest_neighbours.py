@@ -22,8 +22,24 @@ fruits = [
     ['apple', 7, 5],
 ]
 
-def algorithm():
-    pass
+data = ['unknown', 3, 2]
+
+def algorithm(fruits, data):
+    # Data in all: [distance, index of element]
+    all = []
+    for i in fruits:
+        all.append([((data[1]-i[1])**2 + (data[2]-i[2])**2)**0.5, len(all)])
+
+    nearest = sorted(all, key=lambda x: x[0])
+
+    names = []
+
+    for i in nearest[:int(len(fruits)**0.5)]:
+        names.append(fruits[i[1]][0])
+
+    data[0] = max(set(names), key=names.count)
+
+    return data
 
 if __name__ == "__main__":
-    print(algorithm())
+    print(algorithm(fruits, data))
