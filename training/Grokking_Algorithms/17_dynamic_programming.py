@@ -27,5 +27,7 @@ def algorithm(items, size):
 
     return cell[-1][-1]
 
+words = ['']
+
 if __name__ == "__main__":
     print(algorithm(items, size))
