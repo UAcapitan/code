@@ -1,9 +1,30 @@
-training = []
+# Experiment was unsuccessful
 
-data = []
+training = [
+    [[0,10,0,0], 0],
+    [[10,10,10,10], 1],
+    [[10,0,0,0], 0],
+    [[10,0,10,10], 1],
+    [[10,0,0,10], 1],
+    [[10,10,0,10], 1],
+    [[0,10,10,0], 0]
+]
+
+data = [0,1,1,1]
 
 def algorithm(training, data):
-    return data
+    all = []
+
+    for i in training:
+        n = 0
+        for j in range(len(i[0])):
+            n += (data[j] - i[0][j]) ** 2
+        all.append([n**0.5, len(all)])
+
+    nearest = sorted(all, key=lambda x: x[0])[:3]
+    results = [training[i[1]][1] for i in nearest]
+
+    return max(set(results), key=results.count)
 
 if __name__ == "__main__":
     print(algorithm(training, data))
