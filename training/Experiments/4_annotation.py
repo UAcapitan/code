@@ -1,6 +1,4 @@
 
-from typing import Union
-
 def test(x: int, y: int, z: int) -> int:
     return x*y*z
 
