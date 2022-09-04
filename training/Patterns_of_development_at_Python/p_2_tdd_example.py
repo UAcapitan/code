@@ -47,7 +47,8 @@ def test_allocation_is_idempotent():
     batch, line = get_batch_and_line("ANGULAR-DESK", 20, 2)
     batch.allocate(line)
     batch.allocate(line)
-    assert batch.available_quantity == 18
+    batch.allocate(OrderLine('order-red2', 'ANGULAR-DESK', 1))
+    assert batch.available_quantity == 17
 
 
 # Emulation of code for application

@@ -14,6 +14,9 @@ class Batch(Batch):
         if isinstance(obj.eta, int):
             return self.eta < obj.eta
 
+    def __eq__(self, obj):
+        return self.reference == obj.reference
+
 # Error - Out of stock
 class OutOfStock(Exception):
     pass
