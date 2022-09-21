@@ -271,6 +271,9 @@ class EnglishApp():
         if self.data['day'][3] == 49:
             self.data['level'][2] += 50
 
+        if self.data['day'][1] == 149:
+            self.data['level'][2] += 50
+
         points_level = self.data['level'][2] // 500
 
         if self.data['level'][1] < points_level:
