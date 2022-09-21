@@ -1,5 +1,5 @@
 
-import os
+import datetime
 import random
 import sqlite3
 from termcolor import colored
@@ -12,10 +12,16 @@ class EnglishApp():
         self.cursor = self.connect.cursor()
         self.translator = Translator()
 
+
+        # self.save_stats()
+        self.data = self.load_stats()
+
+        self.run()
+
     def run(self) -> None:
         try:
             self.main()
-        except KeyboardInterrupt:
+        except:
             self.close()
 
     def main(self) -> None:
@@ -31,6 +37,7 @@ class EnglishApp():
                 case 1: self.training_to_english(n)
                 case 2: self.training_from_english(n)
                 case 3: self.add_words()
+                case 'm': self.menu()
        
     def get_word(self, amount: int = 0) -> list:
         print("-"*29)
@@ -47,12 +54,16 @@ class EnglishApp():
             for mode in [
                 "1. To English",
                 "2. From English",
-                "3. Add new words"
+                "3. Add new words\n"
+                "\nm. Menu"
             ]:
                 print(mode)
             print()
 
-            mode = int(input("Select mode: "))
+            mode = input("Select mode: ")
+
+            if mode.isdigit():
+                mode = int(mode)
 
             match mode:
                 case 1 | 2:
@@ -67,7 +78,7 @@ class EnglishApp():
                     amount = int(input("Select amount of words: "))
                     if amount in range(1,4):
                         return [mode, amount]
-                case 3:
+                case 3 | 'm':
                     return [mode, 0]
 
     def training_to_english(self, amount: int) -> None:
@@ -82,9 +93,11 @@ class EnglishApp():
 
             if answer.lower() == word[0].lower():
                 print(colored(f"{word[1]} - {answer}", "green"))
+                self.add_point()
             else:
                 print(colored(f"{word[1]} - {answer}", "red"))
                 print(colored(f"{word[1]} - {word[0]}", "green"))
+                self.minus_points()
             
             print()
 
@@ -100,9 +113,11 @@ class EnglishApp():
 
             if answer.lower() == word[1].lower():
                 print(colored(f"{word[0]} - {answer}", "green"))
+                self.add_point()
             else:
                 print(colored(f"{word[0]} - {answer}", "red"))
                 print(colored(f"{word[0]} - {word[1]}", "green"))
+                self.minus_points()
             
             print()
 
@@ -112,7 +127,7 @@ class EnglishApp():
 
         for word in words:
             if word.strip():
-                translated = self.translator.translate(word, src="en", dest="ru").text
+                translated = self.translate_word(word)
                 self.cursor.execute(f"INSERT INTO words VALUES ('{word.strip()}','{translated}');")
 
         self.connect.commit()
@@ -120,12 +135,147 @@ class EnglishApp():
         print("\nNew words were added")
         print("\n" + "-"*29 + "\n")
 
+    def translate_word(self, word: str) -> str:
+        try:
+            translated = self.translator.translate(word, src="en", dest="ru").text
+            if translated == word:
+                translated = self.translator.translate(word, src="ru", dest="en").text
+        except:
+            return input(f"{word} - ")
+        return translated
+
     def close(self) -> None:
+        self.save_stats()
+
         self.cursor.close()
         self.connect.commit()
         self.connect.close()
 
+    # In development
+    def menu(self):
+        for point in [
+            "\nMenu:\n",
+            "1. Day goals",
+            "2. Statistics",
+            "3. The last n-words"
+        ]:
+            print(point)
+        
+        print()
+
+        choiced_point = int(input("Select point: "))
+
+        print()
+
+        match choiced_point:
+            case 1: self.show_goals()
+            case 2: self.show_statistics()
+            case 3: self.show_last_words()
+
+    def load_stats(self) -> dict:
+
+        results = []
+
+        for command in [
+            "SELECT date, correct, incorrect, points FROM day WHERE id=1;",
+            "SELECT COUNT(english) FROM words;",
+            "SELECT SUM(correct) FROM statistics;",
+            "SELECT * FROM level WHERE id=1;"
+        ]:
+            self.cursor.execute(command)
+            results.append(list(self.cursor.fetchone()))
+
+        if None in results[2]:
+            results[2] = [0]
+
+        return {
+            "day": results[0],
+            "amount_of_words": results[1],
+            "all_correct_words": results[2],
+            "level": results[3]
+        }
+
+    def save_stats(self):
+        today = datetime.date.today().strftime("%d.%m.%Y")
+
+        self.cursor.execute(f"SELECT * FROM day WHERE date='{today}';")
+        day = self.data['day']
+
+        if len(self.cursor.fetchall()) == 1:
+            command = f"UPDATE day SET correct={day[1]}, incorrect={day[2]}, points={day[3]} WHERE id=1;"
+            self.cursor.execute(command)
+        else:
+            self.cursor.execute(f"UPDATE day SET date='{today}', correct=0, incorrect=0, points=0 WHERE id=1;")
+
+        self.cursor.execute(f"SELECT * FROM statistics WHERE date='{today}';")
+        correct = self.data['all_correct_words'][0]
+        if len(self.cursor.fetchall()) == 1:
+            self.cursor.execute(f"UPDATE statistics SET correct={correct} WHERE date='{today}';")
+        else:
+            self.cursor.execute(f"INSERT INTO statistics VALUES ('{today}', {correct});")
+
+        level = self.data['level']
+        command = f"UPDATE level SET level={level[1]}, points={level[2]} WHERE id=1;"
+        self.cursor.execute(command)
+
+    def show_goals(self):        
+        for row in [
+            "-"*29 + "\n",
+            "Day goals\n",
+            f"Today words are correct: {self.data['day'][1]}/150",
+            f"Today words are incorrect: {self.data['day'][2]}",
+            f"Points: {self.data['day'][3]}/50",
+            "\n" + "-"*29
+        ]:
+            print(row)
+
+        input()
+
+    def show_statistics(self):
+        for row in [
+            "-"*29 + "\n",
+            "Statistics\n",
+            f"Level: {self.data['level'][1]}",
+            f"Total words are correct: {self.data['all_correct_words'][0]}",
+            f"All words in vocabulary: {self.data['amount_of_words'][0]}",
+            "\n" + "-"*29
+        ]:
+            print(row)
+        input()
+
+    def show_last_words(self):
+        words_amount = int(input("Amount of words: "))
+        self.cursor.execute("SELECT * FROM words;")
+        words = self.cursor.fetchall()[::-1][:words_amount][::-1]
+        print("-"*29 + "\n")
+        for word in words:
+            print(f"{word[0]} - {word[1]}")
+        print("\n" + "-"*29)
+
+        input()
+
+    def add_point(self):
+        self.increase_level()
+
+        self.data['day'][1] += 1
+        self.data['all_correct_words'][0] += 1
+        if self.data['day'][3] < 50:
+            self.data['day'][3] += 1
+
+    def minus_points(self):
+        self.data['day'][2] += 1
+        if 0 < self.data['day'][3] < 50:
+            self.data['day'][3] -= 1
+
+    def increase_level(self):
+        if self.data['day'][3] == 49:
+            self.data['level'][2] += 50
+
+        points_level = self.data['level'][2] // 500
+
+        if self.data['level'][1] < points_level:
+            self.data['level'][1] = points_level
+    
 
 if __name__ == "__main__":
-    app = EnglishApp()
-    app.run()
+    EnglishApp()
