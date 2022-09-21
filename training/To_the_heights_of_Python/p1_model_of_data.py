@@ -1,5 +1,6 @@
 
 import random
+from math import hypot
 
 
 # Tests
@@ -31,8 +32,22 @@ class Vector:
         print(repr)
         return f'Vector({self._x},{self._y})'
 
+    def __abs__(self):
+        return hypot(self._x, self._y)
+
+    def __mul__(self, scalar):
+        return Vector(self._x * scalar, self._y * scalar)
+
+    def __bool__(self):
+        return bool(abs(self._x))
+
+    def __lt__(self, obj):
+        return self._x > obj._x and self._y > obj._y
+
     def __eq__(self, obj):
         try:
             return (self._x == obj._x) and (self._y == obj._y)
         except:
             return str(self) == obj
+
+    
