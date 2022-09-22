@@ -1,5 +1,4 @@
 
-import random
 from math import hypot
 
 
@@ -12,6 +11,10 @@ def test_vector():
     assert v2 == 'Vector(2,2)'
     assert v1 + v2 == 'Vector(4,7)'
     assert v1 + v2 == Vector(4,7)
+    assert abs(v1) == 5.39
+    assert bool(v1)
+    assert Vector(2,2) * 2 == Vector(4,4)
+
 
 # Code
 class Vector:
@@ -20,20 +23,16 @@ class Vector:
         self._y = y
     
     def __add__(self, obj):
-        x = self._x + obj._x
-        y = self._y + obj._y
-        return Vector(x,y)
+        return Vector(self._x + obj._x, self._y + obj._y)
 
     def __str__(self):
-        print("str")
         return f'Vector({self._x},{self._y})'
 
     def __repr__(self):
-        print(repr)
         return f'Vector({self._x},{self._y})'
 
     def __abs__(self):
-        return hypot(self._x, self._y)
+        return round(hypot(self._x, self._y), 2)
 
     def __mul__(self, scalar):
         return Vector(self._x * scalar, self._y * scalar)
@@ -41,13 +40,8 @@ class Vector:
     def __bool__(self):
         return bool(abs(self._x))
 
-    def __lt__(self, obj):
-        return self._x > obj._x and self._y > obj._y
-
     def __eq__(self, obj):
         try:
             return (self._x == obj._x) and (self._y == obj._y)
         except:
             return str(self) == obj
-
-    
