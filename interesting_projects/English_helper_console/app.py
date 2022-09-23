@@ -12,8 +12,6 @@ class EnglishApp():
         self.cursor = self.connect.cursor()
         self.translator = Translator()
 
-
-        # self.save_stats()
         self.data = self.load_stats()
 
         self.run()
@@ -172,6 +170,10 @@ class EnglishApp():
             case 2: self.show_statistics()
             case 3: self.show_last_words()
 
+    def check_new_day(self, date: str) -> bool:
+        self.cursor.execute(f"SELECT * FROM statistics WHERE date='{date}';")
+        return bool(self.cursor.fetchone())
+
     def load_stats(self) -> dict:
 
         results = []
@@ -188,12 +190,19 @@ class EnglishApp():
         if None in results[2]:
             results[2] = [0]
 
-        return {
+        result = {
             "day": results[0],
             "amount_of_words": results[1],
             "all_correct_words": results[2],
             "level": results[3]
         }
+
+        today = datetime.date.today().strftime("%d.%m.%Y")
+
+        if not self.check_new_day(today):
+            result["day"] = [today, 0, 0, 0]
+
+        return result
 
     def save_stats(self):
         today = datetime.date.today().strftime("%d.%m.%Y")
@@ -208,7 +217,7 @@ class EnglishApp():
             self.cursor.execute(f"UPDATE day SET date='{today}', correct=0, incorrect=0, points=0 WHERE id=1;")
 
         self.cursor.execute(f"SELECT * FROM statistics WHERE date='{today}';")
-        correct = self.data['all_correct_words'][0]
+        correct = self.data["day"][1]
         if len(self.cursor.fetchall()) == 1:
             self.cursor.execute(f"UPDATE statistics SET correct={correct} WHERE date='{today}';")
         else:
@@ -278,7 +287,7 @@ class EnglishApp():
 
         if self.data['level'][1] < points_level:
             self.data['level'][1] = points_level
-    
+ 
 
 if __name__ == "__main__":
     EnglishApp()
