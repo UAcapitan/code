@@ -3,13 +3,12 @@ from random import random
 from array import array
 
 
-floats = array('d', (random() for _ in range(10*7)))
+floats = array('d', (random() for _ in range(10**7)))
 
 print(floats[-1])
 
 with open("floats.bin", "wb") as file:
     floats.tofile(file)
-    print(file.read())
 
 floats2 = array('d')
 
