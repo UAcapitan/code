@@ -13,3 +13,8 @@ print(dq)
 
 dq.appendleft(-1)
 print(dq)
+
+dq.extend([11, 22, 33])
+print(dq)
+
+dq.extendleft([10, 20, 30])
