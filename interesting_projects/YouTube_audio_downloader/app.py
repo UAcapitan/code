@@ -2,6 +2,8 @@
 import os
 import youtube_dl
 import telebot
+import keys
+from moviepy.editor import VideoFileClip
 
 
 class YouTubeAudioDownloader:
@@ -40,7 +42,6 @@ class YouTubeAudioDownloader:
         info = ydl.extract_info(url, download=False)
         formats = info['formats']
         n = [f["filesize"] for _, f in enumerate(formats) if f["ext"] == "m4a"]
-        print(n)
         if n:
             if round(n[0] / 1048576) >= 50:
                 return False
@@ -48,8 +49,13 @@ class YouTubeAudioDownloader:
             return False
         return True
 
+    def convert(self, name):
+        video = VideoFileClip(os.path.join("path","to", name))
+        name = name
+        video.audio.write_audiofile(os.path.join("path","to","movie_sound.mp3"))
+
     def send_to_group(self):
-        bot = telebot.TeleBot("5489279030:AAEZ-w5vJ5FYPLcHEVyLg0lkM5wDEQne2y8", parse_mode=None)
+        bot = telebot.TeleBot(keys.TOKEN, parse_mode=None)
         for file in os.listdir():
             if 'm4a' in file:
                 try:
@@ -58,6 +64,7 @@ class YouTubeAudioDownloader:
                     print("Error during uploading")
                 os.remove(file)
             if "webp" in file:
+                self.convert(file)
                 os.remove(file)
 
     def run(self):
