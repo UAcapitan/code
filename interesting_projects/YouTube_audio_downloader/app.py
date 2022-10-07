@@ -51,8 +51,9 @@ class YouTubeAudioDownloader:
 
     def convert(self, name):
         video = VideoFileClip(os.path.join("path","to", name))
-        name = name
-        video.audio.write_audiofile(os.path.join("path","to","movie_sound.mp3"))
+        name = name.split(".")[0] + ".mp3"
+        print(name)
+        video.audio.write_audiofile(os.path.join("path","to", name))
 
     def send_to_group(self):
         bot = telebot.TeleBot(keys.TOKEN, parse_mode=None)
