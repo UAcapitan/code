@@ -1,6 +1,8 @@
 
 import sys
 import re
+import pdb
+# pdb.set_trace()
 
 
 WORD_RE = re.compile(r"\w+")
