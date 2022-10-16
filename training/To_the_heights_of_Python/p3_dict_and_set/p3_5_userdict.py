@@ -1,18 +1,19 @@
 
-class StrKeyDict(dict):
+import collections
+
+class StrKeyDict(collections.UserDict):
     def __missing__(self, key):
         if isinstance(key, str):
             raise KeyError(key)
         return self[str(key)]
 
-    def get(self, key, default=None):
-        try:
-            return self[key]
-        except:
-            return default
-
     def __contains__(self, key):
-        return str(key) in self.keys()
+        print("Data dict")
+        print(self.data)
+        return str(key) in self.data
+
+    def __setitem__(self, key, item):
+        self.data[str(key)] = item
 
 str_dict = StrKeyDict([("1", "one"), ("2", "two"), ("3", "three")])
 print(str_dict)
