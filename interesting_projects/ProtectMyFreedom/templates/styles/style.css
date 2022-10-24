@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    display: flex;
+}
+
+.main__content {
+    width: 40vw;
+    margin-left: 7vw;
+}
+
+.main__content__h1 {
+    margin-top: 23vh;
+    font-size: 4em;
+    color: blue;
+}
+
+.main__content__h3 {
+    margin-top: 0.5vh;
+    color: rgb(232, 232, 0);
+
+    /* background: rgb(232, 232, 0);
+    color: white; */
+}
+
+.main__content__p {
+    margin-top: 7vh;
+}
+
+.main__bg {
+    width: 42vw;
+    height: 100vh;
+    background-image: url("https://img1.goodfon.com/wallpaper/nbig/4/ef/ukraina-flag-nebo-flag.jpg");
+    background-size: cover;
+}
+
+.main__buttons {
+    margin-left: 10vw;
+    width: 17vw;
+}
+
+.main__button {
+    background-color: #e1ecf4;
+    border-radius: 2px;
+    border: 1px solid #7aa7c7;
+    box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+    box-sizing: border-box;
+    color: #3c94d3;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.3em;
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 0;
+    outline: none;
+    padding: 8px .8em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    white-space: nowrap;
+    margin-top: 2vh;
+    width: 17vw;
+}
+
+.main__button:hover {
+    color: #1372b6;
+}
+
+.main__login {
+    margin-top: 0.5vh;
+    text-align: center;
+}
+
+.main__login > a {
+    text-decoration: none;
+    color: #3c94d3;
+}
+
+.main__login > a:hover {
+    color:#1372b6;
+}
+
+.reg {
+    display: flex;
+}
+
+.reg__form {
+    width: 45vw;
+}
+
+.reg__form > div {
+    width: 80%;
+    margin-left: 25%;
+    margin-top: 9vh;
+}
+
+.reg__bg {
+    width: 55vw;
+    height: 100vh;
+    background-image: url("https://img1.goodfon.com/wallpaper/nbig/4/ef/ukraina-flag-nebo-flag.jpg");
+    background-size: cover;
+}
