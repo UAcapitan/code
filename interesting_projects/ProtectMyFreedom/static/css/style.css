@@ -97,13 +97,60 @@
 
 .reg__form > div {
     width: 80%;
-    margin-left: 25%;
-    margin-top: 9vh;
+    margin-left: 27%;
+    margin-top: 19vh;
+}
+
+.reg__form > div > form {
+    margin-top: 3vh;
+}
+
+.reg__form > div > form > input {
+    width: 21vw;
+    border-color: rgb(70, 70, 70);
 }
 
 .reg__bg {
     width: 55vw;
     height: 100vh;
-    background-image: url("https://img1.goodfon.com/wallpaper/nbig/4/ef/ukraina-flag-nebo-flag.jpg");
+    background-image: url("https://static.vecteezy.com/system/resources/thumbnails/010/232/246/original/rising-aerial-view-of-capital-city-kyiv-ukraine-on-blue-sunny-day-video.jpg");
+    background-size: cover;
+}
+
+.reg__submit {
+    background-color: #e1ecf4;
+    border-radius: 2px;
+    border: 1px solid #7aa7c7 !important;
+    box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+    box-sizing: border-box;
+    color: #3c94d3;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.3em;
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 0;
+    outline: none;
+    padding: 8px .8em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    white-space: nowrap;
+    width: 17vw;
+}
+
+.reg__form > div > form > input::placeholder {
+    color: rgb(90, 90, 90);
+    opacity: 1;
+}
+
+.login__bg {
+    width: 55vw;
+    height: 100vh;
+    background-image: url("https://img1.goodfon.com/wallpaper/nbig/e/69/kiev-ukraina-ploschad-7187.jpg");
     background-size: cover;
 }

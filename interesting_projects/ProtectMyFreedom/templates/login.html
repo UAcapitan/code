@@ -1,28 +1,25 @@
 {% extends 'base.html' %}
 
-{% block title %}Registration{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block content %}
     <div class="reg">
         <div class="reg__form">
             <div>
-                <h1>Create account</h1>
+                <br><br>
+                <h1>Login</h1>
                 
                 <form action="#" method="POST">
-                    <input type="text" class="form-control" placeholder="Username">
-                    <br>
                     <input type="email" class="form-control" placeholder="Email">
                     <br>
                     <input type="password" class="form-control" placeholder="Password">
-                    <br>
-                    <input type="password" class="form-control" placeholder="Repeat password">
 
                     <br>
-                    <input type="submit" class="reg__submit" value="Create">
+                    <input type="submit" class="reg__submit" value="Login">
                 </form>
             </div>
         </div>
 
-        <div class="reg__bg"></div>
+        <div class="login__bg"></div>
     </div>
 {% endblock %}

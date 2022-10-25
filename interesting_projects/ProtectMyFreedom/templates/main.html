@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProtectMyFreedom</title>
-    <link rel="stylesheet" href="styles/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}ProtectMyFreedom{% endblock %}
+
+{% block content %}
     <div class="main">
         <div class="main__bg"></div>
 
@@ -21,10 +15,9 @@
 
 
             <div class="main__buttons">
-                <button class="main__button">Create account</button>
-                <p class="main__login"><a href="#">Login</a></p>
+                <a class="main__button" href="/reg">Create account</a>
+                <p class="main__login"><a href="/login">Login</a></p>
             </div>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}
