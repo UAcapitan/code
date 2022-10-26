@@ -154,3 +154,80 @@
     background-image: url("https://img1.goodfon.com/wallpaper/nbig/e/69/kiev-ukraina-ploschad-7187.jpg");
     background-size: cover;
 }
+
+nav {
+    /* height: 30; */
+    background: rgb(235, 235, 235) !important;
+}
+
+.nav__logo > span:nth-child(1) {
+    color: blue;
+}
+
+.nav__logo > span:nth-child(2) {
+    color: rgb(232, 232, 0);
+}
+
+.flex {
+    display: flex;
+}
+
+.grid_main {
+    display: grid;
+    grid-template-columns: 12% 63% 25%;
+}
+
+/* .grid_main > div {
+    height: 95vh;
+} */
+
+.main_content {
+    margin-top: 10vh;
+}
+
+.main_content__tags {
+    background: rgb(235, 235, 235);
+    border-radius: 7px;
+}
+
+.main_content__question {
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    width: 98%;
+    margin-left: 1%;
+}
+
+.main_content__link {
+    text-decoration: none;
+}
+
+.main_content__header {
+    margin-top: 0.5vh;
+    margin-left: 0.5vw;
+}
+
+.main_content__tags__list {
+    margin-top: 0.5vh;
+    margin-left: 0.5vw;
+}
+
+.main_content__tags__list > p {
+    margin: 0.5vh;
+}
+
+.main_content__ask {
+    margin-left: 1vw;
+}
+
+.main_content__ask > a {
+    width: 11em;
+}
+
+.main_content__hr {
+    width: 95%;
+    margin-left: 2.5%;
+}
+
+.blog_article {
+    margin: 0.5vh;
+}
