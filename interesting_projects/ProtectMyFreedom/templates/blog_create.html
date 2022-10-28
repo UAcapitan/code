@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+    {% include 'nav.html' %}
+
+    <div class="blog container">
+        <h3>Create article</h3>
+
+        <form action="/blog/create" method="POST" enctype="multipart/form-data">
+            <input type="text" class="form-control" placeholder="Title" name="title" >
+            <br>
+            <textarea class="form-control" placeholder="Description of question" name="text"></textarea>
+            <br>
+            <input type="text" class="form-control" placeholder="Tags, separated by comma" name="tags">
+            <br>
+            <input class="form-control" type="file" name="file" multiple>
+            <br>
+            <input type="submit" value="Create">
+        </form>
+    </div>
+
+{% endblock %}

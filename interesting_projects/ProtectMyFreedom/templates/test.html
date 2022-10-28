@@ -30,20 +30,24 @@
         </div>
     </nav>
 
-    <div class="ask container">
-        <h3>Ask question</h3>
+    <div class="blog container">
+        <h3>Create article</h3>
 
-        <div>
-            <form class="ask__form" action="#" method="POST">
-                <input type="text" class="form-control" placeholder="Title" name="title">
-                <br>
-                <textarea class="form-control" placeholder="Description of question" name="question"></textarea>
-                <br>
-                <input type="text" class="form-control" placeholder="Tags, separated by comma" name="tags">
-                <br>
-                <input type="submit" value="Ask">
-            </form>
-        </div>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="Upload">
+        </form>
+
+        <form action="/blog/create" method="POST">
+            <input type="text" class="form-control" placeholder="Title" name="title">
+            <br>
+            <textarea class="form-control" placeholder="Description of question" name="text"></textarea>
+            <br>
+            <input type="text" class="form-control" placeholder="Tags, separated by comma" name="tags">
+            <br>
+            <input type="submit" value="Ask">
+        </form>
+
     </div>
     
 </body>
