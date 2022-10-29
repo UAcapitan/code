@@ -18,6 +18,7 @@ app.config['UPLOAD_FOLDER'] = 'static/files'
 
 
 # Models
+# TODO do it with foreign keys
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True)
@@ -40,10 +41,22 @@ class Question__Tags(db.Model):
     tag_id = db.Column(db.Integer)
     article_id = db.Column(db.Integer)
 
+class Blog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255))
+    text = db.Column(db.Text)
+    author = db.Column(db.String(100))
+    date = db.Column(db.DateTime())
+
 class Blog__Tags(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tag_id = db.Column(db.Integer)
     article_id = db.Column(db.Integer)
+
+class BlogArticleImage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    article_id = db.Column(db.Integer)
+    path = db.Column(db.String(255))
 
 
 # DB init
@@ -109,14 +122,16 @@ def login():
         password = fn.encrypte_password(password)
 
         user = User.query.filter_by(email=email).first()
-
-        if user.password == password:
-            session['loggedin'] = True
-            session['id'] = user.id
-            session['username'] = user.username
-            return redirect('/main')
+        if user:
+            if user.password == password:
+                session['loggedin'] = True
+                session['id'] = user.id
+                session['username'] = user.username
+                return redirect('/main')
+            else:
+                return "Unsuccessful login on site"
         else:
-            return "Unsuccessful login on site"
+            return f"You're not registered with this email: {email}"
 
     return render_template("login.html")
 
@@ -172,16 +187,16 @@ def blog_create():
     if session.get('loggedin', False):
         if request.method == "POST":
             title = request.form["title"]
-            question = request.form["question"]
+            text = request.form["text"]
             tags = request.form["tags"]
             
             if title:
-                q = Question(
+                b = Blog(
                     title=title, 
-                    question=question, 
+                    text=text, 
                     author=session["username"],
                     date=datetime.now())
-                db.session.add(q)
+                db.session.add(b)
                 db.session.commit()
 
                 if tags:
@@ -194,19 +209,21 @@ def blog_create():
                             db.session.add(t)
                             db.session.commit()
                             tag_id = t.id
-                        db.session.add(Question__Tags(tag_id=tag_id, article_id=q.id))
+                        db.session.add(Blog__Tags(tag_id=tag_id, article_id=b.id))
                     db.session.commit()
 
-            if "file" in request.files:
-                files = request.files.getlist("file")
-                for file in files:
-                    if file.filename == '':
-                        print("Error")
-                        return "Error while loading"
-                    if file and fn.allowed_file(file.filename):
-                        filename = secure_filename(file.filename)
-                        date_time = datetime.now().strftime("%a_%-m_%y-%H_%M_%S_")
-                        file.save(os.path.join(app.config["UPLOAD_FOLDER"], date_time + filename))
+                if "file" in request.files:
+                    files = request.files.getlist("file")
+                    for file in files:
+                        if file.filename == '':
+                            pass
+                        if file and fn.allowed_file(file.filename):
+                            filename = secure_filename(file.filename)
+                            date_time = datetime.now().strftime("%a_%-m_%y-%H_%M_%S_")
+                            path = os.path.join(app.config["UPLOAD_FOLDER"], date_time + filename)
+                            file.save(path)
+                            db.session.add(BlogArticleImage(article_id=b.id, path=path))
+                            db.session.commit()
 
         return render_template("blog_create.html")
     return redirect("/login")
