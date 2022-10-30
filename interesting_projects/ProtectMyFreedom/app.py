@@ -42,6 +42,7 @@ class Question__Tags(db.Model):
     article_id = db.Column(db.Integer)
 
 class Blog(db.Model):
+    __tablename__ = "blog"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
     text = db.Column(db.Text)
@@ -49,14 +50,17 @@ class Blog(db.Model):
     date = db.Column(db.DateTime())
 
 class Blog__Tags(db.Model):
+    __tablename__ = "blog__tags"
     id = db.Column(db.Integer, primary_key=True)
     tag_id = db.Column(db.Integer)
     article_id = db.Column(db.Integer)
 
 class BlogArticleImage(db.Model):
+    __tablename__ = "blog_article_image"
     id = db.Column(db.Integer, primary_key=True)
-    article_id = db.Column(db.Integer)
     path = db.Column(db.String(255))
+    blog_id = db.Column(db.Integer, db.ForeignKey("blog.id"))
+    images = db.relationship("Blog", backref="images")
 
 
 # DB init
@@ -144,7 +148,13 @@ def logout():
 
 @app.route("/main")
 def main():
-    return render_template("main.html")
+    data = {
+        "questions": Question.query.all(),
+        "blog": Blog.query.all(),
+        "tags": Tag.query.all()
+    }
+
+    return render_template("main.html", **data)
 
 @app.route("/blog")
 def blog():
@@ -179,6 +189,7 @@ def ask():
                             tag_id = t.id
                         db.session.add(Question__Tags(tag_id=tag_id, article_id=q.id))
                     db.session.commit()
+                return redirect("/main")
         return render_template("ask.html")
     return redirect("/login")
 
@@ -222,11 +233,12 @@ def blog_create():
                             date_time = datetime.now().strftime("%a_%-m_%y-%H_%M_%S_")
                             path = os.path.join(app.config["UPLOAD_FOLDER"], date_time + filename)
                             file.save(path)
-                            db.session.add(BlogArticleImage(article_id=b.id, path=path))
+                            db.session.add(BlogArticleImage(path=path, blog_id=b.id))
                             db.session.commit()
-
+        
         return render_template("blog_create.html")
     return redirect("/login")
+
 
 if __name__ == "__main__":
     app.run(debug=True)

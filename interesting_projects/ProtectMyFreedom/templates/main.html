@@ -53,7 +53,7 @@
 
                         {% for article in blog %}
                             <div class="card blog_article" style="width: 18rem;">
-                                <img class="card-img-top" src="https://www.myersdavis.com/sites/default/files/styles/large/public/2019-04/iStock-875657838.jpg?itok=7A0464sa" alt="Card image cap">
+                                <img class="card-img-top" src="{{ article.images[0].path }}" alt="Card image cap">
                                 <div class="card-body">
                                 <h5 class="card-title"><a href="#" class="main_content__link">{{ article.title }}</a></h5>
                                 <p class="card-text">{{ article.text }}</p>
