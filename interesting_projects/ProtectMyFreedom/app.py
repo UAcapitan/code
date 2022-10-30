@@ -168,7 +168,10 @@ def main():
 
 @app.route("/blog")
 def blog():
-    return render_template("blog.html")
+    data = {
+        "blog": Blog.query.all(),
+    }
+    return render_template("blog.html", **data)
 
 @app.route("/ask", methods=["GET", "POST"])
 def ask():
