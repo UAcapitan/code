@@ -12,9 +12,9 @@
                     <h4 class="main_content__header">Tags</h4>
 
                     <div class="main_content__tags__list">
-                        <p><a href="#" class="btn btn-secondary btn-sm">Another</a></p>
-                        <p><a href="#" class="btn btn-secondary btn-sm">New</a></p>
-                        <p><a href="#" class="btn btn-secondary btn-sm">Tag</a></p>
+                        {% for tag in tags %}
+                            <p><a href="#" class="btn btn-secondary btn-sm">{{ tag.tag }}</a></p>
+                        {% endfor %}
                     </div>
                 </div>
 
@@ -30,90 +30,19 @@
 
                     <div class="main__content__questions">
 
-                        <div class="card main_content__question">
-                            <div class="card-body">
-                                <h5 class="card-title"><a href="#" class="main_content__link">I don't know, it's just a questing, thanks</a></h5>
-                                <p class="card-text">Author | 6:37 AM 26.10.2022</p>
-                                <p class="card-text">
-                                    <a href="#" class="btn btn-secondary btn-sm">Tag</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">New</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">Another</a>
-                                </p>
+                        {% for question in questions %}
+                            <div class="card main_content__question">
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="#" class="main_content__link">{{ question.title }}</a></h5>
+                                    <p class="card-text">{{ question.author }} | {{ question.date }}</p>
+                                    <p class="card-text">
+                                        <a href="#" class="btn btn-secondary btn-sm">Tag</a>
+                                        <a href="#" class="btn btn-secondary btn-sm">New</a>
+                                        <a href="#" class="btn btn-secondary btn-sm">Another</a>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="card main_content__question">
-                            <div class="card-body">
-                                <h5 class="card-title"><a href="#" class="main_content__link">Title</a></h5>
-                                <p class="card-text">Author | 6:37 AM 26.10.2022</p>
-                                <p class="card-text">
-                                    <a href="#" class="btn btn-secondary btn-sm">Tag</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">New</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">Another</a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="card main_content__question">
-                            <div class="card-body">
-                                <h5 class="card-title"><a href="#" class="main_content__link">Title</a></h5>
-                                <p class="card-text">Author | 6:37 AM 26.10.2022</p>
-                                <p class="card-text">
-                                    <a href="#" class="btn btn-secondary btn-sm">Tag</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">New</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">Another</a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="card main_content__question">
-                            <div class="card-body">
-                                <h5 class="card-title"><a href="#" class="main_content__link">Title</a></h5>
-                                <p class="card-text">Author | 6:37 AM 26.10.2022</p>
-                                <p class="card-text">
-                                    <a href="#" class="btn btn-secondary btn-sm">Tag</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">New</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">Another</a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="card main_content__question">
-                            <div class="card-body">
-                                <h5 class="card-title"><a href="#" class="main_content__link">Title</a></h5>
-                                <p class="card-text">Author | 6:37 AM 26.10.2022</p>
-                                <p class="card-text">
-                                    <a href="#" class="btn btn-secondary btn-sm">Tag</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">New</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">Another</a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="card main_content__question">
-                            <div class="card-body">
-                                <h5 class="card-title"><a href="#" class="main_content__link">Title</a></h5>
-                                <p class="card-text">Author | 6:37 AM 26.10.2022</p>
-                                <p class="card-text">
-                                    <a href="#" class="btn btn-secondary btn-sm">Tag</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">New</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">Another</a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="card main_content__question">
-                            <div class="card-body">
-                                <h5 class="card-title"><a href="#" class="main_content__link">Title</a></h5>
-                                <p class="card-text">Author | 6:37 AM 26.10.2022</p>
-                                <p class="card-text">
-                                    <a href="#" class="btn btn-secondary btn-sm">Tag</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">New</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">Another</a>
-                                </p>
-                            </div>
-                        </div>
-
+                        {% endfor %}
                     </div>
                 </div>
 
@@ -122,48 +51,21 @@
 
                     <div class="main_content__other">
 
-                        <div class="card blog_article" style="width: 18rem;">
-                            <img class="card-img-top" src="https://www.myersdavis.com/sites/default/files/styles/large/public/2019-04/iStock-875657838.jpg?itok=7A0464sa" alt="Card image cap">
-                            <div class="card-body">
-                            <h5 class="card-title"><a href="#" class="main_content__link">Freedom</a></h5>
-                            <p class="card-text">Some little description for understanding main topic of this article.</p>
-                            <p class="card-text">Author | 6:37 AM 26.10.2022</p>
-                                <p class="card-text">
-                                    <a href="#" class="btn btn-secondary btn-sm">Tag</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">New</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">Another</a>
-                                </p>
+                        {% for article in blog %}
+                            <div class="card blog_article" style="width: 18rem;">
+                                <img class="card-img-top" src="https://www.myersdavis.com/sites/default/files/styles/large/public/2019-04/iStock-875657838.jpg?itok=7A0464sa" alt="Card image cap">
+                                <div class="card-body">
+                                <h5 class="card-title"><a href="#" class="main_content__link">{{ article.title }}</a></h5>
+                                <p class="card-text">{{ article.text }}</p>
+                                <p class="card-text">{{ article.author }} | {{ article.date }}</p>
+                                    <p class="card-text">
+                                        <a href="#" class="btn btn-secondary btn-sm">Tag</a>
+                                        <a href="#" class="btn btn-secondary btn-sm">New</a>
+                                        <a href="#" class="btn btn-secondary btn-sm">Another</a>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="card blog_article" style="width: 18rem;">
-                            <img class="card-img-top" src="https://media-doppleronline-ca.s3-accelerate.amazonaws.com/2022/07/grVY7x5t-g0SxyboF-freedom-sign.png" alt="Card image cap">
-                            <div class="card-body">
-                            <h5 class="card-title"><a href="#" class="main_content__link">Freedom</a></h5>
-                            <p class="card-text">Some little description for understanding main topic of this article.</p>
-                            <p class="card-text">Author | 6:37 AM 26.10.2022</p>
-                                <p class="card-text">
-                                    <a href="#" class="btn btn-secondary btn-sm">Tag</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">New</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">Another</a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="card blog_article" style="width: 18rem;">
-                            <img class="card-img-top" src="https://i.ytimg.com/vi/kxp0pvtm5z4/maxresdefault.jpg" alt="Card image cap">
-                            <div class="card-body">
-                            <h5 class="card-title"><a href="#" class="main_content__link">Freedom</a></h5>
-                            <p class="card-text">Some little description for understanding main topic of this article.</p>
-                            <p class="card-text">Author | 6:37 AM 26.10.2022</p>
-                                <p class="card-text">
-                                    <a href="#" class="btn btn-secondary btn-sm">Tag</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">New</a>
-                                    <a href="#" class="btn btn-secondary btn-sm">Another</a>
-                                </p>
-                            </div>
-                        </div>
-
+                        {% endfor %}
                     </div>
                 </div>
             </div>
