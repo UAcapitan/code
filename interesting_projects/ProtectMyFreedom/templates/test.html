@@ -30,25 +30,88 @@
         </div>
     </nav>
 
-    <div class="blog container">
-        <h3>Create article</h3>
+    <div class="question container">
 
-        <form method="POST" enctype="multipart/form-data">
-            <input type="file" name="file">
-            <input type="submit" value="Upload">
-        </form>
+        <div class="question__data">
+            <h3>Question - a big text about something, cool.</h3>
 
-        <form action="/blog/create" method="POST">
-            <input type="text" class="form-control" placeholder="Title" name="title">
-            <br>
-            <textarea class="form-control" placeholder="Description of question" name="text"></textarea>
-            <br>
-            <input type="text" class="form-control" placeholder="Tags, separated by comma" name="tags">
-            <br>
-            <input type="submit" value="Ask">
-        </form>
+            <pre>Author: <span>New</span>    Date of publication: <span>2022-10-30 14:31:03.657815</span></pre>
+
+            <p>I'm a novice in ROS and especially docker as I discovered it during this job assignment that I'm working on. They sent me a docker image with everything that I need on it (PX4-Autopilot,MAVROS, Gazebo for simulation and QGroundControl)
+
+                I have to create a ROS node to achieve a mission (on an IRIS UAV) so I created a new package and when I tried to run/compile it, rospack couldn't find it.
+                
+                I followed all the steps from ROS Wiki and when I ran the catkin_make there weren't any errors or issues but the package is nowhere to be found for ROS.
+                
+                When I searched I noticed a small difference between my compilation and the one that I was supposed to get (and yes I tried to source the path again)
+            </p>
+
+            <a href="#" class="btn btn-secondary btn-sm">text</a>
+            <a href="#" class="btn btn-secondary btn-sm">new</a>
+            <a href="#" class="btn btn-secondary btn-sm">data</a>
+        </div>
+
+        <div class="question__other">
+            <div>
+                <h4>Other questions:</h4>
+                
+                <ul>
+                    <li><a href="#" class="text-decoration-none">Some new question</a></li>
+                    <li><a href="#" class="text-decoration-none">What is popular now?</a></li>
+                    <li><a href="#" class="text-decoration-none">Interesting things</a></li>
+                    <li><a href="#" class="text-decoration-none">Some new question</a></li>
+                    <li><a href="#" class="text-decoration-none">Data about company</a></li>
+                    <li><a href="#" class="text-decoration-none">Random</a></li>
+                    <li><a href="#" class="text-decoration-none">Some new question</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="question__answers">
+            <h5>Answers (3):</h5>
+
+            <form action="">
+                <textarea class="form-control" name="answer" placeholder="Make your answer"></textarea>
+                <br>
+                <input type="submit" value="Post your answer">
+            </form>
+
+
+            <div>
+
+                <div class="question__answers__item">
+                    <hr>
+                    <p>I don't know</p>
+                    <p>Author | 2022-10-30 14:31:03.657815</p>
+                </div>
+
+                <div class="question__answers__item">
+                    <hr>
+                    <p>I don't know as well</p>
+                    <p>Author | 2022-10-30 14:31:03.657815</p>
+                </div>
+                
+                <div class="question__answers__item">
+                    <hr>
+                    <p>But I know</p>
+                    <p>Author | 2022-10-30 14:31:03.657815</p>
+                </div>
+
+            </div>
+            <hr>
+
+            <div class="question__answer__footer">
+                <p><a href="/ask" class="text-decoration-none">Ask your own question</a></p>
+            </div>
+        </div>
 
     </div>
+
+    <footer>
+        <p>All right reserved</p>
+        <p>Developed by EdMix</p>
+        <p> 2022</p>
+    </footer>
     
 </body>
 </html>

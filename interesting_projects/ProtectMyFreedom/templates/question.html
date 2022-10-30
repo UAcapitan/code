@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Question{% endblock %}
+
+{% block content %}
+
+    {% include 'nav.html' %}
+
+    <div class="question container">
+
+        <div class="question__data">
+            <h3>{{ question.title }}</h3>
+
+            <pre>Author: <span>{{ question.author.username }}</span>    Date of publication: <span>{{ question.date }}</span></pre>
+
+            <p>{{ question.question }}</p>
+
+            {% for qt in question.question_obj %}
+                <a href="#" class="btn btn-secondary btn-sm">{{ qt.tag.tag }}</a>
+            {% endfor %}
+        </div>
+
+        <div class="question__other">
+            <div>
+                <h4>Other questions:</h4>
+                
+                <ul>
+                    <li><a href="#" class="text-decoration-none">Some new question</a></li>
+                    <li><a href="#" class="text-decoration-none">What is popular now?</a></li>
+                    <li><a href="#" class="text-decoration-none">Interesting things</a></li>
+                    <li><a href="#" class="text-decoration-none">Some new question</a></li>
+                    <li><a href="#" class="text-decoration-none">Data about company</a></li>
+                    <li><a href="#" class="text-decoration-none">Random</a></li>
+                    <li><a href="#" class="text-decoration-none">Some new question</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="question__answers">
+            <h5>Answers ({{ question.question_answer_obj|length }}):</h5>
+
+            <form action="/question/answer" method="POST">
+                <textarea class="form-control" name="answer" placeholder="Make your answer"></textarea>
+                <input type="hidden" name="question_id" value="{{ question.id }}">
+                <br>
+                <input type="submit" value="Post your answer">
+            </form>
+
+
+            <div>
+
+                {% for q in question.question_answer_obj %}
+                    <div class="question__answers__item">
+                        <hr>
+                        <p>{{ q.text}}</p>
+                        <p>{{ q.author.username }} | {{ q.date }}</p>
+                    </div>
+                {% endfor %}
+
+                <hr>
+                <p><a href="#" class="text-decoration-none">See all answers</a></p>
+
+            </div>
+            <hr>
+
+            <div class="question__answer__footer">
+                <p><a href="/ask" class="text-decoration-none">Ask your own question</a></p>
+            </div>
+        </div>
+
+    </div>
+
+    {% include 'footer.html' %}
+
+{% endblock %}

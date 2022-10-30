@@ -3,6 +3,7 @@
 {% block title %}ProtectMyFreedom{% endblock %}
 
 {% block content %}
+
     {% include 'nav.html' %}
 
     <main>
@@ -33,7 +34,7 @@
                         {% for question in questions %}
                             <div class="card main_content__question">
                                 <div class="card-body">
-                                    <h5 class="card-title"><a href="#" class="main_content__link">{{ question.title }}</a></h5>
+                                    <h5 class="card-title"><a href="/question/{{ question.id }}" class="main_content__link">{{ question.title }}</a></h5>
                                     <p class="card-text">{{ question.author.username }} | {{ question.date }}</p>
                                     <p class="card-text">
                                         {% for qt in question.question_obj %}
@@ -72,4 +73,7 @@
             </div>
         </div>
     </main>
+
+    {% include 'footer.html' %}
+
 {% endblock %}

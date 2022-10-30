@@ -72,6 +72,16 @@ class BlogArticleImage(db.Model):
     blog_id = db.Column(db.Integer, db.ForeignKey("blog.id"))
     images = db.relationship("Blog", backref="images")
 
+class QuestionAnswer(db.Model):
+    __tablename__ = "question_answer"
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.Text, nullable=False)
+    question_id = db.Column(db.Integer, db.ForeignKey("question.id"))
+    question = db.relationship("Question", backref="question_answer_obj")
+    author_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    author = db.relationship("User", backref="author_answer")
+    date = db.Column(db.DateTime())
+
 
 # DB init
 db.init_app(app)
@@ -251,6 +261,29 @@ def blog_create():
         
         return render_template("blog_create.html")
     return redirect("/login")
+
+@app.route("/question/<int:id>")
+def question(id):
+    data = {
+        "question": Question.query.filter_by(id=id).first()
+    }
+    return render_template("question.html", **data)
+
+@app.route("/question/answer", methods=["GET", "POST"])
+def question_answer():
+    if request.method == "POST":
+        answer = request.form["answer"]
+        question_id = request.form["question_id"]
+
+        db.session.add(QuestionAnswer(
+            text=answer,
+            question_id=question_id,
+            author_id=session["id"],
+            date=datetime.now())
+        )
+        db.session.commit()
+        return redirect(f"/question/{question_id}")
+    return redirect("/main")
 
 
 if __name__ == "__main__":
