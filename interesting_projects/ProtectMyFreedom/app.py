@@ -20,40 +20,50 @@ app.config['UPLOAD_FOLDER'] = 'static/files'
 # Models
 # TODO do it with foreign keys
 class User(db.Model):
+    __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(512))
 
 class Question(db.Model):
+    __tablename__ = "question"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
     question = db.Column(db.Text)
-    author = db.Column(db.String(100))
+    author_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    author = db.relationship("User", backref="author")
     date = db.Column(db.DateTime())
 
 class Tag(db.Model):
+    __tablename__ = "tag"
     id = db.Column(db.Integer, primary_key=True)
     tag = db.Column(db.String(50), unique=True)
 
-class Question__Tags(db.Model):
+class Question__Tag(db.Model):
+    __tablename__ = "question__tag"
     id = db.Column(db.Integer, primary_key=True)
-    tag_id = db.Column(db.Integer)
-    article_id = db.Column(db.Integer)
+    tag_id = db.Column(db.Integer, db.ForeignKey("tag.id"))
+    tag = db.relationship("Tag", backref="tags")
+    question_id = db.Column(db.Integer, db.ForeignKey("question.id"))
+    question = db.relationship("Question", backref="question_obj")
 
 class Blog(db.Model):
     __tablename__ = "blog"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
     text = db.Column(db.Text)
-    author = db.Column(db.String(100))
+    author_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    author = db.relationship("User", backref="author_obj")
     date = db.Column(db.DateTime())
 
-class Blog__Tags(db.Model):
-    __tablename__ = "blog__tags"
+class Blog__Tag(db.Model):
+    __tablename__ = "blog__tag"
     id = db.Column(db.Integer, primary_key=True)
-    tag_id = db.Column(db.Integer)
-    article_id = db.Column(db.Integer)
+    tag_id = db.Column(db.Integer, db.ForeignKey("tag.id"))
+    tag = db.relationship("Tag", backref="tags_obj")
+    article_id = db.Column(db.Integer, db.ForeignKey("blog.id"))
+    article = db.relationship("Blog", backref="blog_obj")
 
 class BlogArticleImage(db.Model):
     __tablename__ = "blog_article_image"
@@ -172,7 +182,7 @@ def ask():
                 q = Question(
                     title=title, 
                     question=question, 
-                    author=session["username"],
+                    author_id=session["id"],
                     date=datetime.now())
                 db.session.add(q)
                 db.session.commit()
@@ -187,7 +197,7 @@ def ask():
                             db.session.add(t)
                             db.session.commit()
                             tag_id = t.id
-                        db.session.add(Question__Tags(tag_id=tag_id, article_id=q.id))
+                        db.session.add(Question__Tag(tag_id=tag_id, question_id=q.id))
                     db.session.commit()
                 return redirect("/main")
         return render_template("ask.html")
@@ -205,7 +215,7 @@ def blog_create():
                 b = Blog(
                     title=title, 
                     text=text, 
-                    author=session["username"],
+                    author_id=session["id"],
                     date=datetime.now())
                 db.session.add(b)
                 db.session.commit()
@@ -220,7 +230,7 @@ def blog_create():
                             db.session.add(t)
                             db.session.commit()
                             tag_id = t.id
-                        db.session.add(Blog__Tags(tag_id=tag_id, article_id=b.id))
+                        db.session.add(Blog__Tag(tag_id=tag_id, article_id=b.id))
                     db.session.commit()
 
                 if "file" in request.files:
