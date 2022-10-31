@@ -310,3 +310,141 @@ textarea {
     width: 13vw;
     margin-bottom: 3vh;
 }
+
+.question {
+    margin-top: 11vh;
+    display: grid;
+    grid-template-columns: 75% 25%;
+}
+
+.question__data {
+    margin-top: 1vh;
+}
+
+.question__data > pre > span {
+    color: gray;
+}
+
+.question__other {
+    margin-left: 3vw;
+    background: rgb(235, 235, 235);
+    border-radius: 7px;
+}
+
+.question__other > div {
+    margin-left: 1vw;
+    margin-top: 1vh;
+}
+
+.question__answers {
+    margin-top: 5vh;
+}
+
+.question__answers > form > input[type=submit] {
+    background-color: #e1ecf4;
+    border-radius: 2px;
+    border: 1px solid #7aa7c7 !important;
+    box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+    box-sizing: border-box;
+    color: #3c94d3;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.1em;
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 0;
+    outline: none;
+    padding: 8px .8em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    white-space: nowrap;
+    width: 13vw;
+    margin-bottom: 3vh;
+}
+
+.question__answers > form > textarea {
+    height: 7em;
+}
+
+.question__answer__footer {
+    margin-top: 5vh;
+}
+
+footer {
+    background: rgb(235, 235, 235);
+    height: 12vh;
+}
+
+footer > p:nth-child(1) {
+    padding-top: 1vh;
+}
+
+footer > p {
+    margin: 0;
+    text-align: center;
+    color: black;
+}
+
+.article {
+    margin-top: 11vh;
+    display: grid;
+    grid-template-columns: 65% 35%;
+}
+
+.article__data {
+    margin-top: 1vh;
+}
+
+.article__data > pre > span {
+    color: gray;
+}
+
+.article__other > img {
+    width: 95%;
+    height: auto;
+}
+
+.article__other > div {
+    margin-left: 1vw;
+    margin-top: 1vh;
+}
+
+.article__answers {
+    margin-top: 5vh;
+}
+
+.article__answers > form > input[type=submit] {
+    background-color: #e1ecf4;
+    border-radius: 2px;
+    border: 1px solid #7aa7c7 !important;
+    box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+    box-sizing: border-box;
+    color: #3c94d3;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.1em;
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 0;
+    outline: none;
+    padding: 8px .8em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    white-space: nowrap;
+    width: 15vw;
+    margin-bottom: 3vh;
+}
+
+.article__answers > form > textarea {
+    height: 7em;
+}

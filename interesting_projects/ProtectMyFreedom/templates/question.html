@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Question{% endblock %}
+{% block title %}{{ question.title }}{% endblock %}
 
 {% block content %}
 
@@ -52,7 +52,7 @@
                 {% for q in question.question_answer_obj %}
                     <div class="question__answers__item">
                         <hr>
-                        <p>{{ q.text}}</p>
+                        <p>{{ q.text }}</p>
                         <p>{{ q.author.username }} | {{ q.date }}</p>
                     </div>
                 {% endfor %}

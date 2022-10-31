@@ -82,6 +82,16 @@ class QuestionAnswer(db.Model):
     author = db.relationship("User", backref="author_answer")
     date = db.Column(db.DateTime())
 
+class ArticleComment(db.Model):
+    __tablename__ = "article_comment"
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.Text, nullable=False)
+    article_id = db.Column(db.Integer, db.ForeignKey("blog.id"))
+    article = db.relationship("Blog", backref="article_comment_obj")
+    author_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    author = db.relationship("User", backref="author_comment")
+    date = db.Column(db.DateTime())
+
 
 # DB init
 db.init_app(app)
@@ -196,7 +206,7 @@ def ask():
                     title=title, 
                     question=question, 
                     author_id=session["id"],
-                    date=datetime.now())
+                    date=datetime.now().replace(second=0, microsecond=0))
                 db.session.add(q)
                 db.session.commit()
 
@@ -229,7 +239,7 @@ def blog_create():
                     title=title, 
                     text=text, 
                     author_id=session["id"],
-                    date=datetime.now())
+                    date=datetime.now().replace(second=0, microsecond=0))
                 db.session.add(b)
                 db.session.commit()
 
@@ -279,12 +289,36 @@ def question_answer():
             text=answer,
             question_id=question_id,
             author_id=session["id"],
-            date=datetime.now())
+            date=datetime.now().replace(second=0, microsecond=0))
         )
         db.session.commit()
         return redirect(f"/question/{question_id}")
     return redirect("/main")
 
+@app.route("/article/<int:id>")
+def article(id):
+    data = {
+        "article": Blog.query.filter_by(id=id).first()
+    }
+    print(dir(data["article"]))
+    print(data["article"].images[0].path)
+    return render_template("article.html", **data)
+
+@app.route("/article/comment", methods=["GET", "POST"])
+def article_comment():
+    if request.method == "POST":
+        answer = request.form["comment"]
+        article_id = request.form["article_id"]
+
+        db.session.add(ArticleComment(
+            text=answer,
+            article_id=article_id,
+            author_id=session["id"],
+            date=datetime.now().replace(second=0, microsecond=0))
+        )
+        db.session.commit()
+        return redirect(f"/article/{article_id}")
+    return redirect("/main")
 
 if __name__ == "__main__":
     app.run(debug=True)
