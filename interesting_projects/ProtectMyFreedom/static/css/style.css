@@ -448,3 +448,11 @@ footer > p {
 .article__answers > form > textarea {
     height: 7em;
 }
+
+.valid {
+    border-color: green !important;
+}
+
+.invalid {
+    border-color: red !important;
+}

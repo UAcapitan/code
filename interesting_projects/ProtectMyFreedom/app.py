@@ -1,5 +1,6 @@
 
 import os
+import re
 from datetime import datetime
 
 from flask import Flask, render_template, request, redirect, session
@@ -110,12 +111,21 @@ def index():
 def reg():
     if session.get('loggedin', False):
         return render_template("main.html")
-    # TODO do validation later
     # TODO make page for errors
     if request.method == 'POST':
+
         username = request.form['username']
+        if not re.match(r"^[a-zA-Z0-9_]{1,100}$", username): 
+            return "Username is wrong"
+
         email = request.form['email']
+        if not re.match(r"^[a-zA-Z0-9.]{1,20}@[a-z]{1,10}\.[a-z]{1,5}$", email): 
+            return "Email is wrong"
+
         password = request.form['password']
+        if not re.match(r"^[a-zA-Z0-9_\-\.]{8,20}$", password):
+            return "Password is wrong"
+
         re_password = request.form['re_password']
         
         if password != re_password:
@@ -148,10 +158,16 @@ def reg():
 def login():
     if session.get('loggedin', False):
         return render_template("main.html")
-    # TODO validation
+
     if request.method == "POST":
+
         email = request.form['email']
+        if not re.match(r"^[a-zA-Z0-9.]{1,20}@[a-z]{1,10}\.[a-z]{1,5}$", email): 
+            return "Email is wrong"
+
         password = request.form['password']
+        if not re.match(r"^[a-zA-Z0-9_\-\.]{8,20}$", password):
+            return "Password is wrong"
 
         password = fn.encrypte_password(password)
 
@@ -180,7 +196,7 @@ def logout():
 def main():
     data = {
         "questions": Question.query.all(),
-        "blog": Blog.query.all(),
+        "blog": Blog.query.order_by(Blog.id.desc()).all(),
         "tags": Tag.query.all()
     }
 
