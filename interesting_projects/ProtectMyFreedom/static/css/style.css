@@ -467,10 +467,6 @@ footer > p {
     grid-template-columns: 30% 70%;
 }
 
-/* .profile_grid > div {
-    border: 1px solid black;
-} */
-
 .avatar {
     width: 7em;
     height: 7em;
