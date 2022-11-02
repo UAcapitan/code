@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Name{% endblock %}
+{% block title %}{{ user.username }}{% endblock %}
 
 {% block content %}
 
@@ -15,7 +15,7 @@
                         <div class="avatar"></div>
                     </div>
                     <div>
-                        <h2>Username</h2>
+                        <h2>{{ user.username }}</h2>
                         <p>Member Since: Nov 2002</p>
                     </div>
                 </div>
@@ -29,88 +29,40 @@
             <div>
                 <h3>The last questions</h3>
 
-                <div class="card main_content__question">
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="#" class="main_content__link">Title</a></h5>
-                        <p class="card-text">Nov 01 2022</p>
-                        <p class="card-text">
-                            <a href="#" class="btn btn-secondary btn-sm">tag</a>
-                            <a href="#" class="btn btn-secondary btn-sm">new</a>
-                            <a href="#" class="btn btn-secondary btn-sm">data</a>
-                        </p>
+                {% for question in questions %}
+                    <div class="card main_content__question">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="/question/{{ question.id }}" class="main_content__link">{{ question.title }}</a></h5>
+                            <p class="card-text">{{ question.author.username }} | {{ question.date }}</p>
+                            <p class="card-text">
+                                {% for qt in question.question_obj %}
+                                    <a href="#" class="btn btn-secondary btn-sm">{{ qt.tag.tag }}</a>
+                                {% endfor %}
+                            </p>
+                        </div>
                     </div>
-                </div>
-
-                <div class="card main_content__question">
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="#" class="main_content__link">Title</a></h5>
-                        <p class="card-text">Nov 01 2022</p>
-                        <p class="card-text">
-                            <a href="#" class="btn btn-secondary btn-sm">tag</a>
-                            <a href="#" class="btn btn-secondary btn-sm">new</a>
-                            <a href="#" class="btn btn-secondary btn-sm">data</a>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="card main_content__question">
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="#" class="main_content__link">Title</a></h5>
-                        <p class="card-text">Nov 01 2022</p>
-                        <p class="card-text">
-                            <a href="#" class="btn btn-secondary btn-sm">tag</a>
-                            <a href="#" class="btn btn-secondary btn-sm">new</a>
-                            <a href="#" class="btn btn-secondary btn-sm">data</a>
-                        </p>
-                    </div>
-                </div>
+                {% endfor %}
 
                 <h3>The last articles</h3>
 
                 <div class="profile__blog_grid">
 
-                    <div class="card blog_article" style="width: 18rem;">
-                        <img class="card-img-top" src="" alt="Card image cap">
-                        <div class="card-body">
-                        <h5 class="card-title"><a href="№" class="main_content__link">Title</a></h5>
-                        <p class="card-text">Description</p>
-                        <p class="card-text">Nov 01 2022</p>
-                            <p class="card-text">
-                                <a href="#" class="btn btn-secondary btn-sm">tag</a>
-                                <a href="#" class="btn btn-secondary btn-sm">new</a>
-                                <a href="#" class="btn btn-secondary btn-sm">data</a>
-                            </p>
+                    {% for article in articles %}
+                        <div class="card blog_article" style="width: 18rem;">
+                            <img class="card-img-top" src="../{{ article.images[0].path }}" alt="Card image cap">
+                            <div class="card-body">
+                            <h5 class="card-title"><a href="/article/{{ article.id }}" class="main_content__link">{{ article.title }}</a></h5>
+                            <p class="card-text">{{ article.text }}</p>
+                            <p class="card-text">{{ article.date }}</p>
+                                <p class="card-text">
+                                    {% for bt in article.blog_obj %}
+                                        <a href="#" class="btn btn-secondary btn-sm">{{ bt.tag.tag }}</a>
+                                    {% endfor %}
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    {% endfor %}
 
-                    <div class="card blog_article" style="width: 18rem;">
-                        <img class="card-img-top" src="" alt="Card image cap">
-                        <div class="card-body">
-                        <h5 class="card-title"><a href="№" class="main_content__link">Title</a></h5>
-                        <p class="card-text">Description</p>
-                        <p class="card-text">Nov 01 2022</p>
-                            <p class="card-text">
-                                <a href="#" class="btn btn-secondary btn-sm">tag</a>
-                                <a href="#" class="btn btn-secondary btn-sm">new</a>
-                                <a href="#" class="btn btn-secondary btn-sm">data</a>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="card blog_article" style="width: 18rem;">
-                        <img class="card-img-top" src="" alt="Card image cap">
-                        <div class="card-body">
-                        <h5 class="card-title"><a href="№" class="main_content__link">Title</a></h5>
-                        <p class="card-text">Description</p>
-                        <p class="card-text">Nov 01 2022</p>
-                            <p class="card-text">
-                                <a href="#" class="btn btn-secondary btn-sm">tag</a>
-                                <a href="#" class="btn btn-secondary btn-sm">new</a>
-                                <a href="#" class="btn btn-secondary btn-sm">data</a>
-                            </p>
-                        </div>
-                    </div>
-        
                 </div>
             </div>
 

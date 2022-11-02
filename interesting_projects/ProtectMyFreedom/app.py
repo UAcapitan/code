@@ -195,9 +195,9 @@ def logout():
 @app.route("/main")
 def main():
     data = {
-        "questions": Question.query.all(),
-        "blog": Blog.query.order_by(Blog.id.desc()).all(),
-        "tags": Tag.query.all()
+        "questions": Question.query.order_by(Question.id.desc()).all(),
+        "blog": Blog.query.order_by(Blog.id.desc()).order_by(Blog.id.desc()).all(),
+        "tags": Tag.query.order_by(Tag.id.desc()).all()
     }
 
     return render_template("main.html", **data)
@@ -205,7 +205,7 @@ def main():
 @app.route("/blog")
 def blog():
     data = {
-        "blog": Blog.query.all(),
+        "blog": Blog.query.order_by(Blog.id.desc()).all(),
     }
     return render_template("blog.html", **data)
 
@@ -322,19 +322,40 @@ def article(id):
 
 @app.route("/article/comment", methods=["GET", "POST"])
 def article_comment():
-    if request.method == "POST":
-        answer = request.form["comment"]
-        article_id = request.form["article_id"]
+    if session.get('loggedin', False):
+        if request.method == "POST":
+            answer = request.form["comment"]
+            article_id = request.form["article_id"]
 
-        db.session.add(ArticleComment(
-            text=answer,
-            article_id=article_id,
-            author_id=session["id"],
-            date=datetime.now().replace(second=0, microsecond=0))
-        )
-        db.session.commit()
-        return redirect(f"/article/{article_id}")
-    return redirect("/main")
+            db.session.add(ArticleComment(
+                text=answer,
+                article_id=article_id,
+                author_id=session["id"],
+                date=datetime.now().replace(second=0, microsecond=0))
+            )
+            db.session.commit()
+            return redirect(f"/article/{article_id}")
+        return redirect("/main")
+
+@app.route("/profile/<int:id>")
+def profile(id):
+    if session.get('loggedin', False):
+        if id == 0:
+            id = session.get("id")
+            user = User.query.filter_by(id=id).first()
+            questions = Question.query.filter_by(author_id=id).order_by(Question.id.desc()).limit(3).all()
+            articles = Blog.query.filter_by(author_id=id).order_by(Blog.id.desc()).limit(3).all()
+        else:
+            user = User.query.filter_by(id=id).first()
+            questions = Question.query.filter_by(author_id=id).order_by(Question.id.desc()).limit(3).all()
+            articles = Blog.query.filter_by(author_id=id).order_by(Blog.id.desc()).limit(3).all()
+        data = {
+            "user": user,
+            "questions": questions,
+            "articles": articles
+        }
+        return render_template("profile.html", **data)
+    return redirect("/login")
 
 if __name__ == "__main__":
     app.run(debug=True)
