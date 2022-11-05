@@ -28,7 +28,7 @@
                     <p class="card-text">{{ article.author.username }} | {{ article.date }}</p>
                         <p class="card-text">
                             {% for bt in article.blog_obj %}
-                                <a href="#" class="btn btn-secondary btn-sm">{{ bt.tag.tag }}</a>
+                                <a href="/tag/{{ bt.tag.id }}" class="btn btn-secondary btn-sm">{{ bt.tag.tag }}</a>
                             {% endfor %}
                         </p>
                     </div>

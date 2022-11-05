@@ -160,6 +160,10 @@ nav {
     background: rgb(235, 235, 235);
 }
 
+.nav__logo {
+    text-shadow: 0.5px 0.5px black;
+}
+
 .nav__logo > span:nth-child(1) {
     color: blue;
 }
@@ -515,4 +519,8 @@ footer > p {
     background: #6c6f71;
     border-color: #6c6f71;
     color: white;
+}
+
+.tag_questions {
+    margin-top: 11vh;
 }

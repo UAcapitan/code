@@ -1,6 +1,7 @@
 
 import os
 import re
+import random
 from datetime import datetime
 
 from flask import Flask, render_template, request, redirect, session
@@ -201,10 +202,14 @@ def logout():
 @app.route("/main")
 def main():
     page = request.args.get('page', 1, type=int)
+
+    rand = list(range(Tag.query.count()))
+    random.shuffle(rand)
+
     data = {
         "questions": Question.query.order_by(Question.id.desc()).paginate(page=page, per_page=10),
         "blog": Blog.query.order_by(Blog.id.desc()).order_by(Blog.id.desc()).limit(3).all(),
-        "tags": Tag.query.order_by(Tag.id.desc()).limit(15).all()
+        "tags": [Tag.query.filter_by(id=rand.pop(0)).first() for _ in range(15)]
     }
 
     return render_template("main.html", **data)
@@ -240,9 +245,12 @@ def ask():
                         if tag_obj:
                             tag_id = tag_obj.id
                         else:
-                            t = Tag(tag=tag.strip())
-                            db.session.add(t)
-                            db.session.commit()
+                            try:
+                                t = Tag(tag=tag.strip())
+                                db.session.add(t)
+                                db.session.commit()
+                            except:
+                                continue
                             tag_id = t.id
                         db.session.add(Question__Tag(tag_id=tag_id, question_id=q.id))
                     db.session.commit()
@@ -368,6 +376,15 @@ def profile(id):
         }
         return render_template("profile.html", **data)
     return redirect("/login")
+
+@app.route("/tag/<int:id>")
+def tag(id):
+    page = request.args.get('page', 1, type=int)
+
+    data = {
+        "tag": Question__Tag.query.filter_by(tag_id=id).order_by(Question__Tag.id.desc()).paginate(page=page, per_page=10)
+    }
+    return render_template("tags.html", **data)
 
 if __name__ == "__main__":
     app.run(debug=True)
