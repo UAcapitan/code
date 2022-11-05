@@ -25,13 +25,9 @@
                 <h4>Other questions:</h4>
                 
                 <ul>
-                    <li><a href="#" class="text-decoration-none">Some new question</a></li>
-                    <li><a href="#" class="text-decoration-none">What is popular now?</a></li>
-                    <li><a href="#" class="text-decoration-none">Interesting things</a></li>
-                    <li><a href="#" class="text-decoration-none">Some new question</a></li>
-                    <li><a href="#" class="text-decoration-none">Data about company</a></li>
-                    <li><a href="#" class="text-decoration-none">Random</a></li>
-                    <li><a href="#" class="text-decoration-none">Some new question</a></li>
+                    {% for question in other_questions %}
+                        <li><a href="/question/{{ question.id }}" class="text-decoration-none">{{ question.title }}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
@@ -49,11 +45,19 @@
 
             <div>
 
-                {% for q in question.question_answer_obj %}
+                {% for q in popular_answers %}
                     <div class="question__answers__item">
                         <hr>
                         <p>{{ q.text }}</p>
-                        <p>{{ q.author.username }} | {{ q.date }}</p>
+                        <p>{{ q.author.username }} | {{ q.date }} <span class="green">New</span></p>
+                    </div>
+                {% endfor %}
+
+                {% for q in new_answers %}
+                    <div class="question__answers__item">
+                        <hr>
+                        <p>{{ q.text }}</p>
+                        <p>{{ q.author.username }} | {{ q.date }} <span class="green">New</span></p>
                     </div>
                 {% endfor %}
 

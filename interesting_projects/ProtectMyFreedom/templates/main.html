@@ -45,6 +45,37 @@
                             </div>
                         {% endfor %}
                     </div>
+
+                    <div class="btn_pagination">
+                        <div class="text-right">
+                            <a href="/main?page={{ questions.prev_num }}"
+                            class="btn btn-click
+                            {% if questions.page == 1 %}disabled{% endif %}">
+                                &laquo;
+                            </a>
+                            {% for page_num in questions.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}{% if page_num %}
+                                    {% if questions.page == page_num %}
+                                    <a href="/main?page={{ page_num }}"
+                                    class="btn btn-activate">
+                                        {{ page_num }}
+                                    </a>
+                                    {% else %}
+                                    <a href="/main?page={{ page_num }}"
+                                    class="btn btn-click">
+                                        {{ page_num }}
+                                    </a>
+                                    {% endif %}
+                                {% else %}
+                                    ...
+                                {% endif %}
+                            {% endfor %}    <a href="/main?page={{ questions.next_num }}"
+                            class="btn btn-click
+                            {% if questions.page == questions.pages %}disabled{% endif %}">
+                                &raquo;
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div>
@@ -54,7 +85,11 @@
                     
                         {% for article in blog %}
                             <div class="card blog_article" style="width: 18rem;">
-                                <img class="card-img-top" src="{{ article.images[0].path }}" alt="Card image cap">
+                                {% if article.images %}
+                                    <img class="card-img-top" src="{{ article.images[0].path }}" alt="Card image cap">
+                                {% else %}
+                                    <img class="card-img-top" src="https://png.pngtree.com/thumb_back/fh260/background/20211031/pngtree-abstract-bg-image_914283.png" alt="Card image cap">
+                                {% endif %}
                                 <div class="card-body">
                                 <h5 class="card-title"><a href="/article/{{ article.id }}" class="main_content__link">{{ article.title }}</a></h5>
                                 <p class="card-text">{{ article.text }}</p>

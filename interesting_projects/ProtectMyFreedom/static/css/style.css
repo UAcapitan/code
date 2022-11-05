@@ -157,7 +157,7 @@
 
 nav {
     /* height: 30; */
-    background: rgb(235, 235, 235) !important;
+    background: rgb(235, 235, 235);
 }
 
 .nav__logo > span:nth-child(1) {
@@ -234,7 +234,12 @@ nav {
 
 .blog_article {
     margin: 0.5vh;
-    width: 25vw !important;
+    width: 25vw;
+    margin-bottom: 3vh !important;
+}
+
+.blog_article > img {
+    height: 11em;
 }
 
 .blog_grid {
@@ -481,4 +486,33 @@ footer > p {
 
 .profile__blog_grid > div {
     width: 98% !important;
+}
+
+.green {
+    color: green;
+}
+
+.btn_pagination {
+    text-align: center;
+}
+
+.btn-activate {
+    background: #4d5154;
+    color: white;
+}
+
+.btn-activate:hover {
+    background: #6c6f71;
+    color: white;
+}
+
+.btn-click {
+    border-color: gray;
+    color: rgb(70, 70, 70);
+}
+
+.btn-click:hover {
+    background: #6c6f71;
+    border-color: #6c6f71;
+    color: white;
 }

@@ -26,6 +26,7 @@ class User(db.Model):
     username = db.Column(db.String(100), unique=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(512))
+    date_of_reg = db.Column(db.DateTime())
 
 class Question(db.Model):
     __tablename__ = "question"
@@ -71,7 +72,7 @@ class BlogArticleImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     path = db.Column(db.String(255))
     blog_id = db.Column(db.Integer, db.ForeignKey("blog.id"))
-    images = db.relationship("Blog", backref="images")
+    images = db.relationship("Blog", backref="images", uselist=False)
 
 class QuestionAnswer(db.Model):
     __tablename__ = "question_answer"
@@ -142,7 +143,12 @@ def reg():
         password = fn.encrypte_password(password)
 
         try:
-            user = User(username=username, email=email, password=password)
+            user = User(
+                username=username, 
+                email=email, 
+                password=password,
+                date_of_reg=datetime.now().replace(second=0, microsecond=0)
+            )
             db.session.add(user)
             db.session.commit()
             session['loggedin'] = True
@@ -194,18 +200,20 @@ def logout():
 
 @app.route("/main")
 def main():
+    page = request.args.get('page', 1, type=int)
     data = {
-        "questions": Question.query.order_by(Question.id.desc()).all(),
-        "blog": Blog.query.order_by(Blog.id.desc()).order_by(Blog.id.desc()).all(),
-        "tags": Tag.query.order_by(Tag.id.desc()).all()
+        "questions": Question.query.order_by(Question.id.desc()).paginate(page=page, per_page=10),
+        "blog": Blog.query.order_by(Blog.id.desc()).order_by(Blog.id.desc()).limit(3).all(),
+        "tags": Tag.query.order_by(Tag.id.desc()).limit(15).all()
     }
 
     return render_template("main.html", **data)
 
 @app.route("/blog")
 def blog():
+    page = request.args.get('page', 1, type=int)
     data = {
-        "blog": Blog.query.order_by(Blog.id.desc()).all(),
+        "blog": Blog.query.order_by(Blog.id.desc()).paginate(page=page, per_page=9),
     }
     return render_template("blog.html", **data)
 
@@ -291,8 +299,12 @@ def blog_create():
 @app.route("/question/<int:id>")
 def question(id):
     data = {
-        "question": Question.query.filter_by(id=id).first()
+        "question": Question.query.filter_by(id=id).first(),
+        "popular_answers": [],
+        "new_answers": QuestionAnswer.query.filter_by(question_id=id).order_by(QuestionAnswer.id.desc()).limit(4).all(),
+        "other_questions": Question.query.order_by(Question.id.desc()).limit(7).all()
     }
+
     return render_template("question.html", **data)
 
 @app.route("/question/answer", methods=["GET", "POST"])
