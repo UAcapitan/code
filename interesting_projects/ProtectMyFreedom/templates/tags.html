@@ -8,7 +8,7 @@
 
     <div class="tag_questions container">
 
-        <h3>Tag: <a href="#" class="btn btn-secondary btn-sm">{{ tag[0].tag.tag }}</a></h3>
+        <h3>Tag: <a href="/tag/{{ tag[0].tag.id }}" class="btn btn-secondary btn-sm">{{ tag[0].tag.tag }}</a></h3>
         
         {% for question in tag %}
             <div class="card main_content__question">
@@ -17,7 +17,7 @@
                     <p class="card-text">{{ question.question.author.username }} | {{ question.question.date }}</p>
                     <p class="card-text">
                         {% for qt in question.question.question_obj %}
-                            <a href="#" class="btn btn-secondary btn-sm">{{ qt.tag.tag }}</a>
+                            <a href="/tag/{{ qt.tag.id }}" class="btn btn-secondary btn-sm">{{ qt.tag.tag }}</a>
                         {% endfor %}
                     </p>
                 </div>

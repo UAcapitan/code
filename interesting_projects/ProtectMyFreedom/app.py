@@ -95,6 +95,13 @@ class ArticleComment(db.Model):
     author = db.relationship("User", backref="author_comment")
     date = db.Column(db.DateTime())
 
+class UserAvatar(db.Model):
+    __tablename__ = "user_avatar"
+    id = db.Column(db.Integer, primary_key=True)
+    path = db.Column(db.String(255))
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user = db.relationship("User", backref="user_avatar")
+
 
 # DB init
 db.init_app(app)
@@ -202,14 +209,21 @@ def logout():
 @app.route("/main")
 def main():
     page = request.args.get('page', 1, type=int)
-
-    rand = list(range(Tag.query.count()))
+    
+    tags_count = Tag.query.count()
+    rand = list(range(1, tags_count + 1))
     random.shuffle(rand)
+    print(rand)
+
+    if tags_count > 15:
+        n = 15
+    else:
+        n = tags_count
 
     data = {
         "questions": Question.query.order_by(Question.id.desc()).paginate(page=page, per_page=10),
         "blog": Blog.query.order_by(Blog.id.desc()).order_by(Blog.id.desc()).limit(3).all(),
-        "tags": [Tag.query.filter_by(id=rand.pop(0)).first() for _ in range(15)]
+        "tags": [Tag.query.filter_by(id=rand.pop(0)).first() for _ in range(n)]
     }
 
     return render_template("main.html", **data)
@@ -362,18 +376,16 @@ def profile(id):
     if session.get('loggedin', False):
         if id == 0:
             id = session.get("id")
-            user = User.query.filter_by(id=id).first()
-            questions = Question.query.filter_by(author_id=id).order_by(Question.id.desc()).limit(3).all()
-            articles = Blog.query.filter_by(author_id=id).order_by(Blog.id.desc()).limit(3).all()
-        else:
-            user = User.query.filter_by(id=id).first()
-            questions = Question.query.filter_by(author_id=id).order_by(Question.id.desc()).limit(3).all()
-            articles = Blog.query.filter_by(author_id=id).order_by(Blog.id.desc()).limit(3).all()
+        user = User.query.filter_by(id=id).first()
+        questions = Question.query.filter_by(author_id=id).order_by(Question.id.desc()).limit(3).all()
+        articles = Blog.query.filter_by(author_id=id).order_by(Blog.id.desc()).limit(3).all()
+
         data = {
             "user": user,
             "questions": questions,
-            "articles": articles
+            "articles": articles,
         }
+
         return render_template("profile.html", **data)
     return redirect("/login")
 
@@ -382,9 +394,28 @@ def tag(id):
     page = request.args.get('page', 1, type=int)
 
     data = {
-        "tag": Question__Tag.query.filter_by(tag_id=id).order_by(Question__Tag.id.desc()).paginate(page=page, per_page=10)
+        "tag": Question__Tag.query.filter_by(tag_id=id).order_by(Question__Tag.id.desc()).all()
     }
+
     return render_template("tags.html", **data)
+
+@app.route("/profile/avatar", methods=["POST",])
+def upload_avatar():
+    if session.get('loggedin', False):
+        file = request.files["file"]
+        if file and fn.allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            date_time = datetime.now().strftime("%a_%-m_%y-%H_%M_%S_")
+            path = os.path.join(app.config["UPLOAD_FOLDER"], date_time + filename)
+            file.save(path)
+            if UserAvatar.query.filter_by(user_id=session.get("id")).first():
+                print("There is avatar")
+                UserAvatar.query.filter_by(user_id=session.get("id")).delete()
+                db.session.commit()
+            db.session.add(UserAvatar(path=path, user_id=session.get("id")))
+            db.session.commit()
+
+    return redirect("/profile/0")
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -16,7 +16,7 @@
             <p>{{ question.question }}</p>
 
             {% for qt in question.question_obj %}
-                <a href="#" class="btn btn-secondary btn-sm">{{ qt.tag.tag }}</a>
+                <a href="/tag/{{ qt.tag.id }}" class="btn btn-secondary btn-sm">{{ qt.tag.tag }}</a>
             {% endfor %}
         </div>
 

@@ -12,9 +12,13 @@
             <div>
                 <div class="flex">
                     <div>
-                        <div class="avatar"></div>
+                        {% if user.user_avatar %}
+                            <div class="avatar" style="background-image: url('../../{{ user.user_avatar[0].path }}')" onclick="open_uploader()"></div>
+                        {% else %}
+                            <div class="avatar" onclick="open_uploader()"></div>
+                        {% endif %}
                     </div>
-                    <div>
+                    <div class="user__info">
                         <h2>{{ user.username }}</h2>
                         <p>Member Since: {{ user.date_of_reg }}</p>
                     </div>
@@ -23,55 +27,95 @@
                 <br>
                 <h5>Reputation: 120</h5>
                 <h5>Followers: 3</h5>
-                <br>
+                <br> 
             </div>
 
             <div>
                 <h3>The last questions</h3>
 
-                {% for question in questions %}
-                    <div class="card main_content__question">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="/question/{{ question.id }}" class="main_content__link">{{ question.title }}</a></h5>
-                            <p class="card-text">{{ question.author.username }} | {{ question.date }}</p>
-                            <p class="card-text">
-                                {% for qt in question.question_obj %}
-                                    <a href="#" class="btn btn-secondary btn-sm">{{ qt.tag.tag }}</a>
-                                {% endfor %}
-                            </p>
-                        </div>
-                    </div>
-                {% endfor %}
-
-                <h3>The last articles</h3>
-
-                <div class="profile__blog_grid">
-
-                    {% for article in articles %}
-                        <div class="card blog_article" style="width: 18rem;">
-                            {% if article.images %}
-                                <img class="card-img-top" src="../{{ article.images[0].path }}" alt="Card image cap">
-                            {% else %}
-                                <img class="card-img-top" src="https://png.pngtree.com/thumb_back/fh260/background/20211031/pngtree-abstract-bg-image_914283.png" alt="Card image cap">
-                            {% endif %}
+                {% if questions %}
+                    {% for question in questions %}
+                        <div class="card main_content__question">
                             <div class="card-body">
-                            <h5 class="card-title"><a href="/article/{{ article.id }}" class="main_content__link">{{ article.title }}</a></h5>
-                            <p class="card-text">{{ article.text }}</p>
-                            <p class="card-text">{{ article.date }}</p>
+                                <h5 class="card-title"><a href="/question/{{ question.id }}" class="main_content__link">{{ question.title }}</a></h5>
+                                <p class="card-text">{{ question.author.username }} | {{ question.date }}</p>
                                 <p class="card-text">
-                                    {% for bt in article.blog_obj %}
-                                        <a href="#" class="btn btn-secondary btn-sm">{{ bt.tag.tag }}</a>
+                                    {% for qt in question.question_obj %}
+                                        <a href="/tag/{{ qt.tag.id }}" class="btn btn-secondary btn-sm">{{ qt.tag.tag }}</a>
                                     {% endfor %}
                                 </p>
                             </div>
                         </div>
                     {% endfor %}
+                {% else %}
+                    <pre>No questions yet</pre>
+                {% endif %}
+
+                <h3>The last articles</h3>
+
+                <div class="profile__blog_grid">
+
+                    {% if articles %}
+                        {% for article in articles %}
+                            <div class="card blog_article" style="width: 18rem;">
+                                {% if article.images %}
+                                    <img class="card-img-top" src="../{{ article.images[0].path }}" alt="Card image cap">
+                                {% else %}
+                                    <img class="card-img-top" src="https://png.pngtree.com/thumb_back/fh260/background/20211031/pngtree-abstract-bg-image_914283.png" alt="Card image cap">
+                                {% endif %}
+                                <div class="card-body">
+                                <h5 class="card-title"><a href="/article/{{ article.id }}" class="main_content__link">{{ article.title }}</a></h5>
+                                <p class="card-text">{{ article.text }}</p>
+                                <p class="card-text">{{ article.date }}</p>
+                                    <p class="card-text">
+                                        {% for bt in article.blog_obj %}
+                                            <a href="#" class="btn btn-secondary btn-sm">{{ bt.tag.tag }}</a>
+                                        {% endfor %}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <pre>No articles yet</pre>
+                    {% endif %}
 
                 </div>
             </div>
 
         </div>
     </div>
+
+    <div class="avatar_uploader">
+        <div>
+
+            <!-- <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+            <div class="file-upload">
+            <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
+
+            <div class="image-upload-wrap">
+                <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
+                <div class="drag-text">
+                <h3>Drag and drop a file or select add Image</h3>
+                </div>
+            </div>
+            <div class="file-upload-content">
+                <img class="file-upload-image" src="#" alt="your image" />
+                <div class="image-title-wrap">
+                <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                </div>
+            </div>
+            </div> -->
+
+
+            <form action = "/profile/avatar" method="POST" enctype = "multipart/form-data">
+                <input type="file" name="file"/>
+                <input type="submit"/>
+            </form>  
+            <p onclick="close_uploader()">x</p>
+        </div>
+    </div>
+
+    <script src="../static/js/avatar_pop_up.js"></script>
 
     {% include 'footer.html' %}
 
