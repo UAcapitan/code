@@ -87,14 +87,14 @@
 
     <div class="avatar_uploader">
         <div>
-            <p onclick="close_uploader()" style="text-align: right;">x</p>
+            <p class="close_uploader" onclick="close_uploader()">x</p>
 
             <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
             <div class="file-upload">
             
                 <form action = "/profile/avatar" method="POST" enctype = "multipart/form-data">
                     <div class="image-upload-wrap">
-                        <input class="file-upload-input" type='file' name="file" onchange="readURL(this);" accept="image/*" />
+                        <input class="file-upload-input" type='file' name="file" onchange="readURL(this);" accept="image/*" required />
                         <div class="drag-text">
                         <h3>Drag and drop a file or select add Image</h3>
                         </div>
@@ -105,6 +105,12 @@
                         <div class="image-title-wrap">
                         <button type="submit" class="upload-image-btn">Upload <span class="image-title">Uploaded Image</span></button>
                     </div>
+
+                    <!-- <div class="file-upload-content">
+                        <img class="file-upload-image" src="#" alt="your image" />
+                        <div class="image-title-wrap">
+                        <button type="submit" class="upload-image-btn">Remove <span class="image-title">Uploaded Image</span></button>
+                    </div> -->
                 </form>  
 
             </div>
