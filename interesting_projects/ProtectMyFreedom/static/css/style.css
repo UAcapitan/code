@@ -485,6 +485,10 @@ footer > p {
     background-size: cover;
 }
 
+.avatar:hover {
+    cursor: pointer;
+}
+
 .profile__blog_grid {
     display: grid;
     grid-template-columns: 50% 50%;
@@ -553,20 +557,32 @@ footer > p {
     box-shadow: 0px 0px 10px #000;
 }
 
+.close_uploader {
+    padding-right: 1em;
+    font-size: 1.7em;
+    text-align: right;
+    background: white;
+    margin-bottom: 0;
+}
+
+.close_uploader:hover {
+    cursor: pointer;
+}
+
 
 
 .file-upload {
     background-color: #ffffff;
     margin: 0 auto;
-    padding: 20px;
+    padding: 1em;
   }
   
-  .file-upload-content {
+.file-upload-content {
     display: none;
     text-align: center;
-  }
-  
-  .file-upload-input {
+}
+
+.file-upload-input {
     position: absolute;
     margin: 0;
     padding: 0;
@@ -575,44 +591,44 @@ footer > p {
     outline: none;
     opacity: 0;
     cursor: pointer;
-  }
-  
-  .image-upload-wrap {
+}
+
+.image-upload-wrap {
     margin-top: 20px;
     border: 4px dashed #3c94d3;
     position: relative;
-  }
-  
-  .image-dropping,
-  .image-upload-wrap:hover {
+}
+
+.image-dropping,
+.image-upload-wrap:hover {
     background-color: #bbe3ff;
     border: 4px dashed #ffffff;
-  }
+}
 
-  .image-title-wrap {
+.image-title-wrap {
     padding: 0 15px 15px 15px;
     color: #222;
-  }
-  
-  .drag-text {
+}
+
+.drag-text {
     text-align: center;
-  }
-  
-  .drag-text h3 {
+}
+
+.drag-text h3 {
     font-weight: 100;
     text-transform: uppercase;
     color: #3c94d3;
     padding: 60px 0;
-  }
-  
-  .file-upload-image {
+}
+
+.file-upload-image {
     max-height: 200px;
     max-width: 200px;
     margin: auto;
     padding: 20px;
-  }
-  
-  .upload-image-btn {
+}
+
+.upload-image-btn {
     width: 200px;
     margin: 0;
     color: #fff;
@@ -625,18 +641,18 @@ footer > p {
     outline: none;
     text-transform: uppercase;
     font-weight: 700;
-  }
-  
-  .upload-image-btn:hover {
+}
+
+.upload-image-btn:hover {
     background: #c13b2a;
     color: #ffffff;
     transition: all .2s ease;
     cursor: pointer;
-  }
-  
-  .upload-image-btn:active {
+}
+
+.upload-image-btn:active {
     border: 0;
     transition: all .2s ease;
-  }
-  
+}
+
   
