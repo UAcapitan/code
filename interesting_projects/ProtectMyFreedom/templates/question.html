@@ -36,7 +36,7 @@
             <h5>Answers ({{ question.question_answer_obj|length }}):</h5>
 
             <form action="/question/answer" method="POST">
-                <textarea class="form-control" name="answer" placeholder="Make your answer"></textarea>
+                <textarea class="form-control" name="answer" placeholder="Make your answer" required></textarea>
                 <input type="hidden" name="question_id" value="{{ question.id }}">
                 <br>
                 <input type="submit" value="Post your answer">
