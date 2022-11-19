@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}All answers{% endblock %}
+
+{% block content %}
+
+    {% include 'nav.html' %}
+
+    <div class="all_answers container">
+        <h4>Answers</h4>
+        <p><a href="#"><<< Back to question</a></p>
+        {% for q in answers %}
+            <div class="question__answers__item">
+                <hr>
+                <p>{{ q.text }}</p>
+                <p>{{ q.author.username }} | {{ q.date }} <span class="green">New</span></p>
+            </div>
+        {% endfor %}
+
+        <div class="btn_pagination">
+            <div class="text-right">
+                <a href="/question/answers/{{ id }}?page={{ answers.prev_num }}"
+                class="btn btn-click
+                {% if answers.page == 1 %}disabled{% endif %}">
+                    &laquo;
+                </a>
+                {% for page_num in answers.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}{% if page_num %}
+                        {% if answers.page == page_num %}
+                        <a href="/question/answers/{{ id }}?page={{ page_num }}"
+                        class="btn btn-activate">
+                            {{ page_num }}
+                        </a>
+                        {% else %}
+                        <a href="/question/answers/{{ id }}?page={{ page_num }}"
+                        class="btn btn-click">
+                            {{ page_num }}
+                        </a>
+                        {% endif %}
+                    {% else %}
+                        ...
+                    {% endif %}
+                {% endfor %}    <a href="/question/answers/{{ id }}?page={{ answers.next_num }}"
+                class="btn btn-click
+                {% if answers.page == answers.pages %}disabled{% endif %}">
+                    &raquo;
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {% include 'footer.html' %}
+
+{% endblock %}

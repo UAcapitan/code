@@ -51,30 +51,6 @@ class Question__Tag(db.Model):
     question_id = db.Column(db.Integer, db.ForeignKey("question.id"))
     question = db.relationship("Question", backref="question_obj")
 
-class Blog(db.Model):
-    __tablename__ = "blog"
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255))
-    text = db.Column(db.Text)
-    author_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    author = db.relationship("User", backref="author_obj")
-    date = db.Column(db.DateTime())
-
-class Blog__Tag(db.Model):
-    __tablename__ = "blog__tag"
-    id = db.Column(db.Integer, primary_key=True)
-    tag_id = db.Column(db.Integer, db.ForeignKey("tag.id"))
-    tag = db.relationship("Tag", backref="tags_obj")
-    article_id = db.Column(db.Integer, db.ForeignKey("blog.id"))
-    article = db.relationship("Blog", backref="blog_obj")
-
-class BlogArticleImage(db.Model):
-    __tablename__ = "blog_article_image"
-    id = db.Column(db.Integer, primary_key=True)
-    path = db.Column(db.String(255))
-    blog_id = db.Column(db.Integer, db.ForeignKey("blog.id"))
-    images = db.relationship("Blog", backref="images", uselist=False)
-
 class QuestionAnswer(db.Model):
     __tablename__ = "question_answer"
     id = db.Column(db.Integer, primary_key=True)
@@ -83,16 +59,6 @@ class QuestionAnswer(db.Model):
     question = db.relationship("Question", backref="question_answer_obj")
     author_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     author = db.relationship("User", backref="author_answer")
-    date = db.Column(db.DateTime())
-
-class ArticleComment(db.Model):
-    __tablename__ = "article_comment"
-    id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.Text, nullable=False)
-    article_id = db.Column(db.Integer, db.ForeignKey("blog.id"))
-    article = db.relationship("Blog", backref="article_comment_obj")
-    author_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    author = db.relationship("User", backref="author_comment")
     date = db.Column(db.DateTime())
 
 class UserAvatar(db.Model):
@@ -213,7 +179,6 @@ def main():
     tags_count = Tag.query.count()
     rand = list(range(1, tags_count + 1))
     random.shuffle(rand)
-    print(rand)
 
     if tags_count > 15:
         n = 15
@@ -222,19 +187,10 @@ def main():
 
     data = {
         "questions": Question.query.order_by(Question.id.desc()).paginate(page=page, per_page=10),
-        "blog": Blog.query.order_by(Blog.id.desc()).order_by(Blog.id.desc()).limit(3).all(),
         "tags": [Tag.query.filter_by(id=rand.pop(0)).first() for _ in range(n)]
     }
 
     return render_template("main.html", **data)
-
-@app.route("/blog")
-def blog():
-    page = request.args.get('page', 1, type=int)
-    data = {
-        "blog": Blog.query.order_by(Blog.id.desc()).paginate(page=page, per_page=9),
-    }
-    return render_template("blog.html", **data)
 
 @app.route("/ask", methods=["GET", "POST"])
 def ask():
@@ -272,52 +228,6 @@ def ask():
         return render_template("ask.html")
     return redirect("/login")
 
-@app.route("/blog/create", methods=["GET", "POST"])
-def blog_create():
-    if session.get('loggedin', False):
-        if request.method == "POST":
-            title = request.form["title"]
-            text = request.form["text"]
-            tags = request.form["tags"]
-            
-            if title:
-                b = Blog(
-                    title=title, 
-                    text=text, 
-                    author_id=session["id"],
-                    date=datetime.now().replace(second=0, microsecond=0))
-                db.session.add(b)
-                db.session.commit()
-
-                if tags:
-                    for tag in tags.strip().split(","):
-                        tag_obj = Tag.query.filter_by(tag=tag).first()
-                        if tag_obj:
-                            tag_id = tag_obj.id
-                        else:
-                            t = Tag(tag=tag.strip())
-                            db.session.add(t)
-                            db.session.commit()
-                            tag_id = t.id
-                        db.session.add(Blog__Tag(tag_id=tag_id, article_id=b.id))
-                    db.session.commit()
-
-                if "file" in request.files:
-                    files = request.files.getlist("file")
-                    for file in files:
-                        if file.filename == '':
-                            pass
-                        if file and fn.allowed_file(file.filename):
-                            filename = secure_filename(file.filename)
-                            date_time = datetime.now().strftime("%a_%-m_%y-%H_%M_%S_")
-                            path = os.path.join(app.config["UPLOAD_FOLDER"], date_time + filename)
-                            file.save(path)
-                            db.session.add(BlogArticleImage(path=path, blog_id=b.id))
-                            db.session.commit()
-        
-        return render_template("blog_create.html")
-    return redirect("/login")
-
 @app.route("/question/<int:id>")
 def question(id):
     data = {
@@ -345,32 +255,6 @@ def question_answer():
         return redirect(f"/question/{question_id}")
     return redirect("/main")
 
-@app.route("/article/<int:id>")
-def article(id):
-    data = {
-        "article": Blog.query.filter_by(id=id).first()
-    }
-    print(dir(data["article"]))
-    print(data["article"].images[0].path)
-    return render_template("article.html", **data)
-
-@app.route("/article/comment", methods=["GET", "POST"])
-def article_comment():
-    if session.get('loggedin', False):
-        if request.method == "POST":
-            answer = request.form["comment"]
-            article_id = request.form["article_id"]
-
-            db.session.add(ArticleComment(
-                text=answer,
-                article_id=article_id,
-                author_id=session["id"],
-                date=datetime.now().replace(second=0, microsecond=0))
-            )
-            db.session.commit()
-            return redirect(f"/article/{article_id}")
-        return redirect("/main")
-
 @app.route("/profile/<int:id>")
 def profile(id):
     if session.get('loggedin', False):
@@ -378,12 +262,10 @@ def profile(id):
             id = session.get("id")
         user = User.query.filter_by(id=id).first()
         questions = Question.query.filter_by(author_id=id).order_by(Question.id.desc()).limit(3).all()
-        articles = Blog.query.filter_by(author_id=id).order_by(Blog.id.desc()).limit(3).all()
 
         data = {
             "user": user,
             "questions": questions,
-            "articles": articles,
         }
 
         return render_template("profile.html", **data)
@@ -416,6 +298,17 @@ def upload_avatar():
             db.session.commit()
 
     return redirect("/profile/0")
+
+@app.route("/question/answers/<int:id>")
+def answers(id):
+    page = request.args.get('page', 1, type=int)
+
+    data = {
+        "id": id,
+        "answers": QuestionAnswer.query.filter_by(question_id=id).order_by(QuestionAnswer.id.desc()).paginate(page=page, per_page=3)
+    }
+
+    return render_template("all_answers.html", **data)
 
 if __name__ == "__main__":
     app.run(debug=True)

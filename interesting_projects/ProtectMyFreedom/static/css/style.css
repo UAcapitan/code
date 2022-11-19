@@ -21,9 +21,6 @@
 .main__content__h3 {
     margin-top: 0.5vh;
     color: rgb(232, 232, 0);
-
-    /* background: rgb(232, 232, 0);
-    color: white; */
 }
 
 .main__content__p {
@@ -181,10 +178,6 @@ nav {
     grid-template-columns: 12% 63% 25%;
 }
 
-/* .grid_main > div {
-    height: 95vh;
-} */
-
 .main_content {
     margin-top: 10vh;
 }
@@ -230,29 +223,6 @@ nav {
 .main_content__hr {
     width: 95%;
     margin-left: 2.5%;
-}
-
-.blog {
-    margin-top: 9vh;
-}
-
-.blog_article {
-    margin: 0.5vh;
-    width: 25vw;
-    margin-bottom: 3vh !important;
-}
-
-.blog_article > img {
-    height: 11em;
-}
-
-.blog_grid {
-    display: grid;
-    grid-template-columns: 33% 33% 33%;
-}
-
-.blog_grid > div {
-    margin: 0 auto;
 }
 
 .ask {
@@ -569,13 +539,11 @@ footer > p {
     cursor: pointer;
 }
 
-
-
 .file-upload {
     background-color: #ffffff;
     margin: 0 auto;
     padding: 1em;
-  }
+}
   
 .file-upload-content {
     display: none;
@@ -599,8 +567,7 @@ footer > p {
     position: relative;
 }
 
-.image-dropping,
-.image-upload-wrap:hover {
+.image-dropping, .image-upload-wrap:hover {
     background-color: #bbe3ff;
     border: 4px dashed #ffffff;
 }
@@ -655,4 +622,6 @@ footer > p {
     transition: all .2s ease;
 }
 
-  
+.all_answers {
+    margin-top: 7vh;
+}
