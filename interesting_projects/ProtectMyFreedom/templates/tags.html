@@ -14,7 +14,7 @@
             <div class="card main_content__question">
                 <div class="card-body">
                     <h5 class="card-title"><a href="/question/{{ question.question.id }}" class="main_content__link">{{ question.question.title }}</a></h5>
-                    <p class="card-text">{{ question.question.author.username }} | {{ question.question.date }}</p>
+                    <p class="card-text">{{ question.question.author.username }} | {{ question.question.date.strftime('%d.%m.%Y') }}</p>
                     <p class="card-text">
                         {% for qt in question.question.question_obj %}
                             <a href="/tag/{{ qt.tag.id }}" class="btn btn-secondary btn-sm">{{ qt.tag.tag }}</a>

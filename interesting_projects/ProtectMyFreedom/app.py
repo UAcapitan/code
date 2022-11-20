@@ -68,6 +68,13 @@ class UserAvatar(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     user = db.relationship("User", backref="user_avatar")
 
+class Like(db.Model):
+    __tablename__ = "like"
+    id = db.Column(db.Integer, primary_key=True)
+    content_id = db.Column(db.Integer)
+    author_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user = db.relationship("User", backref="user")
 
 # DB init
 db.init_app(app)
@@ -234,8 +241,12 @@ def question(id):
         "question": Question.query.filter_by(id=id).first(),
         "popular_answers": [],
         "new_answers": QuestionAnswer.query.filter_by(question_id=id).order_by(QuestionAnswer.id.desc()).limit(4).all(),
-        "other_questions": Question.query.order_by(Question.id.desc()).limit(7).all()
+        "other_questions": Question.query.order_by(Question.id.desc()).limit(7).all(),
+        "like": bool(Like.query.filter_by(content_id=id).first()),
+        "likes": Like.query.filter_by(content_id=id).count()
     }
+
+    print(data["like"])
 
     return render_template("question.html", **data)
 
@@ -254,6 +265,28 @@ def question_answer():
         db.session.commit()
         return redirect(f"/question/{question_id}")
     return redirect("/main")
+
+@app.route("/question/<int:id>/like")
+def question_like(id):
+    if session.get('loggedin', False):
+        like = Like.query.filter_by(content_id=id, user_id=session["id"]).first()
+        if not like:
+            q = Question.query.filter_by(id=id).first()
+            if q.author_id != session["id"]:
+                like = Like(
+                    content_id = 1,
+                    author_id = q.author_id,
+                    user_id = session["id"]
+                )
+                db.session.add(like)
+                db.session.commit()
+                return redirect(f"/question/{id}")
+            else:
+                return redirect(f"/question/{id}")
+        else:
+            Like.query.filter_by(content_id=id, user_id=session["id"]).delete()
+            db.session.commit()
+            return redirect(f"/question/{id}")
 
 @app.route("/profile/<int:id>")
 def profile(id):
@@ -291,7 +324,6 @@ def upload_avatar():
             path = os.path.join(app.config["UPLOAD_FOLDER"], date_time + filename)
             file.save(path)
             if UserAvatar.query.filter_by(user_id=session.get("id")).first():
-                print("There is avatar")
                 UserAvatar.query.filter_by(user_id=session.get("id")).delete()
                 db.session.commit()
             db.session.add(UserAvatar(path=path, user_id=session.get("id")))
