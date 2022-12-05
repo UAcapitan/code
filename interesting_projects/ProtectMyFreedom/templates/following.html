@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+    {% include 'nav.html' %}
+
+    <div class="following">
+        <div class="d-flex justify-content-center">
+            <div>
+                <h4>Following</h4>
+                {% for f in following_list %}
+                    <div class="card bg-light mb-3" style="max-width: 18rem;">
+                        <a href="/profile/{{ f.id }}" class="text-decoration-none text-dark">
+                            <div class="card-body">
+                                <div class="flex">
+                                    {% if f.user_avatar %}
+                                        <div>
+                                            <div class="avatar_little" style="background-image: url('../../{{ f.user_avatar[0].path }}')"></div>
+                                        </div>
+                                    {% else %}
+                                        <div>
+                                            <div class="avatar_little"></div>
+                                        </div>
+                                    {% endif %}
+                                    <h5 class="card-title">&nbsp;&nbsp;{{ f.username }}</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+
+                <div class="btn_pagination">
+                    <div class="text-right">
+                        <a href="/following/{{ id }}?page={{ following.prev_num }}"
+                        class="btn btn-click
+                        {% if following.page == 1 %}disabled{% endif %}">
+                            &laquo;
+                        </a>
+                        {% for page_num in following.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}{% if page_num %}
+                                {% if following.page == page_num %}
+                                <a href="/following/{{ id }}?page={{ page_num }}"
+                                class="btn btn-activate">
+                                    {{ page_num }}
+                                </a>
+                                {% else %}
+                                <a href="/following/{{ id }}?page={{ page_num }}"
+                                class="btn btn-click">
+                                    {{ page_num }}
+                                </a>
+                                {% endif %}
+                            {% else %}
+                                ...
+                            {% endif %}
+                        {% endfor %}    <a href="/following/{{ id }}?page={{ following.next_num }}"
+                        class="btn btn-click
+                        {% if following.page == following.pages %}disabled{% endif %}">
+                            &raquo;
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% include 'footer.html' %}
+
+{% endblock %}

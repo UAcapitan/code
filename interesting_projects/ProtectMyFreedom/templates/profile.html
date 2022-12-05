@@ -20,14 +20,54 @@
                     </div>
                     <div class="user__info">
                         <h2>{{ user.username }}</h2>
-                        <p>Member Since: {{ user.date_of_reg }}</p>
+                        <p>Member Since: <br> {{ user.date_of_reg.strftime('%d.%m.%Y') }}</p>
                     </div>
                 </div>
                 
                 <br>
-                <h5>Reputation: 120</h5>
-                <h5>Followers: 3</h5>
+                <h5>Reputation: {{ reputation }}</h5>
+                <h5>Followers: {{ followers_count }}</h5>
                 <br> 
+
+                {% if id != session["id"] %}
+                    {% if not follow %}
+                        <a class="glow-on-hover" href="/profile/{{ id }}/follow" type="button">Follow</a>
+                    {% else %}
+                        <a class="glow-on-hover" href="/profile/{{ id }}/follow" type="button">Followed</a>
+                    {% endif %}
+                {% endif %}
+
+                <br><br>
+
+                <div>
+                    <h4>Following</h4>
+                    {% for f in following %}
+                        <div class="card bg-light mb-3" style="max-width: 18rem;">
+                            <a href="/profile/{{ f.id }}" class="text-decoration-none text-dark">
+                                <div class="card-body">
+                                    <div class="flex">
+                                        {% if f.user_avatar %}
+                                            <div>
+                                                <div class="avatar_little" style="background-image: url('../../{{ f.user_avatar[0].path }}')"></div>
+                                            </div>
+                                        {% else %}
+                                            <div>
+                                                <div class="avatar_little"></div>
+                                            </div>
+                                        {% endif %}
+                                        <h5 class="card-title">&nbsp;&nbsp;{{ f.username }}</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+
+                    {% if following|count == 7 %}
+                        <p><a href="/following/{{ id }}" class="text-decoration-none">Full list of following</a></p>
+                    {% endif %}
+                </div>
+
+
             </div>
 
             <div>

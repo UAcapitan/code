@@ -10,12 +10,14 @@
         <h3>Ask question</h3>
 
         <div>
-            <form class="ask__form" method="POST">
+            <form class="ask__form" method="POST" enctype="multipart/form-data">
                 <input type="text" class="form-control" placeholder="Title" name="title" required>
                 <br>
                 <textarea class="form-control" placeholder="Description of question" name="question" required></textarea>
                 <br>
                 <input type="text" class="form-control" placeholder="Tags, separated by comma" name="tags" required>
+                <br>
+                <input class="form-control" type="file" name="file" multiple>
                 <br>
                 <input type="submit" value="Ask">
             </form>

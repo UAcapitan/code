@@ -77,9 +77,16 @@
                     </div>
 
                 </div>
-
-                <div>
-                    
+                
+                <div class="question__other random_q">
+                    <div>
+                        <h4>Random questions</h4>
+                        <ul>
+                            {% for ran_question in random_questions %}
+                                <li><a href="/question/{{ ran_question.id }}" class="text-decoration-none">{{ ran_question.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

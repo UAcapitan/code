@@ -20,7 +20,6 @@ app.config['UPLOAD_FOLDER'] = 'static/files'
 
 
 # Models
-# TODO do it with foreign keys
 class User(db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
@@ -75,6 +74,20 @@ class Like(db.Model):
     author_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     user = db.relationship("User", backref="user")
+
+class QuestionImage(db.Model):
+    __tablename__ = "question_image"
+    id = db.Column(db.Integer, primary_key=True)
+    question_id = db.Column(db.Integer, db.ForeignKey("question.id"))
+    path = db.Column(db.String(255))
+    question = db.relationship("Question", backref="question_images")
+
+class Follower(db.Model):
+    __tablename__ = "follower"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+    follower_id = db.Column(db.Integer)
+
 
 # DB init
 db.init_app(app)
@@ -174,10 +187,11 @@ def login():
 
 @app.route("/logout")
 def logout():
-    session.pop('loggedin', None)
-    session.pop('id', None)
-    session.pop('username', None)
-    return redirect("/")
+    if session.get('loggedin', False):
+        session.pop('loggedin', None)
+        session.pop('id', None)
+        session.pop('username', None)
+        return redirect("/")
 
 @app.route("/main")
 def main():
@@ -187,14 +201,24 @@ def main():
     rand = list(range(1, tags_count + 1))
     random.shuffle(rand)
 
+    questions_count = Tag.query.count()
+    rand_q = list(range(1, questions_count + 1))
+    random.shuffle(rand_q)
+
     if tags_count > 15:
         n = 15
     else:
         n = tags_count
 
+    if questions_count > 15:
+        n_q = 15
+    else:
+        n_q = questions_count
+
     data = {
         "questions": Question.query.order_by(Question.id.desc()).paginate(page=page, per_page=10),
-        "tags": [Tag.query.filter_by(id=rand.pop(0)).first() for _ in range(n)]
+        "tags": [Tag.query.filter_by(id=rand.pop(0)).first() for _ in range(n)],
+        "random_questions": [Question.query.filter_by(id=rand_q.pop(0)).first() for _ in range(n_q)]
     }
 
     return render_template("main.html", **data)
@@ -231,6 +255,20 @@ def ask():
                             tag_id = t.id
                         db.session.add(Question__Tag(tag_id=tag_id, question_id=q.id))
                     db.session.commit()
+
+                if "file" in request.files:
+                    files = request.files.getlist("file")
+                    for file in files:
+                        if file.filename == '':
+                            pass
+                        if file and fn.allowed_file(file.filename):
+                            filename = secure_filename(file.filename)
+                            date_time = datetime.now().strftime("%a_%-m_%y-%H_%M_%S_")
+                            path = os.path.join(app.config["UPLOAD_FOLDER"], date_time + filename)
+                            file.save(path)
+                            print(q.id, path)
+                            db.session.add(QuestionImage(question_id=q.id, path=path))
+                    db.session.commit()
                 return redirect("/main")
         return render_template("ask.html")
     return redirect("/login")
@@ -243,28 +281,28 @@ def question(id):
         "new_answers": QuestionAnswer.query.filter_by(question_id=id).order_by(QuestionAnswer.id.desc()).limit(4).all(),
         "other_questions": Question.query.order_by(Question.id.desc()).limit(7).all(),
         "like": bool(Like.query.filter_by(content_id=id).first()),
-        "likes": Like.query.filter_by(content_id=id).count()
+        "likes": Like.query.filter_by(content_id=id).count(),
+        "images": QuestionImage.query.filter_by(question_id=id).all()
     }
-
-    print(data["like"])
 
     return render_template("question.html", **data)
 
 @app.route("/question/answer", methods=["GET", "POST"])
 def question_answer():
-    if request.method == "POST":
-        answer = request.form["answer"]
-        question_id = request.form["question_id"]
+    if session.get('loggedin', False):
+        if request.method == "POST":
+            answer = request.form["answer"]
+            question_id = request.form["question_id"]
 
-        db.session.add(QuestionAnswer(
-            text=answer,
-            question_id=question_id,
-            author_id=session["id"],
-            date=datetime.now().replace(second=0, microsecond=0))
-        )
-        db.session.commit()
-        return redirect(f"/question/{question_id}")
-    return redirect("/main")
+            db.session.add(QuestionAnswer(
+                text=answer,
+                question_id=question_id,
+                author_id=session["id"],
+                date=datetime.now().replace(second=0, microsecond=0))
+            )
+            db.session.commit()
+            return redirect(f"/question/{question_id}")
+        return redirect("/main")
 
 @app.route("/question/<int:id>/like")
 def question_like(id):
@@ -274,7 +312,7 @@ def question_like(id):
             q = Question.query.filter_by(id=id).first()
             if q.author_id != session["id"]:
                 like = Like(
-                    content_id = 1,
+                    content_id = id,
                     author_id = q.author_id,
                     user_id = session["id"]
                 )
@@ -296,9 +334,18 @@ def profile(id):
         user = User.query.filter_by(id=id).first()
         questions = Question.query.filter_by(author_id=id).order_by(Question.id.desc()).limit(3).all()
 
+        following = Follower.query.filter_by(follower_id=id).order_by(Follower.id.desc()).limit(7).all()
+        following = [User.query.filter_by(id=f.user_id).first() for f in following]
+        print(following)
+
         data = {
             "user": user,
             "questions": questions,
+            "follow": Follower.query.filter_by(user_id=id, follower_id=session["id"]).first(),
+            "id": id,
+            "followers_count": Follower.query.filter_by(user_id=id).count(),
+            "reputation": Like.query.filter_by(author_id=id).count() + Follower.query.filter_by(user_id=id).count() * 10,
+            "following": following
         }
 
         return render_template("profile.html", **data)
@@ -337,10 +384,47 @@ def answers(id):
 
     data = {
         "id": id,
-        "answers": QuestionAnswer.query.filter_by(question_id=id).order_by(QuestionAnswer.id.desc()).paginate(page=page, per_page=3)
+        "answers": QuestionAnswer.query.filter_by(question_id=id).order_by(QuestionAnswer.id.desc()).paginate(page=page, per_page=7)
     }
 
     return render_template("all_answers.html", **data)
+
+@app.route("/profile/<int:id>/follow")
+def follow(id):
+    if session.get('loggedin', False):
+        if id != session["id"]:
+            if Follower.query.filter_by(user_id=id, follower_id=session["id"]).first():
+                Follower.query.filter_by(user_id=id, follower_id=session["id"]).delete()
+                db.session.commit()
+            else:
+                f = Follower(user_id=id, follower_id=session["id"])
+                db.session.add(f)
+                db.session.commit()
+            return redirect(f"/profile/{id}")
+        return redirect(f"/profile/{id}")
+    else:
+        return redirect("/main")
+
+@app.route("/admin")
+def admin():
+    if session.get('loggedin', False):
+        return render_template("admin.html")
+
+@app.route("/following/<int:id>")
+def following_page(id):
+    if session.get('loggedin', False):
+        page = request.args.get('page', 1, type=int)
+        following_obj = Follower.query.filter_by(follower_id=id).order_by(Follower.id.desc()).paginate(page=page, per_page=10)
+        following = [User.query.filter_by(id=f.user_id).first() for f in following_obj]
+
+        data = {
+            "id": id,
+            "following": following_obj,
+            "following_list": following
+        }
+
+        return render_template("following.html", **data)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
