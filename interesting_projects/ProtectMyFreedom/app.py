@@ -2,6 +2,7 @@
 import os
 import re
 import random
+import hashlib
 from datetime import datetime
 
 from flask import Flask, render_template, request, redirect, session
@@ -157,7 +158,7 @@ def reg():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if session.get('loggedin', False):
-        return render_template("main.html")
+        return redirect("/main")
 
     if request.method == "POST":
 
@@ -191,7 +192,7 @@ def logout():
         session.pop('loggedin', None)
         session.pop('id', None)
         session.pop('username', None)
-        return redirect("/")
+    return redirect("/")
 
 @app.route("/main")
 def main():
@@ -302,10 +303,11 @@ def question_answer():
             )
             db.session.commit()
             return redirect(f"/question/{question_id}")
-        return redirect("/main")
+    return redirect("/login")
 
 @app.route("/question/<int:id>/like")
 def question_like(id):
+    # TODO fix
     if session.get('loggedin', False):
         like = Like.query.filter_by(content_id=id, user_id=session["id"]).first()
         if not like:
@@ -325,6 +327,7 @@ def question_like(id):
             Like.query.filter_by(content_id=id, user_id=session["id"]).delete()
             db.session.commit()
             return redirect(f"/question/{id}")
+    return redirect("/login")
 
 @app.route("/profile/<int:id>")
 def profile(id):
@@ -336,7 +339,6 @@ def profile(id):
 
         following = Follower.query.filter_by(follower_id=id).order_by(Follower.id.desc()).limit(7).all()
         following = [User.query.filter_by(id=f.user_id).first() for f in following]
-        print(following)
 
         data = {
             "user": user,
@@ -353,6 +355,7 @@ def profile(id):
 
 @app.route("/tag/<int:id>")
 def tag(id):
+    # TODO pagination
     page = request.args.get('page', 1, type=int)
 
     data = {
@@ -375,8 +378,8 @@ def upload_avatar():
                 db.session.commit()
             db.session.add(UserAvatar(path=path, user_id=session.get("id")))
             db.session.commit()
-
-    return redirect("/profile/0")
+            return redirect("/profile/0")
+    return redirect("/login")
 
 @app.route("/question/answers/<int:id>")
 def answers(id):
@@ -402,13 +405,97 @@ def follow(id):
                 db.session.commit()
             return redirect(f"/profile/{id}")
         return redirect(f"/profile/{id}")
-    else:
-        return redirect("/main")
+    return redirect("/login")
 
-@app.route("/admin")
+@app.route("/admin", methods=["GET", "POST"])
 def admin():
     if session.get('loggedin', False):
-        return render_template("admin.html")
+        if request.method == "POST":
+            password = request.form["password"]
+            print("-------\n"*7)
+            print(hashlib.md5(password.encode("utf_8")).hexdigest())
+
+            if hashlib.md5(password.encode("utf_8")).hexdigest() == "764118d23b7d8809551c894a92868c18":
+                session["root"] = True
+                return redirect("/admin")
+            return redirect("/profile/0")
+
+        if request.method == "GET":
+            return render_template("admin.html")
+    return redirect("/login")
+
+@app.route("/admin/logout")
+def admin_logout():
+    if session.get('loggedin', False):
+        if session.get('root', False):
+            del session['root']
+    return redirect("/profile/0")
+
+@app.route("/admin/users")
+def admin_users():
+    if session.get('loggedin', False):
+        if session.get('root', False):
+            page = request.args.get('page', 1, type=int)
+            users = User.query.order_by(User.id.desc()).paginate(page=page, per_page=50)
+
+            data = {
+                "users": users,
+            }
+
+            return render_template("admin_users.html", **data)
+    return redirect("/profile/0")
+
+@app.route("/admin/questions")
+def admin_questions():
+    if session.get('loggedin', False):
+        if session.get('root', False):
+            page = request.args.get('page', 1, type=int)
+            questions = Question.query.order_by(Question.id.desc()).paginate(page=page, per_page=50)
+
+            data = {
+                "questions": questions,
+            }
+
+            return render_template("admin_questions.html", **data)
+    return redirect("/main")
+
+@app.route("/profile/<int:id>/delete")
+def admin_user_delete(id):
+    if session.get('loggedin', False):
+        if session.get('root', False):
+            User.query.filter_by(id=id).delete()
+            db.session.commit()
+            return redirect("/admin/users")
+    return redirect("/profile/0")
+
+@app.route("/question/<int:id>/delete")
+def admin_question_delete(id):
+    if session.get('loggedin', False):
+        if session.get('root', False):
+            Question.query.filter_by(id=id).delete()
+            db.session.commit()
+            return redirect("/admin/questions")
+    return redirect(f"/questions/{str(id)}")
+
+@app.route("/question/<int:id>/update", methods=["GET", "POST"])
+def admin_question_update(id):
+    if session.get('loggedin', False):
+        if session.get('root', False):
+
+            if request.method == "POST":
+                title = request.form["title"]
+                text = request.form["question"]
+
+                q = Question.query.filter_by(id=id).first()
+                q.title, q.question = title, text
+                db.session.commit()
+
+            if request.method == "GET":
+                data = {
+                    "question": Question.query.filter_by(id=id).first()
+                }
+                return render_template("update.html", **data)
+    return redirect(f"/question/{str(id)}")
 
 @app.route("/following/<int:id>")
 def following_page(id):
@@ -424,6 +511,7 @@ def following_page(id):
         }
 
         return render_template("following.html", **data)
+    return redirect("/login")
 
 
 if __name__ == "__main__":

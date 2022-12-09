@@ -11,7 +11,7 @@
         <div class="question__data">
             <h3>{{ question.title }}</h3>
 
-            <pre>Author: <span>{{ question.author.username }}</span>    Date of publication: <span>{{ question.date.strftime('%d.%m.%Y %H:%M') }}</span></pre>
+            <pre>Author: <a href="/profile/{{ question.author.id }}" class="text-decoration-none text-secondary"><span>{{ question.author.username }}</span></a>    Date of publication: <span>{{ question.date.strftime('%d.%m.%Y %H:%M') }}</span></pre>
 
             <p>{{ question.question }}</p>
 

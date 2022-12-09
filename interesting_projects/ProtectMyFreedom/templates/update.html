@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Update question{% endblock %}
+
+{% block content %}
+
+    {% include 'nav.html' %}
+
+    <div class="ask container">
+        <h3>Ask question</h3>
+
+        <div>
+            <form class="ask__form" method="POST" enctype="multipart/form-data">
+                <input type="text" class="form-control" placeholder="Title" name="title" value="{{ question.title }}" required>
+                <br>
+                <textarea class="form-control" placeholder="Description of question" name="question" required>{{ question.question }}</textarea>
+                <br>
+                <input type="submit" value="Update">
+            </form>
+        </div>
+    </div>
+
+    <br>
+
+    {% include 'footer.html' %}
+
+{% endblock %}

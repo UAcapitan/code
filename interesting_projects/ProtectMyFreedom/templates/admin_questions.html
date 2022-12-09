@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+    {% include 'nav.html' %}
+
+    <div class="up container">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Date of publication</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                    <tr>
+                        <th scope="row">{{ question.id }}</th>
+                        <td>{{ question.title }}</td>
+                        <td>{{ question.author.username }}</td>
+                        <td>{{ question.date.strftime('%d.%m.%Y') }}</td>
+                        <td><a href="/question/{{ question.id }}" class="btn btn-primary">Info</a></td>
+                        <td><a href="/question/{{ question.id }}/update" class="btn btn-success">Update</a></td>
+                        <td><a href="/question/{{ question.id }}/delete" class="btn btn-danger">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="btn_pagination">
+            <div class="text-right">
+                <a href="/admin/questions?page={{ questions.prev_num }}"
+                class="btn btn-click
+                {% if questions.page == 1 %}disabled{% endif %}">
+                    &laquo;
+                </a>
+                {% for page_num in questions.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}{% if page_num %}
+                        {% if questions.page == page_num %}
+                        <a href="/admin/questions?page={{ page_num }}"
+                        class="btn btn-activate">
+                            {{ page_num }}
+                        </a>
+                        {% else %}
+                        <a href="/admin/questions?page={{ page_num }}"
+                        class="btn btn-click">
+                            {{ page_num }}
+                        </a>
+                        {% endif %}
+                    {% else %}
+                        ...
+                    {% endif %}
+                {% endfor %}    <a href="/admin/questions?page={{ questions.next_num }}"
+                class="btn btn-click
+                {% if questions.page == questions.pages %}disabled{% endif %}">
+                    &raquo;
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {% include 'footer.html' %}
+
+{% endblock %}

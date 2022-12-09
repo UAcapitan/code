@@ -1,13 +1,51 @@
 {% extends 'base.html' %}
 
-{% block title %}{% endblock %}
+{% block title %}Admin panel{% endblock %}
 
 {% block content %}
 
     {% include 'nav.html' %}
 
-    <div>
-        
+    <div class="admin_panel">
+        {% if session["root"] %}
+            <div class="d-flex justify-content-center">
+                <div class="center_div">
+                    <a href="/admin/users" class="text-decoration-none">
+                        <div class="card bg-light mb-3">
+                            <div class="card-body">
+                                Users
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="/admin/questions" class="text-decoration-none">
+                        <div class="card bg-light mb-3">
+                            <div class="card-body">
+                                Questions
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="/admin/logout" class="text-decoration-none">
+                        <div class="card bg-light mb-3">
+                            <div class="card-body">
+                                Logout
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <div class="d-flex justify-content-center">
+                <div class="center_div">
+                    <form method="POST">
+                        <input type="password" class="form-control" name="password" placeholder="Your login key">
+                        <br>
+                        <input type="submit" class="btn btn-primary center_div__btn" value="Login">
+                    </form>
+                </div>
+            </div>
+        {% endif %}
     </div>
 
     {% include 'footer.html' %}

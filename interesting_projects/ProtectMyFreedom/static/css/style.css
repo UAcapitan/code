@@ -8,7 +8,11 @@
 }
 
 body > div {
-    min-height: 75vh;
+    min-height: 87vh;
+}
+
+.up {
+    margin-top: 7vh;
 }
 
 .main__content {
@@ -578,6 +582,7 @@ footer > p {
     background-image: url("../../static/imgs/user.webp");
     background-position: center;
     background-size: cover;
+    margin-bottom: 0.3em;
 }
 
 .avatar_little:hover {
@@ -590,6 +595,11 @@ footer > p {
 
 .following {
     margin-top: 7vh;
+}
+
+.center_div {
+    margin-top: 35vh;
+    width: 25vw;
 }
 
 .img_in_carousel {

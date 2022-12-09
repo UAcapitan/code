@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Users in admin panel{% endblock %}
+
+{% block content %}
+
+    {% include 'nav.html' %}
+
+    <div class="up container">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Username</th>
+                <th scope="col">Avatar</th>
+                <th scope="col">Email</th>
+                <th scope="col">Date of refistration</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <th scope="row">{{ user.id }}</th>
+                        <td>{{ user.username }}</td>
+                        <td>
+                            {% if user.user_avatar %}
+                                <div>
+                                    <div class="avatar_little" style="background-image: url('../../{{ user.user_avatar[0].path }}')"></div>
+                                </div>
+                            {% else %}
+                                <div>
+                                    <div class="avatar_little"></div>
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.date_of_reg.strftime('%d.%m.%Y') }}</td>
+                        <td><a href="/profile/{{ user.id }}" class="btn btn-primary">Info</a></td>
+                        <td><a href="/profile/{{ user.id }}/delete" class="btn btn-danger">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+        <div class="btn_pagination">
+            <div class="text-right">
+                <a href="/admin/users?page={{ users.prev_num }}"
+                class="btn btn-click
+                {% if users.page == 1 %}disabled{% endif %}">
+                    &laquo;
+                </a>
+                {% for page_num in users.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}{% if page_num %}
+                        {% if users.page == page_num %}
+                        <a href="/admin/users?page={{ page_num }}"
+                        class="btn btn-activate">
+                            {{ page_num }}
+                        </a>
+                        {% else %}
+                        <a href="/admin/users?page={{ page_num }}"
+                        class="btn btn-click">
+                            {{ page_num }}
+                        </a>
+                        {% endif %}
+                    {% else %}
+                        ...
+                    {% endif %}
+                {% endfor %}    <a href="/admin/users?page={{ users.next_num }}"
+                class="btn btn-click
+                {% if users.page == users.pages %}disabled{% endif %}">
+                    &raquo;
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {% include 'footer.html' %}
+
+{% endblock %}
