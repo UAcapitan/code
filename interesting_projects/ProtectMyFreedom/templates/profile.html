@@ -41,29 +41,33 @@
 
                 <div>
                     <h4>Following</h4>
-                    {% for f in following %}
-                        <div class="card bg-light mb-3" style="max-width: 18rem;">
-                            <a href="/profile/{{ f.id }}" class="text-decoration-none text-dark">
-                                <div class="card-body">
-                                    <div class="flex">
-                                        {% if f.user_avatar %}
-                                            <div>
-                                                <div class="avatar_little" style="background-image: url('../../{{ f.user_avatar[0].path }}')"></div>
-                                            </div>
-                                        {% else %}
-                                            <div>
-                                                <div class="avatar_little"></div>
-                                            </div>
-                                        {% endif %}
-                                        <h5 class="card-title">&nbsp;&nbsp;{{ f.username }}</h5>
+                    {% if following %}
+                        {% for f in following %}
+                            <div class="card bg-light mb-3" style="max-width: 18rem;">
+                                <a href="/profile/{{ f.id }}" class="text-decoration-none text-dark">
+                                    <div class="card-body">
+                                        <div class="flex">
+                                            {% if f.user_avatar %}
+                                                <div>
+                                                    <div class="avatar_little" style="background-image: url('../../{{ f.user_avatar[0].path }}')"></div>
+                                                </div>
+                                            {% else %}
+                                                <div>
+                                                    <div class="avatar_little"></div>
+                                                </div>
+                                            {% endif %}
+                                            <h5 class="card-title">&nbsp;&nbsp;{{ f.username }}</h5>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
-                    {% endfor %}
+                                </a>
+                            </div>
+                        {% endfor %}
 
-                    {% if following|count == 7 %}
-                        <p><a href="/following/{{ id }}" class="text-decoration-none">Full list of following</a></p>
+                        {% if following|count == 7 %}
+                            <p><a href="/following/{{ id }}" class="text-decoration-none">Full list of following</a></p>
+                        {% endif %}
+                    {% else %}
+                    <p>No following</p>
                     {% endif %}
                 </div>
 

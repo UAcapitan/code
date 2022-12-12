@@ -280,7 +280,7 @@ def question(id):
         "popular_answers": [],
         "new_answers": QuestionAnswer.query.filter_by(question_id=id).order_by(QuestionAnswer.id.desc()).limit(4).all(),
         "other_questions": Question.query.order_by(Question.id.desc()).limit(7).all(),
-        "like": bool(Like.query.filter_by(content_id=id).first()),
+        "like": bool(Like.query.filter_by(content_id=id, user_id=session["id"]).first()),
         "likes": Like.query.filter_by(content_id=id).count(),
         "images": QuestionImage.query.filter_by(question_id=id).all()
     }
@@ -306,7 +306,6 @@ def question_answer():
 
 @app.route("/question/<int:id>/like")
 def question_like(id):
-    # TODO fix
     if session.get('loggedin', False):
         like = Like.query.filter_by(content_id=id, user_id=session["id"]).first()
         if not like:
