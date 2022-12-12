@@ -11,8 +11,7 @@
             <div class="navbar-nav">
                 {% if session["loggedin"] %}
                     <a class="nav-item nav-link" href="/profile/0">Profile 🧔</a>
-                {% endif %}
-                {% if session["loggedin"] %}
+                    <a class="nav-item nav-link" href="/feed">Feed 🗂️</a>
                     <a class="nav-item nav-link" href="/logout">Logout 🚪</a>
                 {% endif %}
             </div>

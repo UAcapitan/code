@@ -1,11 +1,4 @@
-- Upload avatar
-- Paggination for all answers page
-- Likes table
-- Make follow button and table for followers
-- Followers amount to profile
-- Feed to followers
-- Admin panel
-
-Task in the end:
-- Make script for generate users on site
-- Make script for generate questions on site
+After finish:
+- Delete database
+- Create new and set data in it
+- Make presentation file

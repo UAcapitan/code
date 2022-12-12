@@ -1,0 +1,44 @@
+Presentation:
+
+Title, student, nomination
+Little content of presentation
+
+2.1 Generally about project
+2.2 What problem it solve
+2.3 Who can use it
+2.4 Technologies
+2.5 Structure of project
+
+3.1 Name of part and content of this part
+3.2 Main page without auth
+3.3 Page of registration and login
+3.4 Main page when you login in
+3.5 Page of question
+3.6 Page of all answers
+3.7 Page for adding question
+3.8 Tag page
+3.9 Profile page
+3.10 Like and follow
+3.11 Colourful button
+3.12 Animate.css
+
+4.1 Name of part and content of this part
+4.2 Registration with md5
+4.3 Visual validation while registration and login
+4.4 Valdation in backend
+4.5 Login and loggout with session
+4.6 Check user auth with session
+4.7 Tables of db
+4.8 Ask and answer questions
+4.9 Pagination of list of questions
+
+4.10 Like for questions
+5.1 Automation of uploading data
+5.2 Generate list of users
+5.3 Generate date of questions and answers
+5.4 Auto registration and logout after that
+5.5 Auto login and ask questions
+5.6 Auto answer questions
+5.7 Auto like of answers
+
+Thanks for attention, data of mine

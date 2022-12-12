@@ -107,7 +107,6 @@ def index():
 def reg():
     if session.get('loggedin', False):
         return render_template("main.html")
-    # TODO make page for errors
     if request.method == 'POST':
 
         username = request.form['username']
@@ -202,7 +201,7 @@ def main():
     rand = list(range(1, tags_count + 1))
     random.shuffle(rand)
 
-    questions_count = Tag.query.count()
+    questions_count = Question.query.count()
     rand_q = list(range(1, questions_count + 1))
     random.shuffle(rand_q)
 
@@ -251,11 +250,11 @@ def ask():
                                 t = Tag(tag=tag.strip())
                                 db.session.add(t)
                                 db.session.commit()
+                                tag_id = t.id
                             except:
                                 continue
-                            tag_id = t.id
                         db.session.add(Question__Tag(tag_id=tag_id, question_id=q.id))
-                    db.session.commit()
+                        db.session.commit()
 
                 if "file" in request.files:
                     files = request.files.getlist("file")
@@ -267,9 +266,9 @@ def ask():
                             date_time = datetime.now().strftime("%a_%-m_%y-%H_%M_%S_")
                             path = os.path.join(app.config["UPLOAD_FOLDER"], date_time + filename)
                             file.save(path)
-                            print(q.id, path)
                             db.session.add(QuestionImage(question_id=q.id, path=path))
-                    db.session.commit()
+                            db.session.commit()
+                
                 return redirect("/main")
         return render_template("ask.html")
     return redirect("/login")
@@ -355,11 +354,12 @@ def profile(id):
 
 @app.route("/tag/<int:id>")
 def tag(id):
-    # TODO pagination
     page = request.args.get('page', 1, type=int)
 
     data = {
-        "tag": Question__Tag.query.filter_by(tag_id=id).order_by(Question__Tag.id.desc()).all()
+        "tag_name": Question__Tag.query.filter_by(tag_id=id).first(),
+        "tag": Question__Tag.query.filter_by(tag_id=id).order_by(Question__Tag.id.desc()).paginate(page=page, per_page=10),
+        "id": session["id"]
     }
 
     return render_template("tags.html", **data)
@@ -513,6 +513,25 @@ def following_page(id):
         return render_template("following.html", **data)
     return redirect("/login")
 
+@app.route("/feed")
+def feed():
+    if session.get('loggedin', False):
+        id_ = session.get('id', False)
+        f_list = Follower.query.filter_by(follower_id=id_).all()
+
+        questions_all = []
+        for f in f_list:
+            for q in Question.query.filter_by(author_id=f.user_id).all():
+                questions_all.append(q)
+        questions_all.sort(key=lambda x: x.id, reverse=True)
+
+        data = {
+            "questions": questions_all[:10]
+        }
+
+        return render_template("feed.html", **data)
+        
+    return redirect("/main")
 
 if __name__ == "__main__":
     app.run(debug=True)

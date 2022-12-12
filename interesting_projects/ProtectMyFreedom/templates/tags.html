@@ -8,7 +8,7 @@
 
     <div class="tag_questions container">
 
-        <h3>Tag: <a href="/tag/{{ tag[0].tag.id }}" class="btn btn-secondary btn-sm">{{ tag[0].tag.tag }}</a></h3>
+        <h3>Tag: <a href="/tag/{{ tag_name.tag.id }}" class="btn btn-secondary btn-sm">{{ tag_name.tag.tag }}</a></h3>
         
         {% for question in tag %}
             <div class="card main_content__question">
@@ -39,6 +39,37 @@
                 </div>
             </div>
         {% endfor %}
+
+        <div class="btn_pagination">
+            <div class="text-right">
+                <a href="/tag/{{ id }}?page={{ tag.prev_num }}"
+                class="btn btn-click
+                {% if tag.page == 1 %}disabled{% endif %}">
+                    &laquo;
+                </a>
+                {% for page_num in tag.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}{% if page_num %}
+                        {% if tag.page == page_num %}
+                        <a href="/tag/{{ id }}?page={{ page_num }}"
+                        class="btn btn-activate">
+                            {{ page_num }}
+                        </a>
+                        {% else %}
+                        <a href="/tag/{{ id }}?page={{ page_num }}"
+                        class="btn btn-click">
+                            {{ page_num }}
+                        </a>
+                        {% endif %}
+                    {% else %}
+                        ...
+                    {% endif %}
+                {% endfor %}    
+                <a href="/tag/{{ id }}?page={{ tag.next_num }}"
+                class="btn btn-click
+                {% if tag.page == tag.pages %}disabled{% endif %}">
+                    &raquo;
+                </a>
+            </div>
+        </div>
     
     </div>
 
