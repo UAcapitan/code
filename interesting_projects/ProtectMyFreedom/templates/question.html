@@ -117,7 +117,7 @@
                             {% endif %}
                             <div class="text-secondary">&nbsp;&nbsp;
                                 <a href="/profile/{{ q.author.id }}" class="text-decoration-none text-secondary">{{ q.author.username }}</a>
-                            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;{{ q.date }}&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;{{ q.date.strftime('%d.%m.%Y %H:%M') }}&nbsp;&nbsp;&nbsp;
                             <span class="green">New</span></div>
                         </div>
                     </div>

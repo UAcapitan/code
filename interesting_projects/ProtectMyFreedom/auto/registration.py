@@ -41,10 +41,10 @@ def run(users):
 
 if __name__ == "__main__":
     users = [
-        generator_of_users.generated_data() for _ in range(700)
+        generator_of_users.generated_data() for _ in range(100)
     ]
 
-    with open("users_data.csv", "w") as file:
+    with open("users_data.csv", "a") as file:
         writer = csv.writer(file)
         for user in users:
             writer.writerow([user["email"], user["password"]])

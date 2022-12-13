@@ -9,35 +9,38 @@
     <div class="up container">
         <a href="/following/{{ session['id'] }}" class="text-decoration-none text-info">All your followings</a>
         <br>
-        {% for question in questions %}
-            <div class="card main_content__question">
-                <div class="card-body">
-                    <h5 class="card-title"><a href="/question/{{ question.id }}" class="main_content__link">{{ question.title }}</a></h5>
-                    
-                    <div class="flex">
-                        <a href="/profile/{{ question.author.id }}" class="text-decoration-none text-dark">
-                            {% if question.author.user_avatar %}
-                                <div>
-                                    <div class="avatar_little" style="background-image: url('../../{{ question.author.user_avatar[0].path }}')"></div>
-                                </div>
-                            {% else %}
-                                <div>
-                                    <div class="avatar_little"></div>
-                                </div>
-                            {% endif %}
-                        </a>
-                        <p class="card-text">&nbsp;&nbsp;<a href="/profile/{{ question.author.id }}" class="text-decoration-none text-dark">{{ question.author.username }}</a> | {{ question.date.strftime('%d.%m.%Y') }}</p>
+        {% if questions %}
+            {% for question in questions %}
+                <div class="card main_content__question">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="/question/{{ question.id }}" class="main_content__link">{{ question.title }}</a></h5>
+                        
+                        <div class="flex">
+                            <a href="/profile/{{ question.author.id }}" class="text-decoration-none text-dark">
+                                {% if question.author.user_avatar %}
+                                    <div>
+                                        <div class="avatar_little" style="background-image: url('../../{{ question.author.user_avatar[0].path }}')"></div>
+                                    </div>
+                                {% else %}
+                                    <div>
+                                        <div class="avatar_little"></div>
+                                    </div>
+                                {% endif %}
+                            </a>
+                            <p class="card-text">&nbsp;&nbsp;<a href="/profile/{{ question.author.id }}" class="text-decoration-none text-dark">{{ question.author.username }}</a> | {{ question.date.strftime('%d.%m.%Y') }}</p>
+                        </div>
+
+                        <p class="card-text">
+                            {% for qt in question.question_obj %}
+                                <a href="/tag/{{ qt.tag.id }}" class="btn btn-secondary btn-sm">{{ qt.tag.tag }}</a>
+                            {% endfor %}
+                        </p>
                     </div>
-
-                    <p class="card-text">
-                        {% for qt in question.question_obj %}
-                            <a href="/tag/{{ qt.tag.id }}" class="btn btn-secondary btn-sm">{{ qt.tag.tag }}</a>
-                        {% endfor %}
-                    </p>
                 </div>
-            </div>
-        {% endfor %}
-
+            {% endfor %}
+        {% else %}
+            <p>Empty in feed</p>
+        {% endif %}
     </div>
 
     {% include 'footer.html' %}
