@@ -1,4 +1,0 @@
-After finish:
-- Delete database
-- Create new and set data in it
-- Make presentation file

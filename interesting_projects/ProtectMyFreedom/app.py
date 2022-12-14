@@ -411,8 +411,6 @@ def admin():
     if session.get('loggedin', False):
         if request.method == "POST":
             password = request.form["password"]
-            print("-------\n"*7)
-            print(hashlib.md5(password.encode("utf_8")).hexdigest())
 
             if hashlib.md5(password.encode("utf_8")).hexdigest() == "764118d23b7d8809551c894a92868c18":
                 session["root"] = True
