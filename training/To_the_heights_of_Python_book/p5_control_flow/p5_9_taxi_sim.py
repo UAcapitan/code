@@ -1,6 +1,5 @@
 
 import queue
-import pprint
 import random
 from collections import namedtuple
 
