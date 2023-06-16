@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %} Words {% endblock %}
+
+{% block content %}
+    <h3 class="text-success text-center">{{ word[0] }} - {{ word[1] }}</h3>
+    <p>{{ word[2] }}</p>
+    <a class="btn btn-success" href="/learn-words/{{ count }}">Continue</a>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %} Words {% endblock %}
+
+{% block content %}
+    <form action="/learn-words/{{ count }}/check" method="POST">
+        <h3>{{ word[1] }}</h3>
+        <input type="text" class="form-control" placeholder="Translated" name="answer">
+        <br>
+        <input type="hidden" name="word" value="{{ word[0] }}">
+        <input type="hidden" name="translation" value="{{ word[1] }}">
+        <input type="hidden" name="definition" value="{{ word[2] }}">
+        <input type="submit" class="btn btn-success" value="Check">
+    </form>
+    <br>
+{% endblock %}

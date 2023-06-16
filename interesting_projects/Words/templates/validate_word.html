@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %} Words {% endblock %}
+
+{% block content %}
+    <form action="/save-word" method="POST">
+        <p class="text-secondary">Word:</p>
+        <input type="text" class="form-control" placeholder="Word" name="word" value="{{ word }}">
+        <br>
+        <p class="text-secondary">Translation:</p>
+        <input type="text" class="form-control" placeholder="Translation" name="translation" value="{{ translation }}">
+        <br>
+        <p class="text-secondary">Definition:</p>
+        <input type="text" class="form-control" placeholder="Definition" name="definition" value="{{ definition }}">
+        <br>
+        <input type="submit" class="btn btn-success" value="Add new word">
+        <a class="btn btn-primary" href="/add-word">Clear</a>
+    </form>
+{% endblock %}
