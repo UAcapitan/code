@@ -29,6 +29,15 @@ query_to_db(
     commit=True
 )
 
+def get_options(word, field):
+    options = [[word, True],]
+    options_sql_random = query_to_db(
+        f'''SELECT {field} FROM words WHERE {field} != '{word}' ORDER BY RANDOM() LIMIT 3;'''
+    )
+    options += [[i[0], False] for i in options_sql_random]
+    random.shuffle(options)
+
+    return options
 
 def get_word_definition(word):
     try:
@@ -119,18 +128,30 @@ def learn_words(count):
     return redirect(
         random.choice([
             f"/learn-words/{count}/ua-eng",
+            f"/learn-words/{count}/definition-eng",
+            f"/learn-words/{count}/eng-ua",
+            f"/learn-words/{count}/eng-ua-options",
+            f"/learn-words/{count}/ua-eng-options",
+            f"/learn-words/{count}/definition-eng-options",
+            f"/learn-words/{count}/word",
         ])
     )
 
-@app.route("/learn-words/<int:count>/check", methods=["POST",])
-def learn_words_check(count):
-    answer = request.form.get("answer", "")
+@app.route("/learn-words/<int:count>/<string:mode>/check", methods=["POST",])
+def learn_words_check(count, mode):
+    answer = request.form.get("answer", "").lower()
 
     word = request.form.get("word", "")
     translation = request.form.get("translation", "")
     definition = request.form.get("definition", "")
 
-    if answer == word:
+    match mode:
+        case "ua-eng" | "definition-eng" | "ua-eng-options" | "definition-eng-options":
+            right_word = word
+        case "eng-ua" | "eng-ua-options":
+            right_word = translation
+    
+    if answer == right_word:
         return redirect(f"/learn-words/{count}")
     
     data = {
@@ -154,21 +175,22 @@ def learn(count, mode):
     match mode:
         case "ua-eng":
             return render_template("learn_ua_eng.html", word=word, count=count)
-        case "definition-ua":
-            return render_template("learn_definition_ua.html", word=word, count=count)
+        case "definition-eng":
+            return render_template("learn_definition_eng.html", word=word, count=count)
         case "eng-ua":
             return render_template("learn_eng_ua.html", word=word, count=count)
+        case "eng-ua-options":    
+            options = get_options(word[1], "translation")
+            return render_template("learn_eng_ua_options.html", word=word, count=count, options=options)
+        case "ua-eng-options":    
+            options = get_options(word[0], "word")
+            return render_template("learn_ua_eng_options.html", word=word, count=count, options=options)
+        case "definition-eng-options":    
+            options = get_options(word[0], "word")
+            return render_template("learn_definition_eng_options.html", word=word, count=count, options=options)
+        case "word":
+            return render_template("learn_word.html", word=word, count=count)
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-    # ua > eng
-    # definition > eng
-    # eng > ua
-
-    # eng > 4 options ua
-    # ua > 4 options eng
-    # definition > 4 options eng
-
-    # all information about word
