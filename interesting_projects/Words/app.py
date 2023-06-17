@@ -217,6 +217,19 @@ def learn(count, mode):
             up_level()
             return render_template("learn_word.html", word=word, count=count)
 
+@app.route('/statistics')
+def statistics():
+    points, level = query_to_db('''SELECT * FROM level;''')[0]
+    count = query_to_db('''SELECT COUNT(*) FROM words;''')[0][0]
+
+    data = {
+        "level": level,
+        "points": points,
+        "next_level_points": (level + 1) * 100,
+        "count": count
+    }
+
+    return render_template("statistics.html", **data)
 
 if __name__ == '__main__':
     app.run(debug=True)
