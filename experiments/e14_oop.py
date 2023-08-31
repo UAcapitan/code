@@ -4,7 +4,7 @@ class FirstClass:
     def __init__(self):
         self.n: int = 3
     
-    # EncapsulationNone
+    # Encapsulation
     def __add_test(self, new: int) -> int:
         self.n += 1
         self.new: int = new
