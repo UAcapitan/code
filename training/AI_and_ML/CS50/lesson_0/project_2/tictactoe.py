@@ -2,6 +2,7 @@
 Tic Tac Toe Player
 """
 import copy
+import math
 
 X = "X"
 O = "O"
@@ -47,10 +48,10 @@ def result(board_, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    symbol = player(board_)
+    board_ = copy.deepcopy(board_)
 
     i, j = action
-    board_[i][j] = symbol
+    board_[i][j] = player(board_)
 
     return board_
 
@@ -100,48 +101,39 @@ def utility(board_):
             return 0
 
 
+def min_value(board_):
+    board_ = copy.deepcopy(board_)
+    if terminal(board_):
+        return utility(board_)
+    v = math.inf
+    for act in actions(board_):
+        v = min(v, max_value(result(board_,act)))
+    return v
+
+def max_value(board_):
+    board_ = copy.deepcopy(board_)
+    if terminal(board_):
+        return utility(board_)
+    v = -math.inf
+    for act in actions(board_):
+        v = max(v, min_value(result(board_, act)))
+    return v
+
+
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-
-    actions_list_main = actions(board)
-
-    def min_value(board_):
-        board_ = copy.deepcopy(board_)
-        actions_list = actions(board_)
-        if terminal(board_):
-            return utility(board_)
-        v = float("inf")
-        for act in actions_list:
-            v = min(v, max_value(result(board_,act)))
-        return v
-    
-    def max_value(board_):
-        board_ = copy.deepcopy(board_)
-        actions_list = actions(board_)
-        if terminal(board_):
-            return utility(board_)
-        v = -float("inf")
-        for act in actions_list:
-            v = max(v, min_value(result(board_, act)))
-        return v
-    
     results = []
 
-    if player(board) == "X":
-        board_copied = copy.deepcopy(board)
-        for act in actions_list_main:
-            result_ = [max_value(result(copy.deepcopy(board_copied),act)), act]
-            results.append(result_)
+    board_copied = copy.deepcopy(board)
+    for act in actions(board):
+        result_ = [min_value(result(copy.deepcopy(board_copied),act)), act]
+        results.append(result_)
 
+    if player(board) == "X":
         act = sorted(results, key=lambda x: x[0], reverse=True)[0][1]
     else:
-        board_copied = copy.deepcopy(board)
-        for act in actions_list_main:
-            result_ = [min_value(result(copy.deepcopy(board_copied),act)), act]
-            results.append(result_)
-
         act = sorted(results, key=lambda x: x[0])[0][1]
 
     return act
