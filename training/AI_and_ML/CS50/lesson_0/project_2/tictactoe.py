@@ -126,14 +126,17 @@ def minimax(board):
     """
     results = []
 
-    board_copied = copy.deepcopy(board)
-    for act in actions(board):
-        result_ = [min_value(result(copy.deepcopy(board_copied),act)), act]
-        results.append(result_)
-
     if player(board) == "X":
+        board_copied = copy.deepcopy(board)
+        for act in actions(board):
+            result_ = [min_value(result(copy.deepcopy(board_copied),act)), act]
+            results.append(result_)
         act = sorted(results, key=lambda x: x[0], reverse=True)[0][1]
-    else:
+    elif player(board) == "O":
+        board_copied = copy.deepcopy(board)
+        for act in actions(board):
+            result_ = [max_value(result(copy.deepcopy(board_copied),act)), act]
+            results.append(result_)
         act = sorted(results, key=lambda x: x[0])[0][1]
 
     return act
