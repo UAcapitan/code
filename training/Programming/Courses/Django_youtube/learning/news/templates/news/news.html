@@ -13,6 +13,7 @@
                     <p>{{ el.date | date:"d/m/Y" }}</p>
                     <br>
                     <p>{{ el.full_text }}</p>
+                    <p><a href="{% url 'news-detail' el.id %}">Read...</a></p>
                 </div>
                 <br>
             {% endfor %}
