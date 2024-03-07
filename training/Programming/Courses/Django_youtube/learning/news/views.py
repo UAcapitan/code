@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from . import models, forms
-from django.views.generic import DetailView
+from django.views.generic import DetailView, UpdateView, DeleteView
 
 
 def news(request):
@@ -22,3 +22,13 @@ class NewsDetailView(DetailView):
     model = models.Articles
     template_name = "news/details_view.html"
     context_object_name = "article"
+
+class NewsUpdateView(UpdateView):
+    model = models.Articles
+    template_name = "news/create_news.html"
+    form_class = forms.ArticleForm
+
+class NewsDeleteView(DeleteView):
+    model = models.Articles
+    success_url = "/news/"
+    template_name = "news/news_delete.html"

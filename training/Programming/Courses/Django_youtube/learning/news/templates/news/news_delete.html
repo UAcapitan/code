@@ -1,0 +1,14 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}News{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+            <p>Do you really want to remove this news?</p>
+            <input class="btn btn-success" type="submit" value="Remove">
+        </form>
+    </div>
+{% endblock %}

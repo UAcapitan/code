@@ -8,6 +8,8 @@
             <h1>{{ article.title }}</h1>
             <p class="text-secondary">{{ article.date | date:"d/m/Y" }}</p>
             <p>{{ article.full_text }}</p>
+            <p><a href="{% url 'news-update' article.id %}" class="btn btn-warning">Edit</a></p>
+            <p><a href="{% url 'news-delete' article.id %}" class="btn btn-danger">Remove</a></p>
         </div>
     </div>
 {% endblock %}
