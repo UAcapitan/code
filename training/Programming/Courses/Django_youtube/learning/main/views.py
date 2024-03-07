@@ -8,7 +8,3 @@ def index(request):
 
 def main(request):
     return render(request, "main/main.html")
-
-def news(request):
-    news = models.Articles.objects.all()
-    return render(request, "main/news.html", {"news": news})

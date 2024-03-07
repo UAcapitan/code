@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}News{% endblock %}
+
+{% block main %}
+    <div class="container">
+        {% if news %}
+            {% for el in news %}
+                <div class="alert alert-info">
+                    <h4>{{ el.title }}</h4>
+                    <h5>{{ el.author }}</h5>
+                    <p>{{ el.date | date:"d/m/Y" }}</p>
+                    <br>
+                    <p>{{ el.full_text }}</p>
+                </div>
+                <br>
+            {% endfor %}
+        {% else %}
+            <p>No articles</p>
+        {% endif %}
+
+        {# Comment #}
+    </div>
+{% endblock %}
